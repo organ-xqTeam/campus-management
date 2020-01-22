@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.classcurriculum.mapper.ClasscurriculumMapper">
+    
+    <resultMap type="Classcurriculum" id="ClasscurriculumResult">
+        <result property="id"    column="id"    />
+        <result property="weekId"    column="week_id"    />
+        <result property="timeId"    column="time_id"    />
+        <result property="subjectId"    column="subject_id"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="classschedulingmanagementId"    column="classschedulingmanagement_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="remark1"    column="remark1"    />
+        <result property="remark2"    column="remark2"    />
+        <result property="remark3"    column="remark3"    />
+        <result property="remark4"    column="remark4"    />
+        <result property="remark5"    column="remark5"    />
+        <result property="remark6"    column="remark6"    />
+        <result property="remark7"    column="remark7"    />
+        <result property="remark8"    column="remark8"    />
+        <result property="remark9"    column="remark9"    />
+        <result property="remark10"    column="remark10"    />
+        <result property="remark11"    column="remark11"    />
+        <result property="remark12"    column="remark12"    />
+        <result property="remark13"    column="remark13"    />
+        <result property="remark14"    column="remark14"    />
+        <result property="remark15"    column="remark15"    />
+        <result property="remark16"    column="remark16"    />
+        <result property="remark17"    column="remark17"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="deptalias"    column="deptAlias"    />
+        <result property="useralias"    column="userAlias"    />
+    </resultMap>
+
+    <sql id="selectClasscurriculumVo">
+        select id, week_id, time_id, subject_id, teacher_id, classschedulingmanagement_id, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias from classcurriculum
+    </sql>
+
+    <select id="selectClasscurriculumList" parameterType="Classcurriculum" resultMap="ClasscurriculumResult">
+        <include refid="selectClasscurriculumVo"/>
+        <where>  
+            <if test="weekId != null  and weekId != ''"> and week_id = #{weekId}</if>
+            <if test="timeId != null  and timeId != ''"> and time_id = #{timeId}</if>
+            <if test="subjectId != null  and subjectId != ''"> and subject_id = #{subjectId}</if>
+            <if test="teacherId != null  and teacherId != ''"> and teacher_id = #{teacherId}</if>
+            <if test="classschedulingmanagementId != null  and classschedulingmanagementId != ''"> and classschedulingmanagement_id = #{classschedulingmanagementId}</if>
+            <if test="remark1 != null  and remark1 != ''"> and remark1 = #{remark1}</if>
+            <if test="remark2 != null  and remark2 != ''"> and remark2 = #{remark2}</if>
+            <if test="remark3 != null  and remark3 != ''"> and remark3 = #{remark3}</if>
+            <if test="remark4 != null  and remark4 != ''"> and remark4 = #{remark4}</if>
+            <if test="remark5 != null  and remark5 != ''"> and remark5 = #{remark5}</if>
+            <if test="remark6 != null  and remark6 != ''"> and remark6 = #{remark6}</if>
+            <if test="remark7 != null  and remark7 != ''"> and remark7 = #{remark7}</if>
+            <if test="remark8 != null  and remark8 != ''"> and remark8 = #{remark8}</if>
+            <if test="remark9 != null  and remark9 != ''"> and remark9 = #{remark9}</if>
+            <if test="remark10 != null  and remark10 != ''"> and remark10 = #{remark10}</if>
+            <if test="remark11 != null  and remark11 != ''"> and remark11 = #{remark11}</if>
+            <if test="remark12 != null  and remark12 != ''"> and remark12 = #{remark12}</if>
+            <if test="remark13 != null  and remark13 != ''"> and remark13 = #{remark13}</if>
+            <if test="remark14 != null  and remark14 != ''"> and remark14 = #{remark14}</if>
+            <if test="remark15 != null  and remark15 != ''"> and remark15 = #{remark15}</if>
+            <if test="remark16 != null  and remark16 != ''"> and remark16 = #{remark16}</if>
+            <if test="remark17 != null  and remark17 != ''"> and remark17 = #{remark17}</if>
+            <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
+            <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
+        </where>
+    </select>
+    
+    <select id="selectClasscurriculumById" parameterType="Long" resultMap="ClasscurriculumResult">
+        <include refid="selectClasscurriculumVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertClasscurriculum" parameterType="Classcurriculum" useGeneratedKeys="true" keyProperty="id">
+        insert into classcurriculum
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="weekId != null  and weekId != ''">week_id,</if>
+            <if test="timeId != null  and timeId != ''">time_id,</if>
+            <if test="subjectId != null  and subjectId != ''">subject_id,</if>
+            <if test="teacherId != null  and teacherId != ''">teacher_id,</if>
+            <if test="classschedulingmanagementId != null  and classschedulingmanagementId != ''">classschedulingmanagement_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="remark1 != null  and remark1 != ''">remark1,</if>
+            <if test="remark2 != null  and remark2 != ''">remark2,</if>
+            <if test="remark3 != null  and remark3 != ''">remark3,</if>
+            <if test="remark4 != null  and remark4 != ''">remark4,</if>
+            <if test="remark5 != null  and remark5 != ''">remark5,</if>
+            <if test="remark6 != null  and remark6 != ''">remark6,</if>
+            <if test="remark7 != null  and remark7 != ''">remark7,</if>
+            <if test="remark8 != null  and remark8 != ''">remark8,</if>
+            <if test="remark9 != null  and remark9 != ''">remark9,</if>
+            <if test="remark10 != null  and remark10 != ''">remark10,</if>
+            <if test="remark11 != null  and remark11 != ''">remark11,</if>
+            <if test="remark12 != null  and remark12 != ''">remark12,</if>
+            <if test="remark13 != null  and remark13 != ''">remark13,</if>
+            <if test="remark14 != null  and remark14 != ''">remark14,</if>
+            <if test="remark15 != null  and remark15 != ''">remark15,</if>
+            <if test="remark16 != null  and remark16 != ''">remark16,</if>
+            <if test="remark17 != null  and remark17 != ''">remark17,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
+            <if test="useralias != null  and useralias != ''">userAlias,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="weekId != null  and weekId != ''">#{weekId},</if>
+            <if test="timeId != null  and timeId != ''">#{timeId},</if>
+            <if test="subjectId != null  and subjectId != ''">#{subjectId},</if>
+            <if test="teacherId != null  and teacherId != ''">#{teacherId},</if>
+            <if test="classschedulingmanagementId != null  and classschedulingmanagementId != ''">#{classschedulingmanagementId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="remark1 != null  and remark1 != ''">#{remark1},</if>
+            <if test="remark2 != null  and remark2 != ''">#{remark2},</if>
+            <if test="remark3 != null  and remark3 != ''">#{remark3},</if>
+            <if test="remark4 != null  and remark4 != ''">#{remark4},</if>
+            <if test="remark5 != null  and remark5 != ''">#{remark5},</if>
+            <if test="remark6 != null  and remark6 != ''">#{remark6},</if>
+            <if test="remark7 != null  and remark7 != ''">#{remark7},</if>
+            <if test="remark8 != null  and remark8 != ''">#{remark8},</if>
+            <if test="remark9 != null  and remark9 != ''">#{remark9},</if>
+            <if test="remark10 != null  and remark10 != ''">#{remark10},</if>
+            <if test="remark11 != null  and remark11 != ''">#{remark11},</if>
+            <if test="remark12 != null  and remark12 != ''">#{remark12},</if>
+            <if test="remark13 != null  and remark13 != ''">#{remark13},</if>
+            <if test="remark14 != null  and remark14 != ''">#{remark14},</if>
+            <if test="remark15 != null  and remark15 != ''">#{remark15},</if>
+            <if test="remark16 != null  and remark16 != ''">#{remark16},</if>
+            <if test="remark17 != null  and remark17 != ''">#{remark17},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">#{useralias},</if>
+         </trim>
+    </insert>
+
+    <update id="updateClasscurriculum" parameterType="Classcurriculum">
+        update classcurriculum
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="weekId != null  and weekId != ''">week_id = #{weekId},</if>
+            <if test="timeId != null  and timeId != ''">time_id = #{timeId},</if>
+            <if test="subjectId != null  and subjectId != ''">subject_id = #{subjectId},</if>
+            <if test="teacherId != null  and teacherId != ''">teacher_id = #{teacherId},</if>
+            <if test="classschedulingmanagementId != null  and classschedulingmanagementId != ''">classschedulingmanagement_id = #{classschedulingmanagementId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="remark1 != null  and remark1 != ''">remark1 = #{remark1},</if>
+            <if test="remark2 != null  and remark2 != ''">remark2 = #{remark2},</if>
+            <if test="remark3 != null  and remark3 != ''">remark3 = #{remark3},</if>
+            <if test="remark4 != null  and remark4 != ''">remark4 = #{remark4},</if>
+            <if test="remark5 != null  and remark5 != ''">remark5 = #{remark5},</if>
+            <if test="remark6 != null  and remark6 != ''">remark6 = #{remark6},</if>
+            <if test="remark7 != null  and remark7 != ''">remark7 = #{remark7},</if>
+            <if test="remark8 != null  and remark8 != ''">remark8 = #{remark8},</if>
+            <if test="remark9 != null  and remark9 != ''">remark9 = #{remark9},</if>
+            <if test="remark10 != null  and remark10 != ''">remark10 = #{remark10},</if>
+            <if test="remark11 != null  and remark11 != ''">remark11 = #{remark11},</if>
+            <if test="remark12 != null  and remark12 != ''">remark12 = #{remark12},</if>
+            <if test="remark13 != null  and remark13 != ''">remark13 = #{remark13},</if>
+            <if test="remark14 != null  and remark14 != ''">remark14 = #{remark14},</if>
+            <if test="remark15 != null  and remark15 != ''">remark15 = #{remark15},</if>
+            <if test="remark16 != null  and remark16 != ''">remark16 = #{remark16},</if>
+            <if test="remark17 != null  and remark17 != ''">remark17 = #{remark17},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClasscurriculumById" parameterType="Long">
+        delete from classcurriculum where id = #{id}
+    </delete>
+
+    <delete id="deleteClasscurriculumByIds" parameterType="String">
+        delete from classcurriculum where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schooldormrecord.mapper.SchooldormrecordMapper">
+    
+    <resultMap type="Schooldormrecord" id="SchooldormrecordResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="num"    column="num"    />
+        <result property="studentnum"    column="studentnum"    />
+        <result property="money"    column="money"    />
+        <result property="paystate"    column="paystate"    />
+        <result property="livetime"    column="livetime"    />
+        <result property="livedate"    column="livedate"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="updatedate"    column="updatedate"    />
+        <result property="isdelete"    column="isdelete"    />
+    </resultMap>
+
+    <sql id="selectSchooldormrecordVo">
+        select id, name, num, studentnum, money, paystate, livetime, livedate, createdate, updatedate, isdelete from schooldormrecord
+    </sql>
+
+    <select id="selectSchooldormrecordList" parameterType="Schooldormrecord" resultMap="SchooldormrecordResult">
+        <include refid="selectSchooldormrecordVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="num != null  and num != ''"> and num = #{num}</if>
+            <if test="studentnum != null  and studentnum != ''"> and studentnum = #{studentnum}</if>
+            <if test="money != null  and money != ''"> and money = #{money}</if>
+            <if test="paystate != null  and paystate != ''"> and paystate = #{paystate}</if>
+            <if test="livetime != null  and livetime != ''"> and livetime = #{livetime}</if>
+            <if test="livedate != null "> and livedate = #{livedate}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="updatedate != null "> and updatedate = #{updatedate}</if>
+            <if test="isdelete != null  and isdelete != ''"> and isdelete = #{isdelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchooldormrecordById" parameterType="Long" resultMap="SchooldormrecordResult">
+        <include refid="selectSchooldormrecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchooldormrecord" parameterType="Schooldormrecord" useGeneratedKeys="true" keyProperty="id">
+        insert into schooldormrecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="studentnum != null  and studentnum != ''">studentnum,</if>
+            <if test="money != null  and money != ''">money,</if>
+            <if test="paystate != null  and paystate != ''">paystate,</if>
+            <if test="livetime != null  and livetime != ''">livetime,</if>
+            <if test="livedate != null ">livedate,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="updatedate != null ">updatedate,</if>
+            <if test="isdelete != null  and isdelete != ''">isdelete,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="studentnum != null  and studentnum != ''">#{studentnum},</if>
+            <if test="money != null  and money != ''">#{money},</if>
+            <if test="paystate != null  and paystate != ''">#{paystate},</if>
+            <if test="livetime != null  and livetime != ''">#{livetime},</if>
+            <if test="livedate != null ">#{livedate},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="updatedate != null ">#{updatedate},</if>
+            <if test="isdelete != null  and isdelete != ''">#{isdelete},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchooldormrecord" parameterType="Schooldormrecord">
+        update schooldormrecord
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="studentnum != null  and studentnum != ''">studentnum = #{studentnum},</if>
+            <if test="money != null  and money != ''">money = #{money},</if>
+            <if test="paystate != null  and paystate != ''">paystate = #{paystate},</if>
+            <if test="livetime != null  and livetime != ''">livetime = #{livetime},</if>
+            <if test="livedate != null ">livedate = #{livedate},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="updatedate != null ">updatedate = #{updatedate},</if>
+            <if test="isdelete != null  and isdelete != ''">isdelete = #{isdelete},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchooldormrecordById" parameterType="Long">
+        delete from schooldormrecord where id = #{id}
+    </delete>
+
+    <delete id="deleteSchooldormrecordByIds" parameterType="String">
+        delete from schooldormrecord where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

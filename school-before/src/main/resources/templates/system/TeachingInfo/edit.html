@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改教师管理')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-TeachingInfo-edit" th:object="${teachingInfo}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">师资编号：</label>
+                <div class="col-sm-8">
+                    <input name="teacherId" th:field="*{teacherId}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                    <input name="gendername" th:field="*{gendername}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">生日：</label>
+                <div class="col-sm-8">
+                    <input name="birthday" th:field="*{birthday}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入职时间：</label>
+                <div class="col-sm-8">
+                    <input name="entryDate" th:field="*{entryDate}" class="form-control" type="text">
+                </div>
+            </div> -->
+           <!--  <div class="form-group">    
+                <label class="col-sm-3 control-label">授课年数：</label>
+                <div class="col-sm-8">
+                    <input name="teachYears" th:field="*{teachYears}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证书编号：</label>
+                <div class="col-sm-8">
+                    <input name="certificateId" th:field="*{certificateId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">授课类别范围：</label>
+                <div class="col-sm-8">
+                    <input name="classScope" th:field="*{classScope}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">师资分类1、自有师资2、内训师资3、外部专家：</label>
+                <div class="col-sm-8">
+                    <input name="classificationTeachers" th:field="*{classificationTeachers}" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">认证信息：</label>
+                <div class="col-sm-8">
+                    <input name="authenticationInformation" th:field="*{authenticationInformation}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">认证时间：</label>
+                <div class="col-sm-8">
+                    <input name="authenticationDate" th:field="*{authenticationDate}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">认证等级：</label>
+                <div class="col-sm-8">
+                    <input name="certificationGrade" th:field="*{certificationGrade}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">认证照片：</label>
+                <div class="col-sm-8">
+                    <input name="certificationImage" th:field="*{certificationImage}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">师资备注：</label>
+                <div class="col-sm-8">
+                    <input name="remarksTeachers" th:field="*{remarksTeachers}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专业方向：</label>
+                <div class="col-sm-8">
+                    <input name="professionalDirection" th:field="*{professionalDirection}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">科研成果：</label>
+                <div class="col-sm-8">
+                    <input name="scientificResearch" th:field="*{scientificResearch}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专题信息：</label>
+                <div class="col-sm-8">
+                    <input name="thematicInformation" th:field="*{thematicInformation}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教学情况：</label>
+                <div class="col-sm-8">
+                    <input name="teachingSituation" th:field="*{teachingSituation}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教学反馈意见：</label>
+                <div class="col-sm-8">
+                    <input name="teachingFeedback" th:field="*{teachingFeedback}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">反馈意见：</label>
+                <div class="col-sm-8">
+                    <input name="feedbackOpinion" th:field="*{feedbackOpinion}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">证书编号name：</label>
+                <div class="col-sm-8">
+                    <input name="certificateName" th:field="*{certificateName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">认证照片名：</label>
+                <div class="col-sm-8">
+                    <input name="certificationName" th:field="*{certificationName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">认证状态：</label>
+                <div class="col-sm-8">
+                    <input name="certificationState" th:field="*{certificationState}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">创建时间：</label>
+                <div class="col-sm-8">
+                    <input name="createtime1" th:field="*{createtime1}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="remarks" th:field="*{remarks}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否删除：</label>
+                <div class="col-sm-8">
+                    <input name="isdelete" th:field="*{isdelete}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">分析报告：</label>
+                <div class="col-sm-8">
+                    <input name="analysisReport" th:field="*{analysisReport}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">null：</label>
+                <div class="col-sm-8">
+                    <input name="teachPlace" th:field="*{teachPlace}" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教师名称：</label>
+                <div class="col-sm-8">
+                    <input name="teachingName" th:field="*{teachingName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">科目：</label>
+                <div class="col-sm-8">
+                    <input name="subjectName" th:field="*{subjectName}" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否班主任：</label>
+                <div class="col-sm-8">
+                   <!--  <input name="isheadteacher" th:field="${teachingInfo.isheadteacher}" class="form-control" type="text"> -->
+               		<div class="radio-box" th:each="dict : ${@dict.getType('system_teachingInfo_headteacher')}">
+						<input type="radio" th:id="${dict.dictCode}" name="visible" th:value="${dict.dictValue}" th:field="${teachingInfo.isheadteacher}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">累计课时：</label>
+                <div class="col-sm-8">
+                    <input name="cumulativeClassHours" th:field="*{cumulativeClassHours}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">职称：</label>
+                <div class="col-sm-8">
+                    <input name="jobTitle" th:field="*{jobTitle}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">档案所在地：</label>
+                <div class="col-sm-8">
+                    <input name="fileLocation" th:field="*{fileLocation}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教学记录：</label>
+                <div class="col-sm-8">
+                    <input name="teachingRecord" th:field="*{teachingRecord}" class="form-control" type="text">
+                </div>
+            </div>
+           <!--  <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark1" class="form-control">[[*{remark1}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark2" class="form-control">[[*{remark2}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark3" class="form-control">[[*{remark3}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark4" class="form-control">[[*{remark4}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark5" class="form-control">[[*{remark5}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark6" class="form-control">[[*{remark6}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark7" class="form-control">[[*{remark7}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark8" class="form-control">[[*{remark8}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark9" class="form-control">[[*{remark9}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark10" class="form-control">[[*{remark10}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark11" class="form-control">[[*{remark11}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark12" class="form-control">[[*{remark12}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark13" class="form-control">[[*{remark13}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark14" class="form-control">[[*{remark14}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark15" class="form-control">[[*{remark15}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark16" class="form-control">[[*{remark16}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark17" class="form-control">[[*{remark17}]]</textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">部门表的别名：</label>
+                <div class="col-sm-8">
+                    <input name="deptalias" th:field="*{deptalias}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户表的别名：</label>
+                <div class="col-sm-8">
+                    <input name="useralias" th:field="*{useralias}" class="form-control" type="text">
+                </div>
+            </div> -->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/TeachingInfo";
+        $("#form-TeachingInfo-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-TeachingInfo-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('课列表')" />
+        <style>
+        #coursesTable {
+            padding: 15px 10px;
+        }
+
+        .Courses-head > div {
+            text-align: center;
+            font-size: 14px;
+            line-height: 28px;
+        }
+
+        .left-hand-TextDom, .Courses-head {
+            background-color: #f2f6f7;
+        }
+
+        .Courses-leftHand {
+            background-color: #f2f6f7;
+            font-size: 12px;
+        }
+
+        .Courses-leftHand .left-hand-index {
+            color: #9c9c9c;
+            margin-bottom: 4px !important;
+        }
+
+        .Courses-leftHand p {
+            text-align: center;
+            font-weight: 900;
+        }
+
+        .Courses-leftHand > div {
+            padding-top: 5px;
+            border-bottom: 1px dashed rgb(219, 219, 219);
+        }
+
+        .Courses-leftHand > div:last-child {
+            border-bottom: none !important;
+        }
+
+        .left-hand-TextDom, .Courses-head {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .Courses-content > ul {
+            border-bottom: 1px dashed rgb(219, 219, 219);
+            box-sizing: border-box;
+        }
+
+        .Courses-content > ul:last-child {
+            border-bottom: none !important;
+        }
+
+        .highlight-week {
+            color: #02a9f5 !important;
+        }
+
+        .Courses-content li {
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            line-height: 50px;
+        }
+
+        .stage_1, .left-hand-1 {
+            background-color: #FF6666;
+        }
+
+        .stage_2, .left-hand-2 {
+            background-color: #3399CC;
+        }
+
+        .stage_3, .left-hand-3 {
+            background-color: #66CCCC;
+        }
+
+        .Courses-leftHand {
+            border-right: 1px solid #e0e0e0;
+            color: #fff;
+        }
+
+        .Courses-leftHand > div {
+            writing-mode: vertical-lr;
+            text-align: center;
+            line-height: 50px;
+            font-size: 16px;
+            letter-spacing: 10px;
+        }
+
+    </style>
+    <th:block th:include="include :: datetimepicker-css" />
+    
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+	                        <li class="select-time">
+	                                <p>课表月份：</p>
+	                                <input name="yearmonth" id="yearmonth" type="text"   value="" />
+	                         </li>
+	                         <li>
+                                <p>星期编号：</p>
+                                <select  class="form-control1" name="week">
+				  					<option value="1">第一周</option> 
+								 	<option value="2">第二周</option> 
+								 	<option value="3">第三周</option> 
+								 	<option value="4">第四周</option> 
+				    			</select>
+                            </li>
+                            <!-- <li>
+                                <p>星期编号：</p>
+                                <input type="text" name="weekId"/>
+                            </li>
+                            <li>
+                                <p>时间：</p>
+                                <input type="text" name="timeId"/>
+                            </li>
+                            <li>
+                                <p>老师：</p>
+                                <input type="text" name="teacherId"/>
+                            </li>
+                            <li>
+                                <p>排课管理id：</p>
+                                <input type="text" name="classschedulingmanagementId"/>
+                            </li>
+                            <li>
+                                <p>部门表的别名：</p>
+                                <input type="text" name="deptalias"/>
+                            </li>
+                            <li>
+                                <p>用户表的别名：</p>
+                                <input type="text" name="useralias"/>
+                            </li> -->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="searchss()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:classcurriculum:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:classcurriculum:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:classcurriculum:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:classcurriculum:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <!-- <table id="bootstrap-table"></table> -->
+                <div id="coursesTable">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:src="@{/js/Timetables.min.js}"></script>
+    
+    <script th:inline="javascript">
+
+    function searchss(){
+    	alert("搜索");
+    	yearmonthss=$("[name='yearmonth']")[0].value;
+    	weekss=$("[name='week']")[0].value;
+    	getkebiao(yearmonthss,weekss);
+    	 
+     }
+    function getkebiao(yearmonthss,weekss){
+    	 var coursesList = [
+   		    ['', '', '', '', '', '', '', '', '', ''],
+   		    ['', '', '', '', '', '', '', '', '', ''],
+   		    ['', '', '', '', '', '', '', '', '', ''],
+   		    ['', '', '', '', '', '', '', '', '', ''],
+   		    ['', '', '', '', '', '', '', '', '', ''],
+   		    ['', '', '', '', '', '', '', '', '', ''],
+   		    ['', '', '', '', '', '', '', '', '', '']
+   		  ];
+    	 var week = window.innerWidth > 360 ? ['周一', '周二', '周三', '周四', '周五', '周六', '周日'] :
+  		    ['一', '二', '三', '四', '五', '六', '日'];
+  		  var now = new Date();
+  		  var day = now.getDay();
+  		  var courseType = [
+  		    ['上午', 4],
+  		    ['下午', 4],
+  		    ['晚上', 2]
+  		  ];
+  		 var classcid= [[${classcurriculum.id}]];
+  		$.ajax({
+   	 	   type: "post",
+   	        url:[[@{/system/classcurriculum/getDetail}]],
+   	        contentType: 'application/json',
+   	        data:JSON.stringify({"classcid":classcid,"yearmonth":yearmonthss,"week":weekss}),
+   	        success: function (res) {
+   	        	var classcurriculumDetailList= res.classcurriculumDetailList;
+   	        	if(classcurriculumDetailList==null||classcurriculumDetailList.length==0){
+   	        		
+   	        		
+   	        	}else{
+   	        		//console.log(classcurriculumDetailList.length);
+   	        		for(var i=0;i<classcurriculumDetailList.length;i++){
+   	        			let detailPosition= classcurriculumDetailList[i].detailPosition;
+   	        			if(detailPosition!=null&&detailPosition.indexOf("-") != -1){
+   	        				let detailPositions= detailPosition.split("-");
+   	        				//是星期几
+   	        				let weekwhere=detailPositions[0];
+   	        				//是哪节课程
+   	        				let course=detailPositions[1];
+   	        				//确定星期
+   	        				var weekList=null;
+   	        				if(weekwhere=="1"){
+   	        					//星期一
+   	        					weekList=coursesList[0]
+   	        				}else if(weekwhere=="2"){
+   	        					//星期二
+   	        					weekList=coursesList[1]
+   	        				}else if(weekwhere=="3"){
+   	        					//星期三
+   	        					weekList=coursesList[2]
+   	        				}else if(weekwhere=="4"){
+   	        					//星期四
+   	        					weekList=coursesList[3]
+   	        				}else if(weekwhere=="5"){
+   	        					//星期五
+   	        					weekList=coursesList[4]
+   	        				}else if(weekwhere=="6"){
+   	        					//星期六
+   	        					weekList=coursesList[5]
+   	        				}else if(weekwhere=="7"){
+   	        					//星期日
+   	        					weekList=coursesList[6]
+   	        				}
+   	        				//确定课程位置
+   	        				weekList[course-1]=classcurriculumDetailList[i].subject;
+   	        				console.log(weekList);
+   	        			}
+   	        			
+   	        		}
+   	        	}
+   	        	$("#coursesTable").empty();
+	   	        var times = new Timetables({
+	   	       		    el: '#coursesTable',
+	   	       		    timetables: coursesList,
+	   	       		    week: week,
+	   	       		    merge: false,
+	   	       		    timetableType: courseType,
+	   	       		    highlightWeek: day,
+	   	       		    gridOnClick: function (e) {
+	   	       		      console.log(e);
+	   	       		      let weekStr =e.week;
+	   	       		      let indexCourse=e.index;
+	   	       		      let weekPosition="";
+	   	       		      let coursePosition="";
+	   	       		      if(weekStr.indexOf("一") != -1){
+	   	       		    	weekPosition="1";
+	   	       		      }else if(weekStr.indexOf("二") != -1){
+	   	       		    	weekPosition="2";
+	   	       		      }else if(weekStr.indexOf("三") != -1){
+	   	       		    	weekPosition="3";
+	   	       		      }else if(weekStr.indexOf("四") != -1){
+	   	       		    	weekPosition="4";
+	   	       		      }else if(weekStr.indexOf("五") != -1){
+	   	       		    	weekPosition="5";
+	   	       		      }else if(weekStr.indexOf("六") != -1){
+	   	       		    	weekPosition="6";
+	   	       		      }else if(weekStr.indexOf("日") != -1){
+	   	       		    	weekPosition="7";
+	   	       		      }
+	   	       		      coursePosition=indexCourse;
+	   	       		      let detailPosition=weekPosition+"-"+coursePosition;
+	   	       		      console.log(detailPosition);
+	   	       		      
+	   	       		      //年月        //第几周
+	   	       		      // yearmonthss  weekss
+	   	       		 	  $.modal.open("增加课程",ctx+"system/classcurriculum/add?weekss="+weekss+"&yearmonthss="+yearmonthss+"&detailPosition="+detailPosition+"&classcid="+classcid);
+	   	       		    },
+	   	       		    styles: {
+	   	       		      leftHandWidth: 50,
+	   	       		      Gheight: 50,
+	   	       		      palette: false
+	   	       		    }
+	   	       		}); 
+   	        	
+   	        },
+   	         error: function (e) {
+   	           console.log(e)
+   	         }
+   	    })	
+    	
+    }
+    
+    
+
+  
+    
+    
+    var yearmonthss="";
+    var weekss="" 
+    $(function(){
+    	$("input[name='yearmonth']").datetimepicker({
+	        format: "yyyy-mm",
+	        minView: "month",
+	        startView: "month",
+	        autoclose: true
+	    });
+    	yearmonthss=$("[name='yearmonth']")[0].value;
+    	weekss=$("[name='week']")[0].value;
+    	getkebiao(yearmonthss,weekss);
+    	 /* var coursesList = [
+  		    ['', '', '', '', '', '', '', '', '', ''],
+  		    ['', '', '', '', '', '', '', '', '', ''],
+  		    ['', '', '', '', '', '', '', '', '', ''],
+  		    ['', '', '', '', '', '', '', '', '', ''],
+  		    ['', '', '', '', '', '', '', '', '', ''],
+  		    ['', '', '', '', '', '', '', '', '', ''],
+  		    ['', '', '', '', '', '', '', '', '', '']
+  		  ];
+    	 var week = window.innerWidth > 360 ? ['周一', '周二', '周三', '周四', '周五', '周六', '周日'] :
+ 		    ['一', '二', '三', '四', '五', '六', '日'];
+ 		  var now = new Date();
+ 		  var day = now.getDay();
+ 		  var courseType = [
+ 		    ['上午', 4],
+ 		    ['下午', 4],
+ 		    ['晚上', 2]
+ 		  ];
+    	 var classcid= [[${classcurriculum.id}]];
+    	 $.ajax({
+  	 	   type: "post",
+  	        url:[[@{/system/classcurriculum/getDetail}]],
+  	        contentType: 'application/json',
+  	        data:JSON.stringify({"classcid":classcid,"yearmonth":$("[name='yearmonth']").val(),"week":$("[name='week']").val()}),
+  	        success: function (res) {
+  	        	var classcurriculumDetailList= res.classcurriculumDetailList;
+  	        	if(classcurriculumDetailList==null||classcurriculumDetailList.length==0){
+  	        		
+  	        		
+  	        	}else{
+  	        		//console.log(classcurriculumDetailList.length);
+  	        		for(var i=0;i<classcurriculumDetailList.length;i++){
+  	        			let detailPosition= classcurriculumDetailList[i].detailPosition;
+  	        			if(detailPosition!=null&&detailPosition.indexOf("-") != -1){
+  	        				let detailPositions= detailPosition.split("-");
+  	        				//是星期几
+  	        				let weekwhere=detailPositions[0];
+  	        				//是哪节课程
+  	        				let course=detailPositions[1];
+  	        				//确定星期
+  	        				var weekList=null;
+  	        				if(weekwhere=="1"){
+  	        					//星期一
+  	        					weekList=coursesList[0]
+  	        				}else if(weekwhere=="2"){
+  	        					//星期二
+  	        					weekList=coursesList[1]
+  	        				}else if(weekwhere=="3"){
+  	        					//星期三
+  	        					weekList=coursesList[2]
+  	        				}else if(weekwhere=="4"){
+  	        					//星期四
+  	        					weekList=coursesList[3]
+  	        				}else if(weekwhere=="5"){
+  	        					//星期五
+  	        					weekList=coursesList[4]
+  	        				}else if(weekwhere=="6"){
+  	        					//星期六
+  	        					weekList=coursesList[5]
+  	        				}else if(weekwhere=="7"){
+  	        					//星期日
+  	        					weekList=coursesList[6]
+  	        				}
+  	        				//确定课程位置
+  	        				weekList[course-1]=classcurriculumDetailList[i].subject;
+  	        				console.log(weekList);
+  	        			}
+  	        			
+  	        		}
+  	        	}
+  	        	
+  	        	 var times = new Timetables({
+  	       		    el: '#coursesTable',
+  	       		    timetables: coursesList,
+  	       		    week: week,
+  	       		    merge: false,
+  	       		    timetableType: courseType,
+  	       		    highlightWeek: day,
+  	       		    gridOnClick: function (e) {
+  	       		      console.log(e);
+  	       		      let weekStr =e.week;
+  	       		      let indexCourse=e.index;
+  	       		      let weekPosition="";
+  	       		      let coursePosition="";
+  	       		      if(weekStr.indexOf("一") != -1){
+  	       		    	weekPosition="1";
+  	       		      }else if(weekStr.indexOf("二") != -1){
+  	       		    	weekPosition="2";
+  	       		      }else if(weekStr.indexOf("三") != -1){
+  	       		    	weekPosition="3";
+  	       		      }else if(weekStr.indexOf("四") != -1){
+  	       		    	weekPosition="4";
+  	       		      }else if(weekStr.indexOf("五") != -1){
+  	       		    	weekPosition="5";
+  	       		      }else if(weekStr.indexOf("六") != -1){
+  	       		    	weekPosition="6";
+  	       		      }else if(weekStr.indexOf("日") != -1){
+  	       		    	weekPosition="7";
+  	       		      }
+  	       		      coursePosition=indexCourse;
+  	       		      
+  	       		      let detailPosition=weekPosition+"-"+coursePosition;
+  	       		 	  
+  	       		      console.log(detailPosition);
+  	       		      
+  	       		      
+  	       		 	  $.modal.open("增加课程","/system/classcurriculum/add?detailPosition="+detailPosition+"&classcid="+classcid);
+  	       		    },
+  	       		    styles: {
+  	       		      leftHandWidth: 50,
+  	       		      Gheight: 50,
+  	       		      palette: false
+  	       		    }
+  	       		  }); 
+  	        },
+  	         error: function (e) {
+  	           console.log(e)
+  	         }
+  	    })	 */
+    })
+	    /* $.ajax({
+	 	   type: "post",
+	        url:Global.api+"basketController/showAddressByUser",
+	        contentType: 'application/json',
+	        data:postdata,
+	        success: function (res) {
+	         	console.log(res);
+	        },
+	         error: function (e) {
+	           console.log(e)
+	         }
+	    })	 */
+        var editFlag = [[${@permission.hasPermi('system:classcurriculum:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:classcurriculum:remove')}]];
+        var prefix = ctx + "system/classcurriculum";
+        
+       /*  $(function() {
+        	  var courseList = [
+        		    ['', '语文', '英语', '物理', '语文', '数学', '英语', '物理', '物理', '数学'],
+        		    ['数学', '语文', '物理', '物理', '语文', '语文', '语文', '物理', '数学', '语文'],
+        		    ['语文', '数学', '英语', '物理', '', '数学', '英语', '物理', '语文', '数学'],
+        		    ['数学', '语文', '物理', '物理', '语文', '语文', '语文', '英语', '数学', '语文'],
+        		    ['语文', '数学', '英语', '物理', '语文', '数学', '英语', '物理', '语文', '数学'],
+        		    ['数学', '语文', '物理', '物理', '语文', '语文', '语文', '英语', '数学', '语文'],
+        		    ['体育', '数学', '', '物理', '语文', '数学', '英语', '物理', '语文', '数学']
+        		  ];
+        		  var week = window.innerWidth > 360 ? ['周一', '周二', '周三', '周四', '周五', '周六', '周日'] :
+        		    ['一', '二', '三', '四', '五', '六', '日'];
+        		  var now = new Date();
+        		  var day = now.getDay();
+        		  var courseType = [
+        		    ['上午', 4],
+        		    ['下午', 4],
+        		    ['晚上', 2]
+        		  ];
+
+        		  var times = new Timetables({
+        		    el: '#coursesTable',
+        		    timetables: courseList,
+        		    week: week,
+        		    merge: false,
+        		    timetableType: courseType,
+        		    highlightWeek: day,
+        		    gridOnClick: function (e) {
+        		      console.log(e);
+        		    },
+        		    styles: {
+        		      leftHandWidth: 50,
+        		      Gheight: 50,
+        		      palette: false
+        		    }
+        		  });            
+   
+        });  */
+    </script>
+</body>
+</html>

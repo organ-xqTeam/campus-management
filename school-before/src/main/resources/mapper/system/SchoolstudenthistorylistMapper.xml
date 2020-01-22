@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolstudenthistorylist.mapper.SchoolstudenthistorylistMapper">
+    
+    <resultMap type="Schoolstudenthistorylist" id="SchoolstudenthistorylistResult">
+        <result property="id"    column="id"    />
+        <result property="studentsId"    column="students_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="time"    column="time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolstudenthistorylistVo">
+        select id, students_id, remark, time, del_flag from schoolstudenthistorylist
+    </sql>
+
+    <select id="selectSchoolstudenthistorylistList" parameterType="Schoolstudenthistorylist" resultMap="SchoolstudenthistorylistResult">
+        <include refid="selectSchoolstudenthistorylistVo"/>
+        <where>  
+            <if test="studentsId != null "> and students_id = #{studentsId}</if>
+            <if test="time != null  and time != ''"> and time = #{time}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolstudenthistorylistById" parameterType="Long" resultMap="SchoolstudenthistorylistResult">
+        <include refid="selectSchoolstudenthistorylistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolstudenthistorylist" parameterType="Schoolstudenthistorylist" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolstudenthistorylist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">students_id,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="time != null  and time != ''">time,</if>
+            <if test="delFlag != null ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">#{studentsId},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="time != null  and time != ''">#{time},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolstudenthistorylist" parameterType="Schoolstudenthistorylist">
+        update schoolstudenthistorylist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentsId != null ">students_id = #{studentsId},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="time != null  and time != ''">time = #{time},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolstudenthistorylistById" parameterType="Long">
+        delete from schoolstudenthistorylist where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolstudenthistorylistByIds" parameterType="String">
+        delete from schoolstudenthistorylist where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

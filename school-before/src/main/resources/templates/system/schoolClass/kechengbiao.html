@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('排课管理列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>排课编号：</p>
+                                <input type="text" name="rowId"/>
+                                <input type="text" name="classId" th:field="${kechengbiao.classId}" style="display: none"/>
+                            </li>
+                            <li>
+                                <p>状态：</p>
+                                <select name="classStatus">
+                                    <option value="">所有</option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success single disabled" onclick="showpk()" >
+                    <i class="fa fa-search"></i> 查看排课
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:classschedulingmanagement:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:classschedulingmanagement:remove')}]];
+        var prefix = ctx + "system/classschedulingmanagement";
+        //查看排课
+        function showpk(){
+    	   	var row=$("#bootstrap-table").bootstrapTable('getSelections');
+			if(row.length>=2){
+				$.modal.alert("只能选择一条数据");
+				return;
+			}
+			let classsId= row[0].id;
+			$.modal.openTab('排课详情',ctx+"system/classcurriculum?classsId="+classsId);
+		}
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "排课管理",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'rowId', 
+                    title : '排课编号'
+                },
+                {
+                    field : 'className', 
+                    title : '班级'
+                },
+                {
+                    field : 'classGrade', 
+                    title : '年级'
+                },
+                {
+                    field : 'classStatus', 
+                    title : '状态'
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

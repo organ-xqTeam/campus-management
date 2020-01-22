@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolDormStudents.mapper.SchoolDormStudentsMapper">
+    
+    <resultMap type="SchoolDormStudents" id="SchoolDormStudentsResult">
+        <result property="id"    column="id"    />
+        <result property="studentsId"    column="students_id"    />
+        <result property="isdisuse"    column="isdisuse"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="updatedate"    column="updatedate"    />
+        <result property="dormId"    column="dorm_id"    />
+        <result property="moveDate"    column="move_date"    />
+    </resultMap>
+
+    <sql id="selectSchoolDormStudentsVo">
+        select id, students_id, isdisuse, createdate, updatedate, dorm_id, move_date from school_dorm_students
+    </sql>
+
+    <select id="selectSchoolDormStudentsList" parameterType="SchoolDormStudents" resultMap="SchoolDormStudentsResult">
+        <include refid="selectSchoolDormStudentsVo"/>
+        <where>  
+            <if test="studentsId != null "> and students_id = #{studentsId}</if>
+            <if test="isdisuse != null  and isdisuse != ''"> and isdisuse = #{isdisuse}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="updatedate != null "> and updatedate = #{updatedate}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+            <if test="moveDate != null "> and move_date = #{moveDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolDormStudentsById" parameterType="Long" resultMap="SchoolDormStudentsResult">
+        <include refid="selectSchoolDormStudentsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolDormStudents" parameterType="SchoolDormStudents" useGeneratedKeys="true" keyProperty="id">
+        insert into school_dorm_students
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">students_id,</if>
+            <if test="isdisuse != null  and isdisuse != ''">isdisuse,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="updatedate != null ">updatedate,</if>
+            <if test="dormId != null ">dorm_id,</if>
+            <if test="moveDate != null ">move_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">#{studentsId},</if>
+            <if test="isdisuse != null  and isdisuse != ''">#{isdisuse},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="updatedate != null ">#{updatedate},</if>
+            <if test="dormId != null ">#{dormId},</if>
+            <if test="moveDate != null ">#{moveDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolDormStudents" parameterType="SchoolDormStudents">
+        update school_dorm_students
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentsId != null ">students_id = #{studentsId},</if>
+            <if test="isdisuse != null  and isdisuse != ''">isdisuse = #{isdisuse},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="updatedate != null ">updatedate = #{updatedate},</if>
+            <if test="dormId != null ">dorm_id = #{dormId},</if>
+            <if test="moveDate != null ">move_date = #{moveDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="updateSchoolDormStudentsIsdisuseByDormId" parameterType="SchoolDormStudents">
+        update school_dorm_students
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isdisuse != null  and isdisuse != ''">isdisuse = #{isdisuse},</if>
+            <if test="updatedate != null ">updatedate = #{updatedate},</if>
+        </trim>
+        where dorm_id = #{dormId}
+    </update>
+
+    <delete id="deleteSchoolDormStudentsById" parameterType="Long">
+        delete from school_dorm_students where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolDormStudentsByIds" parameterType="String">
+        delete from school_dorm_students where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

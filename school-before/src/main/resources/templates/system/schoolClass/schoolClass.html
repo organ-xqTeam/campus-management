@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('班级列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>年级：</p>
+                                <select class="form-control" name="gradelistId">
+									<option th:each="grade:${gradelist}" 
+										th:value="${grade.id}" 
+										th:text="${grade.grade}" >
+									</option>
+								</select>
+                            </li>
+                            <li>
+                                <p>班级：</p>
+                                <input type="text" name="nameclass"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:class:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:class:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:class:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:class:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:class:remove')}]];
+        var outFlag = [[${@permission.hasPermi('system:schooloutofclass:view')}]];
+        var studentFlag = [[${@permission.hasPermi('system:schoolClass:classstudentlist')}]];
+        
+        var prefix = ctx + "system/schoolClass";
+        var prefix2 = ctx + "system/schoolgradelist";
+        var prefix3 = ctx + "system/schooloutofclass";
+        console.log(prefix3)
+        
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "班级",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '主键',
+                    visible: false
+                },
+                {
+                    field : 'num', 
+                    title : '编号'
+                },
+                {
+                    field : 'grade', 
+                    title : '年级'
+                },
+                {
+                    field : 'nameclass', 
+                    title : '班级'
+                },
+                {
+                    field : 'studentnum', 
+                    title : '学生人数'
+                },
+                {
+                    field : 'state', 
+                    title : '状态',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (value == '1') {
+                        	actions.push('在读');
+                        }
+                        if (value == '2') {
+                        	actions.push('毕业');
+                        }
+                        return actions.join('');
+                    }
+                },
+                {
+                    field : 'gradecharge', 
+                    title : '年级主任',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+						if (value != null && value != '') {
+							 actions.push('<a class="" href="javascript:void(0)" onclick="viewedit('+row.gid+')">'+value+'</a> ');
+						}
+						else {
+							 actions.push('<a class="" href="javascript:void(0)" onclick="viewedit('+row.gid+')">编辑</a> ');
+						}
+                        return actions.join('');
+                    }
+                },
+                {
+                    field : 'kechengbiao', 
+                    title : '课程表',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a href="javascript:void(0)" onclick="kechengbiao('+row.id+')">查看</a>');
+                        return actions.join('');
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="'+studentFlag+'" href="javascript:void(0)" onclick="viewstudent('+row.id+')">学生管理</a> ');
+                        actions.push('<a class="'+outFlag+'" href="javascript:void(0)" onclick="viewkewai('+row.id+')">课外学习</a> ');
+                        actions.push('<a class="'+outFlag+'" href="javascript:void(0)" onclick="viewhuaxu('+row.id+')">课堂花絮</a> ');
+                        actions.push('<a class="'+outFlag+'" href="javascript:void(0)" onclick="viewzhoukan('+row.id+')">班级周刊</a> ');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function kechengbiao(id) {
+        	var url = prefix + "/kechengbiao?classId="+id;
+			$.modal.openTab("课程表", url);
+        }
+        
+        function viewstudent(id) {
+        	var url = prefix + "/classstudentlist?classId="+id;
+			$.modal.openTab("学生管理", url);
+        }
+        
+        function viewkewai(id) {
+        	var url = prefix3 + "?id="+id+"&type=1";
+			$.modal.openTab("课外学习", url);
+        }
+        
+        function viewhuaxu(id) {
+        	var url = prefix3 + "?id="+id+"&type=2";
+			$.modal.openTab("课堂花絮", url);
+        }
+        
+        function viewzhoukan(id) {
+        	var url = prefix3 + "?id="+id+"&type=3";
+			$.modal.openTab("班级周刊", url);
+        }
+        
+        function viewedit(id){
+        	var url = prefix2 + "/editgradecharge/" + id;
+    		var options = {
+   				title: '修改年级主任',
+   				width: "380",
+   				height: "250",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val()
+			var gradecharge  = body.find('#gradecharge').val()			
+			var str = "id="+id+"&gradecharge="+gradecharge;			
+			$.operate.save(prefix2 + "/edit", str);
+   			layer.close(index);
+		}
+    </script>
+</body>
+</html>

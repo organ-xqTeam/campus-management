@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolResult.mapper.SchoolResultMapper">
+    
+    <resultMap type="SchoolResult" id="SchoolResultResult">
+        <result property="id"    column="id"    />
+        <result property="curriculumName"    column="curriculum_name"    />
+        <result property="curriculumId"    column="curriculum_id"    />
+        <result property="examName"    column="exam_name"    />
+        <result property="examId"    column="exam_id"    />
+        <result property="examDate"    column="exam_date"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolResultVo">
+        select id, curriculum_name, curriculum_id, exam_name, exam_id, exam_date, create_date, update_date, del_flag from school_result
+    </sql>
+
+    <select id="selectSchoolResultList" parameterType="SchoolResult" resultMap="SchoolResultResult">
+        <include refid="selectSchoolResultVo"/>
+        <where>  
+            <if test="curriculumName != null  and curriculumName != ''"> and curriculum_name like concat('%', #{curriculumName}, '%')</if>
+            <if test="curriculumId != null "> and curriculum_id = #{curriculumId}</if>
+            <if test="examName != null  and examName != ''"> and exam_name like concat('%', #{examName}, '%')</if>
+            <if test="examId != null "> and exam_id = #{examId}</if>
+            <if test="examDate != null "> and exam_date = #{examDate}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolResultById" parameterType="Long" resultMap="SchoolResultResult">
+        <include refid="selectSchoolResultVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolResult" parameterType="SchoolResult" useGeneratedKeys="true" keyProperty="id">
+        insert into school_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="curriculumName != null  and curriculumName != ''">curriculum_name,</if>
+            <if test="curriculumId != null ">curriculum_id,</if>
+            <if test="examName != null  and examName != ''">exam_name,</if>
+            <if test="examId != null ">exam_id,</if>
+            <if test="examDate != null ">exam_date,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="curriculumName != null  and curriculumName != ''">#{curriculumName},</if>
+            <if test="curriculumId != null ">#{curriculumId},</if>
+            <if test="examName != null  and examName != ''">#{examName},</if>
+            <if test="examId != null ">#{examId},</if>
+            <if test="examDate != null ">#{examDate},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolResult" parameterType="SchoolResult">
+        update school_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="curriculumName != null  and curriculumName != ''">curriculum_name = #{curriculumName},</if>
+            <if test="curriculumId != null ">curriculum_id = #{curriculumId},</if>
+            <if test="examName != null  and examName != ''">exam_name = #{examName},</if>
+            <if test="examId != null ">exam_id = #{examId},</if>
+            <if test="examDate != null ">exam_date = #{examDate},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolResultById" parameterType="Long">
+        delete from school_result where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolResultByIds" parameterType="String">
+        delete from school_result where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

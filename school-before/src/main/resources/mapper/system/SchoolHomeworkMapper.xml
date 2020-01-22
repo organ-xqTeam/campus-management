@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolHomework.mapper.SchoolHomeworkMapper">
+    
+    <resultMap type="SchoolHomework" id="SchoolHomeworkResult">
+        <result property="id"    column="id"    />
+        <result property="curriculumName"    column="curriculum_name"    />
+        <result property="curriculumId"    column="curriculum_id"    />
+        <result property="homeworkName"    column="homework_name"    />
+        <result property="homeworkId"    column="homework_id"    />
+        <result property="submitDate"    column="submit_date"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="content"    column="content"    />
+        <result property="picIds"    column="pic_ids"    />
+    </resultMap>
+
+   	<sql id="selectSchoolHomeworkVo">
+        select id, curriculum_name, curriculum_id, homework_name, homework_id, submit_date, create_date, update_date, del_flag,content,pic_ids from school_homework
+    </sql>
+
+    <select id="selectSchoolHomeworkList" parameterType="SchoolHomework" resultMap="SchoolHomeworkResult">
+        <include refid="selectSchoolHomeworkVo"/>
+        <where>  
+            <if test="curriculumName != null  and curriculumName != ''"> and curriculum_name like concat('%', #{curriculumName}, '%')</if>
+            <if test="curriculumId != null "> and curriculum_id = #{curriculumId}</if>
+            <if test="homeworkName != null  and homeworkName != ''"> and homework_name like concat('%', #{homeworkName}, '%')</if>
+            <if test="homeworkId != null "> and homework_id = #{homeworkId}</if>
+            <if test="submitDate != null "> and submit_date = #{submitDate}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            and del_flag ="0"
+        </where>
+    </select>
+    
+     <select id="selectSchoolHomeworkListByStudentid" parameterType="SchoolHomework" resultMap="SchoolHomeworkResult">
+     	select pic_ids,h.content, h.id, h.curriculum_name, h.curriculum_id, h.homework_name, h.homework_id, h.submit_date, h.create_date, h.update_date, h.del_flag, d.id as 'did', d.submit_flag as 'submitFlag', d.students_id as 'studentid' from school_homework h left join school_homework_detail d on d.homework_id = h.id
+        <where>
+        	<if test="curriculumName != null  and curriculumName != ''"> and h.curriculum_name like concat('%', #{curriculumName}, '%')</if>
+            <if test="curriculumId != null "> and h.curriculum_id = #{curriculumId}</if>
+            <if test="homeworkName != null  and homeworkName != ''"> and h.homework_name like concat('%', #{homeworkName}, '%')</if>
+            <if test="homeworkId != null "> and h.homework_id = #{homeworkId}</if>
+            <if test="submitDate != null "> and h.submit_date = #{submitDate}</if>
+            <if test="createDate != null "> and h.create_date = #{createDate}</if>
+            <if test="updateDate != null "> and h.update_date = #{updateDate}</if>
+            <if test="studentid != null and studentid != ''"> and d.students_id=#{studentid} and h.id in (select homework_id from school_homework_detail where del_flag=0 and students_id=#{studentid})</if>
+        </where>
+        group by d.homework_id
+    </select>
+    
+    <select id="selectSchoolHomeworkById" parameterType="Long" resultMap="SchoolHomeworkResult">
+        <include refid="selectSchoolHomeworkVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolHomework" parameterType="SchoolHomework" useGeneratedKeys="true" keyProperty="id">
+        insert into school_homework
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="curriculumName != null  and curriculumName != ''">curriculum_name,</if>
+            <if test="curriculumId != null ">curriculum_id,</if>
+            <if test="homeworkName != null  and homeworkName != ''">homework_name,</if>
+            <if test="homeworkId != null ">homework_id,</if>
+            <if test="submitDate != null ">submit_date,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="picIds != null  and picIds != ''">pic_ids,</if>
+            <!--content pic_ids  -->
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="curriculumName != null  and curriculumName != ''">#{curriculumName},</if>
+            <if test="curriculumId != null ">#{curriculumId},</if>
+            <if test="homeworkName != null  and homeworkName != ''">#{homeworkName},</if>
+            <if test="homeworkId != null ">#{homeworkId},</if>
+            <if test="submitDate != null ">#{submitDate},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="picIds != null  and picIds != ''">#{picIds},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolHomework" parameterType="SchoolHomework">
+        update school_homework
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="curriculumName != null  and curriculumName != ''">curriculum_name = #{curriculumName},</if>
+            <if test="curriculumId != null ">curriculum_id = #{curriculumId},</if>
+            <if test="homeworkName != null  and homeworkName != ''">homework_name = #{homeworkName},</if>
+            <if test="homeworkId != null ">homework_id = #{homeworkId},</if>
+            <if test="submitDate != null ">submit_date = #{submitDate},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="content != null  and content != ''">content=#{content},</if>
+            <if test="picIds != null  and picIds != ''">pic_ids= #{picIds},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolHomeworkById" parameterType="Long">
+        delete from school_homework where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolHomeworkByIds" parameterType="String">
+        delete from school_homework where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

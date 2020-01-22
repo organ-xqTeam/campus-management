@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schoolstudentslist-add">
+        	<input name="id" id="detailId" th:value="${detailId}" type="hidden"/>
+        	<input name="homeworkId" id="homeworkId" th:value="${homeworkId}" type="hidden"/>
+        	<input name="studentsId" id="studentsId" th:value="${studentsId}" type="hidden"/>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label">是否提交：</label>
+                <div class="col-sm-8">
+                    <select  class="form-control" name="submitFlag">
+                         <option th:selected="${schoolResultDetail?.submitFlag}==0" value="0">未提交</option>
+                         <option th:selected="${schoolResultDetail?.submitFlag}==1" value="1">已提交</option>
+				    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolHomeworkDetail"
+        $("#form-schoolstudentslist-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-schoolstudentslist-add').serialize());
+            }
+        }
+
+        $("input[name='admissionTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        
+        $("#academicLevel").click(function(){
+			console.log(12)
+		}) 
+    </script>
+</body>
+</html>

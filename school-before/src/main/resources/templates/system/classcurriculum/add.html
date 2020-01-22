@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增课')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-classcurriculum-add">
+        	<input name="yearmonth" type="hidden" th:value="${yearmonthss}">
+        	<input name="week" type="hidden" th:value="${weekss}">
+        	<input name="detailPosition" type="hidden" th:value="${detailPosition}">
+        	<input name="cuurriculumId" type="hidden" th:value="${classcid}">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">科目：</label>
+                <div class="col-sm-5">
+                 <select  class="form-control" name="coursemanagementId">
+				    <option   th:each="coursemanagement:${coursemanagementList}" th:value="${coursemanagement.id}" 
+				    th:text="${coursemanagement.studentsName}" 
+				    th:selected="${classcurriculumDetail?.coursemanagementId}==${coursemanagement.id}"></option>
+				 </select>
+				 
+				 </div>
+                <!-- <div class="col-sm-8">
+                    <input name="weekId" class="form-control" type="text">
+                </div> -->
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">老师：</label>
+                <div class="col-sm-5">
+                 <select  class="form-control" name="teacherId">
+                  <option  th:each="teachingInfo:${teachingInfoList}" 
+                  th:value="${teachingInfo.id}" 
+                  th:text="${teachingInfo.teachingName}" 
+                  th:selected="${classcurriculumDetail?.teacherId}==${teachingInfo.id}"></option>
+				 </select>
+				</div> 
+            </div>
+            
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/classcurriculum"
+        $("#form-classcurriculum-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-classcurriculum-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

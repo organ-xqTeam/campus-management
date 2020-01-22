@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolResultDetail.mapper.SchoolResultDetailMapper">
+    
+    <resultMap type="SchoolResultDetail" id="SchoolResultDetailResult">
+        <result property="id"    column="id"    />
+        <result property="studentsId"    column="students_id"    />
+        <result property="result"    column="result"    />
+        <result property="absentFlag"    column="absent_flag"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="resultId"    column="result_id"    />
+    </resultMap>
+
+    <sql id="selectSchoolResultDetailVo">
+        select id, students_id, result, absent_flag, create_date, update_date, del_flag, result_id from school_result_detail
+    </sql>
+
+    <select id="selectSchoolResultDetailList" parameterType="SchoolResultDetail" resultMap="SchoolResultDetailResult">
+        <include refid="selectSchoolResultDetailVo"/>
+        <where>  
+            <if test="studentsId != null "> and students_id = #{studentsId}</if>
+            <if test="result != null  and result != ''"> and result = #{result}</if>
+            <if test="absentFlag != null  and absentFlag != ''"> and absent_flag = #{absentFlag}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            <if test="resultId != null "> and result_id = #{resultId}</if>
+        </where>
+    </select>
+     <select id="selectSchoolResultDetailStudentsListByResultId" resultType="hashmap" parameterType="hashmap">
+      select 
+      ss.id, ss.students_id as studentsId, ss.students_name as studentsName, ss.academic_level as academicLevel, ss.father_name, ss.father_phone, ss.mother_name, ss.mother_phone, ss.home_address, ss._remarks, ss.ages, ss.admission_time as admissionTime, ss._state, ss.del_flag, ss.deptAlias, ss.userAlias ,
+      ifnull(sgl.grade,"") as grade,
+      ifnull(sc.nameclass,"") as nameclass ,
+      ifnull(ss.grade_id,"") as gradeId ,
+      ifnull(ss.class_id,"") as classId ,
+      srd.result,
+      srd.absent_flag,
+      srd.id as did
+      from schoolstudentslist ss
+      inner join  schoolgradelist sgl on  sgl.id=ss.grade_id
+      left join school_class sc on sc.id=ss.class_id
+      left join school_result_detail srd on srd.students_id=  ss.id
+      <where>  
+       ss.del_flag='0' and  sgl.del_flag='0' and sc.delete_flag='0'
+       <if test="grade != null  and grade != '' ">
+        and sgl.grade like #{grade}
+       </if>
+       <if test="nameclass != null and nameclass != ''  ">
+        and nameclass like #{nameclass}
+       </if>
+       <if test="studentsName != null and studentsName != '' ">
+        and students_name like #{studentsName}
+       </if>
+       <if test="resultId != null and resultId != '' ">
+        and srd.result_id=#{resultId}
+       </if>
+       <if test="gradeId != null and gradeId != '' ">
+        and grade_id=#{gradeId}
+       </if>
+       <if test="classId != null and classId != '' ">
+        and class_id=#{classId}
+       </if>
+      </where>
+    
+    
+   
+    
+    </select> 
+    
+    <select id="selectstudentresultlist" resultType="hashmap" parameterType="hashmap">
+	    select 
+			r.curriculum_name as 'curriculm',
+			r.exam_name as 'exam',
+			r.exam_date as 'examdata',
+			d.result as 'result',
+			d.absent_flag as 'absentFlag'
+		from
+			school_result_detail d 
+		left join 
+			schoolstudentslist s on s.id=d.students_id 
+		left join 
+			school_result r on r.id=d.result_id
+		where 
+			d.del_flag=0 and s.del_flag=0 and r.del_flag=0
+		<if test="studentid != null and studentid != '' ">
+     		and s.id=#{studentid}
+    	</if>
+    	<if test="examdata != null and examdata != '' ">
+     		and r.exam_date=#{examdata}
+    	</if>
+    	<if test="curriculm != null and curriculm != '' ">
+     		and r.curriculum_name like concat('%', #{curriculm}, '%')
+    	</if>
+    </select>
+    
+    <select id="selectSchoolResultDetailById" parameterType="Long" resultMap="SchoolResultDetailResult">
+        <include refid="selectSchoolResultDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolResultDetail" parameterType="SchoolResultDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into school_result_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">students_id,</if>
+            <if test="result != null  and result != ''">result,</if>
+            <if test="absentFlag != null  and absentFlag != ''">absent_flag,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="resultId != null ">result_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">#{studentsId},</if>
+            <if test="result != null  and result != ''">#{result},</if>
+            <if test="absentFlag != null  and absentFlag != ''">#{absentFlag},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="resultId != null ">#{resultId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolResultDetail" parameterType="SchoolResultDetail">
+        update school_result_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentsId != null ">students_id = #{studentsId},</if>
+            <if test="result != null  and result != ''">result = #{result},</if>
+            <if test="absentFlag != null  and absentFlag != ''">absent_flag = #{absentFlag},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="resultId != null ">result_id = #{resultId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolResultDetailById" parameterType="Long">
+        delete from school_result_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolResultDetailByIds" parameterType="String">
+        delete from school_result_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

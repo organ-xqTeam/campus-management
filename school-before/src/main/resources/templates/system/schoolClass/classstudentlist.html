@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学生列列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>学生名</p>
+                                <input type="text" name="studentsName"/>
+                                <input type="text" class="form-control" id="classId" name="classId" style="display: none" th:field="${student.classId}"/>
+                                <input type="text" class="form-control" id="gradeId" name="gradeId" style="display: none" th:field="${student.gradeId}"/>
+                            </li>
+                            <li class="select-time">
+                                <p>入学时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdmissionTime]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAdmissionTime]"/>
+                            </li>
+                            <!-- <li>
+                                <p>状态：</p>
+                                <input type="text" name="State"/>
+                            </li> -->
+                           
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentslist:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+               <!--  <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:schoolstudentslist:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a> -->
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolstudentslist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolstudentslist:remove')}]];
+        var resultFlag = [[${@permission.hasPermi('system:schoolResultDetail:view')}]];
+        var homeFlag = [[${@permission.hasPermi('system:schoolHomework:view')}]];
+        var classFlag = [[${@permission.hasPermi('system:schoolClass:editclass')}]];
+        var leaveFlag = [[${@permission.hasPermi('system:schoolstudentsleavelist:view')}]];
+        
+        var prefix = ctx + "system/schoolstudentslist";
+        
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add?classId="+$('#classId').val()+"&gradeId="+$('#gradeId').val(),
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+               // exportUrl: prefix + "/export",
+                modalName: "学生列",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'studentsId', 
+                    title : '学生id'
+                },
+                {
+                    field : 'studentsName', 
+                    title : '学生名称'
+                },
+                {
+                    field : 'academicLevel', 
+                    title : '学级'
+                },
+                {
+                    field : '', 
+                    title : '家庭信息',
+                    formatter: function(value, row, index) {
+                    	console.log(1,row)
+                    	return '<a class="" href="#" onclick="vieweditor(\'' + row.id + '\')">查看编辑</a>';
+                    }
+                },
+                /* {
+                    field : 'fatherName', 
+                    title : '父亲名称'
+                },
+                {
+                    field : 'fatherPhone', 
+                    title : '父亲电话号'
+                },
+                {
+                    field : 'motherName', 
+                    title : '母亲名称'
+                },
+                {
+                    field : 'motherPhone', 
+                    title : '母亲电话号'
+                },
+                {
+                    field : 'homeAddress', 
+                    title : '家庭住址'
+                },
+                {
+                    field : 'Remarks', 
+                    title : '备注'
+                }, */
+                {
+                    field : 'leavetime', 
+                    title : '缺席天数',
+                    formatter: function(value, row, index) {
+                    	var actions = [];
+                        actions.push(Number(value));
+                    	return actions.join('');
+                    }
+                },
+                {
+                    field : '', 
+                    title : '调班历史',
+                    formatter: function(value, row, index) {
+
+                    	return '<a class="" href="#" onclick="tiaobanlishi('+row.id+')">查看</a> ';
+//                     	var actions = [];
+//                         actions.push('<a href="javascript:void(0)" onclick="tiaobanlishi('+row.id+')">查看</a> ');
+//                     	return actions.join('');
+                    }
+                },
+                {
+                    field : 'state', 
+                    title : '状态',
+                    formatter: function(value, row, index) {
+                    	return "-";
+                    }
+                },
+                /*{
+                    field : 'remark', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark2', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark3', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark4', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark5', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark6', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark7', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark8', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark9', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark10', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark11', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark12', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark13', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark14', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark15', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark16', 
+                    title : '备注'
+                },
+                {
+                    field : 'remark17', 
+                    title : '备注'
+                },
+                {
+                    field : 'deptalias', 
+                    title : '部门表的别名'
+                },
+                {
+                    field : 'useralias', 
+                    title : '用户表的别名'
+                }, */
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	var actions = [];
+                        actions.push('<a class="'+resultFlag+'" href="javascript:void(0)" onclick="viewresultdatail('+row.id+')">成绩管理</a> ');
+                        actions.push('<a class="'+homeFlag+'" href="javascript:void(0)" onclick="viewhomework('+row.id+')">作业管理</a> ');
+                        actions.push('<a class="'+classFlag+'" href="javascript:void(0)" onclick="vieweditclass('+row.id+')">调班</a> ');
+                        actions.push('<a class="'+leaveFlag+'" href="javascript:void(0)" onclick="viewkaoqin('+row.id+')">考勤管理</a> ');
+                    	return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function tiaobanlishi(id) {
+        	var url = ctx + "system/schoolClass/history?studentsId="+id;
+    		var options = {
+   				title: '调班历史',
+   				width: "380",
+   				height: "250",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function viewresultdatail(id) {
+        	var url = ctx + "system/schoolResultDetail/result?id="+id;
+			$.modal.openTab("成绩管理", url);
+        }
+        
+        function viewhomework(id) {
+        	var url = ctx + "system/schoolHomework/result?id="+id;
+			$.modal.openTab("作业管理", url);
+        }
+        
+        function vieweditclass(id) {
+        	var url = ctx + "system/schoolClass/editclass?id="+id+"&classId="+$('#classId').val();
+    		var options = {
+   				title: '调班',
+   				width: "380",
+   				height: "250",
+   				url: url,
+   				callBack: doeditclass
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doeditclass(index, layero) {
+        	var body = layer.getChildFrame('body', index);		        	
+			var id  = body.find('#id').val();					// 学生id
+			var classId  = body.find('#classId').val();			// 班级id
+			var str = "id="+id+"&classId="+classId;			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+        }
+
+        function viewkaoqin(id) {
+        	var url = ctx + "system/schoolstudentsleavelist?studentid="+id;
+			$.modal.openTab("考勤管理", url);
+        }
+        
+        function vieweditor(id){
+        	var url = prefix + "/vieweditor/" + id;
+    		var options = {
+   				title: '家庭信息',
+   				width: "380",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+			
+			var id  = body.find('#id').val()
+			var fatherName  = body.find('#fatherName').val()
+			var fatherPhone  = body.find('#fatherPhone').val()
+			var motherName  = body.find('#motherName').val()
+			var motherPhone  = body.find('#motherPhone').val()
+			var homeAddress  = body.find('#homeAddress').val()
+			var Remarks  = body.find('#Remarks').val()
+   			
+			console.log(fatherName,fatherPhone,motherName,motherPhone,homeAddress,Remarks)
+			
+			
+			var str = "id="+id+"&fatherName="+fatherName+"&fatherPhone="+fatherPhone+
+			"&motherName="+motherName+"&motherPhone="+motherPhone+"&homeAddress="+homeAddress+"&Remarks="+Remarks
+			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+		}
+ 		function usersee (){
+        	$.modal.alert("暂无此功能！！！")
+        	console.log("usersee!!!")
+        }
+    </script>
+</body>
+</html>

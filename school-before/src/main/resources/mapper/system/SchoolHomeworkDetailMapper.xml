@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolHomeworkDetail.mapper.SchoolHomeworkDetailMapper">
+    
+    <resultMap type="SchoolHomeworkDetail" id="SchoolHomeworkDetailResult">
+        <result property="id"    column="id"    />
+        <result property="studentsId"    column="students_id"    />
+        <result property="submitFlag"    column="submit_flag"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="homeworkId"    column="homework_id"    />
+        <result property="fileId"    column="file_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="passFlag"    column="pass_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolHomeworkDetailVo">
+        select pass_flag,id, students_id, submit_flag, create_date, update_date, del_flag, homework_id, file_id, file_name from school_homework_detail
+    </sql>
+
+    <select id="selectSchoolHomeworkDetailList" parameterType="SchoolHomeworkDetail" resultMap="SchoolHomeworkDetailResult">
+        <include refid="selectSchoolHomeworkDetailVo"/>
+        <where>  
+            <if test="studentsId != null "> and students_id = #{studentsId}</if>
+            <if test="submitFlag != null  and submitFlag != ''"> and submit_flag = #{submitFlag}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            <if test="homeworkId != null "> and homework_id = #{homeworkId}</if>
+            <if test="fileId != null  and fileId != ''"> and file_id = #{fileId}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            and del_flag="0"
+        </where>
+    </select>
+    
+    <select id="selectSchoolHomeworkDetailById" parameterType="Long" resultMap="SchoolHomeworkDetailResult">
+        <include refid="selectSchoolHomeworkDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolHomeworkDetail" parameterType="SchoolHomeworkDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into school_homework_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">students_id,</if>
+            <if test="submitFlag != null  and submitFlag != ''">submit_flag,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="homeworkId != null ">homework_id,</if>
+            <if test="fileId != null  and fileId != ''">file_id,</if>
+            <if test="fileName != null  and fileName != ''">file_name,</if>
+            <if test="passFlag != null  and passFlag != ''">pass_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null ">#{studentsId},</if>
+            <if test="submitFlag != null  and submitFlag != ''">#{submitFlag},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="homeworkId != null ">#{homeworkId},</if>
+            <if test="fileId != null  and fileId != ''">#{fileId},</if>
+            <if test="fileName != null  and fileName != ''">#{fileName},</if>
+            <if test="passFlag != null  and passFlag != ''">#{passFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolHomeworkDetail" parameterType="SchoolHomeworkDetail">
+        update school_homework_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentsId != null ">students_id = #{studentsId},</if>
+            <if test="submitFlag != null  and submitFlag != ''">submit_flag = #{submitFlag},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="homeworkId != null ">homework_id = #{homeworkId},</if>
+            <if test="fileId != null  and fileId != ''">file_id = #{fileId},</if>
+            <if test="fileName != null  and fileName != ''">file_name = #{fileName},</if>
+            <if test="passFlag != null  and passFlag != ''">pass_flag=#{passFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolHomeworkDetailById" parameterType="Long">
+        delete from school_homework_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolHomeworkDetailByIds" parameterType="String">
+        delete from school_homework_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    
+    
+    
+    
+    
+    
+    <select id="selectSchoolHomeworkDetailStudentsListByHomeworkId" resultType="hashmap" parameterType="hashmap">
+      select 
+      ss.id, ss.students_id as studentsId, ss.students_name as studentsName, ss.academic_level as academicLevel, ss.father_name, ss.father_phone, ss.mother_name, ss.mother_phone, ss.home_address, ss._remarks, ss.ages, ss.admission_time as admissionTime, ss._state, ss.del_flag, ss.deptAlias, ss.userAlias ,
+      ifnull(sgl.grade,"") as grade,
+      ifnull(sc.nameclass,"") as nameclass ,
+      ifnull(ss.grade_id,"") as gradeId ,
+      ifnull(ss.class_id,"") as classId ,
+      shd.submit_flag,
+      shd.file_id,
+      shd.file_name,
+      shd.id as did
+      from schoolstudentslist ss
+      inner join  schoolgradelist sgl on  sgl.id=ss.grade_id
+      left join school_class sc on sc.id=ss.class_id
+      left join school_homework_detail shd on shd.students_id=  ss.id
+      <where>  
+       ss.del_flag='0' and  sgl.del_flag='0' and sc.delete_flag='0'
+       <if test="grade != null  and grade != '' ">
+        and sgl.grade like #{grade}
+       </if>
+       <if test="nameclass != null and nameclass != ''  ">
+        and nameclass like #{nameclass}
+       </if>
+       <if test="studentsName != null and studentsName != '' ">
+        and students_name like #{studentsName}
+       </if>
+       <if test="homeworkId != null and homeworkId != '' ">
+        and shd.homework_id=#{homeworkId}
+       </if>
+       <if test="gradeId != null and gradeId != '' ">
+        and grade_id=#{gradeId}
+       </if>
+       <if test="classId != null and classId != '' ">
+        and class_id=#{classId}
+       </if>
+      </where>
+     </select> 
+    
+</mapper>

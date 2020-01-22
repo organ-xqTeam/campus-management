@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolClass.mapper.SchoolClassMapper">
+    
+    <resultMap type="SchoolClass" id="SchoolClassResult">
+        <result property="id"    column="id"    />
+        <result property="num"    column="num"    />
+        <result property="state"    column="state"    />
+        <result property="nameclass"    column="nameclass"    />
+        <result property="gradelistId"    column="gradelist_id"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolClassVo">
+        select c.id as 'id', c.num as 'num', c.state as 'state', c.nameclass as 'nameclass', c.gradelist_id as 'gradelist_id', c.create_date as 'create_date', c.update_date as 'update_date', c.delete_flag as 'delete_flag', g.id as 'gid', g.grade as 'grade', g.entertime as 'entertime', g.finishtime as 'finishtime', g.enternum as 'enternum', (select teaching_name from teaching_info where id=g.gradecharge) as 'gradecharge', (select count(*) from schoolstudentslist where del_flag=0 and class_id=c.id) as 'studentnum' from school_class c left join schoolgradelist g on g.id=c.gradelist_id
+    </sql>
+
+    <select id="selectSchoolClassList" parameterType="SchoolClass" resultMap="SchoolClassResult">
+        <include refid="selectSchoolClassVo"/>
+        <where>  
+            <if test="num != null  and num != ''"> and c.num = #{num}</if>
+            <if test="state != null  and state != ''"> and c.state = #{state}</if>
+            <if test="nameclass != null  and nameclass != ''"> and c.nameclass like concat('%', #{nameclass}, '%') </if>
+            <if test="gradelistId != null and gradelistId != '' "> and c.gradelist_id = #{gradelistId}</if>
+            <if test="createDate != null  and createDate != ''"> and c.create_date = #{createDate}</if>
+            <if test="updateDate != null  and updateDate != ''"> and c.update_date = #{updateDate}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and c.delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolClassById" parameterType="Long" resultMap="SchoolClassResult">
+        <include refid="selectSchoolClassVo"/>
+        where c.id = #{id}
+    </select>
+        
+    <insert id="insertSchoolClass" parameterType="SchoolClass" useGeneratedKeys="true" keyProperty="id">
+        insert into school_class
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="num != null  and num != ''">num,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="nameclass != null  and nameclass != ''">nameclass,</if>
+            <if test="gradelistId != null ">gradelist_id,</if>
+            <if test="createDate != null  and createDate != ''">create_date,</if>
+            <if test="updateDate != null  and updateDate != ''">update_date,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="nameclass != null  and nameclass != ''">#{nameclass},</if>
+            <if test="gradelistId != null ">#{gradelistId},</if>
+            <if test="createDate != null  and createDate != ''">#{createDate},</if>
+            <if test="updateDate != null  and updateDate != ''">#{updateDate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolClass" parameterType="SchoolClass">
+        update school_class
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="nameclass != null  and nameclass != ''">nameclass = #{nameclass},</if>
+            <if test="gradelistId != null ">gradelist_id = #{gradelistId},</if>
+            <if test="createDate != null  and createDate != ''">create_date = #{createDate},</if>
+            <if test="updateDate != null  and updateDate != ''">update_date = #{updateDate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolClassById" parameterType="Long">
+        delete from school_class where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolClassByIds" parameterType="String">
+        delete from school_class where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('年级列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>年级：</p>
+                                <input type="text" name="grade"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+			<div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolgradelist:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolgradelist:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolgradelist:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+    
+        var editFlag = [[${@permission.hasPermi('system:schoolgradelist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolgradelist:remove')}]];
+        var studentFlag = [[${@permission.hasPermi('system:schoolgradelist:gostudentpage')}]];
+        var schedulingFlag = [[${@permission.hasPermi('system:schoolgradelist:scheduling')}]];
+        var teachingplanlistFlag = [[${@permission.hasPermi('system:schoolteachingplanlist:view')}]];
+        
+        var prefix = ctx + "system/schoolgradelist";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "年级",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '用户表的别名',
+                    visible: false
+                },
+                {
+                    field : 'num', 
+                    title : '年级编号'
+                },
+                {
+                    field : 'grade', 
+                    title : '年级'
+                },
+                {
+                    field : 'entertime', 
+                    title : '入学时间'
+                },
+                {
+                    field : 'finishtime', 
+                    title : '毕业时间'
+                },
+                {
+                    field : 'enternum', 
+                    title : '入学人数'
+                },
+                {
+                    field : 'gradecharge2', 
+                    title : '年级主任',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+						if (value != null && value != '') {
+							 actions.push('<a class="" href="javascript:void(0)" onclick="viewedit('+row.id+')">'+value+'</a> ');
+						}
+						else {
+							 actions.push('<a class="" href="javascript:void(0)" onclick="viewedit('+row.id+')">编辑</a> ');
+						}
+                        return actions.join('');
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="'+studentFlag+'" href="javascript:void(0)" onclick="studentlist('+row.id+')">学生列表</a> ');
+                        actions.push('<a class="'+schedulingFlag+'" href="javascript:void(0)" onclick="scheduling('+row.id+')">智能排班</a> ');
+                        actions.push('<a class="'+teachingplanlistFlag+'" href="javascript:void(0)" onclick="teachingplanlist(\''+row.id+'\',\''+row.grade+'\',\''+row.finishtime+'\',\''+row.enternum+'\')">教案管理</a> ');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function viewedit(id){
+        	var url = prefix + "/editgradecharge/" + id;
+    		var options = {
+   				title: '修改年级主任',
+   				width: "380",
+   				height: "250",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function scheduling(id) {
+        	var url = prefix + "/scheduling/" + id;
+    		var options = {
+   				title: '智能分班',
+   				width: "380",
+   				height: "250",
+   				url: url,
+   				callBack: doScheduling
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doScheduling(index, layero) {
+        	var body = layer.getChildFrame('body', index);		        	
+			var id  = body.find('#id').val();					// 年级id
+			var num  = body.find('input[name="num"]').val();	// 班级人数
+			$.ajax({
+				type: "get",
+				url: prefix + "/doScheduling?id="+id+"&num="+num,
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function (data) {
+					console.log(data)
+					layer.close(index);
+				}
+			});
+        }
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val()
+			var gradecharge  = body.find('#gradecharge').val()			
+			var str = "id="+id+"&gradecharge="+gradecharge;			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+		}
+        
+        function studentlist(param){
+        	var url = ctx + "system/schoolgradelist/gostudentpage?gradeId="+param;
+			$.modal.openTab("学生列表", url);
+        }
+        
+        function teachingplanlist(id, grade2, finishtime, enternum){
+        	console.log(id)
+        	console.log(grade2)
+        	console.log(finishtime)
+        	console.log(enternum)
+        	var url = ctx + "system/schoolteachingplanlist?grade="+id+"&grade2="+grade2+"&finishtime="+finishtime+"&enternum="+enternum;
+			$.modal.openTab("教案管理", url);
+        }
+        
+    </script>
+</body>
+</html>

@@ -73,6 +73,11 @@
             <artifactId>school-generator</artifactId>
         </dependency>
         
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-before</artifactId>
+        </dependency>
+        
         <!-- 流程模块 -->
       	<!-- <dependency>
             <groupId>com.ruoyi.process</groupId>
