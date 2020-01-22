@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolapplylist.mapper.SchoolapplylistMapper">
+    
+    <resultMap type="Schoolapplylist" id="SchoolapplylistResult">
+        <result property="id"    column="id"    />
+        <result property="applynum"    column="applynum"    />
+        <result property="applytime"    column="applytime"    />
+        <result property="applytype"    column="applytype"    />
+        <result property="applyname"    column="applyname"    />
+        <result property="applycontent"    column="applycontent"    />
+        <result property="applyperson"    column="applyperson"    />
+        <result property="approvalperson"    column="approvalperson"    />
+        <result property="sendperson"    column="sendperson"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+        <result property="remark0"    column="remark0"    />
+        <result property="applystatus"    column="applystatus"    />
+        <result property="applyopinion"    column="applyopinion"    />
+    </resultMap>
+
+    <sql id="selectSchoolapplylistVo">
+        select id, applynum, applytime, applytype, applyname, applycontent, applyperson, approvalperson, sendperson, createdate, delete_flag, remark0, applystatus, applyopinion from schoolapplylist
+    </sql>
+
+    <select id="selectSchoolapplylistList" parameterType="Schoolapplylist" resultMap="SchoolapplylistResult">
+        <include refid="selectSchoolapplylistVo"/>
+        <where>  
+            <if test="applynum != null  and applynum != ''"> and applynum like concat('%', #{applynum}, '%') </if>
+            <if test="applytime != null  and applytime != ''"> and applytime = #{applytime}</if>
+            <if test="applytype != null  and applytype != ''"> and applytype = #{applytype}</if>
+            <if test="applyname != null  and applyname != ''"> and applyname like concat('%', #{applyname}, '%')</if>
+            <if test="applycontent != null  and applycontent != ''"> and applycontent = #{applycontent}</if>
+            <if test="applyperson != null  and applyperson != ''"> and applyperson = #{applyperson}</if>
+            <if test="approvalperson != null  and approvalperson != ''"> and approvalperson = #{approvalperson}</if>
+            <if test="sendperson != null  and sendperson != ''"> and sendperson = #{sendperson}</if>
+            <if test="createdate != null  and createdate != ''"> and createdate = #{createdate}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+            <if test="remark0 != null  and remark0 != ''"> and remark0 = #{remark0}</if>
+            <if test="applystatus != null  and applystatus != ''"> and applystatus = #{applystatus}</if>
+            <if test="applyopinion != null  and applyopinion != ''"> and applyopinion = #{applyopinion}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolapplylistById" parameterType="Long" resultMap="SchoolapplylistResult">
+        <include refid="selectSchoolapplylistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolapplylist" parameterType="Schoolapplylist" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolapplylist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="applynum != null  and applynum != ''">applynum,</if>
+            <if test="applytime != null  and applytime != ''">applytime,</if>
+            <if test="applytype != null  and applytype != ''">applytype,</if>
+            <if test="applyname != null  and applyname != ''">applyname,</if>
+            <if test="applycontent != null  and applycontent != ''">applycontent,</if>
+            <if test="applyperson != null  and applyperson != ''">applyperson,</if>
+            <if test="approvalperson != null  and approvalperson != ''">approvalperson,</if>
+            <if test="sendperson != null  and sendperson != ''">sendperson,</if>
+            <if test="createdate != null  and createdate != ''">createdate,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+            <if test="remark0 != null  and remark0 != ''">remark0,</if>
+            <if test="applystatus != null  and applystatus != ''">applystatus,</if>
+            <if test="applyopinion != null  and applyopinion != ''">applyopinion,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="applynum != null  and applynum != ''">#{applynum},</if>
+            <if test="applytime != null  and applytime != ''">#{applytime},</if>
+            <if test="applytype != null  and applytype != ''">#{applytype},</if>
+            <if test="applyname != null  and applyname != ''">#{applyname},</if>
+            <if test="applycontent != null  and applycontent != ''">#{applycontent},</if>
+            <if test="applyperson != null  and applyperson != ''">#{applyperson},</if>
+            <if test="approvalperson != null  and approvalperson != ''">#{approvalperson},</if>
+            <if test="sendperson != null  and sendperson != ''">#{sendperson},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+            <if test="remark0 != null  and remark0 != ''">#{remark0},</if>
+            <if test="applystatus != null  and applystatus != ''">#{applystatus},</if>
+            <if test="applyopinion != null  and applyopinion != ''">#{applyopinion},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolapplylist" parameterType="Schoolapplylist">
+        update schoolapplylist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="applynum != null  and applynum != ''">applynum = #{applynum},</if>
+            <if test="applytime != null  and applytime != ''">applytime = #{applytime},</if>
+            <if test="applytype != null  and applytype != ''">applytype = #{applytype},</if>
+            <if test="applyname != null  and applyname != ''">applyname = #{applyname},</if>
+            <if test="applycontent != null  and applycontent != ''">applycontent = #{applycontent},</if>
+            <if test="applyperson != null  and applyperson != ''">applyperson = #{applyperson},</if>
+            <if test="approvalperson != null  and approvalperson != ''">approvalperson = #{approvalperson},</if>
+            <if test="sendperson != null  and sendperson != ''">sendperson = #{sendperson},</if>
+            <if test="createdate != null  and createdate != ''">createdate = #{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+            <if test="remark0 != null  and remark0 != ''">remark0 = #{remark0},</if>
+            <if test="applystatus != null  and applystatus != ''">applystatus = #{applystatus},</if>
+            <if test="applyopinion != null  and applyopinion != ''">applyopinion = #{applyopinion},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolapplylistById" parameterType="Long">
+        delete from schoolapplylist where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolapplylistByIds" parameterType="String">
+        delete from schoolapplylist where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
