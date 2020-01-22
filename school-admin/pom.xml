@@ -74,7 +74,7 @@
         </dependency>
         
         <!-- 流程模块 -->
-      	<dependency>
+      	<!-- <dependency>
             <groupId>com.ruoyi.process</groupId>
 		    <artifactId>school-process</artifactId>
 		    <version>1.0.0</version>
@@ -84,7 +84,7 @@
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
             <version>6.0.0</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency> -->
     </dependencies>
 
     <build>
