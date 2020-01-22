@@ -204,6 +204,11 @@
 	            <artifactId>school-common</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
+	        <!-- <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-before</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency> -->
 	        
         </dependencies>
     </dependencyManagement>
@@ -225,6 +230,7 @@
         <module>school-Enrollment</module>
         <module>school-noticeAnnouncement</module>
         <module>school-process</module>
+        <!-- <module>school-before</module> -->
     </modules>
     <packaging>pom</packaging>
 
