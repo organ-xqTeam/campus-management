@@ -222,6 +222,7 @@
         <module>school-charge</module>
         <module>school-Enrollment</module>
         <module>school-noticeAnnouncement</module>
+        <module>school-process</module>
     </modules>
     <packaging>pom</packaging>
 
