@@ -85,6 +85,14 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-noticeAnnouncement</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-app</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-educationalAdministration</artifactId>
+        </dependency>
         
         <dependency>
 			<groupId>net.sf.json-lib</groupId>
