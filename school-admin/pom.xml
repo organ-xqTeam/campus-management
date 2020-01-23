@@ -93,6 +93,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-educationalAdministration</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-Enrollment</artifactId>
+        </dependency>
         
         <dependency>
 			<groupId>net.sf.json-lib</groupId>
