@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增审批')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schoolapplylist-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请编号：</label>
+                <div class="col-sm-8">
+                    <input name="applynum" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+	                	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                    <input name="applytime" class="form-control" placeholder="yyyy-MM-dd" type="text">  
+                	</div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请分类：</label>
+                <div class="col-sm-8">
+                    <select name="applytype" class="form-control m-b" th:with="type=${@dict.getType('system_oa_applytype')}">
+                        <option value="">所有</option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请名称：</label>
+                <div class="col-sm-8">
+                    <input name="applyname" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请内容：</label>
+                <div class="col-sm-8">
+                    <input name="applycontent" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请人：</label>
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" th:field="${me.userName}" disabled>
+                    <input name="applyperson" class="form-control" type="text" th:value="${me.userId}" style="display: none">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">审批人：</label>
+                <div class="col-sm-8">
+                	<select class="form-control" name="approvalperson">
+						<option th:each="user:${userlist}" 
+							th:value="${user.userId}" 
+							th:text="${user.userName}">
+						</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">抄送人：</label>
+                <div class="col-sm-8">
+                	<select class="form-control" name="sendperson">
+						<option th:each="user:${userlist}" 
+							th:value="${user.userId}" 
+							th:text="${user.userName}">
+						</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请备注：</label>
+                <div class="col-sm-8">
+                    <input name="remark0" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolapplylist"
+        $("#form-schoolapplylist-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-schoolapplylist-add').serialize());
+            }
+        }
+        $("input[name='applytime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
