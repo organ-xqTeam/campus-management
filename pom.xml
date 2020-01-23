@@ -214,6 +214,11 @@
 	            <artifactId>school-oaSystem</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
+	         <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-noticeAnnouncement</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency>
 	        
         </dependencies>
     </dependencyManagement>

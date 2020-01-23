@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolmobilearticle.mapper.SchoolmobilearticleMapper">
+    
+    <resultMap type="Schoolmobilearticle" id="SchoolmobilearticleResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="type"    column="type"    />
+        <result property="content"    column="content"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolmobilearticleVo">
+        select id, title, type, content, file, filename, createdate, delete_flag from schoolmobilearticle
+    </sql>
+
+    <select id="selectSchoolmobilearticleList" parameterType="Schoolmobilearticle" resultMap="SchoolmobilearticleResult">
+        <include refid="selectSchoolmobilearticleVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="file != null  and file != ''"> and file = #{file}</if>
+            <if test="filename != null  and filename != ''"> and filename like concat('%', #{filename}, '%')</if>
+            <if test="createdate != null  and createdate != ''"> and createdate = #{createdate}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolmobilearticleById" parameterType="Long" resultMap="SchoolmobilearticleResult">
+        <include refid="selectSchoolmobilearticleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolmobilearticle" parameterType="Schoolmobilearticle" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolmobilearticle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">title,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="file != null  and file != ''">file,</if>
+            <if test="filename != null  and filename != ''">filename,</if>
+            <if test="createdate != null  and createdate != ''">createdate,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="file != null  and file != ''">#{file},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolmobilearticle" parameterType="Schoolmobilearticle">
+        update schoolmobilearticle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="file != null  and file != ''">file = #{file},</if>
+            <if test="filename != null  and filename != ''">filename = #{filename},</if>
+            <if test="createdate != null  and createdate != ''">createdate = #{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolmobilearticleById" parameterType="Long">
+        delete from schoolmobilearticle where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolmobilearticleByIds" parameterType="String">
+        delete from schoolmobilearticle where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
