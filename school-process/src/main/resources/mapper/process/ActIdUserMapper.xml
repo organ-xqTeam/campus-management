@@ -15,7 +15,7 @@
     </resultMap>
 
     <sql id="selectActIdUserVo">
-        select ID_, REV_, FIRST_, LAST_, EMAIL_, PWD_, PICTURE_ID_ from act_id_user
+        select ID_, REV_, FIRST_, LAST_, EMAIL_, PWD_, PICTURE_ID_ from ACT_ID_USER
     </sql>
 
     <select id="selectActIdUserList" parameterType="ActIdUser" resultMap="ActIdUserResult">
@@ -35,7 +35,7 @@
     </select>
 
     <insert id="insertActIdUser" parameterType="ActIdUser">
-        insert into act_id_user
+        insert into ACT_ID_USER
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null  and id != ''">ID_,</if>
             <if test="rev != null ">REV_,</if>
@@ -57,7 +57,7 @@
     </insert>
 
     <update id="updateActIdUser" parameterType="ActIdUser">
-        update act_id_user
+        update ACT_ID_USER
         <trim prefix="SET" suffixOverrides=",">
             <if test="rev != null ">REV_ = #{rev},</if>
             <if test="first != null  and first != ''">FIRST_ = #{first},</if>
@@ -70,11 +70,11 @@
     </update>
 
     <delete id="deleteActIdUserById" parameterType="String">
-        delete from act_id_user where ID_ = #{id}
+        delete from ACT_ID_USER where ID_ = #{id}
     </delete>
 
     <delete id="deleteActIdUserByIds" parameterType="String">
-        delete from act_id_user where ID_ in
+        delete from ACT_ID_USER where ID_ in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

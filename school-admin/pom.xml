@@ -84,12 +84,12 @@
 			<version>1.0.2</version>
 		</dependency>
         <!-- 流程模块 -->
-      	<!-- <dependency>
+      	<dependency>
             <groupId>com.ruoyi.process</groupId>
 		    <artifactId>school-process</artifactId>
 		    <version>1.0.0</version>
         </dependency>
-        <dependency>
+      <!-- <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
             <version>6.0.0</version>
