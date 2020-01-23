@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolenrollmentmanagement.mapper.SchoolenrollmentmanagementMapper">
+    
+    <resultMap type="Schoolenrollmentmanagement" id="SchoolenrollmentmanagementResult">
+        <result property="id"    column="id"    />
+        <result property="enrollmentBatch"    column="enrollment_batch"    />
+        <result property="plannedPopulation"    column="planned_population"    />
+        <result property="actualNumber"    column="actual_number"    />
+        <result property="admissionTime"    column="admission_time"    />
+        <result property="graduationTime"    column="graduation_time"    />
+        <result property="State"    column="_state"    />
+        <result property="remark"    column="remark"    />
+        <result property="remark1"    column="remark1"    />
+        <result property="remark2"    column="remark2"    />
+        <result property="remark3"    column="remark3"    />
+        <result property="remark4"    column="remark4"    />
+        <result property="remark5"    column="remark5"    />
+        <result property="remark6"    column="remark6"    />
+        <result property="remark7"    column="remark7"    />
+        <result property="remark8"    column="remark8"    />
+        <result property="remark9"    column="remark9"    />
+        <result property="remark10"    column="remark10"    />
+        <result property="remark11"    column="remark11"    />
+        <result property="remark12"    column="remark12"    />
+        <result property="remark13"    column="remark13"    />
+        <result property="remark14"    column="remark14"    />
+        <result property="remark15"    column="remark15"    />
+        <result property="remark16"    column="remark16"    />
+        <result property="remark17"    column="remark17"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="deptalias"    column="deptAlias"    />
+        <result property="useralias"    column="userAlias"    />
+    </resultMap>
+
+    <sql id="selectSchoolenrollmentmanagementVo">
+        select id, enrollment_batch, planned_population, actual_number, admission_time, graduation_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias from schoolenrollmentmanagement
+    </sql>
+
+    <select id="selectSchoolenrollmentmanagementList" parameterType="Schoolenrollmentmanagement" resultMap="SchoolenrollmentmanagementResult">
+        <include refid="selectSchoolenrollmentmanagementVo"/>
+        <where>  
+            <if test="enrollmentBatch != null  and enrollmentBatch != ''"> and enrollment_batch = #{enrollmentBatch}</if>
+            <if test="plannedPopulation != null  and plannedPopulation != ''"> and planned_population = #{plannedPopulation}</if>
+            <if test="actualNumber != null  and actualNumber != ''"> and actual_number = #{actualNumber}</if>
+            <if test="admissionTime != null "> and admission_time = #{admissionTime}</if>
+            <if test="graduationTime != null "> and graduation_time = #{graduationTime}</if>
+            <if test="State != null  and State != ''"> and _state = #{State}</if>
+            <if test="remark1 != null  and remark1 != ''"> and remark1 = #{remark1}</if>
+            <if test="remark2 != null  and remark2 != ''"> and remark2 = #{remark2}</if>
+            <if test="remark3 != null  and remark3 != ''"> and remark3 = #{remark3}</if>
+            <if test="remark4 != null  and remark4 != ''"> and remark4 = #{remark4}</if>
+            <if test="remark5 != null  and remark5 != ''"> and remark5 = #{remark5}</if>
+            <if test="remark6 != null  and remark6 != ''"> and remark6 = #{remark6}</if>
+            <if test="remark7 != null  and remark7 != ''"> and remark7 = #{remark7}</if>
+            <if test="remark8 != null  and remark8 != ''"> and remark8 = #{remark8}</if>
+            <if test="remark9 != null  and remark9 != ''"> and remark9 = #{remark9}</if>
+            <if test="remark10 != null  and remark10 != ''"> and remark10 = #{remark10}</if>
+            <if test="remark11 != null  and remark11 != ''"> and remark11 = #{remark11}</if>
+            <if test="remark12 != null  and remark12 != ''"> and remark12 = #{remark12}</if>
+            <if test="remark13 != null  and remark13 != ''"> and remark13 = #{remark13}</if>
+            <if test="remark14 != null  and remark14 != ''"> and remark14 = #{remark14}</if>
+            <if test="remark15 != null  and remark15 != ''"> and remark15 = #{remark15}</if>
+            <if test="remark16 != null  and remark16 != ''"> and remark16 = #{remark16}</if>
+            <if test="remark17 != null  and remark17 != ''"> and remark17 = #{remark17}</if>
+            <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
+            <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolenrollmentmanagementById" parameterType="Long" resultMap="SchoolenrollmentmanagementResult">
+        <include refid="selectSchoolenrollmentmanagementVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolenrollmentmanagement" parameterType="Schoolenrollmentmanagement" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolenrollmentmanagement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enrollmentBatch != null  and enrollmentBatch != ''">enrollment_batch,</if>
+            <if test="plannedPopulation != null  and plannedPopulation != ''">planned_population,</if>
+            <if test="actualNumber != null  and actualNumber != ''">actual_number,</if>
+            <if test="admissionTime != null ">admission_time,</if>
+            <if test="graduationTime != null ">graduation_time,</if>
+            <if test="State != null  and State != ''">_state,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="remark1 != null  and remark1 != ''">remark1,</if>
+            <if test="remark2 != null  and remark2 != ''">remark2,</if>
+            <if test="remark3 != null  and remark3 != ''">remark3,</if>
+            <if test="remark4 != null  and remark4 != ''">remark4,</if>
+            <if test="remark5 != null  and remark5 != ''">remark5,</if>
+            <if test="remark6 != null  and remark6 != ''">remark6,</if>
+            <if test="remark7 != null  and remark7 != ''">remark7,</if>
+            <if test="remark8 != null  and remark8 != ''">remark8,</if>
+            <if test="remark9 != null  and remark9 != ''">remark9,</if>
+            <if test="remark10 != null  and remark10 != ''">remark10,</if>
+            <if test="remark11 != null  and remark11 != ''">remark11,</if>
+            <if test="remark12 != null  and remark12 != ''">remark12,</if>
+            <if test="remark13 != null  and remark13 != ''">remark13,</if>
+            <if test="remark14 != null  and remark14 != ''">remark14,</if>
+            <if test="remark15 != null  and remark15 != ''">remark15,</if>
+            <if test="remark16 != null  and remark16 != ''">remark16,</if>
+            <if test="remark17 != null  and remark17 != ''">remark17,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
+            <if test="useralias != null  and useralias != ''">userAlias,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enrollmentBatch != null  and enrollmentBatch != ''">#{enrollmentBatch},</if>
+            <if test="plannedPopulation != null  and plannedPopulation != ''">#{plannedPopulation},</if>
+            <if test="actualNumber != null  and actualNumber != ''">#{actualNumber},</if>
+            <if test="admissionTime != null ">#{admissionTime},</if>
+            <if test="graduationTime != null ">#{graduationTime},</if>
+            <if test="State != null  and State != ''">#{State},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="remark1 != null  and remark1 != ''">#{remark1},</if>
+            <if test="remark2 != null  and remark2 != ''">#{remark2},</if>
+            <if test="remark3 != null  and remark3 != ''">#{remark3},</if>
+            <if test="remark4 != null  and remark4 != ''">#{remark4},</if>
+            <if test="remark5 != null  and remark5 != ''">#{remark5},</if>
+            <if test="remark6 != null  and remark6 != ''">#{remark6},</if>
+            <if test="remark7 != null  and remark7 != ''">#{remark7},</if>
+            <if test="remark8 != null  and remark8 != ''">#{remark8},</if>
+            <if test="remark9 != null  and remark9 != ''">#{remark9},</if>
+            <if test="remark10 != null  and remark10 != ''">#{remark10},</if>
+            <if test="remark11 != null  and remark11 != ''">#{remark11},</if>
+            <if test="remark12 != null  and remark12 != ''">#{remark12},</if>
+            <if test="remark13 != null  and remark13 != ''">#{remark13},</if>
+            <if test="remark14 != null  and remark14 != ''">#{remark14},</if>
+            <if test="remark15 != null  and remark15 != ''">#{remark15},</if>
+            <if test="remark16 != null  and remark16 != ''">#{remark16},</if>
+            <if test="remark17 != null  and remark17 != ''">#{remark17},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">#{useralias},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolenrollmentmanagement" parameterType="Schoolenrollmentmanagement">
+        update schoolenrollmentmanagement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="enrollmentBatch != null  and enrollmentBatch != ''">enrollment_batch = #{enrollmentBatch},</if>
+            <if test="plannedPopulation != null  and plannedPopulation != ''">planned_population = #{plannedPopulation},</if>
+            <if test="actualNumber != null  and actualNumber != ''">actual_number = #{actualNumber},</if>
+            <if test="admissionTime != null ">admission_time = #{admissionTime},</if>
+            <if test="graduationTime != null ">graduation_time = #{graduationTime},</if>
+            <if test="State != null  and State != ''">_state = #{State},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="remark1 != null  and remark1 != ''">remark1 = #{remark1},</if>
+            <if test="remark2 != null  and remark2 != ''">remark2 = #{remark2},</if>
+            <if test="remark3 != null  and remark3 != ''">remark3 = #{remark3},</if>
+            <if test="remark4 != null  and remark4 != ''">remark4 = #{remark4},</if>
+            <if test="remark5 != null  and remark5 != ''">remark5 = #{remark5},</if>
+            <if test="remark6 != null  and remark6 != ''">remark6 = #{remark6},</if>
+            <if test="remark7 != null  and remark7 != ''">remark7 = #{remark7},</if>
+            <if test="remark8 != null  and remark8 != ''">remark8 = #{remark8},</if>
+            <if test="remark9 != null  and remark9 != ''">remark9 = #{remark9},</if>
+            <if test="remark10 != null  and remark10 != ''">remark10 = #{remark10},</if>
+            <if test="remark11 != null  and remark11 != ''">remark11 = #{remark11},</if>
+            <if test="remark12 != null  and remark12 != ''">remark12 = #{remark12},</if>
+            <if test="remark13 != null  and remark13 != ''">remark13 = #{remark13},</if>
+            <if test="remark14 != null  and remark14 != ''">remark14 = #{remark14},</if>
+            <if test="remark15 != null  and remark15 != ''">remark15 = #{remark15},</if>
+            <if test="remark16 != null  and remark16 != ''">remark16 = #{remark16},</if>
+            <if test="remark17 != null  and remark17 != ''">remark17 = #{remark17},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolenrollmentmanagementById" parameterType="Long">
+        delete from schoolenrollmentmanagement where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolenrollmentmanagementByIds" parameterType="String">
+        delete from schoolenrollmentmanagement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
