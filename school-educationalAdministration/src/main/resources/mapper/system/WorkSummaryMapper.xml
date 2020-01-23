@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.WorkSummary.mapper.WorkSummaryMapper">
+    
+    <resultMap type="WorkSummary" id="WorkSummaryResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="picPath"    column="pic_path"    />
+        <result property="subjectName"    column="subject_name"    />
+        <result property="summaryRemark"    column="summary_remark"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectWorkSummaryVo">
+        select id, title, content, pic_path, subject_name, summary_remark, teacher_name, create_date, update_date, del_flag from work_summary
+    </sql>
+
+    <select id="selectWorkSummaryList" parameterType="WorkSummary" resultMap="WorkSummaryResult">
+        <include refid="selectWorkSummaryVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="picPath != null  and picPath != ''"> and pic_path = #{picPath}</if>
+            <if test="subjectName != null  and subjectName != ''"> and subject_name like concat('%', #{subjectName}, '%')</if>
+            <if test="summaryRemark != null  and summaryRemark != ''"> and summary_remark = #{summaryRemark}</if>
+            <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectWorkSummaryById" parameterType="Long" resultMap="WorkSummaryResult">
+        <include refid="selectWorkSummaryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertWorkSummary" parameterType="WorkSummary" useGeneratedKeys="true" keyProperty="id">
+        insert into work_summary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">title,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="picPath != null  and picPath != ''">pic_path,</if>
+            <if test="subjectName != null  and subjectName != ''">subject_name,</if>
+            <if test="summaryRemark != null  and summaryRemark != ''">summary_remark,</if>
+            <if test="teacherName != null  and teacherName != ''">teacher_name,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="picPath != null  and picPath != ''">#{picPath},</if>
+            <if test="subjectName != null  and subjectName != ''">#{subjectName},</if>
+            <if test="summaryRemark != null  and summaryRemark != ''">#{summaryRemark},</if>
+            <if test="teacherName != null  and teacherName != ''">#{teacherName},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkSummary" parameterType="WorkSummary">
+        update work_summary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="picPath != null  and picPath != ''">pic_path = #{picPath},</if>
+            <if test="subjectName != null  and subjectName != ''">subject_name = #{subjectName},</if>
+            <if test="summaryRemark != null  and summaryRemark != ''">summary_remark = #{summaryRemark},</if>
+            <if test="teacherName != null  and teacherName != ''">teacher_name = #{teacherName},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWorkSummaryById" parameterType="Long">
+        delete from work_summary where id = #{id}
+    </delete>
+
+    <delete id="deleteWorkSummaryByIds" parameterType="String">
+        delete from work_summary where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

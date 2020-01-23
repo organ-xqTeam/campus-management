@@ -8,14 +8,13 @@
         <version>4.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-	
-    <artifactId>school-educationalAdministration</artifactId>
+
+    <artifactId>school-app</artifactId>
 	
 	<description>
-	   教育管理
+	    quartz定时任务
 	</description>
-
-     <dependencies>
+ <dependencies>
     
         <!-- 通用工具-->
         <dependency>
@@ -27,7 +26,20 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-system</artifactId>
         </dependency>
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-before</artifactId>
+        </dependency>
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-oaSystem</artifactId>
+        </dependency>
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-framework</artifactId>
+        </dependency>
         
     </dependencies>
-  
+	
+	
 </project>

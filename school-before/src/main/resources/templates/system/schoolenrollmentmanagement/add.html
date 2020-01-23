@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增招生管理')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schoolenrollmentmanagement-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">招生批次：</label>
+                <div class="col-sm-8">
+                    <input name="enrollmentBatch" class="form-control" type="text">
+                </div>
+            </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">培训项目名称：</label>
+                <div class="col-sm-8">
+                    <input name="remark1" class="form-control">
+                </div>
+            </div> 
+            <div class="form-group">
+                <label class="col-sm-3 control-label">培训项目内容：</label>
+                <div class="col-sm-8">
+                    <input name="remark2" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">培训项目介绍：</label>
+                <div class="col-sm-8">
+                    <input name="remark3" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">计划人数：</label>
+                <div class="col-sm-8">
+                    <input name="plannedPopulation" class="form-control" type="number" ></input>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">实际人数：</label>
+                <div class="col-sm-8">
+                    <input name="actualNumber" class="form-control" type="number">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入学时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="admissionTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">毕业时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="graduationTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <input name="State" class="form-control" type="text">
+                </div>
+            </div> -->
+         
+             <!-- <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark4" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark5" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark6" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark7" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark8" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark9" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark10" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark11" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark12" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark13" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark14" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark15" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark16" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark17" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">删除标记 0:正常;1:删除：</label>
+                <div class="col-sm-8">
+                    <input name="delFlag" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">部门表的别名：</label>
+                <div class="col-sm-8">
+                    <input name="deptalias" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户表的别名：</label>
+                <div class="col-sm-8">
+                    <input name="useralias" class="form-control" type="text">
+                </div>
+            </div> -->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolenrollmentmanagement"
+        $("#form-schoolenrollmentmanagement-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+        	
+        	var startnum =  $("input[name='plannedPopulation']").val();
+        	var endnum =  $("input[name='actualNumber']").val();
+        	if(startnum < endnum){
+        		$.modal.alertWarning("实际人数不能大于计划人数");
+        		return
+        	}
+        	
+        	
+        	
+        	
+        	var starttime =  $("input[name='admissionTime']").val();
+        	var endtime =  $("input[name='graduationTime']").val();
+        	if(new Date(starttime).getTime() > new Date(endtime).getTime()){
+        		$.modal.alertWarning("结束时间不能小于开始时间");
+        		return
+        	}
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-schoolenrollmentmanagement-add').serialize());
+            }
+        }
+
+        $("input[name='admissionTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='graduationTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

@@ -477,4 +477,8 @@ public class SysUserServiceImpl implements ISysUserService
     {
         return userMapper.updateUser(user);
     }
+    @Override
+	public boolean checkPasswordUnique(String newpassword) {
+		return newpassword.matches(UserConstants.PW_PATTERN);
+	}
 }
