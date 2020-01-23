@@ -12,7 +12,7 @@
     <artifactId>school-studentManagement</artifactId>
 	
 	<description>
-	    common通用工具
+	    学生管理
 	</description>
 
     <dependencies>

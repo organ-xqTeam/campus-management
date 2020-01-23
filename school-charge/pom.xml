@@ -12,7 +12,7 @@
     <artifactId>school-charge</artifactId>
 	
 	<description>
-	    common通用工具
+	    收费
 	</description>
 
     <dependencies>
