@@ -58,10 +58,9 @@
     		var obj = datas[i]
     		str.push(obj.dictLabel)
 		};
-    	
     	$(function(){
     		$.ajax({
-        		url: "/system/userOnlinenum",
+        		url: [[@{/system/userOnlinenum}]],
         		type: 'GET',
         		success: function(result) {
         			//console.log(result)
@@ -71,7 +70,7 @@
     		var pieChart = echarts.init(document.getElementById("echarts-pie-chart"));
     		 $.ajax({
  	            type: "GET",
- 	            url: "/system/OperLogbusinesstype",
+ 	            url: [[@{/system/OperLogbusinesstype}]],
  	            success: function(result) {
  	            	//console.log(result)
  	            	var redata = result.data
@@ -125,15 +124,7 @@
  	            error: function(error) {
  	            }
  	        });
-    		
-    		
-    		
-    		
-    		
-    		
     	})
-    	
-    
     </script>
 </body>
 </html>

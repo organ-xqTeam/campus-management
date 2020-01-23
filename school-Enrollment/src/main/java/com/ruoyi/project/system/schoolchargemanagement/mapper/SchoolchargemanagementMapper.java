@@ -1,0 +1,61 @@
+package com.ruoyi.project.system.schoolchargemanagement.mapper;
+
+import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
+import java.util.List;
+
+/**
+ * 收费管理Mapper接口
+ * 
+ * @author ruoyi
+ * @date 2019-10-21
+ */
+public interface SchoolchargemanagementMapper 
+{
+    /**
+     * 查询收费管理
+     * 
+     * @param id 收费管理ID
+     * @return 收费管理
+     */
+    public Schoolchargemanagement selectSchoolchargemanagementById(Long id);
+
+    /**
+     * 查询收费管理列表
+     * 
+     * @param schoolchargemanagement 收费管理
+     * @return 收费管理集合
+     */
+    public List<Schoolchargemanagement> selectSchoolchargemanagementList(Schoolchargemanagement schoolchargemanagement);
+
+    /**
+     * 新增收费管理
+     * 
+     * @param schoolchargemanagement 收费管理
+     * @return 结果
+     */
+    public int insertSchoolchargemanagement(Schoolchargemanagement schoolchargemanagement);
+
+    /**
+     * 修改收费管理
+     * 
+     * @param schoolchargemanagement 收费管理
+     * @return 结果
+     */
+    public int updateSchoolchargemanagement(Schoolchargemanagement schoolchargemanagement);
+
+    /**
+     * 删除收费管理
+     * 
+     * @param id 收费管理ID
+     * @return 结果
+     */
+    public int deleteSchoolchargemanagementById(Long id);
+
+    /**
+     * 批量删除收费管理
+     * 
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteSchoolchargemanagementByIds(String[] ids);
+}
