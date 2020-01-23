@@ -28,7 +28,7 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-common</artifactId>
         </dependency>
-        
+       
     </dependencies>
 	
 </project>

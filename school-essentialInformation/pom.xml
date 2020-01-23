@@ -12,7 +12,7 @@
     <artifactId>school-essentialInformation</artifactId>
 	
 	<description>
-	    common通用工具
+	    基本信息
 	</description>
 
     <dependencies>

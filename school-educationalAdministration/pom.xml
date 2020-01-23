@@ -12,7 +12,7 @@
     <artifactId>school-educationalAdministration</artifactId>
 	
 	<description>
-	    common通用工具
+	   教育管理
 	</description>
 
     <dependencies>

@@ -12,7 +12,7 @@
     <artifactId>school-noticeAnnouncement</artifactId>
 	
 	<description>
-	    common通用工具
+	    通知
 	</description>
 
     <dependencies>

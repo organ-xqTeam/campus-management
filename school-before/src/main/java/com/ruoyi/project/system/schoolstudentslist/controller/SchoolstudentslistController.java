@@ -23,6 +23,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 学生列Controller
@@ -35,8 +37,8 @@ import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistSe
 public class SchoolstudentslistController extends BaseController
 {
     private String prefix = "system/schoolstudentslist";
-   /* @Autowired
-    private IUserService userService ;*/
+    @Autowired
+    private ISysUserService userService ;
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
     @GetMapping("/editBing/{id}")
@@ -44,10 +46,10 @@ public class SchoolstudentslistController extends BaseController
     {
     	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
         mmap.put("schoolstudentslist", schoolstudentslist);
-        User user =new User();
-        /*List<User> userList=  userService.selectUserList(user);
+        SysUser user =new SysUser();
+        List<SysUser> userList=  userService.selectUserList(user);
         //List<User> userList =userService.selectunguanlianUserList(user);
-        mmap.put("userList", userList);*/
+        mmap.put("userList", userList);
         return  "system/bindingStudent/edit";
     }
     @RequiresPermissions("system:schoolstudentslist:view")
@@ -134,7 +136,7 @@ public class SchoolstudentslistController extends BaseController
 		String randomNum = System.currentTimeMillis()+"";  
     	String studentsId="S"+dateFormat.format(da)+randomNum.substring(randomNum.length()-4, randomNum.length());
     	schoolstudentslist.setStudentsId(studentsId);;
-    	/*User user= new User();
+    	SysUser user= new SysUser();
     	user.setDeptId((long) 103);
 		user.setRoleId((long) 5);
     	//岗位 教师
@@ -147,7 +149,7 @@ public class SchoolstudentslistController extends BaseController
     	user.setCreateBy("admin");
     	userService.insertUser(user);
     	user=  userService.selectUserList(user).get(0);
-    	schoolstudentslist.setUserId(user.getUserId());*/
+    	schoolstudentslist.setUserId(user.getUserId());
     	schoolstudentslist.setApprovalstate("2");
         return toAjax(schoolstudentslistService.insertSchoolstudentslist(schoolstudentslist));
     }
