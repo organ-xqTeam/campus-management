@@ -230,7 +230,7 @@
         <module>school-Enrollment</module>
         <module>school-noticeAnnouncement</module>
         <module>school-process</module>
-        <!-- <module>school-before</module> -->
+       <module>school-before</module>
     </modules>
     <packaging>pom</packaging>
 
