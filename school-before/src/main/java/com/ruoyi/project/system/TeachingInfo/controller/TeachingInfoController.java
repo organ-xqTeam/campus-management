@@ -23,6 +23,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
+import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 教师管理Controller
@@ -37,8 +39,8 @@ public class TeachingInfoController extends BaseController
     private String prefix = "system/TeachingInfo";
     @Autowired
     private ITeachingInfoService teachingInfoService;
-    /*@Autowired
-    private IUserService userService ;*/
+    @Autowired
+    private ISysUserService userService ;
     
     @GetMapping("/bindingTeacher")
     public String bindingTeacher()
@@ -50,9 +52,9 @@ public class TeachingInfoController extends BaseController
     {
         TeachingInfo teachingInfo = teachingInfoService.selectTeachingInfoById(id);
         mmap.put("teachingInfo", teachingInfo);
-        User user =new User();
-        /*List<User> userList=  userService.selectUserList(user);
-        mmap.put("userList", userList);*/
+        SysUser user =new SysUser();
+        List<SysUser> userList=  userService.selectUserList(user);
+        mmap.put("userList", userList);
         return  "system/bindingTeacher/edit";
     }
     @PostMapping("/editBing")
@@ -131,7 +133,7 @@ public class TeachingInfoController extends BaseController
 		String randomNum = System.currentTimeMillis()+"";  
     	String teacherId="T"+dateFormat.format(da)+randomNum.substring(randomNum.length()-4, randomNum.length());
     	teachingInfo.setTeacherId(teacherId);;
-    	/*User user= new User();
+    	SysUser user= new SysUser();
     	user.setDeptId((long) 103);
 		user.setRoleId((long) 4);
     	//岗位 教师
@@ -144,7 +146,7 @@ public class TeachingInfoController extends BaseController
     	userService.insertUser(user);
     	
     	user=  userService.selectUserList(user).get(0);
-    	teachingInfo.setUserId(user.getUserId());*/
+    	teachingInfo.setUserId(user.getUserId());
         return toAjax(teachingInfoService.insertTeachingInfo(teachingInfo));
     }
 

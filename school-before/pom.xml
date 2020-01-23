@@ -12,7 +12,7 @@
     <artifactId>school-before</artifactId>
 	
 	<description>
-	    之前做的东西
+	    之前做排课等的东西
 	</description>
 
     <dependencies>
@@ -22,7 +22,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-common</artifactId>
         </dependency>
-
+		<!-- 系统工具-->
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-system</artifactId>
+        </dependency>
+        
     </dependencies>
 	
 </project>
