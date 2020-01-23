@@ -2,6 +2,7 @@ package com.ruoyi.project.system.schoolapplylist.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class SchoolapplylistController extends BaseController
     @GetMapping()
     public String schoolapplylist(ModelMap map)
     {
-    	User me = (User) SecurityUtils.getSubject().getPrincipal();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	map.put("me", me);
         return prefix + "/schoolapplylist";
     }
@@ -58,7 +59,7 @@ public class SchoolapplylistController extends BaseController
     @GetMapping("/list2")
     public String schoolapplylist2(ModelMap map)
     {
-    	User me = (User) SecurityUtils.getSubject().getPrincipal();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	map.put("me", me);
         return prefix + "/schoolapplylist2";
     }
@@ -67,7 +68,7 @@ public class SchoolapplylistController extends BaseController
     @GetMapping("/list3")
     public String schoolapplylist3(ModelMap map)
     {
-    	User me = (User) SecurityUtils.getSubject().getPrincipal();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	map.put("me", me);
         return prefix + "/schoolapplylist3";
     }
@@ -116,7 +117,7 @@ public class SchoolapplylistController extends BaseController
     	SysUser user = new SysUser();
     	List<SysUser> list = userService.selectUserList(user);
     	map.put("userlist", list);
-    	User me = (User) SecurityUtils.getSubject().getPrincipal();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	map.put("me", me);
         return prefix + "/add";
     }
@@ -144,7 +145,7 @@ public class SchoolapplylistController extends BaseController
     	SysUser user = new SysUser();
     	List<SysUser> list = userService.selectUserList(user);
     	mmap.put("userlist", list);
-    	User me = (User) SecurityUtils.getSubject().getPrincipal();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	mmap.put("me", me);
         Schoolapplylist schoolapplylist = schoolapplylistService.selectSchoolapplylistById(id);
         mmap.put("schoolapplylist", schoolapplylist);
