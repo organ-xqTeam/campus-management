@@ -85,7 +85,7 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-noticeAnnouncement</artifactId>
         </dependency>
-
+        
         <dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib-ext-spring</artifactId>
