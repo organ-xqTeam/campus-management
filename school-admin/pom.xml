@@ -77,6 +77,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-before</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-oaSystem</artifactId>
+        </dependency>
         
         <dependency>
 			<groupId>net.sf.json-lib</groupId>
