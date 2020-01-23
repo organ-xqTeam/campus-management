@@ -32,7 +32,7 @@
         </dependency>
  		<dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>school-oaSystem</artifactId>
+            <artifactId>school-noticeAnnouncement</artifactId>
         </dependency>
  		<dependency>
             <groupId>com.ruoyi</groupId>
