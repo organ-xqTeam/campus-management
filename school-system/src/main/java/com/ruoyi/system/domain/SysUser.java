@@ -41,8 +41,18 @@ public class SysUser extends BaseEntity
     /** 用户名称 */
     @Excel(name = "用户名称")
     private String userName;
+    
+    private String token;
 
-    /** 用户邮箱 */
+    public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	/** 用户邮箱 */
     @Excel(name = "用户邮箱")
     private String email;
 

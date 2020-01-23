@@ -214,9 +214,23 @@
 	            <artifactId>school-oaSystem</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
-	         <dependency>
+	        <dependency>
 	            <groupId>com.ruoyi</groupId>
 	            <artifactId>school-noticeAnnouncement</artifactId>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-Enrollment</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency>
+	         <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-educationalAdministration</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency>
+	         <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-app</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
 	        
@@ -241,6 +255,7 @@
         <module>school-noticeAnnouncement</module>
         <module>school-process</module>
         <module>school-before</module>
+        <module>school-app</module>
     </modules>
     <packaging>pom</packaging>
 
