@@ -74,7 +74,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<include refid="selectOperLogVo"/>
 		where oper_id = #{operId}
 	</select>
-	
+	<select id="selectOperLogbusinesstypeGROUPBY"  resultType="java.util.Map">
+		SELECT business_type as name,COUNT(business_type) as value  FROM sys_oper_log GROUP BY business_type
+	</select>
 	<update id="cleanOperLog">
         truncate table sys_oper_log
     </update>
