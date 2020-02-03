@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<input id="id" name="id" th:field="${schoolstudentslist.id}"
+					class="form-control" type="hidden" >
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">报道状态：</label>
+        	<div class="col-sm-8">
+          		<select class="form-control" name="reportstate" id="reportstate">
+	            	<option value="1" th:selected="*{schoolstudentslist.reportstate}==1">已报道</option>
+	            	<option value="2" th:selected="*{schoolstudentslist.reportstate}==2">未报道</option>
+				</select>
+        	</div>
+        </div>
+       	<div class="hid-tag" style="display: block">
+       		<div class="form-group">    
+                <label class="col-sm-3 control-label">未报到原因：</label>
+                <div class="col-sm-8">
+            	  	<select name="notreportresult" id="notreportresult" class="form-control" th:with="type=${@dict.getType('student_result')}">
+	                  	<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:selected="*{schoolstudentslist.notreportresult}==${dict.dictValue}"></option>
+	              	</select> 
+                </div>
+            </div>
+       	</div>
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">缴费状态：</label>
+        	<div class="col-sm-8">
+          		<select class="form-control" name="paystate" id="paystate">
+	            	<option value="1" th:selected="*{schoolstudentslist.paystate}==1">已缴费</option>
+	            	<option value="2" th:selected="*{schoolstudentslist.paystate}==2">未缴费</option>
+				</select>
+        	</div>
+        </div>
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">是否注册：</label>
+        	<div class="col-sm-8">
+          		<select class="form-control" name="isregister" id="isregister">
+	            	<option value="1" th:selected="*{schoolstudentslist.isregister}==1">是</option>
+	            	<option value="2" th:selected="*{schoolstudentslist.isregister}==2">否</option>
+				</select>
+        	</div>
+        </div>
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">是否领取钥匙：</label>
+        	<div class="col-sm-8">
+          		<select class="form-control" name="isreceivekey" id="isreceivekey">
+	            	<option value="1" th:selected="*{schoolstudentslist.isreceivekey}==1">是</option>
+	            	<option value="2" th:selected="*{schoolstudentslist.isreceivekey}==2">否</option>
+				</select>
+        	</div>
+        </div>
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">是否领取军训设备：</label>
+        	<div class="col-sm-8">
+          		<select class="form-control" name="isreceivejunxun" id="isreceivejunxun">
+	            	<option value="1" th:selected="*{schoolstudentslist.isreceivejunxun}==1">是</option>
+	            	<option value="2" th:selected="*{schoolstudentslist.isreceivejunxun}==2">否</option>
+				</select>
+        	</div>
+        </div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+	    if ($('select[name="reportstate"]').val() == '1') {
+			$('.hid-tag').attr("style", "display: none")
+	    }
+	    
+	    $('select[name="reportstate"]').change(function(){
+	    	if ($('select[name="reportstate"]').val() == '1') {
+	    		$('.hid-tag').attr("style", "display: none")
+	    	}
+	    	if ($('select[name="reportstate"]').val() == '2') {
+	    		$('.hid-tag').attr("style", "display: block")
+	    	}	
+	    });
+    </script>
+</body>
+</html>

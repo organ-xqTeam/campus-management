@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examSubjectCategory.mapper.ExamSubjectCategoryMapper">
+    
+    <resultMap type="ExamSubjectCategory" id="ExamSubjectCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="categoryName"    column="category_name"    />
+        <result property="categoryDesc"    column="category_desc"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="parentName"    column="parent_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="type"    column="type"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+	
+	<sql id="selectExamSubjectCategoryVo">
+        select id, category_name, category_desc, parent_id, sort, type, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code from exam_subject_category
+    </sql>
+	
+    <select id="selectExamSubjectCategoryList" parameterType="ExamSubjectCategory" resultMap="ExamSubjectCategoryResult">
+        <include refid="selectExamSubjectCategoryVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="categoryName != null  and categoryName != '' "> and category_name = #{categoryName}</if>
+             <if test="categoryDesc != null  and categoryDesc != '' "> and category_desc = #{categoryDesc}</if>
+             <if test="parentId != null  and parentId != '' "> and parent_id = #{parentId}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="type != null "> and type = #{type}</if>
+             <if test="creator != null  and creator != '' "> and creator = #{creator}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="modifier != null  and modifier != '' "> and modifier = #{modifier}</if>
+             <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamSubjectCategoryById" parameterType="String" resultMap="ExamSubjectCategoryResult">
+        <include refid="selectExamSubjectCategoryVo"/>
+        where id = #{id}
+    </select>
+    
+    <select id="selectMenuById" parameterType="String" resultMap="ExamSubjectCategoryResult">
+        SELECT t.id, t.category_name, t.category_desc, t.parent_id,t.modifier,
+			(SELECT category_name FROM exam_subject_category WHERE id = t.parent_id) parent_name ,t.type,t.tenant_code
+		FROM exam_subject_category t
+		where t.id = #{id}
+    </select>
+    
+    <select id="selectMenuAll" parameterType="String" resultMap="ExamSubjectCategoryResult">
+        <include refid="selectExamSubjectCategoryVo"/>
+       <!--  where id = #{id} -->
+    </select>
+        
+    <insert id="insertExamSubjectCategory" parameterType="ExamSubjectCategory">
+        insert into exam_subject_category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="categoryName != null  and categoryName != ''  ">category_name,</if>
+			<if test="categoryDesc != null  and categoryDesc != ''  ">category_desc,</if>
+			<if test="parentId != null  and parentId != ''  ">parent_id,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="type != null  ">type,</if>
+			<if test="creator != null  and creator != ''  ">creator,</if>
+			<if test="createDate != null  ">create_date,</if>
+			<if test="modifier != null  and modifier != ''  ">modifier,</if>
+			<if test="modifyDate != null  ">modify_date,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="categoryName != null  and categoryName != ''  ">#{categoryName},</if>
+			<if test="categoryDesc != null  and categoryDesc != ''  ">#{categoryDesc},</if>
+			<if test="parentId != null  and parentId != ''  ">#{parentId},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="type != null  ">#{type},</if>
+			<if test="creator != null  and creator != ''  ">#{creator},</if>
+			<if test="createDate != null  ">#{createDate},</if>
+			<if test="modifier != null  and modifier != ''  ">#{modifier},</if>
+			<if test="modifyDate != null  ">#{modifyDate},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamSubjectCategory" parameterType="ExamSubjectCategory">
+        update exam_subject_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryName != null  and categoryName != ''  ">category_name = #{categoryName},</if>
+            <if test="categoryDesc != null  and categoryDesc != ''  ">category_desc = #{categoryDesc},</if>
+            <if test="parentId != null  and parentId != ''  ">parent_id = #{parentId},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="type != null  ">type = #{type},</if>
+            <if test="creator != null  and creator != ''  ">creator = #{creator},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="modifier != null  and modifier != ''  ">modifier = #{modifier},</if>
+            <if test="modifyDate != null  ">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamSubjectCategoryById" parameterType="String">
+        delete from exam_subject_category where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamSubjectCategoryByIds" parameterType="String">
+        delete from exam_subject_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

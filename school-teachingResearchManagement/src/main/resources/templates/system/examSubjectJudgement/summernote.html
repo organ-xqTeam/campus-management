@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<th:block th:include="include :: header('Summernote富文本编辑器')" />
+	<th:block th:include="include :: summernote-css" />
+</head>
+<body class="gray-bg">
+           	<div class="col-sm-12">
+                <div class="ibox float-e-margins" id="eg">
+                    <div class="ibox-content no-padding">
+                        <div class="summernote">
+                        </div>
+                    </div>
+                </div>
+       		 </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: summernote-js" />
+    <script>
+        $(document).ready(function () {
+        	var heName01 = localStorage.getItem("heName01");
+        	localStorage.removeItem("heName01");
+        //	console.log(heName01)
+        	$('.summernote').html(heName01)
+            $('.summernote').summernote({
+                lang: 'zh-CN'
+            });
+          //  console.log("1")
+        	$('.note-insert').hide()
+        });
+    </script>
+</body>
+</html>

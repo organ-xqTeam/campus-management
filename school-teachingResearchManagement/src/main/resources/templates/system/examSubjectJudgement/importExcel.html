@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+<th:block th:include="include :: layout-latest-css" />
+</head>
+<body class="gray-bg">
+        <form enctype="multipart/form-data" class="mt20 mb10" id="form">
+			<div class="col-xs-offset-1">
+				<input type="file" id="file" name="file" style="width: 100%;" accept=".xlsx,.xls"/>
+				<input type="hidden" id="padtid" name="padtid" th:value="${excelid}"  />
+				<font color="red" class="pull-left mt10">
+					提示：仅允许导入“xls”或“xlsx”格式文件！
+				</font>
+			</div>
+		</form>
+		
+		
+		<div th:include="include::footer"></div>
+	    <script type="text/javascript">
+			var prefix = ctx + "system/examSubjectJudgement"
+			function submitHandler() {
+		        if ($.validate.form()) {
+		            $.operate.save(prefix + "/import", $('#form').serialize());
+		        }
+		    }
+		</script>
+</body>
+</html>
