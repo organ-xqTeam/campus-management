@@ -37,7 +37,7 @@ import com.ruoyi.system.service.ISysUserService;
 @RequestMapping("/system/schoolapplylist")
 public class SchoolapplylistController extends BaseController
 {
-	
+	// 测试能否提交
     private String prefix = "system/schoolapplylist";
 
     @Autowired
