@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.CourseSystem.mapper.CourseSystemMapper">
+    
+    <resultMap type="CourseSystem" id="CourseSystemResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="specialtyName"    column="specialty_name"    />
+        <result property="specialtyId"    column="specialty_id"    />
+        <result property="content"    column="content"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectCourseSystemVo">
+        select id, name, specialty_name, specialty_id, content, create_date, update_date, del_flag from course_system
+    </sql>
+
+    <select id="selectCourseSystemList" parameterType="CourseSystem" resultMap="CourseSystemResult">
+        <include refid="selectCourseSystemVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specialtyName != null  and specialtyName != ''"> and specialty_name like concat('%', #{specialtyName}, '%')</if>
+            <if test="specialtyId != null "> and specialty_id = #{specialtyId}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            and del_flag="0"
+        </where>
+    </select>
+    
+    <select id="selectCourseSystemById" parameterType="Long" resultMap="CourseSystemResult">
+        <include refid="selectCourseSystemVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCourseSystem" parameterType="CourseSystem" useGeneratedKeys="true" keyProperty="id">
+        insert into course_system
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="specialtyName != null  and specialtyName != ''">specialty_name,</if>
+            <if test="specialtyId != null ">specialty_id,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="specialtyName != null  and specialtyName != ''">#{specialtyName},</if>
+            <if test="specialtyId != null ">#{specialtyId},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCourseSystem" parameterType="CourseSystem">
+        update course_system
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="specialtyName != null  and specialtyName != ''">specialty_name = #{specialtyName},</if>
+            <if test="specialtyId != null ">specialty_id = #{specialtyId},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCourseSystemById" parameterType="Long">
+        delete from course_system where id = #{id}
+    </delete>
+
+    <delete id="deleteCourseSystemByIds" parameterType="String">
+        delete from course_system where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.TeachingAvtivity.mapper.TeachingAvtivityMapper">
+    
+    <resultMap type="TeachingAvtivity" id="TeachingAvtivityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="specialtyName"    column="specialty_name"    />
+        <result property="specialtyId"    column="specialty_id"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="content"    column="content"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectTeachingAvtivityVo">
+        select id, name, specialty_name, specialty_id, start_date, end_date, content, file_path, create_date, update_date, del_flag from teaching_avtivity
+    </sql>
+
+    <select id="selectTeachingAvtivityList" parameterType="TeachingAvtivity" resultMap="TeachingAvtivityResult">
+        <include refid="selectTeachingAvtivityVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specialtyName != null  and specialtyName != ''"> and specialty_name like concat('%', #{specialtyName}, '%')</if>
+            <if test="specialtyId != null "> and specialty_id = #{specialtyId}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="filePath != null  and filePath != ''"> and file_path like concat('%', #{filePath}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            and del_flag="0"
+        </where>
+    </select>
+    
+    <select id="selectTeachingAvtivityById" parameterType="Long" resultMap="TeachingAvtivityResult">
+        <include refid="selectTeachingAvtivityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTeachingAvtivity" parameterType="TeachingAvtivity" useGeneratedKeys="true" keyProperty="id">
+        insert into teaching_avtivity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="specialtyName != null  and specialtyName != ''">specialty_name,</if>
+            <if test="specialtyId != null ">specialty_id,</if>
+            <if test="startDate != null ">start_date,</if>
+            <if test="endDate != null ">end_date,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="filePath != null  and filePath != ''">file_path,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="specialtyName != null  and specialtyName != ''">#{specialtyName},</if>
+            <if test="specialtyId != null ">#{specialtyId},</if>
+            <if test="startDate != null ">#{startDate},</if>
+            <if test="endDate != null ">#{endDate},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="filePath != null  and filePath != ''">#{filePath},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTeachingAvtivity" parameterType="TeachingAvtivity">
+        update teaching_avtivity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="specialtyName != null  and specialtyName != ''">specialty_name = #{specialtyName},</if>
+            <if test="specialtyId != null ">specialty_id = #{specialtyId},</if>
+            <if test="startDate != null ">start_date = #{startDate},</if>
+            <if test="endDate != null ">end_date = #{endDate},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="filePath != null  and filePath != ''">file_path = #{filePath},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTeachingAvtivityById" parameterType="Long">
+        delete from teaching_avtivity where id = #{id}
+    </delete>
+
+    <delete id="deleteTeachingAvtivityByIds" parameterType="String">
+        delete from teaching_avtivity where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

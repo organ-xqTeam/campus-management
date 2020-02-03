@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改教学活动')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-TeachingAvtivity-edit" th:object="${teachingAvtivity}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">活动名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专业名：</label>
+                <div class="col-sm-8">
+                    <select  class="form-control" name=specialtyId>
+				    <option  th:each="schoolSpecialty:${schoolSpecialtyList}" th:value="${schoolSpecialty.id}" th:text="${schoolSpecialty.name}" 
+				        th:selected="${schoolSpecialty.id}==*{specialtyId}"></option>
+				       <!-- th:selected="${coursemanagement.id}==*{curriculumId}" -->
+				   </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="startDate" th:value="${#dates.format(teachingAvtivity.startDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="endDate" th:value="${#dates.format(teachingAvtivity.endDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">活动内容：</label>
+                <div class="col-sm-8">
+                    <textarea name="content" class="form-control">[[*{content}]]</textarea>
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">文件路径：</label>
+                <div class="col-sm-8">
+                    <input name="filePath" th:field="*{filePath}" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上传：</label>
+                <div class="col-sm-8">
+                    <input name="filePath" id="picIds" class="form-control" type="text" style="display: none">
+                    <input id="filePath" name="filePath"  class="form-control" multiple="multiple"  type="file">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">文件下载：</label>
+                <div class="col-sm-8">
+                    <button id="xiazai">下载</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+    	///common/download/resource
+    	var prefix = ctx + "system/TeachingAvtivity"
+        $("#form-TeachingAvtivity-edit").validate({
+            focusCleanup: true
+        });
+    	 var filefix = ctx + "system/fileinfo";
+         var showpic= ctx+"common/showPic?resource="
+         var downloadFile= ctx+"common/download/resource/?resource="
+         function uploadFile() {
+         	var fileIds="";
+         	if ($('#filePath')[0].files[0] == null) {
+         		$.modal.alertWarning("请先选择文件路径");
+         		return false;
+         	}
+         	console.log($('#filePath')[0].files);
+         	let  files=$('#filePath')[0].files;
+         	for(var i=0;i<files.length;i++){
+         		let formData = new FormData();
+         		formData.append('file', $('#filePath')[0].files[i]); 
+         		 $.ajax({
+              		url: filefix + "/add",
+              		type: 'post',
+              		cache: false,
+              		data: formData,
+              		processData: false,
+              		contentType: false,
+              		dataType: "json",
+              		async: false,
+              		success: function(result) {
+              			console.log(result)
+              			var file = result.file;
+              			if (file) {
+              				console.log(file);
+              				fileIds+=file.filePath+",";
+              				 /* $('input[name="filename"]').val(file.fileName); 
+              				$('#filePath').val(file.filePath); */
+              			}
+              		}
+              	});
+         	}
+         	$('#picIds').val(fileIds);
+         }		 
+         var picIds="[[${teachingAvtivity?.filePath}]]";
+         var picidsArr=[];
+         if(picIds!=null){
+         	picidsArr=picIds.split(",")
+         }
+         
+         
+         
+          
+        function submitHandler() {
+            if ($.validate.form()) {
+            	uploadFile();
+                $.operate.save(prefix + "/edit", $('#form-TeachingAvtivity-edit').serialize());
+            }
+        }
+
+        $("input[name='startDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='endDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='createDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='updateDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        $("#xiazai").click(function(){
+        	//console.log(downloadFile+ picidsArr[0]);
+        	//window.location.href =downloadFile+ picidsArr[0];
+        	window.location.href ="http://localhost:8088/common/download/resource/?resource=/profile/upload/2020/02/03/279f9eb4db5a79bd1a0afcb5b5026ee5.doc";
+        	/* for(var i=0;i<picidsArr.length;i++){
+        		console.log(ctx + "common/download/resource/" + picidsArr[i]);
+        		window.location.href = ctx + "common/download/resource/" + picidsArr[i];
+        	} */
+        	
+        })
+    </script>
+</body>
+</html>

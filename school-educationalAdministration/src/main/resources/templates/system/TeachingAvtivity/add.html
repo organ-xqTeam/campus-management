@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增教学活动')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-TeachingAvtivity-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">活动名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专业名：</label>
+                <div class="col-sm-8">
+                <select  class="form-control" name=specialtyId>
+				    <option  th:each="schoolSpecialty:${schoolSpecialtyList}" th:value="${schoolSpecialty.id}" th:text="${schoolSpecialty.name}" 
+				       ></option>
+				       <!-- th:selected="${coursemanagement.id}==*{curriculumId}" -->
+				   </select>
+                    <!-- <input name="specialtyName" class="form-control" type="text"> -->
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">专业id：</label>
+                <div class="col-sm-8">
+                    <input name="specialtyId" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="startDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="endDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">活动内容：</label>
+                <div class="col-sm-8">
+                    <textarea name="content" class="form-control"></textarea>
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">文件路径：</label>
+                <div class="col-sm-8">
+                    <input name="filePath" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上传：</label>
+                <div class="col-sm-8">
+                    <input name="filePath" id="picIds" class="form-control" type="text" style="display: none">
+                    <input id="filePath" name="filePath"  class="form-control" multiple="multiple"  type="file">
+                </div>
+            </div>
+         
+            
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/TeachingAvtivity"
+        $("#form-TeachingAvtivity-add").validate({
+            focusCleanup: true
+        });
+        var filefix = ctx + "system/fileinfo";
+        function uploadFile() {
+        	var fileIds="";
+        	if ($('#filePath')[0].files[0] == null) {
+        		$.modal.alertWarning("请先选择文件路径");
+        		return false;
+        	}
+        	console.log($('#filePath')[0].files);
+        	let  files=$('#filePath')[0].files;
+        	for(var i=0;i<files.length;i++){
+        		let formData = new FormData();
+        		formData.append('file', $('#filePath')[0].files[i]); 
+        		 $.ajax({
+             		url: filefix + "/add",
+             		type: 'post',
+             		cache: false,
+             		data: formData,
+             		processData: false,
+             		contentType: false,
+             		dataType: "json",
+             		async: false,
+             		success: function(result) {
+             			console.log(result)
+             			var file = result.file;
+             			if (file) {
+             				console.log(file);
+             				fileIds+=file.filePath+",";
+             				 /* $('input[name="filename"]').val(file.fileName); 
+             				$('#filePath').val(file.filePath); */
+             			}
+             		}
+             	});
+        	}
+        	$('#picIds').val(fileIds);
+        }
+        function submitHandler() {
+            if ($.validate.form()) {
+            	uploadFile();
+                $.operate.save(prefix + "/add", $('#form-TeachingAvtivity-add').serialize());
+            }
+        }
+
+        $("input[name='startDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='endDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='createDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='updateDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
