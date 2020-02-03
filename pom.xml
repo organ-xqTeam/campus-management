@@ -244,6 +244,11 @@
 	            <artifactId>school-teachingGuarantee</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
+	         <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-teachingResearchManagement</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency>
 	        
         </dependencies>
     </dependencyManagement>

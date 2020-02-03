@@ -105,6 +105,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-teachingGuarantee</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-teachingResearchManagement</artifactId>
+        </dependency>
         
         <dependency>
 			<groupId>net.sf.json-lib</groupId>
