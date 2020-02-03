@@ -95,11 +95,19 @@
         </dependency>
         <dependency>
             <groupId>com.ruoyi</groupId>
+            <artifactId>school-Enrollment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-studentManagement</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
             <artifactId>school-teachingGuarantee</artifactId>
         </dependency>
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>school-Enrollment</artifactId>
+            <artifactId>school-teachingResearchManagement</artifactId>
         </dependency>
         
         <dependency>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolassets.mapper.SchoolassetsMapper">
+    
+    <resultMap type="Schoolassets" id="SchoolassetsResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="buytime"    column="buytime"    />
+        <result property="usenum"    column="usenum"    />
+        <result property="unusenum"    column="unusenum"    />
+        <result property="brokennum"    column="brokennum"    />
+        <result property="lessnum"    column="lessnum"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolassetsVo">
+        select id, name, type, buytime, usenum, unusenum, brokennum, lessnum, createdate, delete_flag from schoolassets
+    </sql>
+
+    <select id="selectSchoolassetsList" parameterType="Schoolassets" resultMap="SchoolassetsResult">
+        <include refid="selectSchoolassetsVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="buytime != null  and buytime != ''"> and buytime = #{buytime}</if>
+            <if test="usenum != null  and usenum != ''"> and usenum = #{usenum}</if>
+            <if test="unusenum != null  and unusenum != ''"> and unusenum = #{unusenum}</if>
+            <if test="brokennum != null  and brokennum != ''"> and brokennum = #{brokennum}</if>
+            <if test="lessnum != null  and lessnum != ''"> and lessnum = #{lessnum}</if>
+            <if test="createdate != null  and createdate != ''"> and createdate = #{createdate}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolassetsById" parameterType="Long" resultMap="SchoolassetsResult">
+        <include refid="selectSchoolassetsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolassets" parameterType="Schoolassets" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolassets
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="buytime != null  and buytime != ''">buytime,</if>
+            <if test="usenum != null  and usenum != ''">usenum,</if>
+            <if test="unusenum != null  and unusenum != ''">unusenum,</if>
+            <if test="brokennum != null  and brokennum != ''">brokennum,</if>
+            <if test="lessnum != null  and lessnum != ''">lessnum,</if>
+            <if test="createdate != null  and createdate != ''">createdate,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="buytime != null  and buytime != ''">#{buytime},</if>
+            <if test="usenum != null  and usenum != ''">#{usenum},</if>
+            <if test="unusenum != null  and unusenum != ''">#{unusenum},</if>
+            <if test="brokennum != null  and brokennum != ''">#{brokennum},</if>
+            <if test="lessnum != null  and lessnum != ''">#{lessnum},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolassets" parameterType="Schoolassets">
+        update schoolassets
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="buytime != null  and buytime != ''">buytime = #{buytime},</if>
+            <if test="usenum != null  and usenum != ''">usenum = #{usenum},</if>
+            <if test="unusenum != null  and unusenum != ''">unusenum = #{unusenum},</if>
+            <if test="brokennum != null  and brokennum != ''">brokennum = #{brokennum},</if>
+            <if test="lessnum != null  and lessnum != ''">lessnum = #{lessnum},</if>
+            <if test="createdate != null  and createdate != ''">createdate = #{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolassetsById" parameterType="Long">
+        delete from schoolassets where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolassetsByIds" parameterType="String">
+        delete from schoolassets where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

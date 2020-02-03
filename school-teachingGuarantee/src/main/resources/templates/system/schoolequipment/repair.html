@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改负责人')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<input id="id" name="id" th:field="${schoolequipment.id}" class="form-control" type="hidden">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">处理状态：</label>
+			<div class="col-sm-8">
+				<select id="state" name="state" class="form-control m-b">
+                    <option value="1" th:selected="*{schoolequipment.state}==1">未处理</option>
+                    <option value="2" th:selected="*{schoolequipment.state}==2">维修中</option>
+                    <option value="3" th:selected="*{schoolequipment.state}==3">已完成</option>
+                </select>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+	   
+    </script>
+</body>
+</html>

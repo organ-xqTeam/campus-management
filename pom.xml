@@ -231,12 +231,22 @@
 	        </dependency>
 	         <dependency>
 	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-app</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency>
+	         <dependency>
+	            <groupId>com.ruoyi</groupId>
+	            <artifactId>school-studentManagement</artifactId>
+	            <version>${ruoyi.version}</version>
+	        </dependency>
+	         <dependency>
+	            <groupId>com.ruoyi</groupId>
 	            <artifactId>school-teachingGuarantee</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
 	         <dependency>
 	            <groupId>com.ruoyi</groupId>
-	            <artifactId>school-app</artifactId>
+	            <artifactId>school-teachingResearchManagement</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
 	        
@@ -253,7 +263,6 @@
         <module>school-teachingGuarantee</module>
         <module>school-teachingResearchManagement</module>
         <module>school-educationalAdministration</module>
-        <module>school-teachingGuarantee</module>
         <module>school-studentManagement</module>
         <module>school-essentialInformation</module>
         <module>school-oaSystem</module>

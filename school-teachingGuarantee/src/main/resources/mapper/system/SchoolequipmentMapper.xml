@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolequipment.mapper.SchoolequipmentMapper">
+    
+    <resultMap type="Schoolequipment" id="SchoolequipmentResult">
+        <result property="id"    column="id"    />
+        <result property="num"    column="num"    />
+        <result property="type"    column="type"    />
+        <result property="department"    column="department"    />
+        <result property="repairman"    column="repairman"    />
+        <result property="repairplace"    column="repairplace"    />
+        <result property="repairtime"    column="repairtime"    />
+        <result property="remark0"    column="remark0"    />
+        <result property="state"    column="state"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolequipmentVo">
+        select id, num, type, department, repairman, repairplace, repairtime, remark0, state, delete_flag from schoolequipment
+    </sql>
+
+    <select id="selectSchoolequipmentList" parameterType="Schoolequipment" resultMap="SchoolequipmentResult">
+        <include refid="selectSchoolequipmentVo"/>
+        <where>  
+            <if test="num != null  and num != ''"> and num = #{num}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="repairman != null  and repairman != ''"> and repairman = #{repairman}</if>
+            <if test="repairplace != null  and repairplace != ''"> and repairplace = #{repairplace}</if>
+            <if test="repairtime != null  and repairtime != ''"> and repairtime = #{repairtime}</if>
+            <if test="remark0 != null  and remark0 != ''"> and remark0 = #{remark0}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolequipmentById" parameterType="Long" resultMap="SchoolequipmentResult">
+        <include refid="selectSchoolequipmentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolequipment" parameterType="Schoolequipment" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolequipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="num != null  and num != ''">num,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="department != null  and department != ''">department,</if>
+            <if test="repairman != null  and repairman != ''">repairman,</if>
+            <if test="repairplace != null  and repairplace != ''">repairplace,</if>
+            <if test="repairtime != null  and repairtime != ''">repairtime,</if>
+            <if test="remark0 != null  and remark0 != ''">remark0,</if>
+            <if test="state != null  and state != ''">state,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="department != null  and department != ''">#{department},</if>
+            <if test="repairman != null  and repairman != ''">#{repairman},</if>
+            <if test="repairplace != null  and repairplace != ''">#{repairplace},</if>
+            <if test="repairtime != null  and repairtime != ''">#{repairtime},</if>
+            <if test="remark0 != null  and remark0 != ''">#{remark0},</if>
+            <if test="state != null  and state != ''">#{state},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolequipment" parameterType="Schoolequipment">
+        update schoolequipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="department != null  and department != ''">department = #{department},</if>
+            <if test="repairman != null  and repairman != ''">repairman = #{repairman},</if>
+            <if test="repairplace != null  and repairplace != ''">repairplace = #{repairplace},</if>
+            <if test="repairtime != null  and repairtime != ''">repairtime = #{repairtime},</if>
+            <if test="remark0 != null  and remark0 != ''">remark0 = #{remark0},</if>
+            <if test="state != null  and state != ''">state = #{state},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolequipmentById" parameterType="Long">
+        delete from schoolequipment where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolequipmentByIds" parameterType="String">
+        delete from schoolequipment where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
