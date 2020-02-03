@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolpractice.mapper.SchoolpracticeMapper">
+    
+    <resultMap type="Schoolpractice" id="SchoolpracticeResult">
+        <result property="id"    column="id"    />
+        <result property="project"    column="project"    />
+        <result property="num"    column="num"    />
+        <result property="feecount"    column="feecount"    />
+        <result property="starttime"    column="starttime"    />
+        <result property="startplace"    column="startplace"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolpracticeVo">
+        select id, project, num, feecount, starttime, startplace, createdate, delete_flag from schoolpractice
+    </sql>
+
+    <select id="selectSchoolpracticeList" parameterType="Schoolpractice" resultMap="SchoolpracticeResult">
+        <include refid="selectSchoolpracticeVo"/>
+        <where>  
+            <if test="project != null  and project != ''"> and project = #{project}</if>
+            <if test="num != null  and num != ''"> and num = #{num}</if>
+            <if test="feecount != null  and feecount != ''"> and feecount = #{feecount}</if>
+            <if test="starttime != null  and starttime != ''"> and starttime = #{starttime}</if>
+            <if test="startplace != null  and startplace != ''"> and startplace = #{startplace}</if>
+            <if test="createdate != null  and createdate != ''"> and createdate = #{createdate}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolpracticeById" parameterType="Long" resultMap="SchoolpracticeResult">
+        <include refid="selectSchoolpracticeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolpractice" parameterType="Schoolpractice" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolpractice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="project != null  and project != ''">project,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="feecount != null  and feecount != ''">feecount,</if>
+            <if test="starttime != null  and starttime != ''">starttime,</if>
+            <if test="startplace != null  and startplace != ''">startplace,</if>
+            <if test="createdate != null  and createdate != ''">createdate,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="project != null  and project != ''">#{project},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="feecount != null  and feecount != ''">#{feecount},</if>
+            <if test="starttime != null  and starttime != ''">#{starttime},</if>
+            <if test="startplace != null  and startplace != ''">#{startplace},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolpractice" parameterType="Schoolpractice">
+        update schoolpractice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="project != null  and project != ''">project = #{project},</if>
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="feecount != null  and feecount != ''">feecount = #{feecount},</if>
+            <if test="starttime != null  and starttime != ''">starttime = #{starttime},</if>
+            <if test="startplace != null  and startplace != ''">startplace = #{startplace},</if>
+            <if test="createdate != null  and createdate != ''">createdate = #{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolpracticeById" parameterType="Long">
+        delete from schoolpractice where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolpracticeByIds" parameterType="String">
+        delete from schoolpractice where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

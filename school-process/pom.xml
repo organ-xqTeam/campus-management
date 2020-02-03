@@ -12,7 +12,9 @@
     <groupId>com.ruoyi.process</groupId>
     <artifactId>school-process</artifactId>
     <version>1.0.0</version>
-
+	<description>
+	   activity
+	</description>
     <dependencies>
         <dependency>
             <groupId>org.activiti</groupId>
