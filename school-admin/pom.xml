@@ -95,6 +95,10 @@
         </dependency>
         <dependency>
             <groupId>com.ruoyi</groupId>
+            <artifactId>school-teachingGuarantee</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
             <artifactId>school-Enrollment</artifactId>
         </dependency>
         
