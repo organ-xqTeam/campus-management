@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('住宿列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>公寓名：</p>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <p>编号(房间号)：</p>
+                                <input type="text" name="num"/>
+                            </li>
+                            <li class="select-time">
+                                <p>创建时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreatedate]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreatedate]"/>
+                            </li>
+                            <li class="select-time">
+                                <p>更新时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdatedate]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdatedate]"/>
+                            </li>
+                            <li>
+                                <p>楼层：</p>
+                                <input type="text" name="storey"/>
+                            </li>
+                          
+
+                            <li>
+                                <p>位置：</p>
+                                <input type="text" name="position"/>
+                            </li>
+                            <li>
+                                <p>居住人数：</p>
+                                <input type="text" name="liveNum"/>
+                            </li>
+                            <li>
+                                <p>价格：</p>
+                                <input type="text" name="money"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <!-- <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schooldorm:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a> -->
+
+                <a  class="btn btn-primary " onclick="torecord()" >
+                    <i class="fa fa-table"></i> 住宿记录
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="resetStudents()" >
+                    <i class="fa fa-remove"></i> 重置人数
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:schooldorm:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" name="bootstrap-table" ></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolstay:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolstay:remove')}]];
+        var prefix = ctx + "system/schoolstay";
+		function torecord(){
+			//alert("aaa");
+			//alert(ctx);
+			$.modal.openTab('住宿记录',ctx+"system/schooldormrecord");
+		}
+		function resetStudents(){
+			alert("重置人数");
+			//var checked= $.form.selectCheckeds("");
+			var row=$("#bootstrap-table").bootstrapTable('getSelections');
+			if(row.length>=2){
+				$.modal.alert("只能选择一条数据");
+				return;
+			}
+			console.log(row);
+			console.log(row[0]);
+			$.operate.saveModal("/system/schoolstay/resetStayStudents",row[0]);
+			
+		}
+		function studentsAdd(row){
+			
+			if(row.liveNum!=null){
+				var liveNum=parseInt(row.liveNum);
+				var studentNum=0;
+				if(row.studentNum==null){
+					studentNum=0
+				}else{
+					studentNum=parseInt(row.studentNum);
+				}
+				if(studentNum>=liveNum){
+					$.modal.alert("房间已满无法增加");
+				}else{
+					$.operate.add(row.id)
+				}
+			}else{
+				$.modal.alert("居住人数错误无法增加");
+			}
+			
+		}
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add/{id}",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "宿舍",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : 'null',
+                    visible: false
+                },
+                {
+                    field : 'name', 
+                    title : '公寓名'
+                },
+                {
+                    field : 'studentNum', 
+                    title : '现居人数',
+                    formatter: function(value, row, index) {
+                    	//var liveNum=parseInt(row.liveNum);
+                    	
+                        var action="";
+                        console.log(row);
+                        if(value==null){
+                        	
+                        	//action="<a onclick='$.operate.add("+row.id+")'>0</a>"
+                        	action="<a onclick='studentsAdd("+JSON.stringify(row)+")'>0</a>"
+                        }else{
+                        	//action="<a onclick='$.operate.add("+row.id+")'>"+value+"</a>"
+                        	action="<a onclick='studentsAdd("+JSON.stringify(row)+")'>"+value+"</a>"
+                        }
+                        return action;
+                    }
+                },
+                {
+                    field : 'num', 
+                    title : '房间号'
+                },
+                {
+                    field : 'createdate', 
+                    title : '创建时间'
+                },
+                {
+                    field : 'updatedate', 
+                    title : '更新时间'
+                },
+                {
+                    field : 'storey', 
+                    title : '楼层'
+                },
+        
+                {
+                    field : 'position', 
+                    title : '位置'
+                },
+                {
+                    field : 'liveNum', 
+                    title : '居住人数'
+                },
+                {
+                    field : 'money', 
+                    title : '价格/年'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
