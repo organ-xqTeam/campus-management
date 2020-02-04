@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改简答题')" />
+	 <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .input_content {
+            padding: 40px;
+        }
+        .input_content ul {
+            display: flex;
+            align-items: center;
+        }
+        .input_content ul li {
+            font-size: 14px;
+            padding: 10px;
+            display: flex; 
+     		align-items: center;
+        }
+        .input_content ul li input {
+		    width: 50px;
+		    height: 30px;
+		    margin: 0px 10px 0px 10px;
+		    border: 1px solid #400000 !important;
+		    padding: 0 10px;
+		    border-radius: 5px;
+		    transition: all 1s;
+		    opacity: .5;
+        }
+        
+        
+        ul li:first-child .n2
+		{
+		 width: 120px;
+		}
+        
+        
+        .input_content select {
+       	 	border-radius: 4px;
+        	height: 30px;
+         	border: 1px solid #400000 !important;
+        }
+		input::-webkit-search-decoration,
+		input::-webkit-search-cancel-button {
+		    display: none;
+		}
+        
+        
+        .divcss5-b{
+         width:100%; 
+        /*  height:100px; */
+          float:left; 
+          border:1px solid #000000} 
+		.divcss5-b{
+		 margin-left:10px;overflow-y:scroll; overflow-x:scroll;} 
+        
+    </style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-examSubjectJudgement-edit" th:object="${examSubjectJudgement}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">分类ID：</label>
+				<div class="col-sm-8">
+					<!-- <input id="categoryId" name="categoryId" th:field="*{categoryId}" class="form-control" type="text" readonly="true"> -->
+					
+					<select class="form-control" name=""  th:value="*{categoryId}" disabled="disabled">
+				        <option th:each="car,userStat:${examall}" th:selected="${car.id==examSubjectJudgement.categoryId}"    th:value="${car.id}"  th:text="${car.categoryName}" ></option>
+				    </select>
+					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>序号：</label>
+				<div class="col-sm-8">
+					<input id="serialNumber" name="serialNumber" th:field="*{serialNumber}" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>题目名称：</label>
+				<div class="col-sm-8">
+					<input id="subjectName" name="subjectName" th:field="*{subjectName}" class="form-control" type="text" required>
+				</div>
+			</div>
+			
+			<div class="form-group" id="s1" >	
+				<label class="col-sm-3 control-label">添加选项：</label>
+				<div class="input_content divcss5-b">
+				    <ul class="list-wrap" th:each="obj,iterStat : ${array}">
+				        <li>
+				            <input type="text" class="n1" placeholder="选项" th:value="${obj.name}">
+				            <input type="text" class="n2" placeholder="选项内容" th:value="${obj.content}">
+				            <i class="addD glyphicon glyphicon-plus"></i>
+				            <i class="addR glyphicon glyphicon-chevron-right"></i>
+				            <i class="del glyphicon glyphicon-minus" data-status="ul"></i>
+				        </li>
+				        <li th:each="objs,iterStat : ${obj.next}">
+				        	
+				        	<select class="n1" name=""  th:value="${objs.optionName}"  >
+				        		<option th:each="car,userStat:${dimension}" th:selected="${car.id==objs.optionName}"    th:value="${car.id}"  th:text="${car.optionName}" ></option>
+				        	</select>
+				            <input type="text" class="n2" th:value="${objs.optionContent}">
+				           <!--  <i class="addD glyphicon glyphicon-plus"></i> -->
+				            <i class="addR glyphicon glyphicon-chevron-right"></i>
+				            <i class="del glyphicon glyphicon-minus"></i>
+				        </li>
+				    </ul>
+				</div>
+			</div>
+			
+			
+			<div id="s2">
+				<div class="form-group">	
+					<label class="col-sm-3 control-label">参考答案：</label>
+					<div class="col-sm-8">
+						<input id="answer" name="answer" th:field="*{answer}" class="form-control" type="text">
+					</div>
+				</div>
+				<!-- <div class="form-group">	
+					<label class="col-sm-3 control-label">分值：</label>
+					<div class="col-sm-8">
+						<input id="score" name="score" th:field="*{score}" class="form-control" type="number">
+					</div>
+				</div> -->
+				<!-- <div class="form-group">	
+					<label class="col-sm-3 control-label">解析：</label>
+					<div class="col-sm-8">
+						<input id="analysis" name="analysis" class="form-control" type="text">
+					</div>
+				</div> -->
+				<div class="form-group">	
+					<label class="col-sm-3 control-label">是否易错题：</label>
+					<div class="col-sm-8">
+						<!-- <input id="level" name="level" th:field="*{level}" class="form-control" type="text"> -->
+						
+						
+						<select id="level" name="level" class="form-control" th:with="type=${@dict.getType('exam_errorprone_problem')}">
+						  <option value="0" >请选择</option>
+						  <option th:each="dict : ${type}"  th:selected="${dict.dictValue==examSubjectJudgement.level+''}" th:data-value = "${examSubjectJudgement.level}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+						</select>
+						
+					</div>
+				</div>
+				<div class="form-group"  >	
+					<label class="col-sm-3 control-label">添加选项：</label>
+					<div class="input_content divcss5-b">
+					    <ul class="list-wrap" th:each="obj,iterStat : ${array}">
+					        <li>
+					            <input type="text" class="n1" th:value="${obj.name}">
+					            <input type="text" class="n2" th:value="${obj.content}">
+					            <input type="text" class="n3" th:value="${obj.creator}">
+					            <i class="addDs glyphicon glyphicon-plus"></i>
+					            <i class="del glyphicon glyphicon-minus"></i>
+					        </li>
+					    </ul>
+					</div>
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script th:inline="javascript">
+    
+    
+    var examall = [[${examall}]];
+    
+    //	console.log(examall)
+    
+    
+    	var message = [[${exam}]];
+	   // console.log(message);
+	    if(message.parentId == -1){
+	    	alert("请选择详细分类不能选择根目录")
+	    }
+	    if(message.type == 1){
+	    	//显示多分类
+	    //	console.log('显示多分类')
+	    	$("#s1").show();
+	    	$("#s2").hide();
+	    }else if(message.type == 2){
+	    	//显示简单分类
+	    //	console.log('显示简单分类')
+	    	$("#s2").show();
+	    	$("#s1").hide();
+	    }
+	    
+	    
+	    
+ 		var srr =  [[${dimension}]];
+	    
+	    console.log(srr)
+	    var li="";
+	    for (var i = 0; i < srr.length; i++) {
+			li+=`<option value='${srr[i].id}' >${srr[i].optionName}</option>`
+		}
+		  //多分类增加子项
+		var liStr = `<li>
+            <select class="n1" name="">
+    		`+li+`
+   		 	</select> 
+            <input type="number" class="n2">
+            <i class="addR  glyphicon glyphicon-chevron-right"></i>
+            <i class="del  glyphicon glyphicon-minus"></i>
+        </li>`
+	    
+	    
+       
+        
+	</script>
+    
+    
+    
+    <script type="text/javascript">
+		var prefix = ctx + "system/examSubjectJudgement";
+		$("#form-examSubjectJudgement-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+			
+			//var ss = $("#s1").is(":hidden");//是否隐藏
+			var ss //是否可见
+			if($("#s1").is(":visible")){
+				ss = $("#s1")
+			}else if($("#s2").is(":visible")){
+				ss = $("#s2")
+			}
+			
+			
+			var dypieArr = []; 
+			var sn = ss.find(".list-wrap")
+			for(var i=0;i<sn.length;i++){
+				//console.log(sn.eq(i).find("li"))
+				var sm =sn.eq(i).find("li");
+				var alloption={}
+				var next = [];
+				for(var j=0;j<sm.length;j++){
+					//console.log(sm.eq(j).find(".n1").val());
+					//console.log(sm.eq(j).find(".n2").val());
+					var l1 = sm.eq(j).find(".n1").val();
+					var l2 = sm.eq(j).find(".n2").val();
+					var l3 = sm.eq(j).find(".n3").val();
+					
+					if(j == 0){
+						alloption['na']=l1;
+						alloption['ne']=l2;
+						alloption['nr']=l3;
+					}else{
+						var	nextoption={
+							name1 : l1,
+							name2 : l2,
+						};
+						next.push(nextoption);
+					} 
+					
+				}
+				alloption['next'] = next;
+				dypieArr.push(alloption);
+			}
+		//	console.log(dypieArr);
+			//return
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-examSubjectJudgement-edit').serialize()+"&applicationCode="+JSON.stringify(dypieArr));
+	        }
+	    }
+		
+		
+		var ulStr = `<ul class="list-wrap">
+		            <li>
+		            <input type="text" placeholder="选项" class="n1">
+		            <input type="text" placeholder="选项内容" class="n2">
+		                <i class="addD glyphicon glyphicon-plus"></i>
+			            <i class="addR glyphicon glyphicon-chevron-right"></i>
+			            <i class="del glyphicon glyphicon-minus" data-status="ul"></i>
+		            </li>
+		        </ul>`
+		var ulStr1 = `<ul class="list-wrap">
+		            <li>
+			            <input type="text" placeholder="选项" class="n1">
+			            <input type="text" placeholder="选项内容" class="n2">
+			            <input type="text" placeholder="评语" class="n3">
+		                <i class="addDs glyphicon glyphicon-plus"></i>
+			            <i class="del glyphicon glyphicon-minus" data-status="ul"></i>
+		            </li>
+		        </ul>`
+		
+		// 向下增加
+		$('.input_content').delegate('.addD', 'click', function () {
+			$('.input_content').append(ulStr)
+		})
+		// 向下增加
+		$('.input_content').delegate('.addDs', 'click', function () {
+			$('.input_content').append(ulStr1)
+		})
+		
+		
+		// 向右增加
+		$('.input_content').delegate('.addR', 'click', function () {
+			$(this).parents('.list-wrap').append(liStr)
+		})
+		
+		// 删除
+		$('.input_content').delegate('.del', 'click', function () {
+			
+			
+			if($(this).attr('data-status') == "ul") {
+                $(this).parents('ul').remove()
+            } else {
+                $(this).parents('li').remove()
+            }
+			//$(this).parents('li').remove()
+		})
+		
+		//监听 input 输入长度
+		/* $('.input_content').bind('input propertychange', function() {
+	        var $this = $(this);
+	        console.log($this,"长度");
+	        var text_length = $this.val().length;//获取当前文本框的长度
+	        var current_width = parseInt("5",text_length) *16;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+	        console.log(current_width)
+	        $this.css("width",current_width+"px");
+	    }); */
+		
+	</script>
+	
+</body>
+</html>

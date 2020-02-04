@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolstay.mapper.SchoolstayMapper">
+    
+    <resultMap type="Schooldorm" id="SchooldormResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="num"    column="num"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="updatedate"    column="updatedate"    />
+        <result property="storey"    column="storey"    />
+        <result property="buildId"    column="build_id"    />
+        <result property="isdelete"    column="isdelete"    />
+        <result property="position"    column="position"    />
+        <result property="liveNum"    column="live_num"    />
+        <result property="money"    column="money"    />
+    </resultMap>
+
+    <sql id="selectSchooldormVo">
+        select id, name, num, createdate, updatedate, storey, build_id, isdelete, position, live_num, money from schooldorm
+    </sql>
+
+    <select id="selectSchooldormList" parameterType="Schooldorm" resultMap="SchooldormResult">
+        select id, name, num, createdate, updatedate, storey, build_id, isdelete, position, live_num, money 
+        ,
+        ifnull((select count(*) from schooldorm dd
+        inner join school_dorm_students ds on dd.id=ds.dorm_id inner join schoolstudentslist sl on sl.id=ds.students_id
+        where dd.id=d.id and ds.isdisuse="0"
+        ),0) as studentNum
+				
+        
+        from schooldorm d
+        
+        <where>  
+            <if test="name != null  and name != ''"> and d.name like concat('%', #{name}, '%')</if>
+            <if test="num != null  and num != ''"> and d.num = #{num}</if>
+            <if test="createdate != null "> and d.createdate = #{createdate}</if>
+            <if test="updatedate != null "> and d.updatedate = #{updatedate}</if>
+            <if test="storey != null  and storey != ''"> and d.storey = #{storey}</if>
+            <if test="buildId != null "> and d.build_id = #{buildId}</if>
+            <if test="isdelete != null  and isdelete != ''"> and d.isdelete = #{isdelete}</if>
+            <if test="position != null  and position != ''"> and d.position = #{position}</if>
+            <if test="liveNum != null  and liveNum != ''"> and d.live_num = #{liveNum}</if>
+            <if test="money != null  and money != ''"> and d.money = #{money}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchooldormById" parameterType="Long" resultMap="SchooldormResult">
+        <include refid="selectSchooldormVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchooldorm" parameterType="Schooldorm" useGeneratedKeys="true" keyProperty="id">
+        insert into schooldorm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="createdate != null ">createdate,</if>
+            <if test="updatedate != null ">updatedate,</if>
+            <if test="storey != null  and storey != ''">storey,</if>
+            <if test="buildId != null ">build_id,</if>
+            <if test="isdelete != null  and isdelete != ''">isdelete,</if>
+            <if test="position != null  and position != ''">position,</if>
+            <if test="liveNum != null  and liveNum != ''">live_num,</if>
+            <if test="money != null  and money != ''">money,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="createdate != null ">#{createdate},</if>
+            <if test="updatedate != null ">#{updatedate},</if>
+            <if test="storey != null  and storey != ''">#{storey},</if>
+            <if test="buildId != null ">#{buildId},</if>
+            <if test="isdelete != null  and isdelete != ''">#{isdelete},</if>
+            <if test="position != null  and position != ''">#{position},</if>
+            <if test="liveNum != null  and liveNum != ''">#{liveNum},</if>
+            <if test="money != null  and money != ''">#{money},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchooldorm" parameterType="Schooldorm">
+        update schooldorm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="createdate != null ">createdate = #{createdate},</if>
+            <if test="updatedate != null ">updatedate = #{updatedate},</if>
+            <if test="storey != null  and storey != ''">storey = #{storey},</if>
+            <if test="buildId != null ">build_id = #{buildId},</if>
+            <if test="isdelete != null  and isdelete != ''">isdelete = #{isdelete},</if>
+            <if test="position != null  and position != ''">position = #{position},</if>
+            <if test="liveNum != null  and liveNum != ''">live_num = #{liveNum},</if>
+            <if test="money != null  and money != ''">money = #{money},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchooldormById" parameterType="Long">
+        delete from schooldorm where id = #{id}
+    </delete>
+
+    <delete id="deleteSchooldormByIds" parameterType="String">
+        delete from schooldorm where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

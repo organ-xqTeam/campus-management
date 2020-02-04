@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolresearchlearning.mapper.SchoolresearchlearningMapper">
+    
+    <resultMap type="Schoolresearchlearning" id="SchoolresearchlearningResult">
+        <result property="id"    column="id"    />
+        <result property="project"    column="project"    />
+        <result property="department"    column="department"    />
+        <result property="charge"    column="charge"    />
+        <result property="starttime"    column="starttime"    />
+        <result property="feecount"    column="feecount"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolresearchlearningVo">
+        select id, project, department, charge, starttime, feecount, createdate, delete_flag from schoolresearchlearning
+    </sql>
+
+    <select id="selectSchoolresearchlearningList" parameterType="Schoolresearchlearning" resultMap="SchoolresearchlearningResult">
+        <include refid="selectSchoolresearchlearningVo"/>
+        <where>  
+            <if test="project != null  and project != ''"> and project = #{project}</if>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="charge != null  and charge != ''"> and charge = #{charge}</if>
+            <if test="starttime != null  and starttime != ''"> and starttime = #{starttime}</if>
+            <if test="feecount != null  and feecount != ''"> and feecount = #{feecount}</if>
+            <if test="createdate != null  and createdate != ''"> and createdate = #{createdate}</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolresearchlearningById" parameterType="Long" resultMap="SchoolresearchlearningResult">
+        <include refid="selectSchoolresearchlearningVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolresearchlearning" parameterType="Schoolresearchlearning" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolresearchlearning
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="project != null  and project != ''">project,</if>
+            <if test="department != null  and department != ''">department,</if>
+            <if test="charge != null  and charge != ''">charge,</if>
+            <if test="starttime != null  and starttime != ''">starttime,</if>
+            <if test="feecount != null  and feecount != ''">feecount,</if>
+            <if test="createdate != null  and createdate != ''">createdate,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="project != null  and project != ''">#{project},</if>
+            <if test="department != null  and department != ''">#{department},</if>
+            <if test="charge != null  and charge != ''">#{charge},</if>
+            <if test="starttime != null  and starttime != ''">#{starttime},</if>
+            <if test="feecount != null  and feecount != ''">#{feecount},</if>
+            <if test="createdate != null  and createdate != ''">#{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolresearchlearning" parameterType="Schoolresearchlearning">
+        update schoolresearchlearning
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="project != null  and project != ''">project = #{project},</if>
+            <if test="department != null  and department != ''">department = #{department},</if>
+            <if test="charge != null  and charge != ''">charge = #{charge},</if>
+            <if test="starttime != null  and starttime != ''">starttime = #{starttime},</if>
+            <if test="feecount != null  and feecount != ''">feecount = #{feecount},</if>
+            <if test="createdate != null  and createdate != ''">createdate = #{createdate},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolresearchlearningById" parameterType="Long">
+        delete from schoolresearchlearning where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolresearchlearningByIds" parameterType="String">
+        delete from schoolresearchlearning where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改设备')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schoolequipment-edit" th:object="${schoolequipment}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">单据编号：</label>
+                <div class="col-sm-8">
+                    <input name="num" th:field="*{num}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报修类型：</label>
+                <div class="col-sm-8">
+                    <select name="type" class="form-control m-b">
+                        <option value="1" th:selected="*{type}==1">工程报修</option>
+                        <option value="2" th:selected="*{type}==2">IT设备报修</option>
+                        <option value="3" th:selected="*{type}==3">后勤设备报修</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报修部门：</label>
+                <div class="col-sm-8">
+                    <select name="department" class="form-control m-b">
+                        <option value="1" th:selected="*{department}==1">工程部</option>
+                        <option value="2" th:selected="*{department}==2">IT部</option>
+                        <option value="3" th:selected="*{department}==3">后勤部</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报修人：</label>
+                <div class="col-sm-8">
+                    <input name="repairman" th:field="*{repairman}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报修地点：</label>
+                <div class="col-sm-8">
+                    <input name="repairplace" th:field="*{repairplace}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报修时间：</label>
+                <div class="col-sm-8">
+	                <div class="input-group date">
+	                	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                	<input name="repairtime" class="form-control" placeholder="yyyy-MM-dd" type="text" th:field="*{repairtime}">  
+                	</div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">故障说明：</label>
+                <div class="col-sm-8">
+                    <input name="remark0" th:field="*{remark0}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolequipment";
+        $("#form-schoolequipment-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-schoolequipment-edit').serialize());
+            }
+        }
+        $("input[name='repairtime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

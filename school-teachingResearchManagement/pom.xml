@@ -16,7 +16,21 @@
 	</description>
 
     <dependencies>
-		
+		<!-- 通用工具-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-common</artifactId>
+        </dependency>
+		<!-- 系统工具-->
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-system</artifactId>
+        </dependency>
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-framework</artifactId>
+        </dependency>
+ 		
 		
     </dependencies>
   

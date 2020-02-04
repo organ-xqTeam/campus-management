@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examAccountSequence.mapper.ExamAccountSequenceMapper">
+    
+    <resultMap type="ExamAccountSequence" id="ExamAccountSequenceResult">
+        <result property="id"    column="id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="sequenceDesc"    column="sequence_desc"    />
+        <result property="dimensionId"    column="dimension_id"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+	
+	<sql id="selectExamAccountSequenceVo">
+        select id, category_id, sequence_desc, dimension_id, del_flag, application_code, tenant_code from exam_account_sequence
+    </sql>
+	
+    <select id="selectExamAccountSequenceList" parameterType="ExamAccountSequence" resultMap="ExamAccountSequenceResult">
+        <include refid="selectExamAccountSequenceVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="categoryId != null  and categoryId != '' "> and category_id = #{categoryId}</if>
+             <if test="sequenceDesc != null  and sequenceDesc != '' "> and sequence_desc = #{sequenceDesc}</if>
+             <if test="dimensionId != null  and dimensionId != '' "> and dimension_id = #{dimensionId}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamAccountSequenceById" parameterType="String" resultMap="ExamAccountSequenceResult">
+        <include refid="selectExamAccountSequenceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamAccountSequence" parameterType="ExamAccountSequence">
+        insert into exam_account_sequence
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="categoryId != null  and categoryId != ''  ">category_id,</if>
+			<if test="sequenceDesc != null  and sequenceDesc != ''  ">sequence_desc,</if>
+			<if test="dimensionId != null  and dimensionId != ''  ">dimension_id,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="categoryId != null  and categoryId != ''  ">#{categoryId},</if>
+			<if test="sequenceDesc != null  and sequenceDesc != ''  ">#{sequenceDesc},</if>
+			<if test="dimensionId != null  and dimensionId != ''  ">#{dimensionId},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamAccountSequence" parameterType="ExamAccountSequence">
+        update exam_account_sequence
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null  and categoryId != ''  ">category_id = #{categoryId},</if>
+            <if test="sequenceDesc != null  and sequenceDesc != ''  ">sequence_desc = #{sequenceDesc},</if>
+            <if test="dimensionId != null  and dimensionId != ''  ">dimension_id = #{dimensionId},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamAccountSequenceById" parameterType="String">
+        delete from exam_account_sequence where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamAccountSequenceByIds" parameterType="String">
+        delete from exam_account_sequence where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

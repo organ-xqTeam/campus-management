@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examSubjectOptionOption.mapper.ExamSubjectOptionOptionMapper">
+    
+    <resultMap type="ExamSubjectOptionOption" id="ExamSubjectOptionOptionResult">
+        <result property="id"    column="id"    />
+        <result property="subjectChoicesId"    column="subject_choices_id"    />
+        <result property="optionName"    column="option_name"    />
+        <result property="optionContent"    column="option_content"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+	
+	<sql id="selectExamSubjectOptionOptionVo">
+        select id, subject_choices_id, option_name, option_content, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code from exam_subject_option_option
+    </sql>
+	
+    <select id="selectExamSubjectOptionOptionList" parameterType="ExamSubjectOptionOption" resultMap="ExamSubjectOptionOptionResult">
+        <include refid="selectExamSubjectOptionOptionVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="subjectChoicesId != null  and subjectChoicesId != '' "> and subject_choices_id = #{subjectChoicesId}</if>
+             <if test="optionName != null  and optionName != '' "> and option_name = #{optionName}</if>
+             <if test="optionContent != null  and optionContent != '' "> and option_content = #{optionContent}</if>
+             <if test="creator != null  and creator != '' "> and creator = #{creator}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="modifier != null  and modifier != '' "> and modifier = #{modifier}</if>
+             <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamSubjectOptionOptionById" parameterType="String" resultMap="ExamSubjectOptionOptionResult">
+        <include refid="selectExamSubjectOptionOptionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamSubjectOptionOption" parameterType="ExamSubjectOptionOption">
+        insert into exam_subject_option_option
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="subjectChoicesId != null  and subjectChoicesId != ''  ">subject_choices_id,</if>
+			<if test="optionName != null  and optionName != ''  ">option_name,</if>
+			<if test="optionContent != null  and optionContent != ''  ">option_content,</if>
+			<if test="creator != null  and creator != ''  ">creator,</if>
+			<if test="createDate != null  ">create_date,</if>
+			<if test="modifier != null  and modifier != ''  ">modifier,</if>
+			<if test="modifyDate != null  ">modify_date,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="subjectChoicesId != null  and subjectChoicesId != ''  ">#{subjectChoicesId},</if>
+			<if test="optionName != null  and optionName != ''  ">#{optionName},</if>
+			<if test="optionContent != null  and optionContent != ''  ">#{optionContent},</if>
+			<if test="creator != null  and creator != ''  ">#{creator},</if>
+			<if test="createDate != null  ">#{createDate},</if>
+			<if test="modifier != null  and modifier != ''  ">#{modifier},</if>
+			<if test="modifyDate != null  ">#{modifyDate},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamSubjectOptionOption" parameterType="ExamSubjectOptionOption">
+        update exam_subject_option_option
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subjectChoicesId != null  and subjectChoicesId != ''  ">subject_choices_id = #{subjectChoicesId},</if>
+            <if test="optionName != null  and optionName != ''  ">option_name = #{optionName},</if>
+            <if test="optionContent != null  and optionContent != ''  ">option_content = #{optionContent},</if>
+            <if test="creator != null  and creator != ''  ">creator = #{creator},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="modifier != null  and modifier != ''  ">modifier = #{modifier},</if>
+            <if test="modifyDate != null  ">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamSubjectOptionOptionById" parameterType="String">
+        delete from exam_subject_option_option where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamSubjectOptionOptionByIds" parameterType="String">
+        delete from exam_subject_option_option where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
