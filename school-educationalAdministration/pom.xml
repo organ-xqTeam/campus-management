@@ -13,6 +13,7 @@
 	
 	<description>
 	   教育管理
+	   教务管理
 	</description>
 
      <dependencies>
@@ -26,6 +27,11 @@
  		<dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>school-system</artifactId>
+        </dependency>
+        
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-framework</artifactId>
         </dependency>
         
     </dependencies>
