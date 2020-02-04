@@ -20,6 +20,7 @@ import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
 import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.TeachingAvtivity.domain.TeachingAvtivity;
 import com.ruoyi.project.system.TeachingAvtivity.service.ITeachingAvtivityService;
+import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 
 /**
  * 教学活动Controller
@@ -37,6 +38,7 @@ public class TeachingAvtivityController extends BaseController
     private ITeachingAvtivityService teachingAvtivityService;
     @Autowired
     private ISchoolSpecialtyService schoolSpecialtyService;
+   
 
     @RequiresPermissions("TeachingAvtivity:TeachingAvtivity:view")
     @GetMapping()
@@ -95,7 +97,7 @@ public class TeachingAvtivityController extends BaseController
     {
     	Long specialtyId=  teachingAvtivity.getSpecialtyId();
     	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
-    	teachingAvtivity.setName(schoolSpecialty.getName());
+    	teachingAvtivity.setSpecialtyName(schoolSpecialty.getName());
         return toAjax(teachingAvtivityService.insertTeachingAvtivity(teachingAvtivity));
     }
 
@@ -124,7 +126,7 @@ public class TeachingAvtivityController extends BaseController
     {
     	Long specialtyId=  teachingAvtivity.getSpecialtyId();
     	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
-    	teachingAvtivity.setName(schoolSpecialty.getName());
+    	teachingAvtivity.setSpecialtyName(schoolSpecialty.getName());
         return toAjax(teachingAvtivityService.updateTeachingAvtivity(teachingAvtivity));
     }
 

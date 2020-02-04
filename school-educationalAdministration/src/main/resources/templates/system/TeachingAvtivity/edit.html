@@ -17,7 +17,7 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">专业名：</label>
                 <div class="col-sm-8">
-                    <select  class="form-control" name=specialtyId>
+                    <select  class="form-control" name="specialtyId">
 				    <option  th:each="schoolSpecialty:${schoolSpecialtyList}" th:value="${schoolSpecialty.id}" th:text="${schoolSpecialty.name}" 
 				        th:selected="${schoolSpecialty.id}==*{specialtyId}"></option>
 				       <!-- th:selected="${coursemanagement.id}==*{curriculumId}" -->

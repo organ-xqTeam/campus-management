@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('课程体系列表')" />
+    <th:block th:include="include :: header('课程设置管理列表')" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -11,10 +11,13 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>体系名称：</p>
-                                <input type="text" name="name"/>
+                                <p>专业名：</p>
+                                <input type="text" name="specialtyName"/>
                             </li>
-                            
+                            <li>
+                                <p>课程名称：</p>
+                                <input type="text" name="coursemanagementName"/>
+                            </li>
                             <li class="select-time">
                                 <p>创建时间：</p>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateDate]"/>
@@ -37,16 +40,16 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="CourseSystem:CourseSystem:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:CourseSet:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="CourseSystem:CourseSystem:edit">
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:CourseSet:edit">
                     <i class="fa fa-edit"></i> 修改
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="CourseSystem:CourseSystem:remove">
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:CourseSet:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="CourseSystem:CourseSystem:export">
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:CourseSet:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
             </div>
@@ -57,9 +60,9 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('CourseSystem:CourseSystem:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('CourseSystem:CourseSystem:remove')}]];
-        var prefix = ctx + "CourseSystem/CourseSystem";
+        var editFlag = [[${@permission.hasPermi('system:CourseSet:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:CourseSet:remove')}]];
+        var prefix = ctx + "system/CourseSet";
 
         $(function() {
             var options = {
@@ -68,29 +71,26 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
-                modalName: "课程体系",
+                modalName: "课程设置管理",
                 columns: [{
                     checkbox: true
                 },
                 {
                     field : 'id', 
-                    title : '主键',
+                    title : 'id',
                     visible: false
                 },
                 {
-                    field : 'name', 
-                    title : '体系名称'
+                    field : 'specialtyName', 
+                    title : '专业名'
                 },
                 {
-                    field : 'specialtyName', 
-                    title : '专业名称'
+                    field : 'coursemanagementName', 
+                    title : '课程名称'
                 },
                 {
                     field : 'content', 
-                    title : '体系说明',
-                    formatter: function(value, row, index) {
-                        return value.substring(8)+"....";
-                    }
+                    title : '备注说明'
                 },
                 {
                     field : 'createDate', 

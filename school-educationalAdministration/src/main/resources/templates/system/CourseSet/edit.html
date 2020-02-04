@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('修改课程体系')" />
+    <th:block th:include="include :: header('修改课程设置管理')" />
     <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-CourseSystem-edit" th:object="${courseSystem}">
+        <form class="form-horizontal m" id="form-CourseSet-edit" th:object="${courseSet}">
             <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group">    
-                <label class="col-sm-3 control-label">体系名称：</label>
-                <div class="col-sm-8">
-                    <input name="name" th:field="*{name}" class="form-control" type="text">
-                </div>
-            </div>
-             <div class="form-group">    
                 <label class="col-sm-3 control-label">专业名：</label>
                 <div class="col-sm-8">
                     <select  class="form-control" name="specialtyId">
@@ -24,26 +18,42 @@
 				   </select>
                 </div>
             </div>
-            
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">课程id：</label>
+                <div class="col-sm-8">
+                    <input name="coursemanagementId" th:field="*{coursemanagementId}" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">课程名称：</label>
+                 <div class="col-sm-8">
+                    <select  class="form-control" name="coursemanagementId">
+				    <option  th:each="coursemanagement:${coursemanagementList}" th:value="${coursemanagement.id}" th:text="${coursemanagement.studentsName}" 
+				        th:selected="${coursemanagement.id}==*{coursemanagementId}"></option>
+				       <!-- th:selected="${coursemanagement.id}==*{curriculumId}" -->
+				   </select>
+                </div>
+            </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">体系说明：</label>
+                <label class="col-sm-3 control-label">备注说明：</label>
                 <div class="col-sm-8">
                     <textarea name="content" class="form-control">[[*{content}]]</textarea>
                 </div>
             </div>
+            
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
-        var prefix = ctx + "CourseSystem/CourseSystem";
-        $("#form-CourseSystem-edit").validate({
+        var prefix = ctx + "system/CourseSet";
+        $("#form-CourseSet-edit").validate({
             focusCleanup: true
         });
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/edit", $('#form-CourseSystem-edit').serialize());
+                $.operate.save(prefix + "/edit", $('#form-CourseSet-edit').serialize());
             }
         }
 

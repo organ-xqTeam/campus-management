@@ -2,56 +2,60 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.project.system.CourseSystem.mapper.CourseSystemMapper">
+<mapper namespace="com.ruoyi.project.system.CourseSet.mapper.CourseSetMapper">
     
-    <resultMap type="CourseSystem" id="CourseSystemResult">
+    <resultMap type="CourseSet" id="CourseSetResult">
         <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
         <result property="specialtyName"    column="specialty_name"    />
         <result property="specialtyId"    column="specialty_id"    />
+        <result property="coursemanagementId"    column="coursemanagement_id"    />
+        <result property="coursemanagementName"    column="coursemanagement_name"    />
         <result property="content"    column="content"    />
         <result property="createDate"    column="create_date"    />
         <result property="updateDate"    column="update_date"    />
         <result property="delFlag"    column="del_flag"    />
     </resultMap>
 
-    <sql id="selectCourseSystemVo">
-        select id, name, specialty_name, specialty_id, content, create_date, update_date, del_flag from course_system
+    <sql id="selectCourseSetVo">
+        select id, specialty_name, specialty_id, coursemanagement_id, coursemanagement_name, content, create_date, update_date, del_flag from course_set
     </sql>
 
-    <select id="selectCourseSystemList" parameterType="CourseSystem" resultMap="CourseSystemResult">
-        <include refid="selectCourseSystemVo"/>
+    <select id="selectCourseSetList" parameterType="CourseSet" resultMap="CourseSetResult">
+        <include refid="selectCourseSetVo"/>
         <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="specialtyName != null  and specialtyName != ''"> and specialty_name like concat('%', #{specialtyName}, '%')</if>
             <if test="specialtyId != null "> and specialty_id = #{specialtyId}</if>
-            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="coursemanagementId != null "> and coursemanagement_id = #{coursemanagementId}</if>
+            <if test="coursemanagementName != null  and coursemanagementName != ''"> and coursemanagement_name like concat('%', #{coursemanagementName}, '%')</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="createDate != null "> and create_date = #{createDate}</if>
             <if test="updateDate != null "> and update_date = #{updateDate}</if>
             and del_flag="0"
         </where>
     </select>
     
-    <select id="selectCourseSystemById" parameterType="Long" resultMap="CourseSystemResult">
-        <include refid="selectCourseSystemVo"/>
+    <select id="selectCourseSetById" parameterType="Long" resultMap="CourseSetResult">
+        <include refid="selectCourseSetVo"/>
         where id = #{id}
     </select>
         
-    <insert id="insertCourseSystem" parameterType="CourseSystem" useGeneratedKeys="true" keyProperty="id">
-        insert into course_system
+    <insert id="insertCourseSet" parameterType="CourseSet" useGeneratedKeys="true" keyProperty="id">
+        insert into course_set
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null  and name != ''">name,</if>
             <if test="specialtyName != null  and specialtyName != ''">specialty_name,</if>
             <if test="specialtyId != null ">specialty_id,</if>
+            <if test="coursemanagementId != null ">coursemanagement_id,</if>
+            <if test="coursemanagementName != null  and coursemanagementName != ''">coursemanagement_name,</if>
             <if test="content != null  and content != ''">content,</if>
             <if test="createDate != null ">create_date,</if>
             <if test="updateDate != null ">update_date,</if>
             <if test="delFlag != null  and delFlag != ''">del_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="name != null  and name != ''">#{name},</if>
             <if test="specialtyName != null  and specialtyName != ''">#{specialtyName},</if>
             <if test="specialtyId != null ">#{specialtyId},</if>
+            <if test="coursemanagementId != null ">#{coursemanagementId},</if>
+            <if test="coursemanagementName != null  and coursemanagementName != ''">#{coursemanagementName},</if>
             <if test="content != null  and content != ''">#{content},</if>
             <if test="createDate != null ">#{createDate},</if>
             <if test="updateDate != null ">#{updateDate},</if>
@@ -59,27 +63,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCourseSystem" parameterType="CourseSystem">
-        update course_system
+    <update id="updateCourseSet" parameterType="CourseSet">
+        update course_set
         <trim prefix="SET" suffixOverrides=",">
-            <if test="name != null  and name != ''">name = #{name},</if>
             <if test="specialtyName != null  and specialtyName != ''">specialty_name = #{specialtyName},</if>
             <if test="specialtyId != null ">specialty_id = #{specialtyId},</if>
+            <if test="coursemanagementId != null ">coursemanagement_id = #{coursemanagementId},</if>
+            <if test="coursemanagementName != null  and coursemanagementName != ''">coursemanagement_name = #{coursemanagementName},</if>
             <if test="content != null  and content != ''">content = #{content},</if>
             <if test="createDate != null ">create_date = #{createDate},</if>
-           <!--  <if test="updateDate != null ">update_date = #{updateDate},</if> -->
             <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <!-- <if test="updateDate != null ">update_date = #{updateDate},</if> -->
             update_date =now(),
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteCourseSystemById" parameterType="Long">
-        delete from course_system where id = #{id}
+    <delete id="deleteCourseSetById" parameterType="Long">
+        delete from course_set where id = #{id}
     </delete>
 
-    <delete id="deleteCourseSystemByIds" parameterType="String">
-        delete from course_system where id in 
+    <delete id="deleteCourseSetByIds" parameterType="String">
+        delete from course_set where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

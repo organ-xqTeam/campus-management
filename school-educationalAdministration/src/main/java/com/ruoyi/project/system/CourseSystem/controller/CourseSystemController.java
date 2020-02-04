@@ -20,6 +20,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.system.CourseSystem.domain.CourseSystem;
 import com.ruoyi.project.system.CourseSystem.service.ICourseSystemService;
+import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
+import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 
 /**
  * 课程体系Controller
@@ -35,6 +37,9 @@ public class CourseSystemController extends BaseController
 
     @Autowired
     private ICourseSystemService courseSystemService;
+    
+    @Autowired
+    private ISchoolSpecialtyService schoolSpecialtyService;
 
     @RequiresPermissions("CourseSystem:CourseSystem:view")
     @GetMapping()
@@ -74,8 +79,11 @@ public class CourseSystemController extends BaseController
      * 新增课程体系
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+    	SchoolSpecialty schoolSpecialty =new SchoolSpecialty();
+    	List<SchoolSpecialty> schoolSpecialtyList= schoolSpecialtyService.selectSchoolSpecialtyList(schoolSpecialty);
+    	mmap.put("schoolSpecialtyList", schoolSpecialtyList);
         return prefix + "/add";
     }
 
@@ -88,6 +96,9 @@ public class CourseSystemController extends BaseController
     @ResponseBody
     public AjaxResult addSave(CourseSystem courseSystem)
     {
+    	Long specialtyId=  courseSystem.getSpecialtyId();
+    	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
+    	courseSystem.setSpecialtyName(schoolSpecialty.getName());
         return toAjax(courseSystemService.insertCourseSystem(courseSystem));
     }
 
@@ -97,6 +108,9 @@ public class CourseSystemController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
+    	SchoolSpecialty schoolSpecialty =new SchoolSpecialty();
+    	List<SchoolSpecialty> schoolSpecialtyList= schoolSpecialtyService.selectSchoolSpecialtyList(schoolSpecialty);
+    	mmap.put("schoolSpecialtyList", schoolSpecialtyList);
         CourseSystem courseSystem = courseSystemService.selectCourseSystemById(id);
         mmap.put("courseSystem", courseSystem);
         return prefix + "/edit";
@@ -111,6 +125,9 @@ public class CourseSystemController extends BaseController
     @ResponseBody
     public AjaxResult editSave(CourseSystem courseSystem)
     {
+    	Long specialtyId=  courseSystem.getSpecialtyId();
+    	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
+    	courseSystem.setSpecialtyName(schoolSpecialty.getName());
         return toAjax(courseSystemService.updateCourseSystem(courseSystem));
     }
 
