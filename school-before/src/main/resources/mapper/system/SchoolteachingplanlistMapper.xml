@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolteachingplanlist.mapper.SchoolteachingplanlistMapper">
+    
+    <resultMap type="Schoolteachingplanlist" id="SchoolteachingplanlistResult">
+        <result property="id"    column="id"    />
+        <result property="num"    column="num"    />
+        <result property="grade"    column="grade"    />
+        <result property="curriculum"    column="curriculum"    />
+        <result property="teacher"    column="teacher"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolteachingplanlistVo">
+        select id, num, grade, (select students_name from coursemanagement where id=curriculum) as 'curriculum2', curriculum, (select teaching_name from teaching_info where id=teacher) as 'teacher2', teacher, remark, del_flag from schoolteachingplanlist
+    </sql>
+
+    <select id="selectSchoolteachingplanlistList" parameterType="Schoolteachingplanlist" resultMap="SchoolteachingplanlistResult">
+        <include refid="selectSchoolteachingplanlistVo"/>
+        <where>  
+            <if test="num != null  and num != ''"> and num = #{num}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="curriculum != null  and curriculum != ''"> and curriculum = #{curriculum}</if>
+            <if test="teacher != null  and teacher != ''"> and teacher = #{teacher}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolteachingplanlistById" parameterType="Long" resultMap="SchoolteachingplanlistResult">
+        <include refid="selectSchoolteachingplanlistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolteachingplanlist" parameterType="Schoolteachingplanlist">
+        insert into schoolteachingplanlist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="num != null  and num != ''">num,</if>
+            <if test="grade != null  and grade != ''">grade,</if>
+            <if test="curriculum != null  and curriculum != ''">curriculum,</if>
+            <if test="teacher != null  and teacher != ''">teacher,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="grade != null  and grade != ''">#{grade},</if>
+            <if test="curriculum != null  and curriculum != ''">#{curriculum},</if>
+            <if test="teacher != null  and teacher != ''">#{teacher},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolteachingplanlist" parameterType="Schoolteachingplanlist">
+        update schoolteachingplanlist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="grade != null  and grade != ''">grade = #{grade},</if>
+            <if test="curriculum != null  and curriculum != ''">curriculum = #{curriculum},</if>
+            <if test="teacher != null  and teacher != ''">teacher = #{teacher},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolteachingplanlistById" parameterType="Long">
+        delete from schoolteachingplanlist where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolteachingplanlistByIds" parameterType="String">
+        delete from schoolteachingplanlist where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

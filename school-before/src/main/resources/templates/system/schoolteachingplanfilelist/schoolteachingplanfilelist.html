@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('教案文件列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>教案编号：</p>
+                                <input type="text" name="num"/>
+                                <input type="text" id="teachingplanid" name="teachingplanid" style="display: none" th:field="${schoolteachingplanfilelist.teachingplanid}"/>
+                            </li>
+                            <li>
+                                <p>教案名称：</p>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolteachingplanfilelist:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolteachingplanfilelist:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolteachingplanfilelist:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolteachingplanfilelist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolteachingplanfilelist:remove')}]];
+        var prefix = ctx + "system/schoolteachingplanfilelist";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add?teachingplanid="+$('#teachingplanid').val(),
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "教案文件",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '文件名',
+                    visible: false
+                },
+                {
+                    field : 'teachingplanid', 
+                    title : '教案id',
+                    visible: false
+                },
+                {
+                    field : 'num', 
+                    title : '教案编号'
+                },
+                {
+                    field : 'name', 
+                    title : '教案名称'
+                },
+                {
+                    field : 'file', 
+                    title : '文件id',
+                    visible: false
+                },
+                {
+                    field : 'filename', 
+                    title : '附件',
+                    formatter: function(value, row, index) {
+//                     	return $.table.imageView(row.file);
+	               		/* var actions = [];
+	                    actions.push('<a href="'+row.file+'">'+value+'</a>'); 
+	                    return actions.join(''); */
+	                    return "<a	 onclick='ondownload()' data-value="+row.file+" >"+value+"</a>";
+                    }
+                },	
+                {
+                    field : 'remark', 
+                    title : '备注',
+                    visible: false
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function ondownload(){
+        	//console.log(event.currentTarget)
+        	var objtp=$(event.currentTarget).attr("data-value");
+        	console.log( ctx + "common/download/resource?resource=" + objtp)
+        	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+        }
+        
+    </script>
+</body>
+</html>

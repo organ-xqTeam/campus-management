@@ -156,20 +156,52 @@ public class Schoolstudentslist extends BaseEntity
     //@Excel(name = "备注")
     private String remark17;
     
-    @Excel(name = "报道状态：1已报道；2未报道")
+//    @Excel(name = "报道状态：1已报道；2未报道")
     private String reportstate;
-    @Excel(name = "未报到原因")
+//    @Excel(name = "未报到原因")
     private String notreportresult;
-    @Excel(name = "缴费状态")
+//    @Excel(name = "缴费状态")
     private String paystate;
-    @Excel(name = "是否注册：1是；0否")
+//    @Excel(name = "是否注册：1是；0否")
     private String isregister;
-    @Excel(name = "是否领取钥匙：1是；0否")
+//    @Excel(name = "是否领取钥匙：1是；0否")
     private String isreceivekey;
-    @Excel(name = "是否领取军训设备：1是；0否")
+//    @Excel(name = "是否领取军训设备：1是；0否")
     private String isreceivejunxun;
+//  @Excel(name = "就业单位")
+    private String company;
+//  @Excel(name = "就业情况审批状态")
+    private String comapproval;
+    @Excel(name = "工作岗位")
+    private String post;
+    @Excel(name = "工作情况")
+    private String situation;
     
-    public String getReportstate() {
+    public String getPost() {
+		return post;
+	}
+	public void setPost(String post) {
+		this.post = post;
+	}
+	public String getSituation() {
+		return situation;
+	}
+	public void setSituation(String situation) {
+		this.situation = situation;
+	}
+	public String getComapproval() {
+		return comapproval;
+	}
+	public void setComapproval(String comapproval) {
+		this.comapproval = comapproval;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public String getReportstate() {
 		return reportstate;
 	}
 

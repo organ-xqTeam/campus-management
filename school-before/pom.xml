@@ -27,6 +27,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-system</artifactId>
         </dependency>
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-framework</artifactId>
+        </dependency>
         
     </dependencies>
 	

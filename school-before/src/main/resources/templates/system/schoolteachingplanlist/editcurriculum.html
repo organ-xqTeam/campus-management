@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改负责人')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		
+		<input id="id" name="id" th:field="${schoolteachingplanlist.id}"
+					class="form-control" type="hidden" >
+		<div class="form-group">
+			<label class="col-sm-3 control-label">年级主任：</label>
+			<div class="col-sm-8">
+				<select class="form-control" id="teacher" name="teacher">
+					<option th:each="teachingInfo:${teachingInfoList}" 
+						th:value="${teachingInfo.id}" 
+						th:text="${teachingInfo.teachingName}" 
+						th:selected="${schoolteachingplanlist?.teacher}==${teachingInfo.id}">
+					</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+	   
+    </script>
+</body>
+</html>

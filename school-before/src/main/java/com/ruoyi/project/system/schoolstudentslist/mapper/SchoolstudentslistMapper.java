@@ -49,6 +49,11 @@ public interface SchoolstudentslistMapper
     public int updateSchoolstudentslist(Schoolstudentslist schoolstudentslist);
 
     /**
+     * 根据身份证号查找学生
+     * */
+    public List<Schoolstudentslist> selectStudengByIdnum(Schoolstudentslist schoolstudentslist);
+    
+    /**
      * 删除学生列
      * 
      * @param id 学生列ID

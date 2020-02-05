@@ -76,6 +76,23 @@ public class SchoolstudentslistServiceImpl implements ISchoolstudentslistService
     }
 
     /**
+     * 导入
+     * */
+    @Override
+    public String importStudent(List<Schoolstudentslist> stuList) {
+    	for(Schoolstudentslist stu : stuList) {
+    		List<Schoolstudentslist> result = schoolstudentslistMapper.selectStudengByIdnum(stu);
+    		if (result.size() > 0) {
+    			schoolstudentslistMapper.updateSchoolstudentslist(stu);
+    		}
+    		else {
+    			schoolstudentslistMapper.insertSchoolstudentslist(stu);
+    		}
+    	}
+    	return "导入成功";
+    }
+    
+    /**
      * 新增学生列
      * 
      * @param schoolstudentslist 学生列

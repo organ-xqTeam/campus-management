@@ -28,6 +28,11 @@ public interface ISchoolstudentslistService
     public List<Schoolstudentslist> selectSchoolstudentslistList(Schoolstudentslist schoolstudentslist);
 
     /**
+     * 导入学生
+     * */
+    public String importStudent(List<Schoolstudentslist> stuList);
+    
+    /**
      * 新增学生列
      * 
      * @param schoolstudentslist 学生列

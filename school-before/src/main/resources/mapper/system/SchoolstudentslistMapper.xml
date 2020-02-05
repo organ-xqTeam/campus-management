@@ -49,6 +49,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isregister"    column="isregister"    />
         <result property="isreceivekey"    column="isreceivekey"    />
         <result property="isreceivejunxun"    column="isreceivejunxun"    />
+        <result property="company"    column="company"    />
+        <result property="comapproval"    column="comapproval"    />
+        <result property="situation"    column="situation"    />
+        <result property="post"    column="post"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="deptalias"    column="deptAlias"    />
         <result property="useralias"    column="userAlias"    />
@@ -59,8 +63,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
     </sql>
+    
+    <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
+    	select * from schoolstudentslist where idnum = #{idnum}
+    </select>
     
     <select id="selectSchoolstudentslistList" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
         <include refid="selectSchoolstudentslistVo"/>
@@ -106,6 +114,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isregister != null  and isregister != ''"> and isregister = #{isregister}</if>
             <if test="isreceivekey != null  and isreceivekey != ''"> and isreceivekey = #{isreceivekey}</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''"> and isreceivejunxun = #{isreceivejunxun}</if>
+            <if test="company != null"> and company &lt;&gt; #{company}</if>
+            <if test="comapproval != null  and comapproval != ''"> and comapproval = #{comapproval}</if>
+            <if test="post != null  and post != ''"> and post = #{post}</if>
+            <if test="situation != null  and situation != ''"> and situation = #{situation}</if>
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
@@ -157,6 +169,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isregister != null  and isregister != ''"> and isregister = #{isregister}</if>
             <if test="isreceivekey != null  and isreceivekey != ''"> and isreceivekey = #{isreceivekey}</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''"> and isreceivejunxun = #{isreceivejunxun}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="comapproval != null  and comapproval != ''"> and comapproval = #{comapproval}</if>
+            <if test="post != null  and post != ''"> and post = #{post}</if>
+            <if test="situation != null  and situation != ''"> and situation = #{situation}</if>
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
@@ -215,6 +231,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isregister != null  and isregister != ''"> and isregister = #{isregister}</if>
             <if test="isreceivekey != null  and isreceivekey != ''"> and isreceivekey = #{isreceivekey}</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''"> and isreceivejunxun = #{isreceivejunxun}</if>
+            <if test="company != null  and company != ''"> and company = #{company}</if>
+            <if test="comapproval != null  and comapproval != ''"> and comapproval = #{comapproval}</if>
+            <if test="situation != null  and situation != ''"> and situation = #{situation}</if>
+            <if test="post != null  and post != ''"> and post = #{post}</if>
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
@@ -274,6 +294,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isregister != null  and isregister != ''">isregister,</if>
             <if test="isreceivekey != null  and isreceivekey != ''">isreceivekey,</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''">isreceivejunxun,</if>
+            <if test="company != null  and company != ''">company,</if>
+            <if test="comapproval != null  and comapproval != ''">comapproval,</if>
+            <if test="post != null  and post != ''">post,</if>
+            <if test="situation != null  and situation != ''">situation,</if>
             <if test="delFlag != null ">del_flag,</if>
             <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
             <if test="useralias != null  and useralias != ''">userAlias,</if>
@@ -324,6 +348,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isregister != null  and isregister != ''">#{isregister},</if>
             <if test="isreceivekey != null  and isreceivekey != ''">#{isreceivekey},</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''">#{isreceivejunxun},</if>
+            <if test="company != null  and company != ''">#{company},</if>
+            <if test="comapproval != null  and comapproval != ''">#{comapproval},</if>
+            <if test="post != null  and post != ''">#{post},</if>
+            <if test="situation != null  and situation != ''">#{situation},</if>
             <if test="delFlag != null ">#{delFlag},</if>
             <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
@@ -378,6 +406,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isregister != null  and isregister != ''">isregister = #{isregister},</if>
             <if test="isreceivekey != null  and isreceivekey != ''">isreceivekey = #{isreceivekey},</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''">isreceivejunxun = #{isreceivejunxun},</if>
+            <if test="company != null  and company != ''">company = #{company},</if>
+            <if test="comapproval != null  and comapproval != ''">comapproval = #{comapproval},</if>>
+            <if test="situation != null  and situation != ''">situation = #{situation},</if>>
+            <if test="post != null  and post != ''">post = #{post},</if>
             <if test="delFlag != null ">del_flag = #{delFlag},</if>
             <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
             <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>

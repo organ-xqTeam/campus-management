@@ -19,13 +19,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.FontText;
 import com.ruoyi.common.utils.drawImg;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
+import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 学生列Controller
@@ -37,10 +44,14 @@ import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistSe
 @RequestMapping("/system/StudentOfficeStaff")
 public class StudentOfficeStaffController extends BaseController
 {
+	
     private String prefix = "system/StudentOfficeStaff";
+    
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
     
+    @Autowired
+    private ISchoolClassService schoolClassService;
     
     /**
      	* 迎新管理
@@ -53,6 +64,95 @@ public class StudentOfficeStaffController extends BaseController
     {
         return prefix + "/studentofficestafflistWelcome";
     }
+    
+    /**
+     * 就业管理
+     * */
+    @RequiresPermissions("system:studentofficestaff:jiuye")
+    @GetMapping("/jiuye")
+    public String jiuye()
+    {
+        return prefix + "/jiuye";
+    }
+    
+
+    /**
+     * 就业信息填报页
+     * */
+    @GetMapping("/jiuye/{id}")
+    public String jiuye(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+        return prefix + "/jiuye_";
+    }
+    
+    /**
+     * 毕业生跟踪
+     * */
+    @GetMapping("/genzong/{id}")
+    public String genzong(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+        return prefix + "/genzong";
+    }
+    
+    /**
+     * 就业信息审核列表页
+     * */
+    @RequiresPermissions("system:studentofficestaff:jiuyeshenhe")
+    @GetMapping("/jiuyeshenhe")
+    public String jiuyeshenhe()
+    {
+        return prefix + "/jiuyeshenhe";
+    }
+    
+    /**
+     * 就业信息审核页
+     * */
+    @GetMapping("/jiuyeshenhe/{id}")
+    public String jiuyeshenhe(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+        return prefix + "/jiuyeshenhe_";
+    }
+    
+    /**
+     * 就业信息查询列表页
+     * */
+    @RequiresPermissions("system:studentofficestaff:jiuyechaxun")
+    @GetMapping("/jiuyechaxun")
+    public String jiuyechaxun(ModelMap mmap)
+    {
+    	SchoolClass sclass = new SchoolClass();
+    	List<SchoolClass> classlist = schoolClassService.selectSchoolClassList(sclass);
+    	mmap.put("classlist", classlist);
+        return prefix + "/jiuyechaxun";
+    }
+    
+    /**
+     * 查看历史信息列表页
+     * */
+    @RequiresPermissions("system:studentofficestaff:history")
+    @GetMapping("/history")
+    public String history()
+    {
+        return prefix + "/history";
+    }
+   
+    @RequiresPermissions("system:schoolstudentslist:import")
+    @PostMapping("/importData")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+    	ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
+    	List<Schoolstudentslist> userList = util.importExcel(file.getInputStream());
+    	String message = schoolstudentslistService.importStudent(userList);
+    	return AjaxResult.success(message);
+    }
+    
     /**
      * 查询学生列列表
      */

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改教案')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schoolteachingplanlist-edit" th:object="${schoolteachingplanlist}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教案编号：</label>
+                <div class="col-sm-8">
+                    <input name="num" th:field="*{num}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group" style="display: none">    
+                <label class="col-sm-3 control-label">年级id：</label>
+                <div class="col-sm-8">
+                    <input name="grade" th:field="*{grade}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">课程名称：</label>
+                <div class="col-sm-8">
+                	<select class="form-control" name="curriculum">
+						<option th:each="course:${coursemanagementlist}" 
+							th:value="${course.id}" 
+							th:text="${course.studentsName}"
+							th:selected="${schoolteachingplanlist?.curriculum}==${course.id}">
+						</option>
+					</select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">任课老师：</label>
+                <div class="col-sm-8">
+                	<select class="form-control" id="teacher" name="teacher">
+						<option th:each="teachingInfo:${teachingInfoList}" 
+							th:value="${teachingInfo.id}" 
+							th:text="${teachingInfo.teachingName}" 
+							th:selected="${schoolteachingplanlist?.teacher}==${teachingInfo.id}">
+						</option>
+					</select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolteachingplanlist";
+        $("#form-schoolteachingplanlist-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-schoolteachingplanlist-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

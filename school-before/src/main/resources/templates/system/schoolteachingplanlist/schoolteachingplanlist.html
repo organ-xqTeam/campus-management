@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('教案列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>编号：</p>
+                                <input type="text" name="num"/>
+                                <input type="text" class="form-control" name="grade" style="display: none" th:field="${schoolteachingplan.grade}"/>
+                                <input type="text" class="form-control" id="grade2" name="grade2" style="display: none" th:field="${schoolteachingplan.grade2}"/>
+                                <input type="text" class="form-control" id="finishtime" name="finishtime" style="display: none" th:field="${schoolteachingplan.finishtime}"/>
+                                <input type="text" class="form-control" id="enternum" name="enternum" style="display: none" th:field="${schoolteachingplan.enternum}"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolteachingplanlist:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolteachingplanlist:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolteachingplanlist:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolteachingplanlist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolteachingplanlist:remove')}]];
+        var prefix = ctx + "system/schoolteachingplanlist";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add?grade="+$('#grade').val(),
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "教案",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '教案id',
+                    visible: false
+                },
+                {
+                    field : 'num', 
+                    title : '编号'
+                },
+                {
+                    field : 'grade2', 
+                    title : '年级',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push($('#grade2').val());
+                        return actions.join('');
+                    }
+                },
+                {
+                    field : 'curriculum2', 
+                    title : '课程名称'
+                },
+                {
+                    field : 'finishtime', 
+                    title : '毕业时间',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push($('#finishtime').val());
+                        return actions.join('');
+                    }
+                },
+                {
+                    field : 'enternum', 
+                    title : '入学人数',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push($('#enternum').val());
+                        return actions.join('');
+                    }
+                },
+                {
+                    field : 'teacher2', 
+                    title : '任课老师'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="" href="javascript:void(0)" onclick="teachingplanfilelist(\''+row.id+'\')">教案管理</a> ');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+      	
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val()
+			var teacher  = body.find('#teacher').val()
+			var str = "id="+id+"&teacher="+teacher;
+			$.operate.save(prefix + "/edit", str);
+		}
+        
+        function teachingplanfilelist(id){
+        	var url = ctx + "system/schoolteachingplanfilelist?teachingplanid="+id;
+			$.modal.openTab("教案管理", url);
+        }
+        
+    </script>
+</body>
+</html>
