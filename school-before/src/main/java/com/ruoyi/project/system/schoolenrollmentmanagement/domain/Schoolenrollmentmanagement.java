@@ -123,8 +123,34 @@ public class Schoolenrollmentmanagement extends BaseEntity
     /** 用户表的别名 */
     @Excel(name = "用户表的别名")
     private String useralias;
+    
+    /** 文件id */
+    @Excel(name = "文件id")
+    private String file;
 
-    public void setId(Long id) 
+    /** 文件名 */
+    @Excel(name = "文件名")
+    private String filename;
+    
+    
+
+    public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }

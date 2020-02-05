@@ -125,6 +125,17 @@
                     title : '毕业时间'
                 },
                 {
+                    field : 'file', 
+                    title : '图片',
+                	formatter: function(value, row, index) {
+                		console.log(value)
+                		//线上这么写
+//                 		return $.table.imageView("/school-fast"+value);
+                		//线下这么写
+                		return $.table.imageView(""+value);
+                	}
+                },
+                {
                     field : 'State', 
                     title : '状态',
  					formatter: function(value, row, index) {

@@ -70,6 +70,19 @@
                     <input name="State" th:field="*{State}" class="form-control" type="text">
                 </div>
             </div>
+			<div class="form-group" style="display: none">    
+			    <label class="col-sm-3 control-label">文件id：</label>
+			    <div class="col-sm-8">
+			        <input name="file" class="form-control" type="text">
+			    </div>
+			</div>
+			<div class="form-group">    
+			    <label class="col-sm-3 control-label">附件：</label>
+			    <div class="col-sm-8">
+			        <input name="filename" class="form-control" type="text" style="display: none">
+			        <input id="filePath" name="filePath" class="form-control" type="file">
+			    </div>
+			</div>
           
               <!--<div class="form-group">
                 <label class="col-sm-3 control-label">备注：</label>
@@ -173,6 +186,7 @@
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
         var prefix = ctx + "system/schoolenrollmentmanagement";
+        var filefix = ctx + "system/fileinfo";
         $("#form-schoolenrollmentmanagement-edit").validate({
             focusCleanup: true
         });
@@ -187,8 +201,36 @@
         	}
         	
             if ($.validate.form()) {
+            	uploadFile();
                 $.operate.save(prefix + "/edit", $('#form-schoolenrollmentmanagement-edit').serialize());
             }
+        }
+        
+        function uploadFile() {
+        	var formData = new FormData();
+        	if ($('#filePath')[0].files[0] == null) {
+        		$.modal.alertWarning("请先选择文件路径");
+        		return false;
+        	}
+        	formData.append('file', $('#filePath')[0].files[0]);
+        	
+        	$.ajax({
+        		url: filefix + "/add",
+        		type: 'post',
+        		cache: false,
+        		data: formData,
+        		processData: false,
+        		contentType: false,
+        		dataType: "json",
+        		async: false,
+        		success: function(result) {
+        			var file = result.file;
+        			if (file) {
+        				$('input[name="filename"]').val(file.fileName);
+        				$('input[name="file"]').val(file.filePath);
+        			}
+        		}
+        	});
         }
 
         $("input[name='admissionTime']").datetimepicker({

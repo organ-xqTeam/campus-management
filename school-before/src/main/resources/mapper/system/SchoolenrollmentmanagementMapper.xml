@@ -33,10 +33,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="delFlag"    column="del_flag"    />
         <result property="deptalias"    column="deptAlias"    />
         <result property="useralias"    column="userAlias"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
     </resultMap>
 
     <sql id="selectSchoolenrollmentmanagementVo">
-        select id, enrollment_batch, planned_population, actual_number, admission_time, graduation_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias from schoolenrollmentmanagement
+        select id, enrollment_batch, planned_population, actual_number, admission_time, graduation_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias,file,filename,userAlias from schoolenrollmentmanagement
     </sql>
 
     <select id="selectSchoolenrollmentmanagementList" parameterType="Schoolenrollmentmanagement" resultMap="SchoolenrollmentmanagementResult">
@@ -67,6 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark17 != null  and remark17 != ''"> and remark17 = #{remark17}</if>
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
+            <if test="file != null  and file != ''"> and file = #{file}</if>
+            <if test="filename != null  and filename != ''"> and filename = #{filename}</if>
         </where>
     </select>
     
@@ -105,6 +109,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null ">del_flag,</if>
             <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
             <if test="useralias != null  and useralias != ''">userAlias,</if>
+            <if test="file != null  and file != ''">file,</if>
+            <if test="filename != null  and filename != ''">filename,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="enrollmentBatch != null  and enrollmentBatch != ''">#{enrollmentBatch},</if>
@@ -134,6 +140,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null ">#{delFlag},</if>
             <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
+            <if test="file != null  and file != ''">#{file},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
          </trim>
     </insert>
 
@@ -167,6 +175,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null ">del_flag = #{delFlag},</if>
             <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
             <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
+            <if test="file != null  and file != ''">file = #{file},</if>
+            <if test="filename != null  and filename != ''">filename = #{filename},</if>
         </trim>
         where id = #{id}
     </update>

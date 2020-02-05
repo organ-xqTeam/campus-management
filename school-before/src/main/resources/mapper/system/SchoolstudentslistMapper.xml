@@ -407,8 +407,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isreceivekey != null  and isreceivekey != ''">isreceivekey = #{isreceivekey},</if>
             <if test="isreceivejunxun != null  and isreceivejunxun != ''">isreceivejunxun = #{isreceivejunxun},</if>
             <if test="company != null  and company != ''">company = #{company},</if>
-            <if test="comapproval != null  and comapproval != ''">comapproval = #{comapproval},</if>>
-            <if test="situation != null  and situation != ''">situation = #{situation},</if>>
+            <if test="comapproval != null  and comapproval != ''">comapproval = #{comapproval},</if>
+            <if test="situation != null  and situation != ''">situation = #{situation},</if>
             <if test="post != null  and post != ''">post = #{post},</if>
             <if test="delFlag != null ">del_flag = #{delFlag},</if>
             <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
