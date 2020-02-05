@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CertificateManagementMapper">
+    
+    <resultMap type="CertificateManagement" id="CertificateManagementResult">
+        <result property="id"    column="id"    />
+        <result property="studentsId"    column="students_id"    />
+        <result property="certificatenum"    column="certificatenum"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="deptalias"    column="deptAlias"    />
+        <result property="useralias"    column="userAlias"    />
+        <result property="gradeId"    column="grade_id"    />
+        <result property="classId"    column="class_id"    />
+    </resultMap>
+
+    <sql id="selectCertificateManagementVo">
+        select id, students_id, certificatenum, remark, del_flag, deptAlias, userAlias, grade_id, class_id from certificateManagement
+    </sql>
+
+    <select id="selectCertificateManagementList" parameterType="CertificateManagement" resultMap="CertificateManagementResult">
+        <include refid="selectCertificateManagementVo"/>
+        <where>  
+            <if test="studentsId != null  and studentsId != ''"> and students_id = #{studentsId}</if>
+            <if test="certificatenum != null  and certificatenum != ''"> and certificatenum = #{certificatenum}</if>
+            <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
+            <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
+            <if test="gradeId != null "> and grade_id = #{gradeId}</if>
+            <if test="classId != null "> and class_id = #{classId}</if>
+        </where>
+    </select>
+    
+    <select id="selectCertificateManagementById" parameterType="Long" resultMap="CertificateManagementResult">
+        <include refid="selectCertificateManagementVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCertificateManagement" parameterType="CertificateManagement" useGeneratedKeys="true" keyProperty="id">
+        insert into certificateManagement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null  and studentsId != ''">students_id,</if>
+            <if test="certificatenum != null  and certificatenum != ''">certificatenum,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
+            <if test="useralias != null  and useralias != ''">userAlias,</if>
+            <if test="gradeId != null ">grade_id,</if>
+            <if test="classId != null ">class_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null  and studentsId != ''">#{studentsId},</if>
+            <if test="certificatenum != null  and certificatenum != ''">#{certificatenum},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">#{useralias},</if>
+            <if test="gradeId != null ">#{gradeId},</if>
+            <if test="classId != null ">#{classId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCertificateManagement" parameterType="CertificateManagement">
+        update certificateManagement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentsId != null  and studentsId != ''">students_id = #{studentsId},</if>
+            <if test="certificatenum != null  and certificatenum != ''">certificatenum = #{certificatenum},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
+            <if test="gradeId != null ">grade_id = #{gradeId},</if>
+            <if test="classId != null ">class_id = #{classId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCertificateManagementById" parameterType="Long">
+        delete from certificateManagement where id = #{id}
+    </delete>
+
+    <delete id="deleteCertificateManagementByIds" parameterType="String">
+        delete from certificateManagement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

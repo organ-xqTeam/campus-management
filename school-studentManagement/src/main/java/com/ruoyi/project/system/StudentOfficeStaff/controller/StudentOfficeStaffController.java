@@ -33,6 +33,8 @@ import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.domain.CertificateManagement;
+import com.ruoyi.system.service.ICertificateManagementService;
 
 /**
  * 学生列Controller
@@ -52,7 +54,8 @@ public class StudentOfficeStaffController extends BaseController
     
     @Autowired
     private ISchoolClassService schoolClassService;
-    
+    @Autowired
+    private ICertificateManagementService certificateManagementService;
     /**
      	* 迎新管理
      * @return
@@ -252,8 +255,11 @@ public class StudentOfficeStaffController extends BaseController
     
     @RequiresPermissions("system:studentofficestaffGraduation:view")
     @GetMapping("/Graduation")
-    public String Graduation()
+    public String Graduation(ModelMap mmap)
     {
+    	List<CertificateManagement> list = certificateManagementService.selectCertificateManagementList(null);
+		mmap.put("certificateManagement", list);
+    	
     	return prefix + "/Graduation";
     }
     /**
@@ -269,6 +275,20 @@ public class StudentOfficeStaffController extends BaseController
     	startPage();
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);
+    }
+    @RequiresPermissions("system:uploadCer:view")
+    @GetMapping("/uploadCer/{id}")
+    public String uploadCer(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	mmap.put("studentId", id);
+		CertificateManagement certificateManagement = new CertificateManagement();
+		certificateManagement.setStudentsId(id+"");
+		List<CertificateManagement> list = certificateManagementService.selectCertificateManagementList(certificateManagement );
+		if (list.size() > 0) {
+			mmap.put("certificateManagement", list.get(0));
+			return "system/certificateManagement/edit";
+		}
+		return "system/certificateManagement/add";
     }
     
     @GetMapping("/listGraduation/download/{userid}")

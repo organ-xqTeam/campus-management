@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.StudentstatuslistMapper">
+    
+    <resultMap type="Studentstatuslist" id="StudentstatuslistResult">
+        <result property="id"    column="id"    />
+        <result property="studentsId"    column="students_id"    />
+        <result property="studentstatusId"    column="studentstatus_id"    />
+        <result property="admissionPhotos"    column="admission_photos"    />
+        <result property="graduationPictures"    column="graduation_pictures"    />
+        <result property="admissionTime"    column="admission_time"    />
+        <result property="State"    column="_state"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="deptalias"    column="deptAlias"    />
+        <result property="useralias"    column="userAlias"    />
+    </resultMap>
+
+    <sql id="selectStudentstatuslistVo">
+        select id, students_id, studentstatus_id, admission_photos, graduation_pictures, admission_time, _state, remark, del_flag, deptAlias, userAlias from studentstatuslist
+    </sql>
+
+    <select id="selectStudentstatuslistList" parameterType="Studentstatuslist" resultMap="StudentstatuslistResult">
+        <include refid="selectStudentstatuslistVo"/>
+        <where>  
+            <if test="studentsId != null  and studentsId != ''"> and students_id = #{studentsId}</if>
+            <if test="studentstatusId != null  and studentstatusId != ''"> and studentstatus_id = #{studentstatusId}</if>
+            <if test="admissionPhotos != null  and admissionPhotos != ''"> and admission_photos = #{admissionPhotos}</if>
+            <if test="graduationPictures != null  and graduationPictures != ''"> and graduation_pictures = #{graduationPictures}</if>
+            <if test="admissionTime != null "> and admission_time = #{admissionTime}</if>
+            <if test="State != null  and State != ''"> and _state = #{State}</if>
+            <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
+            <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
+        </where>
+    </select>
+    
+    <select id="selectStudentstatuslistById" parameterType="Long" resultMap="StudentstatuslistResult">
+        <include refid="selectStudentstatuslistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStudentstatuslist" parameterType="Studentstatuslist" useGeneratedKeys="true" keyProperty="id">
+        insert into studentstatuslist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null  and studentsId != ''">students_id,</if>
+            <if test="studentstatusId != null  and studentstatusId != ''">studentstatus_id,</if>
+            <if test="admissionPhotos != null  and admissionPhotos != ''">admission_photos,</if>
+            <if test="graduationPictures != null  and graduationPictures != ''">graduation_pictures,</if>
+            <if test="admissionTime != null ">admission_time,</if>
+            <if test="State != null  and State != ''">_state,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="delFlag != null ">del_flag,</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
+            <if test="useralias != null  and useralias != ''">userAlias,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentsId != null  and studentsId != ''">#{studentsId},</if>
+            <if test="studentstatusId != null  and studentstatusId != ''">#{studentstatusId},</if>
+            <if test="admissionPhotos != null  and admissionPhotos != ''">#{admissionPhotos},</if>
+            <if test="graduationPictures != null  and graduationPictures != ''">#{graduationPictures},</if>
+            <if test="admissionTime != null ">#{admissionTime},</if>
+            <if test="State != null  and State != ''">#{State},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">#{useralias},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStudentstatuslist" parameterType="Studentstatuslist">
+        update studentstatuslist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentsId != null  and studentsId != ''">students_id = #{studentsId},</if>
+            <if test="studentstatusId != null  and studentstatusId != ''">studentstatus_id = #{studentstatusId},</if>
+            <if test="admissionPhotos != null  and admissionPhotos != ''">admission_photos = #{admissionPhotos},</if>
+            <if test="graduationPictures != null  and graduationPictures != ''">graduation_pictures = #{graduationPictures},</if>
+            <if test="admissionTime != null ">admission_time = #{admissionTime},</if>
+            <if test="State != null  and State != ''">_state = #{State},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+            <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
+            <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudentstatuslistById" parameterType="Long">
+        delete from studentstatuslist where id = #{id}
+    </delete>
+
+    <delete id="deleteStudentstatuslistByIds" parameterType="String">
+        delete from studentstatuslist where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

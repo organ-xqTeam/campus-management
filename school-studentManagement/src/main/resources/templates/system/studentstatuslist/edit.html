@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改学籍管理')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-studentstatuslist-edit" th:object="${studentstatuslist}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学生id：</label>
+                <div class="col-sm-8">
+                
+                	<select  class="form-control" name="studentsId" disabled>
+					    <option   th:each="coursemanagement:${studentslist}" th:value="${coursemanagement.id}" 
+					    th:text="${coursemanagement.studentsName}" 
+					     th:selected="*{studentsId}==${coursemanagement.id}"
+					    ></option>
+					 </select>
+                   <!--  <input name="studentsId" th:field="*{studentsId}" class="form-control" type="text"> -->
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学籍号：</label>
+                <div class="col-sm-8">
+                    <input name="studentstatusId" th:field="*{studentstatusId}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入学照片：</label>
+                <div class="col-sm-8">
+                    <input name="admissionPhotos" th:field="*{admissionPhotos}" class="form-control" type="hidden">
+                     <input id="imageBase1" name="filePath" class="form-control" type="file" accept = "image/*">
+                </div>
+                 <img id="showImg1" th:src="*{admissionPhotos}" style="width: 50%">
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">毕业照片：</label>
+                <div class="col-sm-8">
+                    <input name="graduationPictures" th:field="*{graduationPictures}" class="form-control" type="hidden">
+                     <input id="imageBase2" name="filePath" class="form-control" type="file" accept = "image/*">
+                </div>
+                 <img id="showImg2" th:src="*{graduationPictures}" style="width: 50%">
+            </div>
+           <!--  <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <input name="State" th:field="*{State}" class="form-control" type="text">
+                </div>
+            </div> -->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/studentstatuslist";
+        $("#form-studentstatuslist-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+            	
+            	if($('#imageBase1')[0].files[0]){
+	            	var formData = new FormData()  //创建一个forData 
+	                formData.append('file', $('#imageBase1')[0].files[0]) //把file添加进去  name命名为img
+	                $.ajax({
+	                    url: prefix + "/importImg",
+	                    data: formData,
+	                    type: "POST",
+	                    async: false,
+	                    cache: false,
+	                    contentType: false,
+	                    processData: false,
+	                    success: function(data) {
+	                    	if (data.code != 0) {
+	                    		$.modal.msgError("图片上传失败！！！");
+	        				}
+	                    	console.log(data)
+	                    	$("#admissionPhotos").val(data.msg)
+	                    },
+	                    error: function(obj) {
+	                          //失败
+	                        //  console.log(obj)
+	                          $.modal.msgError("图片上传失败！！！");
+	                    }
+	                  })
+            	 }
+                  if($('#imageBase2')[0].files[0]){
+	                 var formData = new FormData()  //创建一个forData 
+			        formData.append('file', $('#imageBase2')[0].files[0]) //把file添加进去  name命名为img
+			        $.ajax({
+			            url: prefix + "/importImg",
+			            data: formData,
+			            type: "POST",
+			            async: false,
+			            cache: false,
+			            contentType: false,
+			            processData: false,
+			            success: function(data) {
+			            	if (data.code != 0) {
+			            		$.modal.msgError("图片上传失败！！！");
+							}
+			            	$("#graduationPictures").val(data.msg)
+			            },
+			            error: function(obj) {
+			                  //失败
+			                //  console.log(obj)
+			                  $.modal.msgError("图片上传失败！！！");
+			            }
+			          })
+                  }
+            	
+                $.operate.save(prefix + "/edit", $('#form-studentstatuslist-edit').serialize());
+            }
+        }
+
+    </script>
+</body>
+</html>
