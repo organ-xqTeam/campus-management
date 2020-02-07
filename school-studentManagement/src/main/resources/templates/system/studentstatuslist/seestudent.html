@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+         <form class="form-horizontal m" id="form-schoolstudentslist-edit" th:object="${schoolstudentslist}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学生id：</label>
+                <div class="col-sm-8">
+                    <input name="studentsId" th:field="*{studentsId}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学生名称：</label>
+                <div class="col-sm-8">
+                    <input name="studentsName" th:field="*{studentsName}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：1男0女：</label>
+                <div class="col-sm-8">
+                    <input name="gender" th:field="*{gender}" class="form-control" type="text" readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">出生年月：</label>
+                <div class="col-sm-8">
+                    <input name="birth" th:field="*{birth}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">民族：</label>
+                <div class="col-sm-8">
+                    <input name="nation" th:field="*{nation}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">身份证号：</label>
+                <div class="col-sm-8">
+                    <input name="idnum" th:field="*{idnum}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否有拒签历史：1是0否：</label>
+                <div class="col-sm-8">
+                    <input name="isrefuse" th:field="*{isrefuse}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">审批状态：1未审批2通过3驳回：</label>
+                <div class="col-sm-8">
+                    <input name="approvalstate" th:field="*{approvalstate}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学级：</label>
+                <div class="col-sm-8">
+                    <input name="academicLevel" th:field="*{academicLevel}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">父亲名称：</label>
+                <div class="col-sm-8">
+                    <input name="fatherName" th:field="*{fatherName}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">父亲电话号：</label>
+                <div class="col-sm-8">
+                    <input name="fatherPhone" th:field="*{fatherPhone}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">母亲名称：</label>
+                <div class="col-sm-8">
+                    <input name="motherName" th:field="*{motherName}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">母亲电话号：</label>
+                <div class="col-sm-8">
+                    <input name="motherPhone" th:field="*{motherPhone}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">家庭住址：</label>
+                <div class="col-sm-8">
+                    <input name="homeAddress" th:field="*{homeAddress}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：</label>
+                <div class="col-sm-8">
+                    <input name="Remarks" th:field="*{Remarks}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">年龄：</label>
+                <div class="col-sm-8">
+                    <input name="ages" th:field="*{ages}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入学时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="admissionTime" th:value="${#dates.format(schoolstudentslist.admissionTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text"readonly="readonly">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">状态：</label>
+                <div class="col-sm-8">
+                    <input name="State" th:field="*{State}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：毕业高中：</label>
+                <div class="col-sm-8">
+                    <input name="remark1" th:field="*{remark1}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：高考省份：</label>
+                <div class="col-sm-8">
+                    <input name="remark2" th:field="*{remark2}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：选择成绩类型：</label>
+                <div class="col-sm-8">
+                    <input name="remark3" th:field="*{remark3}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：总分：</label>
+                <div class="col-sm-8">
+                    <input name="remark4" th:field="*{remark4}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：英语单科：</label>
+                <div class="col-sm-8">
+                    <input name="remark5" th:field="*{remark5}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：预选班级：</label>
+                <div class="col-sm-8">
+                    <input name="remark6" th:field="*{remark6}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：联系方式：</label>
+                <div class="col-sm-8">
+                    <input name="remark7" th:field="*{remark7}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：联系地址：</label>
+                <div class="col-sm-8">
+                    <input name="remark8" th:field="*{remark8}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：户口所在地：</label>
+                <div class="col-sm-8">
+                    <input name="remark9" th:field="*{remark9}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：政治面貌：</label>
+                <div class="col-sm-8">
+                    <input name="remark10" th:field="*{remark10}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：通讯地址：</label>
+                <div class="col-sm-8">
+                    <input name="remark11" th:field="*{remark11}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：邮编：</label>
+                <div class="col-sm-8">
+                    <input name="remark12" th:field="*{remark12}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：是否少数民族：</label>
+                <div class="col-sm-8">
+                    <input name="remark13" th:field="*{remark13}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：是否招生1是0否：</label>
+                <div class="col-sm-8">
+                    <input name="remark14" th:field="*{remark14}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：高考成绩：</label>
+                <div class="col-sm-8">
+                    <input name="remark15" th:field="*{remark15}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：会考成绩：</label>
+                <div class="col-sm-8">
+                    <input name="remark16" th:field="*{remark16}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">备注：模考成绩：</label>
+                <div class="col-sm-8">
+                    <input name="remark17" th:field="*{remark17}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">监护人姓名：</label>
+                <div class="col-sm-8">
+                    <input name="remark18" th:field="*{remark18}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">与学生关系：</label>
+                <div class="col-sm-8">
+                    <input name="remark19" th:field="*{remark19}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="remark20" th:field="*{remark20}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian1" th:field="*{lixian1}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian2" th:field="*{lixian2}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian3" th:field="*{lixian3}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian4" th:field="*{lixian4}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian5" th:field="*{lixian5}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian6" th:field="*{lixian6}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">联系手机：</label>
+                <div class="col-sm-8">
+                    <input name="lixian7" th:field="*{lixian7}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报道状态：1已报道；2未报道：</label>
+                <div class="col-sm-8">
+                    <input name="reportstate" th:field="*{reportstate}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">未报到原因：</label>
+                <div class="col-sm-8">
+                    <input name="notreportresult" th:field="*{notreportresult}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">缴费状态：</label>
+                <div class="col-sm-8">
+                    <input name="paystate" th:field="*{paystate}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否注册：1是；0否：</label>
+                <div class="col-sm-8">
+                    <input name="isregister" th:field="*{isregister}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否领取钥匙：1是；0否：</label>
+                <div class="col-sm-8">
+                    <input name="isreceivekey" th:field="*{isreceivekey}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否领取军训设备：1是；0否：</label>
+                <div class="col-sm-8">
+                    <input name="isreceivejunxun" th:field="*{isreceivejunxun}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">就业单位：</label>
+                <div class="col-sm-8">
+                    <input name="company" th:field="*{company}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">就业情况审批状态：</label>
+                <div class="col-sm-8">
+                    <input name="comapproval" th:field="*{comapproval}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工作岗位：</label>
+                <div class="col-sm-8">
+                    <input name="post" th:field="*{post}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">工作情况：</label>
+                <div class="col-sm-8">
+                    <input name="situation" th:field="*{situation}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">部门表的别名：</label>
+                <div class="col-sm-8">
+                    <input name="deptalias" th:field="*{deptalias}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">用户表的别名：</label>
+                <div class="col-sm-8">
+                    <input name="useralias" th:field="*{useralias}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">年级id：</label>
+                <div class="col-sm-8">
+                    <input name="gradeId" th:field="*{gradeId}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班级id：</label>
+                <div class="col-sm-8">
+                    <input name="classId" th:field="*{classId}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">user表的id：</label>
+                <div class="col-sm-8">
+                    <input name="userId" th:field="*{userId}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学号：</label>
+                <div class="col-sm-8">
+                    <input name="studentNo" th:field="*{studentNo}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学生证号：</label>
+                <div class="col-sm-8">
+                    <input name="studentIdcard" th:field="*{studentIdcard}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入学照片：</label>
+                <div class="col-sm-8">
+                    <input name="loginPic" th:field="*{loginPic}" class="form-control" type="text"readonly="readonly">
+                </div>
+            </div> -->
+        </form> 
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    
+    <script th:inline="javascript">
+    	var schoolstudentslist =[[${schoolstudentslist}]]
+    	console.log(schoolstudentslist)
+    </script>
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolstudentslist";
+        $("#form-schoolstudentslist-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-schoolstudentslist-edit').serialize());
+            }
+        }
+
+        $("input[name='admissionTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

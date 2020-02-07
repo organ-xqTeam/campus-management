@@ -91,4 +91,17 @@ public class StudentstatuslistServiceImpl implements IStudentstatuslistService
     {
         return studentstatuslistMapper.deleteStudentstatuslistById(id);
     }
+
+	@Override
+	public String importUser(List<Studentstatuslist> userList, boolean updateSupport) {
+		int num = 0;
+		for (int i = 0; i < userList.size(); i++) {
+			num +=  studentstatuslistMapper.insertStudentstatuslist(userList.get(i));
+		}
+		if (num ==  userList.size()) {
+			
+			return "成功";
+		}
+		return "失败";
+	}
 }

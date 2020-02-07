@@ -3,6 +3,7 @@ package com.ruoyi.system.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.annotation.Excel.Type;
 import com.ruoyi.common.core.domain.BaseEntity;
 import java.util.Date;
 
@@ -24,7 +25,7 @@ public class Studentstatuslist extends BaseEntity
     private String studentsId;
 
     /** 学籍号 */
-    @Excel(name = "学籍号")
+    @Excel(name = "学籍号" ,  type = Type.IMPORT)
     private String studentstatusId;
 
     /** 入学照片 */

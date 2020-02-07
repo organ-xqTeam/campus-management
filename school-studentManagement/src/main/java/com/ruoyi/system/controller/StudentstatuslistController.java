@@ -120,16 +120,12 @@ public class StudentstatuslistController extends BaseController
     @GetMapping("/add")
     public String add(ModelMap mmap)
     {	
-    	
     	List<Studentstatuslist> slist = studentstatuslistService.selectStudentstatuslistList(null);
-    	
     	Set<String> setlist = new HashSet<String>();
     	for (int i = 0; i < slist.size(); i++) {
     		setlist.add(slist.get(i).getStudentsId().trim());
 		}
-    	
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(null);
-    	
     	List<Schoolstudentslist> li = new ArrayList<Schoolstudentslist>();
     	for (int i = 0; i < list.size(); i++) {
     		//System.out.println(setlist.contains(list.get(i).getId()+""));
@@ -137,7 +133,6 @@ public class StudentstatuslistController extends BaseController
 				li.add(list.get(i));
 			}
 		}
-    	
     	mmap.put("studentslist", li);
     	return prefix + "/add";
     }
@@ -152,6 +147,27 @@ public class StudentstatuslistController extends BaseController
     public AjaxResult addSave(Studentstatuslist studentstatuslist)
     {
         return toAjax(studentstatuslistService.insertStudentstatuslist(studentstatuslist));
+    }
+    /**
+     * 设置学籍状态
+     * @param studentstatuslist
+     * @return
+     */
+    @PostMapping("/setstudentstatus")
+    @ResponseBody
+    public AjaxResult setstudentstatus(Studentstatuslist studentstatuslist)
+    {
+    	Studentstatuslist studen = new Studentstatuslist();
+    	studen.setStudentsId(studentstatuslist.getStudentsId());
+		List<Studentstatuslist> list = studentstatuslistService.selectStudentstatuslistList(studen );
+		if (list.size() == 0) {
+			return toAjax(studentstatuslistService.insertStudentstatuslist(studentstatuslist));
+		}else {
+			Studentstatuslist tus = list.get(0);
+			studentstatuslist.setId(tus.getId());
+			return toAjax(studentstatuslistService.updateStudentstatuslist(studentstatuslist));
+		}
+		
     }
 
     /**
@@ -210,4 +226,30 @@ public class StudentstatuslistController extends BaseController
             return error(e.getMessage());
         }
     }
+    
+    @PostMapping("/importData")
+    @ResponseBody
+    public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
+    {
+    	ExcelUtil<Studentstatuslist> util = new ExcelUtil<Studentstatuslist>(Studentstatuslist.class);
+    	List<Studentstatuslist> userList = util.importExcel(file.getInputStream());
+    	//String operName = ShiroUtils.getSysUser().getLoginName();
+    	String message = studentstatuslistService.importUser(userList, updateSupport);
+    	return AjaxResult.success(message);
+    }
+    
+    
+    @RequiresPermissions("system:seestudent:view")
+    @GetMapping("/seestudent/{id}")
+    public String seestudent(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	
+    	
+    	Schoolstudentslist se = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", se);
+    	return prefix + "/seestudent";
+    }
+    
+    
+    
 }

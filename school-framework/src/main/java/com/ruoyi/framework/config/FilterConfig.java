@@ -45,15 +45,14 @@ public class FilterConfig
         registration.setInitParameters(initParameters);
         return registration;
     }
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Bean
-	public FilterRegistrationBean encryptionProcessingFilter() {
-        FilterRegistrationBean filterReg = new FilterRegistrationBean(new TokenFilter());
-        //优先级
-        filterReg.setOrder(70);
-        filterReg.setDispatcherTypes(DispatcherType.REQUEST);
-        filterReg.addUrlPatterns("/*");
-        System.out.println("加载加密拦截器成功！！");
-        return filterReg;
-    }
+	/*
+	 * @SuppressWarnings({ "rawtypes", "unchecked" })
+	 * 
+	 * @Bean public FilterRegistrationBean encryptionProcessingFilter() {
+	 * FilterRegistrationBean filterReg = new FilterRegistrationBean(new
+	 * TokenFilter()); //优先级 filterReg.setOrder(70);
+	 * filterReg.setDispatcherTypes(DispatcherType.REQUEST);
+	 * filterReg.addUrlPatterns("/*"); System.out.println("加载加密拦截器成功！！"); return
+	 * filterReg; }
+	 */
 }

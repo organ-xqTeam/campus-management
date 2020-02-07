@@ -34,7 +34,9 @@ import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.CertificateManagement;
+import com.ruoyi.system.domain.Studentstatuslist;
 import com.ruoyi.system.service.ICertificateManagementService;
+import com.ruoyi.system.service.IStudentstatuslistService;
 
 /**
  * 学生列Controller
@@ -51,7 +53,8 @@ public class StudentOfficeStaffController extends BaseController
     
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
-    
+    @Autowired
+    private IStudentstatuslistService studentstatuslistService;
     @Autowired
     private ISchoolClassService schoolClassService;
     @Autowired
@@ -257,10 +260,25 @@ public class StudentOfficeStaffController extends BaseController
     @GetMapping("/Graduation")
     public String Graduation(ModelMap mmap)
     {
+    	
+    	
+    	List<Studentstatuslist> sl = studentstatuslistService.selectStudentstatuslistList(null);
+    	
     	List<CertificateManagement> list = certificateManagementService.selectCertificateManagementList(null);
 		mmap.put("certificateManagement", list);
+		mmap.put("studentstatuslists", sl);
     	
     	return prefix + "/Graduation";
+    }
+    @RequiresPermissions("system:studentofficestaffsetstudentstatus:view")
+    @GetMapping("/setstudentstatus/{id}")
+    public String setstudentstatus(@PathVariable("id") Long id,ModelMap mmap)
+    {
+    	mmap.put("id", id);
+    	
+    	
+    	
+    	return prefix + "/setstudentstatus";
     }
     /**
      * 查询学生列列表

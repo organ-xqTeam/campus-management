@@ -64,6 +64,7 @@
         var prefix = ctx + "system/StudentOfficeStaff";
 
         var certificateManagement = [[${certificateManagement}]]
+        var studentstatuslists = [[${studentstatuslists}]]
         
         $(function() {
             var options = {
@@ -162,11 +163,31 @@
                     	}
                     }
                 },
-                /*{
-                    field : 'remark', 
-                    title : '备注'
+              	{
+                    field : '', 
+                    title : '学籍状态',
+                    formatter: function(value, row, index) {
+                    	//未注册学籍
+                    	//注册学籍
+                    	//已离校
+                    	//保留学籍
+                    	//studentstatuslists
+                    	var values
+                    	for (i = 0; i < studentstatuslists.length; i++) { 
+                    		if(studentstatuslists[i].studentsId == row.id){
+                    			values = studentstatuslists[i].state
+                    		}
+						}
+                    	console.log(values)
+                    	if(!values  || values ==''){
+                    		values =1
+                    	}
+                    	console.log(values)
+                    	var datas = [[${@dict.getType('student_status')}]];
+                    	return $.table.selectDictLabel(datas, values);
+                    }
                 },
-                {
+                /*{
                     field : 'remark2', 
                     title : '备注'
                 },
@@ -243,6 +264,9 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
+                        
+                        actions.push('<a class="" href="javascript:void(0)" onclick="setstudentstatus(\''+row.id+'\')">设置学籍状态</a> ');
+                        
                         actions.push('<a class="" href="javascript:void(0)" onclick="uploadCertificate(\''+row.id+'\')">上传证书</a> ');
                         
                         actions.push('<a class="" href="javascript:void(0)" onclick="DownloadCertificate(\''+row.id+'\')">下载证书</a> ');
@@ -273,7 +297,7 @@
         	//window.location.href = prefix + "/listGraduation/download/" + obj;
         }
         function uploadCertificate(obj){
-        	var id ="1"
+        	//var id ="1"
         	var url = prefix + "/uploadCer/" + obj;
     		var options = {
    				title: '上传证书',
@@ -292,12 +316,36 @@
 			 if(body.find('#form-certificateManagement-add').length != 0){
 			 	$.operate.save(prefix1 + "/add", body.find('#form-certificateManagement-add').serialize());
 			 }else if(body.find('#form-certificateManagement-edit').length != 0){
-				 $.operate.save(prefix1 + "/edit",body.find('#form-certificateManagement-edit').serialize());
+				$.operate.save(prefix1 + "/edit",body.find('#form-certificateManagement-edit').serialize());
 			 }
 			 
    			//layer.close(index);
 		}
         
+	       function  setstudentstatus(obj){
+	    	   	var url = prefix + "/setstudentstatus/" + obj;
+	    		var options = {
+	    			width: "380",
+	   				title: '设置学籍状态',
+	   				url: url,
+	   				callBack: doSubmitset
+	   			};
+	   			$.modal.openOptions(options);
+	       }
+	       function doSubmitset(index, layero){
+				var body = layer.getChildFrame('body', index);
+				var num = body.find("#status option:selected").val()
+				var sid = body.find("#sid").val()
+				 console.log(num)
+				 console.log(sid)
+				 
+				 
+				 $.operate.save(ctx+"system/studentstatuslist" + "/setstudentstatus","studentsId="+sid+"&State="+num);
+				 
+				 
+				 
+	   			//layer.close(index);
+			}
         
     </script>
 </body>

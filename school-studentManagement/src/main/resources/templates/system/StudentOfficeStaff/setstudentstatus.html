@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增学籍管理')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" >
+        	<input id="sid" th:value="${id}" type="hidden">
+            <div class="form-group">    
+                <select  id="status" class="form-control m-b" name="status" th:with="type=${@dict.getType('student_status')}">
+				<!--   <option value="">所有</option> -->
+				  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"  >
+				  </option>
+				</select>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+    
+    	
+    </script>
+    <script type="text/javascript">
+       
+       	
+    </script>
+</body>
+</html>

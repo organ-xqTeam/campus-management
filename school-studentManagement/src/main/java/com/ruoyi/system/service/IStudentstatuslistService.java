@@ -58,4 +58,6 @@ public interface IStudentstatuslistService
      * @return 结果
      */
     public int deleteStudentstatuslistById(Long id);
+
+	public String importUser(List<Studentstatuslist> userList, boolean updateSupport);
 }
