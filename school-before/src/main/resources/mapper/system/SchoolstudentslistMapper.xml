@@ -43,6 +43,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark15"    column="remark15"    />
         <result property="remark16"    column="remark16"    />
         <result property="remark17"    column="remark17"    />
+        <result property="remark18"    column="remark18"    />
+        <result property="remark19"    column="remark19"    />
+        <result property="remark20"    column="remark20"    />
+        <result property="lixian1"    column="lixian1"    />
+        <result property="lixian2"    column="lixian2"    />
+        <result property="lixian3"    column="lixian3"    />
+        <result property="lixian4"    column="lixian4"    />
+        <result property="lixian5"    column="lixian5"    />
+        <result property="lixian6"    column="lixian6"    />
+        <result property="lixian7"    column="lixian7"    />
         <result property="reportstate"    column="reportstate"    />
         <result property="notreportresult"    column="notreportresult"    />
         <result property="paystate"    column="paystate"    />
@@ -63,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
     </sql>
     
     <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -108,6 +118,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark15 != null  and remark15 != ''"> and remark15 = #{remark15}</if>
             <if test="remark16 != null  and remark16 != ''"> and remark16 = #{remark16}</if>
             <if test="remark17 != null  and remark17 != ''"> and remark17 = #{remark17}</if>
+            <if test="remark18 != null  and remark18 != ''"> and remark18 = #{remark18}</if>
+            <if test="remark19 != null  and remark19 != ''"> and remark19 = #{remark19}</if>
+            <if test="remark20 != null  and remark20 != ''"> and remark20 = #{remark20}</if>
+            <if test="lixian7 != null  and lixian7 != ''"> and lixian7 = #{lixian7}</if>
+            <if test="lixian6 != null  and lixian6 != ''"> and lixian6 = #{lixian6}</if>
+            <if test="lixian5 != null  and lixian5 != ''"> and lixian5 = #{lixian5}</if>
+            <if test="lixian4 != null  and lixian4 != ''"> and lixian4 = #{lixian4}</if>
+            <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
+            <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
+            <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
             <if test="reportstate != null  and reportstate != ''"> and reportstate = #{reportstate}</if>
             <if test="notreportresult != null  and notreportresult != ''"> and notreportresult = #{notreportresult}</if>
             <if test="paystate != null  and paystate != ''"> and paystate = #{paystate}</if>
@@ -163,6 +183,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark15 != null  and remark15 != ''"> and remark15 = #{remark15}</if>
             <if test="remark16 != null  and remark16 != ''"> and remark16 = #{remark16}</if>
             <if test="remark17 != null  and remark17 != ''"> and remark17 = #{remark17}</if>
+            <if test="remark18 != null  and remark18 != ''"> and remark18 = #{remark18}</if>
+            <if test="remark19 != null  and remark19 != ''"> and remark19 = #{remark19}</if>
+            <if test="remark20 != null  and remark20 != ''"> and remark20 = #{remark20}</if>
+            <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
+            <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
+            <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
+            <if test="lixian4 != null  and lixian4 != ''"> and lixian4 = #{lixian4}</if>
+            <if test="lixian5 != null  and lixian5 != ''"> and lixian5 = #{lixian5}</if>
+            <if test="lixian6 != null  and lixian6 != ''"> and lixian6 = #{lixian6}</if>
+            <if test="lixian7 != null  and lixian7 != ''"> and lixian7 = #{lixian7}</if>
             <if test="reportstate != null  and reportstate != ''"> and reportstate = #{reportstate}</if>
             <if test="notreportresult != null  and notreportresult != ''"> and notreportresult = #{notreportresult}</if>
             <if test="paystate != null  and paystate != ''"> and paystate = #{paystate}</if>
@@ -225,6 +255,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark15 != null  and remark15 != ''"> and remark15 = #{remark15}</if>
             <if test="remark16 != null  and remark16 != ''"> and remark16 = #{remark16}</if>
             <if test="remark17 != null  and remark17 != ''"> and remark17 = #{remark17}</if>
+            <if test="remark18 != null  and remark18 != ''"> and remark18 = #{remark18}</if>
+            <if test="remark19 != null  and remark19 != ''"> and remark19 = #{remark19}</if>
+            <if test="remark20 != null  and remark20 != ''"> and remark20 = #{remark20}</if>
+            <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
+            <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
+            <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
+            <if test="lixian4 != null  and lixian4 != ''"> and lixian4 = #{lixian4}</if>
+            <if test="lixian5 != null  and lixian5 != ''"> and lixian5 = #{lixian5}</if>
+            <if test="lixian6 != null  and lixian6 != ''"> and lixian6 = #{lixian6}</if>
+            <if test="lixian7 != null  and lixian7 != ''"> and lixian7 = #{lixian7}</if>
             <if test="reportstate != null  and reportstate != ''"> and reportstate = #{reportstate}</if>
             <if test="notreportresult != null  and notreportresult != ''"> and notreportresult = #{notreportresult}</if>
             <if test="paystate != null  and paystate != ''"> and paystate = #{paystate}</if>
@@ -288,6 +328,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark15 != null  and remark15 != ''">remark15,</if>
             <if test="remark16 != null  and remark16 != ''">remark16,</if>
             <if test="remark17 != null  and remark17 != ''">remark17,</if>
+            <if test="remark18 != null  and remark18 != ''">remark18,</if>
+            <if test="remark19 != null  and remark19 != ''">remark19,</if>
+            <if test="remark20 != null  and remark20 != ''">remark20,</if>
+            <if test="lixian1 != null  and lixian1 != ''">lixian1,</if>
+            <if test="lixian2 != null  and lixian2 != ''">lixian2,</if>
+            <if test="lixian3 != null  and lixian3 != ''">lixian3,</if>
+            <if test="lixian4 != null  and lixian4 != ''">lixian4,</if>
+            <if test="lixian5 != null  and lixian5 != ''">lixian5,</if>
+            <if test="lixian6 != null  and lixian6 != ''">lixian6,</if>
+            <if test="lixian7 != null  and lixian7 != ''">lixian7,</if>
             <if test="reportstate != null  and reportstate != ''">reportstate,</if>
             <if test="notreportresult != null  and notreportresult != ''">notreportresult,</if>
             <if test="paystate != null  and paystate != ''">paystate,</if>
@@ -342,6 +392,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark15 != null  and remark15 != ''">#{remark15},</if>
             <if test="remark16 != null  and remark16 != ''">#{remark16},</if>
             <if test="remark17 != null  and remark17 != ''">#{remark17},</if>
+            <if test="remark18 != null  and remark18 != ''">#{remark18},</if>
+            <if test="remark19 != null  and remark19 != ''">#{remark19},</if>
+            <if test="remark20 != null  and remark20 != ''">#{remark20},</if>
+            <if test="lixian1 != null  and lixian1 != ''">#{lixian1},</if>
+            <if test="lixian2 != null  and lixian2 != ''">#{lixian2},</if>
+            <if test="lixian3 != null  and lixian3 != ''">#{lixian3},</if>
+            <if test="lixian4 != null  and lixian4 != ''">#{lixian4},</if>
+            <if test="lixian5 != null  and lixian5 != ''">#{lixian5},</if>
+            <if test="lixian6 != null  and lixian6 != ''">#{lixian6},</if>
+            <if test="lixian7 != null  and lixian7 != ''">#{lixian7},</if>
             <if test="reportstate != null  and reportstate != ''">#{reportstate},</if>
             <if test="notreportresult != null  and notreportresult != ''">#{notreportresult},</if>
             <if test="paystate != null  and paystate != ''">#{paystate},</if>
@@ -400,6 +460,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark15 != null  and remark15 != ''">remark15 = #{remark15},</if>
             <if test="remark16 != null  and remark16 != ''">remark16 = #{remark16},</if>
             <if test="remark17 != null  and remark17 != ''">remark17 = #{remark17},</if>
+            <if test="remark18 != null  and remark18 != ''">remark18 = #{remark18},</if>
+            <if test="remark19 != null  and remark19 != ''">remark19 = #{remark19},</if>
+            <if test="remark20 != null  and remark20 != ''">remark20 = #{remark20},</if>
+            <if test="lixian1 != null  and lixian1 != ''">lixian1 = #{lixian1},</if>
+            <if test="lixian2 != null  and lixian2 != ''">lixian2 = #{lixian2},</if>
+            <if test="lixian3 != null  and lixian3 != ''">lixian3 = #{lixian3},</if>
+            <if test="lixian4 != null  and lixian4 != ''">lixian4 = #{lixian4},</if>
+            <if test="lixian5 != null  and lixian5 != ''">lixian5 = #{lixian5},</if>
+            <if test="lixian6 != null  and lixian6 != ''">lixian6 = #{lixian6},</if>
+            <if test="lixian7 != null  and lixian7 != ''">lixian7 = #{lixian7},</if>
             <if test="reportstate != null  and reportstate != ''">reportstate = #{reportstate},</if>
             <if test="notreportresult != null  and notreportresult != ''">notreportresult = #{notreportresult},</if>
             <if test="paystate != null  and paystate != ''">paystate = #{paystate},</if>

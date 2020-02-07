@@ -13,10 +13,17 @@
                             <li>
                                 <p>学生名</p>
                                 <input type="text" name="studentsName"/>
+                                <input type="text" name="comapproval" value="1" style="display: none"/>
                             </li>
                              <li>
-                                <p>学级：</p>
-                                <input type="text" name="academicLevel"/>
+                                <p>班级：</p>
+                                <select class="form-control" name="classId">
+                                	<option value=""></option>
+									<option th:each="class:${classlist}" 
+										th:value="${class.id}" 
+										th:text="${class.nameclass}" >
+									</option>
+								</select>
                             </li>
                             <li class="select-time">
                                 <p>入学时间：</p>
@@ -81,35 +88,33 @@
                     title : '入学时间'
                 },
                 {
-                    field : 'state', 
-                    title : '状态',
+                    field : 'company', 
+                    title : '就业单位',
                     formatter: function(value, row, index) {
-                    	var datas = [[${@dict.getType('system_schoolenrollmentmanagement_state')}]];
+                    	var datas = [[${@dict.getType('sys_company_list')}]];
                     	return $.table.selectDictLabel(datas, value);
                     }
                 },
                 {
-                    field : 'remark1', 
-                    title : '材料附件'
+                    field : 'post', 
+                    title : '工作岗位'
                 },
                 {
-                    title: '操作',
-                    align: 'center',
-                    formatter: function(value, row, index) {
-                    	var actions = [];
-                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="jiuye(\'' + row.id + '\')">就业信息管理</a> ');
-                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="genzong(\'' + row.id + '\')">毕业生跟踪</a> ');
-                   		return actions.join('');
-                    }
+                    field : 'situation', 
+                    title : '工作情况'
                 }]
             };
             $.table.init(options);
         });
         
-        function jiuye(id){
-        	var url = prefix + "/jiuye/" + id;
+        function jiuyeshenhe(id, state){
+        	if (state == '1' || state == '2') {
+        		$.modal.alertWarning("该学生已审批");
+        		return; 
+        	}
+        	var url = prefix + "/jiuyeshenhe/" + id;
     		var options = {
-   				title: '就业信息管理',
+   				title: '就业信息审核',
    				width: "380",
    				url: url,
    				callBack: doSubmit
@@ -120,33 +125,12 @@
         function doSubmit(index, layero){
 			var body = layer.getChildFrame('body', index);
 			var id  = body.find('#id').val()
-			var company  = body.find('#company').val()
-			var str = "id="+id+"&company="+company;
+			var comapproval  = body.find('#comapproval').val()
+			var str = "id="+id+"&comapproval="+comapproval;
 			$.operate.save(prefix2 + "/edit", str);
    			layer.close(index);
 		}
-
-        function genzong(id){
-        	var url = prefix + "/genzong/" + id;
-    		var options = {
-   				title: '毕业生跟踪',
-   				width: "380",
-   				url: url,
-   				callBack: doSubmit2
-   			};
-   			$.modal.openOptions(options);
-        }
-        
-        function doSubmit2(index, layero){
-			var body = layer.getChildFrame('body', index);
-			var id  = body.find('#id').val()
-			var situation  = body.find('#situation').val()
-			var post  = body.find('#post').val()
-			var str = "id="+id+"&post="+post+"&situation="+situation;
-			$.operate.save(prefix2 + "/edit", str);
-   			layer.close(index);
-		}
-        
+ 		
     </script>
 </body>
 </html>

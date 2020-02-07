@@ -155,8 +155,30 @@ public class Schoolstudentslist extends BaseEntity
     /** 备注 */
     //@Excel(name = "备注")
     private String remark17;
+    private String remark18;
+    private String remark19;
+    private String remark20;
     
-//    @Excel(name = "报道状态：1已报道；2未报道")
+    public String getRemark18() {
+		return remark18;
+	}
+	public void setRemark18(String remark18) {
+		this.remark18 = remark18;
+	}
+	public String getRemark19() {
+		return remark19;
+	}
+	public void setRemark19(String remark19) {
+		this.remark19 = remark19;
+	}
+	public String getRemark20() {
+		return remark20;
+	}
+	public void setRemark20(String remark20) {
+		this.remark20 = remark20;
+	}
+
+	//    @Excel(name = "报道状态：1已报道；2未报道")
     private String reportstate;
 //    @Excel(name = "未报到原因")
     private String notreportresult;
@@ -172,12 +194,71 @@ public class Schoolstudentslist extends BaseEntity
     private String company;
 //  @Excel(name = "就业情况审批状态")
     private String comapproval;
-    @Excel(name = "工作岗位")
+//    @Excel(name = "工作岗位")
     private String post;
-    @Excel(name = "工作情况")
+//    @Excel(name = "工作情况")
     private String situation;
+
+//    @Excel(name = "图书馆办理信息")
+    private String lixian1;
+//    @Excel(name = "财务处办理信息")
+    private String lixian2;
+//    @Excel(name = "一卡通办理信息")
+    private String lixian3;
+//    @Excel(name = "退宿办理信息")
+    private String lixian4;
+//    @Excel(name = "组织关系转出")
+    private String lixian5;
+//    @Excel(name = "户口转出信息")
+    private String lixian6;
+//    @Excel(name = "毕业证发放信息")
+    private String lixian7;
     
-    public String getPost() {
+    
+    
+    public String getLixian1() {
+		return lixian1;
+	}
+	public void setLixian1(String lixian1) {
+		this.lixian1 = lixian1;
+	}
+	public String getLixian2() {
+		return lixian2;
+	}
+	public void setLixian2(String lixian2) {
+		this.lixian2 = lixian2;
+	}
+	public String getLixian3() {
+		return lixian3;
+	}
+	public void setLixian3(String lixian3) {
+		this.lixian3 = lixian3;
+	}
+	public String getLixian4() {
+		return lixian4;
+	}
+	public void setLixian4(String lixian4) {
+		this.lixian4 = lixian4;
+	}
+	public String getLixian5() {
+		return lixian5;
+	}
+	public void setLixian5(String lixian5) {
+		this.lixian5 = lixian5;
+	}
+	public String getLixian6() {
+		return lixian6;
+	}
+	public void setLixian6(String lixian6) {
+		this.lixian6 = lixian6;
+	}
+	public String getLixian7() {
+		return lixian7;
+	}
+	public void setLixian7(String lixian7) {
+		this.lixian7 = lixian7;
+	}
+	public String getPost() {
 		return post;
 	}
 	public void setPost(String post) {

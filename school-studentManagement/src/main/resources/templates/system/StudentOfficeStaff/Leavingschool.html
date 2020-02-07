@@ -18,6 +18,33 @@
                                 <p>学级：</p>
                                 <input type="text" name="academicLevel"/>
                             </li>
+                            <li>
+                            	<p>离校情况：</p>
+			            	  	<select name="state" th:with="type=${@dict.getType('system_schoolenrollmentmanagement_state')}">
+			            	  		<option value=""></option>
+				                  	<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+				              	</select> 
+                            </li>
+                             <li>
+                                <p>班级：</p>
+                                <select class="form-control" name="classId">
+                                	<option value=""></option>
+									<option th:each="class:${classlist}" 
+										th:value="${class.id}" 
+										th:text="${class.nameclass}" >
+									</option>
+								</select>
+                            </li>
+                             <li>
+                                <p>年级：</p>
+                                <select class="form-control" name="gradeId">
+                                	<option value=""></option>
+									<option th:each="grade:${gradelist}" 
+										th:value="${grade.id}" 
+										th:text="${grade.grade}" >
+									</option>
+								</select>
+                            </li>
                             <li class="select-time">
                                 <p>入学时间：</p>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdmissionTime]"/>
@@ -37,20 +64,13 @@
                     </div>
                 </form>
             </div>
-
-            <div class="btn-group-sm" id="toolbar" role="group">
-             <!--    <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
-                    <i class="fa fa-plus"></i> 添加
+			<div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="jindu()">
+                	离校办理进度统计
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
-                    <i class="fa fa-edit"></i> 修改
+                <a class="btn btn-success" onclick="lixiaojindu()">
+                	离校进度统计
                 </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentslist:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a> -->
-               <!--  <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:schoolstudentslist:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a> -->
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -62,6 +82,7 @@
         var editFlag = [[${@permission.hasPermi('system:schoolstudentslist:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:schoolstudentslist:remove')}]];
         var prefix = ctx + "system/StudentOfficeStaff";
+        var prefix2 = ctx + "system/schoolstudentslist";
 
         $(function() {
             var options = {
@@ -88,49 +109,8 @@
                     title : '学生名称'
                 },
                 {
-                    field : 'academicLevel', 
-                    title : '学级'
-                },
-                
-                /* {
-                    field : '', 
-                    title : '家庭信息',
-                    formatter: function(value, row, index) {
-                    	console.log(1,row)
-                    	return '<a class="" href="#" onclick="vieweditor(\'' + row.id + '\')">查看编辑</a>';
-                    }
-                }, */
-                /* {
-                    field : 'fatherName', 
-                    title : '父亲名称'
-                },
-                {
-                    field : 'fatherPhone', 
-                    title : '父亲电话号'
-                },
-                {
-                    field : 'motherName', 
-                    title : '母亲名称'
-                },
-                {
-                    field : 'motherPhone', 
-                    title : '母亲电话号'
-                },
-                {
-                    field : 'homeAddress', 
-                    title : '家庭住址'
-                },
-                {
-                    field : 'Remarks', 
-                    title : '备注'
-                }, */
-                {
-                    field : 'ages', 
-                    title : '年龄'
-                },
-                {
-                    field : 'admissionTime', 
-                    title : '入学时间'
+                    field : 'idnum,', 
+                    title : '身份证号'
                 },
                 {
                     field : 'state', 
@@ -141,22 +121,86 @@
                     }
                 },
                 {
-                    field : 'remark1', 
-                    title : '材料附件'
+                    field : 'lixian1', 
+                    title : '图书馆办理信息',
+                    formatter: function(value, row, index) {
+                    	if (value == '2') {
+                    		return '已办理';
+                    	}
+                    	else {
+                    		return '未办理';
+                    	}
+                    }
                 },
                 {
-                    field : 'approvalstate', 
-                    title : '申请状态',
+                    field : 'lixian2', 
+                    title : '财务处办理信息',
                     formatter: function(value, row, index) {
-                    	if (value=='1') {
-                    		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
-                    	}
                     	if (value == '2') {
-                    		return '<a class="btn btn-primary" href="#">通过</a>';
+                    		return '已办理';
                     	}
-                    	if (value == '3') {
-                    		return '<a class="btn btn-danger" href="#">拒绝</a>';
-                    		
+                    	else {
+                    		return '未办理';
+                    	}
+                    }
+                },
+                {
+                    field : 'lixian3', 
+                    title : '一卡通办理信息',
+                    formatter: function(value, row, index) {
+                    	if (value == '2') {
+                    		return '已办理';
+                    	}
+                    	else {
+                    		return '未办理';
+                    	}
+                    }
+                },
+                {
+                    field : 'lixian4', 
+                    title : '一卡通办理信息',
+                    formatter: function(value, row, index) {
+                    	if (value == '2') {
+                    		return '已办理';
+                    	}
+                    	else {
+                    		return '未办理';
+                    	}
+                    }
+                },
+                {
+                    field : 'lixian5', 
+                    title : '组织关系转出信息',
+                    formatter: function(value, row, index) {
+                    	if (value == '2') {
+                    		return '已办理';
+                    	}
+                    	else {
+                    		return '未办理';
+                    	}
+                    }
+                },
+                {
+                    field : 'lixian6', 
+                    title : '户口转出信息',
+                    formatter: function(value, row, index) {
+                    	if (value == '2') {
+                    		return '已办理';
+                    	}
+                    	else {
+                    		return '未办理';
+                    	}
+                    }
+                },
+                {
+                    field : 'lixian7', 
+                    title : '毕业证发放信息',
+                    formatter: function(value, row, index) {
+                    	if (value == '2') {
+                    		return '已办理';
+                    	}
+                    	else {
+                    		return '未办理';
                     	}
                     }
                 },
@@ -241,6 +285,8 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
+                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="lixiao(\'' + row.id + '\')">离校办理</a> ');
+                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="lixian(\'' + row.id + '\')">离线办理</a> ');
                         return actions.join('');
                     }
                 }]
@@ -248,25 +294,23 @@
             $.table.init(options);
         });
         
-        function vieweditor(id){
-        	var url = prefix + "/vieweditor/" + id;
+        function jindu() {
+        	var url = ctx + "system/StudentOfficeStaff/jindu";
+			$.modal.openTab("离校办理进度统计", url);
+        }
+        
+        function lixiaojindu() {
+        	var url = ctx + "system/StudentOfficeStaff/lixiaojindu";
+			$.modal.openTab("离校进度统计", url);
+        }
+        
+        function lixiao(id){
+        	var url = prefix + "/lixiaobanli/" + id;
     		var options = {
-   				title: '家庭信息',
+   				title: '离校办理',
    				width: "380",
    				url: url,
    				callBack: doSubmit
-   			};
-   			$.modal.openOptions(options);
-        }
-        
-        function vieweditor2(id){
-        	var url = prefix + "/vieweditor2/" + id;
-    		var options = {
-   				title: '在线报名申请',
-   				width: "380",
-   				height: "220",
-   				url: url,
-   				callBack: doSubmit2
    			};
    			$.modal.openOptions(options);
         }
@@ -275,36 +319,53 @@
 			var body = layer.getChildFrame('body', index);
 			
 			var id  = body.find('#id').val()
-			var fatherName  = body.find('#fatherName').val()
-			var fatherPhone  = body.find('#fatherPhone').val()
-			var motherName  = body.find('#motherName').val()
-			var motherPhone  = body.find('#motherPhone').val()
-			var homeAddress  = body.find('#homeAddress').val()
-			var Remarks  = body.find('#Remarks').val()
+			var state  = body.find('#state').val()
    			
-			console.log(fatherName,fatherPhone,motherName,motherPhone,homeAddress,Remarks)
+			var str = "id="+id+"&state="+state;
 			
 			
-			var str = "id="+id+"&fatherName="+fatherName+"&fatherPhone="+fatherPhone+
-			"&motherName="+motherName+"&motherPhone="+motherPhone+"&homeAddress="+homeAddress+"&Remarks="+Remarks
-			
-			$.operate.save(prefix + "/edit", str);
+			$.operate.save(prefix2 + "/edit", str);
    			layer.close(index);
 		}
+        
+
+        function lixian(id){
+        	var url = prefix + "/lixianbanli/" + id;
+    		var options = {
+   				title: '离线办理',
+   				width: "380",
+   				url: url,
+   				callBack: doSubmit2
+   			};
+   			$.modal.openOptions(options);
+        }
         
         function doSubmit2(index, layero){
 			var body = layer.getChildFrame('body', index);
+			
 			var id  = body.find('#id').val()
-			var approvalstate  = body.find('#approvalstate').val()
-			var str = "id="+id+"&approvalstate="+approvalstate;
-			$.operate.save(prefix + "/edit", str);
+			var lixian1  = body.find('#lixian1').val()
+			var lixian2  = body.find('#lixian2').val()
+			var lixian3  = body.find('#lixian3').val()
+			var lixian4  = body.find('#lixian4').val()
+			var lixian5  = body.find('#lixian5').val()
+			var lixian6  = body.find('#lixian6').val()
+			var lixian7  = body.find('#lixian7').val()
+   			
+			var str = "id="+id
+			+"&lixian1="+lixian1
+			+"&lixian2="+lixian2
+			+"&lixian3="+lixian3
+			+"&lixian4="+lixian4
+			+"&lixian5="+lixian5
+			+"&lixian6="+lixian6
+			+"&lixian7="+lixian7;
+			
+			
+			$.operate.save(prefix2 + "/edit", str);
    			layer.close(index);
 		}
-        
- 		function usersee (){
-        	$.modal.alert("暂无此功能！！！")
-        	console.log("usersee!!!")
-        }
+       
     </script>
 </body>
 </html>
