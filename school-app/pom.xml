@@ -12,7 +12,7 @@
     <artifactId>school-app</artifactId>
 	
 	<description>
-	    quartz定时任务
+	   app任务
 	</description>
  <dependencies>
     
