@@ -30,13 +30,13 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
+import com.ruoyi.project.system.schoolgradelist.domain.Schoolgradelist;
+import com.ruoyi.project.system.schoolgradelist.service.ISchoolgradelistService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.CertificateManagement;
-import com.ruoyi.system.domain.Studentstatuslist;
 import com.ruoyi.system.service.ICertificateManagementService;
-import com.ruoyi.system.service.IStudentstatuslistService;
 
 /**
  * 学生列Controller
@@ -53,10 +53,11 @@ public class StudentOfficeStaffController extends BaseController
     
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
-    @Autowired
-    private IStudentstatuslistService studentstatuslistService;
+    
     @Autowired
     private ISchoolClassService schoolClassService;
+    @Autowired
+    private ISchoolgradelistService schoolgradelistService;
     @Autowired
     private ICertificateManagementService certificateManagementService;
     /**
@@ -143,9 +144,25 @@ public class StudentOfficeStaffController extends BaseController
      * */
     @RequiresPermissions("system:studentofficestaff:history")
     @GetMapping("/history")
-    public String history()
+    public String history(ModelMap mmap)
     {
+    	SchoolClass sclass = new SchoolClass();
+    	List<SchoolClass> classlist = schoolClassService.selectSchoolClassList(sclass);
+    	mmap.put("classlist", classlist);
         return prefix + "/history";
+    }
+    
+    /**
+     * 毕业去向查询
+     * */
+    @RequiresPermissions("system:studentofficestaff:quxiang")
+    @GetMapping("/quxiang")
+    public String quxiang(ModelMap mmap)
+    {
+    	SchoolClass sclass = new SchoolClass();
+    	List<SchoolClass> classlist = schoolClassService.selectSchoolClassList(sclass);
+    	mmap.put("classlist", classlist);
+        return prefix + "/quxiang";
     }
    
     @RequiresPermissions("system:schoolstudentslist:import")
@@ -230,13 +247,55 @@ public class StudentOfficeStaffController extends BaseController
      * 离校管理
      * @return
      */
-    
     @RequiresPermissions("system:studentofficestaffLeavingschool:view")
     @GetMapping("/Leavingschool")
-    public String Leavingschool()
+    public String Leavingschool(ModelMap mmap)
     {
+    	Schoolgradelist g = new Schoolgradelist();
+    	SchoolClass c = new SchoolClass();
+    	List<Schoolgradelist> glist = schoolgradelistService.selectSchoolgradelistList(g);
+    	List<SchoolClass> clist = schoolClassService.selectSchoolClassList(c);
+    	mmap.put("classlist", clist);
+    	mmap.put("gradelist", glist);
     	return prefix + "/Leavingschool";
     }
+    /**
+     * 离校办理
+     * */
+    @GetMapping("/lixiaobanli/{id}")
+    public String lixiaobanli(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+        return prefix + "/lixiaobanli_";
+    }
+     /**
+     * 离线办理
+     * */
+    @GetMapping("/lixianbanli/{id}")
+    public String lixianbanli(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+        return prefix + "/lixianbanli_";
+    }
+    /**
+    * 离校办理进度统计
+    * */
+   @GetMapping("/jindu")
+   public String jindu(ModelMap mmap)
+   {
+       return prefix + "/jindu";
+   }
+   /**
+   * 离校进度统计
+   * */
+  @GetMapping("/lixiaojindu")
+  public String lixiaojindu(ModelMap mmap)
+  {
+      return prefix + "/lixiaojindu";
+  }
+    
     /**
      * 查询学生列列表
      */
@@ -246,7 +305,7 @@ public class StudentOfficeStaffController extends BaseController
     public TableDataInfo Leavingschool(Schoolstudentslist schoolstudentslist)
     {
     	schoolstudentslist.setApprovalstate("2");
-    	schoolstudentslist.setState("4");
+//    	schoolstudentslist.setState("4");
     	startPage();
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);
@@ -260,25 +319,10 @@ public class StudentOfficeStaffController extends BaseController
     @GetMapping("/Graduation")
     public String Graduation(ModelMap mmap)
     {
-    	
-    	
-    	List<Studentstatuslist> sl = studentstatuslistService.selectStudentstatuslistList(null);
-    	
     	List<CertificateManagement> list = certificateManagementService.selectCertificateManagementList(null);
 		mmap.put("certificateManagement", list);
-		mmap.put("studentstatuslists", sl);
     	
     	return prefix + "/Graduation";
-    }
-    @RequiresPermissions("system:studentofficestaffsetstudentstatus:view")
-    @GetMapping("/setstudentstatus/{id}")
-    public String setstudentstatus(@PathVariable("id") Long id,ModelMap mmap)
-    {
-    	mmap.put("id", id);
-    	
-    	
-    	
-    	return prefix + "/setstudentstatus";
     }
     /**
      * 查询学生列列表
