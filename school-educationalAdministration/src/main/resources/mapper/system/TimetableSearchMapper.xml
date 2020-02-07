@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.TimetableSearch.mapper.TimetableSearchMapper">
+    
+    <resultMap type="TimetableSearch" id="TimetableSearchResult">
+        <result property="id"    column="id"    />
+        <result property="teacherName"    column="teacher_name"    />
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="yearmonth"    column="yearmonth"    />
+        <result property="week"    column="week"    />
+        <result property="detailPosition"    column="detail_position"    />
+        <!-- <result property="weekName"    column="week_name"    />
+        <result property="timeName"    column="time_name"    /> -->
+        <result property="isdisuse"    column="isdisuse"    />
+        <result property="classId"    column="class_id"    />
+        <result property="className"    column="class_name"    />
+        <result property="classGrade"    column="class_grade"    />
+        <result property="gradeId"    column="grade_id"    />
+        <result property="createDate"    column="createdate"    />
+    </resultMap>
+
+    <sql id="selectTimetableSearchVo">
+       select * from
+(select cd.id,cd.teacher_name,cd.teacher_id,cd.yearmonth,cd.week,cd.detail_position,cd.isdisuse
+,cm.class_id,cm.class_name,cm.class_grade,cm.grade_id,cd.createdate
+from classcurriculum_detail  cd inner join classcurriculum c on cd.cuurriculum_id=c.id  inner join classschedulingmanagement cm on c.classschedulingmanagement_id=cm.id) a
+    </sql>
+
+    <select id="selectTimetableSearchList" parameterType="TimetableSearch" resultMap="TimetableSearchResult">
+        <include refid="selectTimetableSearchVo"/>
+        <where>  
+            <if test="teacherName != null  and teacherName != ''"> and teacher_name like concat('%', #{teacherName}, '%')</if>
+            <if test="teacherId != null "> and teacher_id = #{teacherId}</if>
+            <if test="yearmonth != null  and yearmonth != ''"> and yearmonth = #{yearmonth}</if>
+            <if test="week != null  and week != ''"> and week = #{week}</if>
+            <if test="detailPosition != null  and detailPosition != ''"> and detail_position like concat('%', #{detailPosition}, '%')</if>
+            <!-- <if test="weekName != null  and weekName != ''"> and week_name like concat('%', #{weekName}, '%')</if>
+            <if test="timeName != null  and timeName != ''"> and time_name like concat('%', #{timeName}, '%')</if> -->
+            <if test="isdisuse != null  and isdisuse != ''"> and isdisuse = #{isdisuse}</if>
+            <if test="classId != null "> and class_id = #{classId}</if>
+            <if test="className != null  and className != ''"> and class_name like concat('%', #{className}, '%')</if>
+            <if test="classGrade != null  and classGrade != ''"> and class_grade = #{classGrade}</if>
+            <if test="gradeId != null "> and grade_id = #{gradeId}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+           <!--  <if test="updateDate != null "> and update_date = #{updateDate}</if> -->
+        </where>
+    </select>
+    
+    <select id="selectTimetableSearchById" parameterType="Long" resultMap="TimetableSearchResult">
+        <include refid="selectTimetableSearchVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTimetableSearch" parameterType="TimetableSearch" useGeneratedKeys="true" keyProperty="id">
+        insert into timetable_search
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teacherName != null  and teacherName != ''">teacher_name,</if>
+            <if test="teacherId != null ">teacher_id,</if>
+            <if test="yearmonth != null  and yearmonth != ''">yearmonth,</if>
+            <if test="week != null  and week != ''">week,</if>
+            <if test="detailPosition != null  and detailPosition != ''">detail_position,</if>
+            <if test="weekName != null  and weekName != ''">week_name,</if>
+            <if test="timeName != null  and timeName != ''">time_name,</if>
+            <if test="isdisuse != null  and isdisuse != ''">isdisuse,</if>
+            <if test="classId != null ">class_id,</if>
+            <if test="className != null  and className != ''">class_name,</if>
+            <if test="classGrade != null  and classGrade != ''">class_grade,</if>
+            <if test="gradeId != null ">grade_id,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teacherName != null  and teacherName != ''">#{teacherName},</if>
+            <if test="teacherId != null ">#{teacherId},</if>
+            <if test="yearmonth != null  and yearmonth != ''">#{yearmonth},</if>
+            <if test="week != null  and week != ''">#{week},</if>
+            <if test="detailPosition != null  and detailPosition != ''">#{detailPosition},</if>
+            <if test="weekName != null  and weekName != ''">#{weekName},</if>
+            <if test="timeName != null  and timeName != ''">#{timeName},</if>
+            <if test="isdisuse != null  and isdisuse != ''">#{isdisuse},</if>
+            <if test="classId != null ">#{classId},</if>
+            <if test="className != null  and className != ''">#{className},</if>
+            <if test="classGrade != null  and classGrade != ''">#{classGrade},</if>
+            <if test="gradeId != null ">#{gradeId},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTimetableSearch" parameterType="TimetableSearch">
+        update timetable_search
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teacherName != null  and teacherName != ''">teacher_name = #{teacherName},</if>
+            <if test="teacherId != null ">teacher_id = #{teacherId},</if>
+            <if test="yearmonth != null  and yearmonth != ''">yearmonth = #{yearmonth},</if>
+            <if test="week != null  and week != ''">week = #{week},</if>
+            <if test="detailPosition != null  and detailPosition != ''">detail_position = #{detailPosition},</if>
+            <if test="weekName != null  and weekName != ''">week_name = #{weekName},</if>
+            <if test="timeName != null  and timeName != ''">time_name = #{timeName},</if>
+            <if test="isdisuse != null  and isdisuse != ''">isdisuse = #{isdisuse},</if>
+            <if test="classId != null ">class_id = #{classId},</if>
+            <if test="className != null  and className != ''">class_name = #{className},</if>
+            <if test="classGrade != null  and classGrade != ''">class_grade = #{classGrade},</if>
+            <if test="gradeId != null ">grade_id = #{gradeId},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="updateDate != null ">update_date = #{updateDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTimetableSearchById" parameterType="Long">
+        delete from timetable_search where id = #{id}
+    </delete>
+
+    <delete id="deleteTimetableSearchByIds" parameterType="String">
+        delete from timetable_search where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

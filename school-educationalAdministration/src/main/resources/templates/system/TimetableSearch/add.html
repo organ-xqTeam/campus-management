@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增个人人事安排查询')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-TimetableSearch-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教师名称：</label>
+                <div class="col-sm-8">
+                    <input name="teacherName" class="form-control" type="text">
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">教师id：</label>
+                <div class="col-sm-8">
+                    <input name="teacherId" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">年月：</label>
+                <div class="col-sm-8">
+                    <input name="yearmonth" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第几周：</label>
+                <div class="col-sm-8">
+                    <input name="week" class="form-control" type="text">
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">具体位置：</label>
+                <div class="col-sm-8">
+                    <input name="detailPosition" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">周几：</label>
+                <div class="col-sm-8">
+                    <input name="weekName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">每天的时间：</label>
+                <div class="col-sm-8">
+                    <input name="timeName" class="form-control" type="text">
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">是否弃用：</label>
+                <div class="col-sm-8">
+                    <input name="isdisuse" class="form-control" type="text">
+                </div>
+            </div> -->
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">班级id：</label>
+                <div class="col-sm-8">
+                    <input name="classId" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班级名称：</label>
+                <div class="col-sm-8">
+                    <input name="className" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">年级名称：</label>
+                <div class="col-sm-8">
+                    <input name="classGrade" class="form-control" type="text">
+                </div>
+            </div>
+           <!--  <div class="form-group">    
+                <label class="col-sm-3 control-label">年级id：</label>
+                <div class="col-sm-8">
+                    <input name="gradeId" class="form-control" type="text">
+                </div>
+            </div> -->
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">创建时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="createDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">更新时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input name="updateDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    </div>
+                </div>
+            </div> -->
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/TimetableSearch"
+        $("#form-TimetableSearch-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-TimetableSearch-add').serialize());
+            }
+        }
+
+        $("input[name='createDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='updateDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

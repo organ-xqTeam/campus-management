@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.ReduceTask.mapper.ReduceTaskMapper">
+    
+    <resultMap type="ReduceTask" id="ReduceTaskResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="content"    column="content"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="specialtyName"    column="specialty_name"    />
+        <result property="specialtyId"    column="specialty_id"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectReduceTaskVo">
+        select id, name, content, start_date, end_date, create_date, update_date, file_path, specialty_name, specialty_id, del_flag from reduce_task
+    </sql>
+
+    <select id="selectReduceTaskList" parameterType="ReduceTask" resultMap="ReduceTaskResult">
+        <include refid="selectReduceTaskVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+            <if test="specialtyName != null  and specialtyName != ''"> and specialty_name like concat('%', #{specialtyName}, '%')</if>
+            <if test="specialtyId != null "> and specialty_id = #{specialtyId}</if>
+        	and del_flag="0"
+        </where>
+    </select>
+    
+    <select id="selectReduceTaskById" parameterType="Long" resultMap="ReduceTaskResult">
+        <include refid="selectReduceTaskVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertReduceTask" parameterType="ReduceTask" useGeneratedKeys="true" keyProperty="id">
+        insert into reduce_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">name,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="startDate != null ">start_date,</if>
+            <if test="endDate != null ">end_date,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="updateDate != null ">update_date,</if>
+            <if test="filePath != null  and filePath != ''">file_path,</if>
+            <if test="specialtyName != null  and specialtyName != ''">specialty_name,</if>
+            <if test="specialtyId != null ">specialty_id,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="startDate != null ">#{startDate},</if>
+            <if test="endDate != null ">#{endDate},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate},</if>
+            <if test="filePath != null  and filePath != ''">#{filePath},</if>
+            <if test="specialtyName != null  and specialtyName != ''">#{specialtyName},</if>
+            <if test="specialtyId != null ">#{specialtyId},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateReduceTask" parameterType="ReduceTask">
+        update reduce_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="startDate != null ">start_date = #{startDate},</if>
+            <if test="endDate != null ">end_date = #{endDate},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <!-- <if test="updateDate != null ">update_date = #{updateDate},</if> -->
+            <if test="filePath != null  and filePath != ''">file_path = #{filePath},</if>
+            <if test="specialtyName != null  and specialtyName != ''">specialty_name = #{specialtyName},</if>
+            <if test="specialtyId != null ">specialty_id = #{specialtyId},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+        	update_date =now(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteReduceTaskById" parameterType="Long">
+        delete from reduce_task where id = #{id}
+    </delete>
+
+    <delete id="deleteReduceTaskByIds" parameterType="String">
+        delete from reduce_task where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
