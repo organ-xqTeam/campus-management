@@ -1,7 +1,9 @@
 package com.ruoyi.project.system.schoolstudentslist.service;
 
-import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 
 /**
  * 学生列Service接口
@@ -69,4 +71,9 @@ public interface ISchoolstudentslistService
 	public List<Schoolstudentslist> selectSchoolstudentslistListUnMove(Schoolstudentslist schoolstudentslist);
 
 	public List<Schoolstudentslist> selectSchoolstudentslistListnotid(Schoolstudentslist schoolstudentslist);
+	
+	public List<Map<String, Object>> group(String gradeId);
+	public List<Map<String, Object>> group2();
+	public List<Map<String, Object>> group3();
+	
 }

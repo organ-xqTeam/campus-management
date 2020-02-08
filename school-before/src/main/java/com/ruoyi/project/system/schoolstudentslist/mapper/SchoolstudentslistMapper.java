@@ -1,7 +1,11 @@
 package com.ruoyi.project.system.schoolstudentslist.mapper;
 
-import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 
 /**
  * 学生列Mapper接口
@@ -70,4 +74,9 @@ public interface SchoolstudentslistMapper
     public int deleteSchoolstudentslistByIds(String[] ids);
 
 	public List<Schoolstudentslist> selectSchoolstudentslistListUnMove(Schoolstudentslist schoolstudentslist);
+	
+	public Map<String, Object> group(@Param("grade") String grade, @Param("type") String type);
+	public List<Map<String, Object>> group2();
+	public List<Map<String, Object>> group3();
+	
 }

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('')" />
+</head>
+<body class="gray-bg">
+  
+	<select class="form-control" id="type">
+		<option value="">统计方式</option>
+		<option value="1">学年</option>
+		<option value="2">系部</option>
+		<option value="3">专业</option>
+	</select>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>未离校</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="graph_flot.html#">选项1</a>
+                                </li>
+                                <li><a href="graph_flot.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="echarts" id="echarts-bar-chart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>已离校</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="graph_flot.html#">选项1</a>
+                                </li>
+                                <li><a href="graph_flot.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="echarts" id="echarts-bar-chart2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: echarts-js" />
+    <script type="text/javascript">
+	    $("#type").bind("change", function(){
+	    	var yarr1 = new Array();
+	    	var xarr1 = new Array();
+	    	var yarr2 = new Array();
+	    	var xarr2 = new Array();
+	    	console.log($('#type').val())
+	    	$.ajax({
+	    		type: "get",
+	    		url: ctx + "system/StudentOfficeStaff/group2?type="+$('#type').val(),
+	    		dataType: "json",
+	    		success: function (data) {
+	    			var arr1 = data.adf1;
+	    			var arr2 = data.adf;
+	    			//一粒小
+	    			for(var i=0; i<arr1.length; i++) {
+	    				xarr1.push(arr1[i].grade_id)
+	    				yarr1.push(arr1[i].num)
+	    			}
+	    			//为离校
+	    			for(var i=0; i<arr2.length; i++) {
+	    				xarr2.push(arr2[i].grade_id)
+	    				yarr2.push(arr2[i].num)
+	    			}
+	    		},
+	    		async: false
+	    	});
+	    	var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
+	        var baroption = {
+	            title : {
+	                text: ''
+	            },
+	            tooltip : {
+	                trigger: 'axis'
+	            },
+	            legend: {
+	                data:['蒸发量']
+	            },
+	            grid:{
+	                x:7,
+	                y2:24
+	            },
+	            calculable : true,
+	            xAxis : [
+	                {
+	                    type : 'category',
+	                    data:xarr1,
+	                }
+	            ],
+	            yAxis : [
+	                {
+	                    type : 'value'
+	                }
+	            ],
+	            series : [
+	                {
+	                    name:'办理数量',
+	                    type:'bar',
+	                    data:yarr1,
+	                    markPoint : {
+	                        data : [
+	                            {type : 'max', name: '最大值'},
+	                            {type : 'min', name: '最小值'}
+	                        ]
+	                    },
+	                    markLine : {
+	                        data : [
+	                            {type : 'average', name: '平均值'}
+	                        ]
+	                    }
+	                }
+	            ]
+	        };
+	        barChart.setOption(baroption);
+	        window.onresize = barChart.resize;
+	        
+	        
+	        
+	        barChart = echarts.init(document.getElementById("echarts-bar-chart2"));
+	       baroption = {
+	            title : {
+	                text: ''
+	            },
+	            tooltip : {
+	                trigger: 'axis'
+	            },
+	            legend: {
+	                data:['蒸发量']
+	            },
+	            grid:{
+	                x:7,
+	                y2:24
+	            },
+	            calculable : true,
+	            xAxis : [
+	                {
+	                    type : 'category',
+	                    data:xarr2,
+	                }
+	            ],
+	            yAxis : [
+	                {
+	                    type : 'value'
+	                }
+	            ],
+	            series : [
+	                {
+	                    name:'办理数量',
+	                    type:'bar',
+	                    data:yarr2,
+	                    markPoint : {
+	                        data : [
+	                            {type : 'max', name: '最大值'},
+	                            {type : 'min', name: '最小值'}
+	                        ]
+	                    },
+	                    markLine : {
+	                        data : [
+	                            {type : 'average', name: '平均值'}
+	                        ]
+	                    }
+	                }
+	            ]
+	        };
+	        
+
+	        barChart.setOption(baroption);
+	        window.onresize = barChart.resize;
+	    })
+    </script>
+</body>
+</html>

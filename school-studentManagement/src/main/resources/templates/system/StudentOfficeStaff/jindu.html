@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('')" />
+</head>
+<body class="gray-bg">
+  
+	<select class="form-control" id="gradeId">
+		<option value="">学级</option>
+		<option th:each="grade:${gradelist}" 
+			th:value="${grade.id}" 
+			th:text="${grade.grade}" >
+		</option>
+	</select>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>柱状图</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="graph_flot.html#">选项1</a>
+                                </li>
+                                <li><a href="graph_flot.html#">选项2</a>
+                                </li>
+                            </ul>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="echarts" id="echarts-bar-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: echarts-js" />
+    <script type="text/javascript">
+	var yarr = new Array();
+	    $("#gradeId").bind("change", function(){
+	    	console.log($('#gradeId').val())
+	    	$.ajax({
+	    		type: "get",
+	    		url: ctx + "system/StudentOfficeStaff/group?gradeId="+$('#gradeId').val(),
+	    		dataType: "json",
+	    		success: function (data) {
+	    			yarr = new Array();
+	    			var arr = data.adf;
+	    			yarr.push(arr[0].lixian1);
+	    			yarr.push(arr[1].lixian2);
+	    			yarr.push(arr[2].lixian3);
+	    			yarr.push(arr[3].lixian4);
+	    			yarr.push(arr[4].lixian5);
+	    			yarr.push(arr[5].lixian6);
+	    			yarr.push(arr[6].lixian7);
+	    			console.log(yarr)
+	    		},
+	    		async: false
+	    	});
+	    	var barChart = echarts.init(document.getElementById("echarts-bar-chart"));
+	        var baroption = {
+	            title : {
+	                text: '离校办理进度统计'
+	            },
+	            tooltip : {
+	                trigger: 'axis'
+	            },
+	            legend: {
+	                data:['蒸发量']
+	            },
+	            grid:{
+	                x:7,
+	                y2:24
+	            },
+	            calculable : true,
+	            xAxis : [
+	                {
+	                    type : 'category',
+	                    data:['图书馆办理信息','财务处办理信息','一卡通办理信息','退宿办理信息','组织关系转出','户口转出','毕业证发放信息'],
+	                }
+	            ],
+	            yAxis : [
+	                {
+	                    type : 'value'
+	                }
+	            ],
+	            series : [
+	                {
+	                    name:'办理数量',
+	                    type:'bar',
+	                    data:yarr,
+	                    markPoint : {
+	                        data : [
+	                            {type : 'max', name: '最大值'},
+	                            {type : 'min', name: '最小值'}
+	                        ]
+	                    },
+	                    markLine : {
+	                        data : [
+	                            {type : 'average', name: '平均值'}
+	                        ]
+	                    }
+	                }
+	            ]
+	        };
+	        barChart.setOption(baroption);
+	        window.onresize = barChart.resize;
+	    })
+	    $(function () {
+	        
+	    });
+    </script>
+</body>
+</html>

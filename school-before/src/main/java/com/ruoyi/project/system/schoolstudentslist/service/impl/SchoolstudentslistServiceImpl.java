@@ -1,6 +1,9 @@
 package com.ruoyi.project.system.schoolstudentslist.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -159,4 +162,29 @@ public class SchoolstudentslistServiceImpl implements ISchoolstudentslistService
 		// TODO Auto-generated method stub
 		return schoolstudentslistMapper.selectSchoolstudentslistListUnMove(schoolstudentslist);
 	}
+
+	@Override
+	public List<Map<String, Object>> group(String gradeId) {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		for(int i=1; i<=7; i++) {
+			map.put("lixian"+i, schoolstudentslistMapper.group(gradeId,i+"").get("num"));
+			list.add(map);
+			map = new HashMap<String, Object>();
+		}
+		return list;
+	}
+	@Override
+	public List<Map<String, Object>> group2() {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		list.addAll(schoolstudentslistMapper.group2());
+		return list;
+	}
+	@Override
+	public List<Map<String, Object>> group3() {
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		list.addAll(schoolstudentslistMapper.group3());
+		return list;
+	}
+	
 }

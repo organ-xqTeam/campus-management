@@ -501,4 +501,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
     
+    <select id="group" resultType="java.util.HashMap">
+    	select count(*) as 'num' from schoolstudentslist where lixian${type}=2 and grade_id=#{grade}
+    </select>
+    <select id="group2" resultType="java.util.HashMap">
+    	select count(*) as 'num', (select grade from schoolgradelist where id=grade_id) as 'grade_id' from schoolstudentslist where _state = 4 and grade_id is not null group by grade_id
+    </select>
+    <select id="group3" resultType="java.util.HashMap">
+    	select count(*) as 'num', (select grade from schoolgradelist where id=grade_id) as 'grade_id' from schoolstudentslist where _state &lt;&gt; 4 and grade_id is not null group by grade_id
+    </select>
+    
 </mapper>
