@@ -6,13 +6,13 @@ import com.ruoyi.common.utils.SM.SM4Utils;
 public class Encryption {
 	
 	//控制时候加密 解密处理
-	private static boolean flag = false;
+	private static boolean flag = true;
 	private static String tKey ="JeF8U9wHFOMfs2Y8";
 	//加密
 	public static String encryptRSA(String result) throws BusinessException{
 		SM4Utils sm4 = new SM4Utils();  
-        sm4.secretKey = tKey;  
-        sm4.hexString = false;  
+        sm4.setSecretKey(tKey);  
+        sm4.setHexString(false);  
         System.out.println("ECB模式加密");  
         System.out.println(result);  
         String cipherText;
@@ -33,8 +33,8 @@ public class Encryption {
 //	解密
 	public static String dncryptRSA(String result)  {
 		SM4Utils sm4 = new SM4Utils();  
-		sm4.secretKey = tKey;  
-		sm4.hexString = false;  
+		sm4.setSecretKey(tKey);  
+		sm4.setHexString(false);  
 		System.out.println("ECB模式解密");  
 //		String cipherText = sm4.encryptData_ECB(result);  
 //		System.out.println("密文: " + cipherText);  

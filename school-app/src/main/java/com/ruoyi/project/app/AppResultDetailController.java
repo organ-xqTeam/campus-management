@@ -31,7 +31,7 @@ import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistSe
 
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/app/resultDetail")
+@RequestMapping("/uajax/app/resultDetail")
 public class AppResultDetailController extends BaseController {
 
 	@Autowired

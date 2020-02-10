@@ -17,7 +17,7 @@ import com.ruoyi.project.system.schoolenrollmentmanagement.service.ISchoolenroll
 
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/app/enrollmentmanagement")
+@RequestMapping("/uajax/app/enrollmentmanagement")
 public class AppEnrollmentmanagement extends BaseController {
 
     @Autowired

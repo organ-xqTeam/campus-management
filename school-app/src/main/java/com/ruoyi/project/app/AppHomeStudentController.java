@@ -52,7 +52,7 @@ import com.ruoyi.system.service.ISysUserService;
 //用户端信息
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/app/student")
+@RequestMapping("/uajax/app/student")
 public class AppHomeStudentController {
 
 	@Autowired

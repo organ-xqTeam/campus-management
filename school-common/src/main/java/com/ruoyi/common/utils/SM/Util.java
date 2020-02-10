@@ -1,8 +1,10 @@
 package com.ruoyi.common.utils.SM;
-import java.math.BigInteger; 
- 
-public class Util {
-	 /** 
+
+import java.math.BigInteger;  
+
+public class Util   
+{  
+    /** 
      * 整形转换成网络传输的字节流（字节数组）型数据 
      *  
      * @param num 一个整型数据 

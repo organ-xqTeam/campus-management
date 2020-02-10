@@ -24,7 +24,7 @@ import com.ruoyi.project.system.schoolmobilearticle.service.ISchoolmobilearticle
 
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/app/mobilearticle")
+@RequestMapping("/uajax/app/mobilearticle")
 public class AppMobilearticleController extends BaseController {
 
     @Autowired

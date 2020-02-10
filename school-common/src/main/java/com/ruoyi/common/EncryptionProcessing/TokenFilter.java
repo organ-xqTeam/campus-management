@@ -66,7 +66,7 @@ public class TokenFilter implements Filter {
 //            System.out.println("===进了过滤器");
 //            filterChain.doFilter(servletRequest,servletResponse);
 //        }
-        if (requestURI.startsWith("/ajax/")) {
+        if (requestURI.startsWith("/uajax/")) {
 //          requestURI.endsWith(".html");
 //          System.out.println("1=="+requestURI);
           if (requestURI.endsWith(".js") || requestURI.endsWith(".css")) {
@@ -77,10 +77,8 @@ public class TokenFilter implements Filter {
         	  WrapperedResponse wrapResponse = new WrapperedResponse(
                       (HttpServletResponse) servletResponse);
         	  filterChain.doFilter(new EncryptionHttpServletRequestWrapper(httpRequest),wrapResponse);
-        	  
         	  PrintWriter out = servletResponse.getWriter(); 
         	  ///取返回的json串
-
         	  byte[] data = wrapResponse.getResponseData();
         	  //
               String result = new String(data, "UTF-8");
@@ -89,7 +87,6 @@ public class TokenFilter implements Filter {
               String encryptStr = Encryption.encryptRSA(result);
               out.write(encryptStr);
         	  out.flush(); 
-        	   
           }
 		}else {
 		  filterChain.doFilter(servletRequest, servletResponse);

@@ -35,7 +35,7 @@ import com.ruoyi.system.service.ISysUserService;
 //用户端登陆
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/schoolController")
+@RequestMapping("/uajax/schoolController")
 public class AppLoginController{
 
 	@Autowired

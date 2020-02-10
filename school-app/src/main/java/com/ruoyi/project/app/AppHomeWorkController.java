@@ -40,7 +40,7 @@ import com.ruoyi.system.service.ISysUserService;
 //用户端信息
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/app/appHomeWork")
+@RequestMapping("/uajax/app/appHomeWork")
 public class AppHomeWorkController {
     @Autowired
     private ISysUserService userService ;
