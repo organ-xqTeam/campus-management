@@ -108,14 +108,17 @@ public class AESUtil {
 	
 	public static void main(String args[]) throws Exception {
 
-		String test1 = "{\"username\":\"usertest0561\",\"password\":\"1234qwer\",\"rememberMe\":\"true\"}";
-		String test = new String(test1.getBytes(), "UTF-8");
-		String data = null;
-		String key = KEY;
-		String iv = IV; //
-		data = encrypt(test, key, iv);
-		System.out.println("数据：" + test);
-		System.out.println("加密：" + data);
+		String test1 = "123456";
+        String test = new String(test1.getBytes(), "UTF-8");
+        String data = null;
+        String key = KEY;
+        String iv = IV;
+        // /g2wzfqvMOeazgtsUVbq1kmJawROa6mcRAzwG1/GeJ4=
+        data = encrypt(test, key, iv);
+        System.out.println("数据：" + test);
+        System.out.println("加密：" + data);
+        String jiemi = desEncrypt("eEffg30AC+Bb51w9YvxLaw==", key, iv).trim();
+        System.out.println("解密：" + jiemi);
 
 	}
 	 
