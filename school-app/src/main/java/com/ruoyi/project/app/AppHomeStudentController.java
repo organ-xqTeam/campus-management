@@ -18,10 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.FontText;
 import com.ruoyi.common.utils.MapTrunPojo;
@@ -89,9 +91,9 @@ public class AppHomeStudentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/studentproject")
-	public AjaxResult yanzheng(String token) {
+	public AjaxResult yanzheng(@RequestBody JSONObject param) {
 
-		SysUser user = checkuserLogin(token);
+		SysUser user = checkuserLogin(param);
 		if (user == null) {
 			return AjaxResult.error("用户未登录");
 		}
@@ -134,8 +136,9 @@ public class AppHomeStudentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/billpayment")
-	public AjaxResult pay(String token) {
-		SysUser user =  checkuserLogin(token);
+	public AjaxResult pay(@RequestBody JSONObject param) {
+		
+		SysUser user =  checkuserLogin(param);
 		if (user == null) {
 			return AjaxResult.error("用户未登录");
 		}
@@ -151,9 +154,9 @@ public class AppHomeStudentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/Queryexamresults")
-	public AjaxResult queryexamresults(String token) {
+	public AjaxResult queryexamresults(@RequestBody JSONObject param) {
 
-		SysUser user = checkuserLogin(token);
+		SysUser user = checkuserLogin(param);
 		if (user == null) {
 			return AjaxResult.error("用户未登录");
 		}
@@ -195,8 +198,9 @@ public class AppHomeStudentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/Querycertificate")
-	public void querycertificate(HttpServletResponse res, String token) {
-		SysUser user = checkuserLogin(token);
+	public void querycertificate(HttpServletResponse res, @RequestBody JSONObject param) {
+		
+		SysUser user = checkuserLogin(param);
 		if (user == null) {
 			return;
 		}
@@ -238,8 +242,9 @@ public class AppHomeStudentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/Studentinformation")
-	public AjaxResult Studentinformation(String token) {
-		SysUser user = checkuserLogin(token);
+	public AjaxResult Studentinformation(@RequestBody JSONObject param) {
+
+		SysUser user = checkuserLogin(param);
 
 		if (user == null) {
 			return AjaxResult.error("用户未登录");
@@ -264,8 +269,9 @@ public class AppHomeStudentController {
 	 
 	@ResponseBody
 	@RequestMapping(value = "/curriculuminformation")
-	public AjaxResult curriculuminformation(String token) {
-		SysUser user = checkuserLogin(token);
+	public AjaxResult curriculuminformation(@RequestBody JSONObject param) {
+
+		SysUser user = checkuserLogin(param);
 		if (user == null) {
 			return AjaxResult.error("用户未登录");
 		}
@@ -324,7 +330,9 @@ public class AppHomeStudentController {
 		}
 	}
 	
-	public SysUser checkuserLogin(String token) {
+	public SysUser checkuserLogin(@RequestBody JSONObject param) {
+
+		String token = param.get("token").toString();
 		SysUserOnline useron = userOnlineService.selectOnlineById(token);
 		if (useron != null) {
 			
