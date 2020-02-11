@@ -66,7 +66,7 @@ public class TokenFilter implements Filter {
 //            System.out.println("===进了过滤器");
 //            filterChain.doFilter(servletRequest,servletResponse);
 //        }
-        if (requestURI.startsWith("/uajax/")) {
+//        if (requestURI.startsWith("/uajax/")) {
 //          requestURI.endsWith(".html");
 //          System.out.println("1=="+requestURI);
           if (requestURI.endsWith(".js") || requestURI.endsWith(".css")) {
@@ -88,9 +88,9 @@ public class TokenFilter implements Filter {
               out.write(encryptStr);
         	  out.flush(); 
           }
-		}else {
-		  filterChain.doFilter(servletRequest, servletResponse);
-		}
+//		}else {
+//		  filterChain.doFilter(servletRequest, servletResponse);
+//		}
     }
 
     
