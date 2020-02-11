@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -33,8 +35,11 @@ public class AppMobilearticleController extends BaseController {
 	//获取文章
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(int pageNum, int pageSize, String type)
+    public TableDataInfo list(@RequestBody JSONObject param)
     {
+    	String type = param.get("type").toString();
+    	int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
     	Schoolmobilearticle mobilearticle = new Schoolmobilearticle();
     	mobilearticle.setType(type);
     	PageHelper.startPage(pageNum, pageSize, null);

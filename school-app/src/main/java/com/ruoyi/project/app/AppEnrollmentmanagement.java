@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -26,8 +28,10 @@ public class AppEnrollmentmanagement extends BaseController {
 	//获取项目
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(int pageNum, int pageSize)
+    public TableDataInfo list(@RequestBody JSONObject param)
     {
+    	int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
     	Schoolenrollmentmanagement enrollmentmanagement = new Schoolenrollmentmanagement();
     	PageHelper.startPage(pageNum, pageSize, null);
         List<Schoolenrollmentmanagement> list = schoolenrollmentmanagementService.selectSchoolenrollmentmanagementList(enrollmentmanagement);

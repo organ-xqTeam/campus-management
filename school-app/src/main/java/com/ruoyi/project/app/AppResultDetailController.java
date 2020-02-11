@@ -17,9 +17,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -43,7 +45,10 @@ public class AppResultDetailController extends BaseController {
 	// 获取成绩列表
 	@PostMapping("/list")
 	@ResponseBody
-	public TableDataInfo list(int pageNum, int pageSize, String studentid) {
+	public TableDataInfo list(@RequestBody JSONObject param) {
+    	String studentid = param.get("studentid").toString();
+    	int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
 		PageHelper.startPage(pageNum, pageSize, null);
 		Map<String, Object> parmMap = new HashMap<String, Object>();
 		parmMap.put("studentid", studentid);
