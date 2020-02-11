@@ -175,6 +175,9 @@ public class StudentOfficeStaffController extends BaseController
     {
     	ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
     	List<Schoolstudentslist> userList = util.importExcel(file.getInputStream());
+    	if (userList.size() > 6000) {
+    		return AjaxResult.error("一次性最多可导入6000条");
+    	}
     	String message = schoolstudentslistService.importStudent(userList);
     	return AjaxResult.success(message);
     }
