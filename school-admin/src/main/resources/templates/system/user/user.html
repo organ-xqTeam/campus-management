@@ -155,6 +155,15 @@
 		        	}
 		        },
 		        {
+		            title: '角色',
+		            formatter: function (value, row, index) {
+		            	if(row.roles.length > 0){
+		            		return row.roles[0].roleName;
+		            	}
+		        		return "用户角色不存在";
+		        	}
+		        },
+		        {
 		            field: 'createTime',
 		            title: '创建时间',
 		            sortable: true
