@@ -2,6 +2,7 @@ package com.ruoyi.project.system.WorkSummary.controller;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,11 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
+import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.WorkSummary.domain.WorkSummary;
 import com.ruoyi.project.system.WorkSummary.service.IWorkSummaryService;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 工作总结Controller
@@ -35,11 +39,23 @@ public class WorkSummaryController extends BaseController
 
     @Autowired
     private IWorkSummaryService workSummaryService;
+    @Autowired
+    private ITeachingInfoService teachingInfoService;
 
     @RequiresPermissions("system:WorkSummary:view")
     @GetMapping()
-    public String WorkSummary()
+    public String WorkSummary(ModelMap mmap)
     {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	TeachingInfo t = new TeachingInfo();
+    	t.setUserId(me.getUserId());
+    	List<TeachingInfo> tl = teachingInfoService.selectTeachingInfoList(t);
+    	if (tl.size() > 0) {
+        	mmap.put("teacher", tl.get(0));
+    	}
+    	else {
+        	mmap.put("teacher", t);
+    	}
         return prefix + "/WorkSummary";
     }
 
@@ -74,8 +90,9 @@ public class WorkSummaryController extends BaseController
      * 新增工作总结
      */
     @GetMapping("/add")
-    public String add()
+    public String add(String tid, ModelMap mmap)
     {
+    	mmap.put("tid", tid);
         return prefix + "/add";
     }
 

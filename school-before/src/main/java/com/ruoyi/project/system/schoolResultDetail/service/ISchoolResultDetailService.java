@@ -63,4 +63,5 @@ public interface ISchoolResultDetailService
 	public List<Map<String, Object>> selectSchoolResultDetailStudentsListByResultId(
 			Map<String, Object> parmMap);
 	public List<Map<String, Object>> selectstudentresultlist(Map<String, Object> parmMap);
+	public List<Map<String, Object>> selectlurulist(Map<String, Object> parmMap);
 }

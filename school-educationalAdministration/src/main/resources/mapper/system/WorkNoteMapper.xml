@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="WorkNote" id="WorkNoteResult">
         <result property="id"    column="id"    />
+        <result property="tid"    column="tid"    />
         <result property="title"    column="title"    />
         <result property="content"    column="content"    />
         <result property="startDate"    column="start_date"    />
@@ -20,12 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectWorkNoteVo">
-        select id, title, content, start_date, end_date, belong_name, speialty_name, pic_path, create_date, update_date, del_flag, teacher_name from work_note
+        select id,tid, title, content, start_date, end_date, belong_name, speialty_name, pic_path, create_date, update_date, del_flag, teacher_name from work_note
     </sql>
 
     <select id="selectWorkNoteList" parameterType="WorkNote" resultMap="WorkNoteResult">
         <include refid="selectWorkNoteVo"/>
         <where>  
+            <if test="tid != null  and tid != ''"> and tid = #{tid}</if>
             <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="startDate != null "> and start_date = #{startDate}</if>
@@ -48,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertWorkNote" parameterType="WorkNote" useGeneratedKeys="true" keyProperty="id">
         insert into work_note
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">tid,</if>
             <if test="title != null  and title != ''">title,</if>
             <if test="content != null  and content != ''">content,</if>
             <if test="startDate != null ">start_date,</if>
@@ -61,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="teacherName != null  and teacherName != ''">teacher_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">#{tid},</if>
             <if test="title != null  and title != ''">#{title},</if>
             <if test="content != null  and content != ''">#{content},</if>
             <if test="startDate != null ">#{startDate},</if>
@@ -78,6 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateWorkNote" parameterType="WorkNote">
         update work_note
         <trim prefix="SET" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">tid = #{tid},</if>
             <if test="title != null  and title != ''">title = #{title},</if>
             <if test="content != null  and content != ''">content = #{content},</if>
             <if test="startDate != null ">start_date = #{startDate},</if>

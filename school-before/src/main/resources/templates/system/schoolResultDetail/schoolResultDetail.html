@@ -9,7 +9,7 @@
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
                     <div class="select-list">
-                    	<input type="hidden" name="resultId" th:value="${resultId}"/>
+                    	<input type="hidden" id="resultId" name="resultId" th:value="${resultId}"/>
                         <ul>
                             <li>
                                 <p>学生名称:</p>
@@ -46,18 +46,7 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <!-- <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
-                    <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentslist:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a> -->
-               <!--  <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:schoolstudentslist:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a> -->
+                <a class="btn btn-success" onclick="luru()">补考清考成绩录入</a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -70,16 +59,17 @@
         var removeFlag = [[${@permission.hasPermi('system:schoolstudentslist:remove')}]];
 		var resultId=[[${resultId}]]
         var prefix = ctx + "system/schoolResultDetail";
-		console.log(resultId)
-		console.log(resultId)
-		console.log(resultId)
-		console.log(resultId)
-		console.log(resultId)
 		function openadd(studentsId,resultId,detailId){
 			console.log(studentsId)
 			console.log(resultId)
 			console.log(detailId)
 			$.modal.open("录入成绩",ctx+"system/schoolResultDetail/add?studentsId="+studentsId+"&resultId="+resultId+"&detailId="+detailId);
+		}
+		function luru(){
+			console.log(resultId)
+
+        	var url = prefix + "/luru?id="+resultId;
+			$.modal.openTab("补考清单", url);
 		}
         $(function() {
             var options = {

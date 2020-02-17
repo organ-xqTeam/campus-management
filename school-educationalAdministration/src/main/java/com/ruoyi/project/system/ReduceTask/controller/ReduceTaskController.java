@@ -24,6 +24,7 @@ import com.ruoyi.project.system.ReduceTask.service.IReduceTaskService;
 import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
 import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
+import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 
 /**
  * 实践任务管理Controller
@@ -41,11 +42,15 @@ public class ReduceTaskController extends BaseController
     private IReduceTaskService reduceTaskService;
     @Autowired
     private ISchoolSpecialtyService schoolSpecialtyService;
+    @Autowired
+    private ICoursemanagementService coursemanagementService;
 
     @RequiresPermissions("system:ReduceTask:view")
     @GetMapping()
-    public String ReduceTask()
+    public String ReduceTask(Long cid, ModelMap mmap)
     {
+    	Coursemanagement c = coursemanagementService.selectCoursemanagementById(cid);
+    	mmap.put("course", c);
         return prefix + "/ReduceTask";
     }
 
@@ -80,11 +85,12 @@ public class ReduceTaskController extends BaseController
      * 新增实践任务管理
      */
     @GetMapping("/add")
-    public String add(ModelMap mmap)
+    public String add(Long cid, ModelMap mmap)
     {
     	SchoolSpecialty schoolSpecialty =new SchoolSpecialty();
     	List<SchoolSpecialty> schoolSpecialtyList= schoolSpecialtyService.selectSchoolSpecialtyList(schoolSpecialty);
     	mmap.put("schoolSpecialtyList", schoolSpecialtyList);
+    	mmap.put("cid", cid);
         return prefix + "/add";
     }
 

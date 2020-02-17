@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="WorkSummary" id="WorkSummaryResult">
         <result property="id"    column="id"    />
+        <result property="tid"    column="tid"    />
         <result property="title"    column="title"    />
         <result property="content"    column="content"    />
         <result property="picPath"    column="pic_path"    />
@@ -18,12 +19,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectWorkSummaryVo">
-        select id, title, content, pic_path, subject_name, summary_remark, teacher_name, create_date, update_date, del_flag from work_summary
+        select id,tid, title, content, pic_path, subject_name, summary_remark, teacher_name, create_date, update_date, del_flag from work_summary
     </sql>
 
     <select id="selectWorkSummaryList" parameterType="WorkSummary" resultMap="WorkSummaryResult">
         <include refid="selectWorkSummaryVo"/>
         <where>  
+            <if test="tid != null  and tid != ''"> and tid = #{tid}</if>
             <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="content != null  and content != ''"> and content = #{content}</if>
             <if test="picPath != null  and picPath != ''"> and pic_path = #{picPath}</if>
@@ -43,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertWorkSummary" parameterType="WorkSummary" useGeneratedKeys="true" keyProperty="id">
         insert into work_summary
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">tid,</if>
             <if test="title != null  and title != ''">title,</if>
             <if test="content != null  and content != ''">content,</if>
             <if test="picPath != null  and picPath != ''">pic_path,</if>
@@ -54,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null  and delFlag != ''">del_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">#{tid},</if>
             <if test="title != null  and title != ''">#{title},</if>
             <if test="content != null  and content != ''">#{content},</if>
             <if test="picPath != null  and picPath != ''">#{picPath},</if>
@@ -69,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateWorkSummary" parameterType="WorkSummary">
         update work_summary
         <trim prefix="SET" suffixOverrides=",">
+            <if test="tid != null  and tid != ''">tid = #{tid},</if>
             <if test="title != null  and title != ''">title = #{title},</if>
             <if test="content != null  and content != ''">content = #{content},</if>
             <if test="picPath != null  and picPath != ''">pic_path = #{picPath},</if>

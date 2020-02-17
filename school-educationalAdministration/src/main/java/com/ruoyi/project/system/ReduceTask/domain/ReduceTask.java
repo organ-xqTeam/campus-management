@@ -18,8 +18,18 @@ public class ReduceTask extends BaseEntity
 
     /** 主键 */
     private Long id;
+    
+    private Long cid;
+    
+    public Long getCid() {
+		return cid;
+	}
 
-    /** 任务名称 */
+	public void setCid(Long cid) {
+		this.cid = cid;
+	}
+
+	/** 任务名称 */
     @Excel(name = "任务名称")
     private String name;
 

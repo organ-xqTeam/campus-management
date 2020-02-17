@@ -2,6 +2,7 @@ package com.ruoyi.project.system.WorkDraft.controller;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,12 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
+import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.WorkDraft.domain.WorkDraft;
 import com.ruoyi.project.system.WorkDraft.service.IWorkDraftService;
+import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 工作制定Controller
@@ -35,11 +40,23 @@ public class WorkDraftController extends BaseController
 
     @Autowired
     private IWorkDraftService workDraftService;
+    @Autowired
+    private ITeachingInfoService teachingInfoService;
 
     @RequiresPermissions("system:WorkDraft:view")
     @GetMapping()
-    public String WorkDraft()
+    public String WorkDraft(ModelMap mmap)
     {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	TeachingInfo t = new TeachingInfo();
+    	t.setUserId(me.getUserId());
+    	List<TeachingInfo> tl = teachingInfoService.selectTeachingInfoList(t);
+    	if (tl.size() > 0) {
+        	mmap.put("teacher", tl.get(0));
+    	}
+    	else {
+        	mmap.put("teacher", t);
+    	}
         return prefix + "/WorkDraft";
     }
 
@@ -74,8 +91,9 @@ public class WorkDraftController extends BaseController
      * 新增工作制定
      */
     @GetMapping("/add")
-    public String add()
+    public String add(String tid, ModelMap mmap)
     {
+    	mmap.put("tid", tid);
         return prefix + "/add";
     }
 

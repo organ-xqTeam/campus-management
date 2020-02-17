@@ -182,6 +182,10 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:TeachingInfo:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:TeachingInfo:remove')}]];
+    	var jihuaFlag = [[${@permission.hasPermi('system:WorkDraft:view')}]];
+     	var jiluFlag = [[${@permission.hasPermi('system:WorkNote:view')}]];
+     	var zongjieFlag = [[${@permission.hasPermi('system:WorkSummary:view')}]];
+
         var prefix = ctx + "system/TeachingInfo";
         var datas = [[${@dict.getType('system_teachingInfo_headteacher')}]];
         $(function() {
@@ -422,6 +426,9 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + jihuaFlag + '" href="javascript:void(0)" onclick="jihua(\'' + row.id + '\')">工作计划制定</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + jiluFlag + '" href="javascript:void(0)" onclick="jilu(\'' + row.id + '\')">工作记录管理</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + zongjieFlag + '" href="javascript:void(0)" onclick="zongjie(\'' + row.id + '\')">工作总结</a> ');
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
@@ -437,7 +444,19 @@
 			$.modal.openTab("教学记录", url);
         }
         
-        
+
+        function jihua(id){
+        	var url = ctx + "/system/WorkDraft?tid="+id;
+			$.modal.openTab("工作计划制定", url);
+        }
+        function jilu(id){
+        	var url = ctx + "/system/WorkNote?tid="+id;
+			$.modal.openTab("工作记录管理", url);
+        }
+        function zongjie(id){
+        	var url = ctx + "/system/WorkSummary?tid="+id;
+			$.modal.openTab("工作总结", url);
+        }
         
         
         

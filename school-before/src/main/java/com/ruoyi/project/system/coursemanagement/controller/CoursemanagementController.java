@@ -139,7 +139,7 @@ public class CoursemanagementController extends BaseController
     {
         return toAjax(coursemanagementService.updateCoursemanagement(coursemanagement));
     }
-
+    
     /**
      * 删除课程管理
      */

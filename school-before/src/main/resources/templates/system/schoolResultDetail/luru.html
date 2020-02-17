@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学校成绩列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>课程名称：</p>
+                                <input type="text" name="curriculumName"/>
+                    			<input type="hidden" name="id" th:value="${studentid}"/>
+                            </li>
+                            
+                            <li>
+                                <p>考试名称：</p>
+                                <input type="text" name="examName"/>
+                            </li>
+                            
+                            <li class="select-time">
+                                <p>考试时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginExamDate]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endExamDate]"/>
+                            </li>
+                            <li class="select-time">
+                                <p>创建时间：</p>
+                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateDate]"/>
+                                <span>-</span>
+                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateDate]"/>
+                            </li>
+                           
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolResult:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolResult:remove')}]];
+        var prefix = ctx + "system/schoolResultDetail";
+        
+		function editresult(id){
+			var url = ctx+"system/schoolResultDetail/luruadd?id="+id;
+    		var options = {
+   				title: '录入成绩',
+   				width: "380",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+			
+			var id  = body.find('#id').val()
+			var result  = body.find('#result').val()
+   			var absentFlag = 0;
+			
+			var str = "id="+id+"&result="+result+"&absentFlag="+absentFlag;
+			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+		}
+		 
+        $(function() {
+            var options = {
+                url: prefix + "/lurulist",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "学校成绩",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : 'null',
+                    visible: false
+                },
+                {
+                    field : 'name', 
+                    title : '学生姓名'
+                },
+                {
+                    field : 'grade', 
+                    title : '年级'
+                },
+                {
+                    field : 'class', 
+                    title : '班级'
+                },
+                {
+                    field : 'result', 
+                    title : '成绩'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn  btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="editresult(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

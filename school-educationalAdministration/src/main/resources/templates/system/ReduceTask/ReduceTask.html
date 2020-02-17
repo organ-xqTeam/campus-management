@@ -13,6 +13,7 @@
                             <li>
                                 <p>培训名称：</p>
                                 <input type="text" name="name"/>
+                                <input type="text" name="cid" th:value="${course.id}" style="display: none"/>
                             </li>
                             <li>
                                 <p>管理内容：</p>
@@ -84,11 +85,11 @@
         var editFlag = [[${@permission.hasPermi('system:ReduceTask:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:ReduceTask:remove')}]];
         var prefix = ctx + "system/ReduceTask";
-
+		var cid = $('input[name="cid"]').val();
         $(function() {
             var options = {
                 url: prefix + "/list",
-                createUrl: prefix + "/add",
+                createUrl: prefix + "/add?cid="+cid,
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",

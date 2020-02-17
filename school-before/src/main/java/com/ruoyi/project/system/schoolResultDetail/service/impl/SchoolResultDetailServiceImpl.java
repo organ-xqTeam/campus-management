@@ -106,4 +106,9 @@ public class SchoolResultDetailServiceImpl implements ISchoolResultDetailService
 	public List<Map<String, Object>> selectstudentresultlist(Map<String, Object> parmMap) {
 		return schoolResultDetailMapper.selectstudentresultlist(parmMap);
 	}
+	@Override
+	public List<Map<String, Object>> selectlurulist(Map<String, Object> parmMap) {
+		return schoolResultDetailMapper.lurulist(parmMap);
+	}
+	
 }

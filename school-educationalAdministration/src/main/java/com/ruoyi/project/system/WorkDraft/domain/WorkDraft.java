@@ -20,8 +20,16 @@ public class WorkDraft extends BaseEntity
 
     /** 主键 */
     private Long id;
+    
+    private String tid;
+    public String getTid() {
+		return tid;
+	}
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
 
-    /** 标题 */
+	/** 标题 */
     @Excel(name = "标题")
     private String title;
 

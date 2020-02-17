@@ -2,6 +2,7 @@ package com.ruoyi.project.system.WorkNote.controller;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,11 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
+import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.WorkNote.domain.WorkNote;
 import com.ruoyi.project.system.WorkNote.service.IWorkNoteService;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 工作记录Controller
@@ -35,11 +39,23 @@ public class WorkNoteController extends BaseController
 
     @Autowired
     private IWorkNoteService workNoteService;
+    @Autowired
+    private ITeachingInfoService teachingInfoService;
 
     @RequiresPermissions("system:WorkNote:view")
     @GetMapping()
-    public String WorkNote()
+    public String WorkNote(ModelMap mmap)
     {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	TeachingInfo t = new TeachingInfo();
+    	t.setUserId(me.getUserId());
+    	List<TeachingInfo> tl = teachingInfoService.selectTeachingInfoList(t);
+    	if (tl.size() > 0) {
+        	mmap.put("teacher", tl.get(0));
+    	}
+    	else {
+        	mmap.put("teacher", t);
+    	}
         return prefix + "/WorkNote";
     }
 
@@ -74,8 +90,9 @@ public class WorkNoteController extends BaseController
      * 新增工作记录
      */
     @GetMapping("/add")
-    public String add()
+    public String add(String tid, ModelMap mmap)
     {
+    	mmap.put("tid", tid);
         return prefix + "/add";
     }
 

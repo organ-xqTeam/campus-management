@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('成绩')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<input id="id" name="id" th:value="${id}"
+					class="form-control" type="hidden">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">成绩：</label>
+			<div class="col-sm-8">
+				<input id="result" name="result" class="form-control" type="text">
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <script type="text/javascript">
+    </script>
+</body>
+</html>

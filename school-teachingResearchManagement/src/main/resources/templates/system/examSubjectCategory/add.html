@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增题目分类')" />
+	 <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .input_content {
+            padding: 0px;
+        }
+        .input_content ul {
+            display: flex;
+            align-items: center;
+        }
+        .input_content ul li {
+            font-size: 14px;
+            padding: 0px;
+        }
+        .input_content ul li input {
+            border: 1px solid #222;
+            border-radius: 2px;
+            padding: 4px 0px;
+			width: 90px;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-examSubjectCategory-add">
+			
+			<input id="treeId" name="parentId" type="hidden" th:value="${menu.id}" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">上级菜单：</label>
+				<div class="col-sm-8">
+				    <div class="input-group">
+					    <input class="form-control" type="text" onclick="selectMenuTree()" id="treeName"  readonly="true" th:value="${menu.categoryName}">
+				        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+				    </div>
+				</div>
+			</div>
+		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>分类名称：</label>
+				<div class="col-sm-8">
+					<input id="categoryName" name="categoryName" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>分类描述：</label>
+				<div class="col-sm-8">
+					<input id="categoryDesc" name="categoryDesc" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group" id="target">
+				<label class="col-sm-3 control-label">类型：</label>
+				<div class="col-sm-8">
+					<label class="radio-box"> <input type="radio" name="type" value="1" data-value="0" /> MBTI测评分类 </label> 
+					<label class="radio-box"> <input type="radio" name="type" value="1" data-value="1" /> 学科兴趣测评分类 </label> 
+					<label class="radio-box"> <input type="radio" name="type" value="2" /> 普通试卷测评分类 </label> 
+				</div>
+			</div>
+			
+			<div class="form-group" id="s1" style="display:none">	
+				<label class="col-sm-3 control-label">测评结果显示：</label>
+				<div class="col-sm-8">
+					<input id="tenantCode" name="tenantCode"   class="form-control"  onkeyup="format_input_num(this)"  placeholder="显示前几名" type="number" required>
+				</div>
+			</div>
+			
+			<div class="form-group" id="s2" style="display:none">	
+				<label class="col-sm-3 control-label">添加维度：</label>
+				<div class="col-sm-8 input_content select-list">
+				    <ul class="list-wrap">
+				        <li>
+				          	<input type="text" placeholder="维度" class="n1">
+				            <i class="addDs glyphicon glyphicon-plus"></i>
+				            <i class="del glyphicon glyphicon-minus"></i>
+				        </li>
+				    </ul>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+    
+	    function format_input_num(obj){
+	        obj.value = obj.value.replace(/[^0-9]/g,'')
+	    }
+   		$(function(){
+   			$('input').on('ifChecked', function(event){  
+        		var menuType = $(event.target).val();//判断是复杂测评（1）还是简单试卷（2）
+        		var menuType1 = $(event.target).attr("data-value");//判断是mbti （0）还是 兴趣测试（1）
+        		//console.log(menuType1)
+        		if (menuType1 == "0") {
+        			$("#s2").show();
+        			 $("#s1").hide();
+				}else if (menuType == "1") {
+                    $("#s2").show();
+                    $("#s1").show();
+                } else if (menuType == "2") {
+                	$("#s2").hide();
+                    $("#s1").hide();
+                } 
+        	});
+   		}) 
+    
+    
+		var prefix = ctx + "system/examSubjectCategory"
+		
+		
+		
+		
+		$("#form-examSubjectCategory-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+				
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+			
+			
+			var dypieArr = [];
+			var sn = $(".list-wrap")
+			for(var i=0;i<sn.length;i++){
+			//	console.log(sn.eq(i).find("li"))
+				var sm =sn.eq(i).find("li");
+				var alloption={}
+				for(var j=0;j<sm.length;j++){
+					//console.log(sm.eq(j).find(".n1").val());
+					//console.log(sm.eq(j).find(".n2").val());
+					var l1 = sm.eq(j).find(".n1").val();
+					alloption['na']=l1;
+				}
+				dypieArr.push(alloption);
+			}
+		//	console.log(dypieArr);
+			
+		//	return
+			
+			
+	        if ($.validate.form()) {
+				
+	        	var obj = $('#form-examSubjectCategory-add').serialize();
+	        	
+	        	if($("#target").is(":visible")){
+		        	if(obj.indexOf("type") == -1){
+		        		alert("请选择类型")
+				//		console.log(obj)
+						return
+		        	}
+	        	}
+	        	if(obj.indexOf("categoryName") == -1){
+	        		alert("分类名称不能为空")
+				//	console.log(obj)
+					return
+	        	}
+	        	
+	        	var modifiernum=""
+	        	
+
+	        	var menuType1 = $('input:radio[name="type"]:checked').attr("data-value")
+	        	//console.log(menuType1)
+        		if (menuType1) {
+        			modifiernum = "&modifier="+menuType1
+				}
+	        	//console.log(modifiernum)
+	        	//return
+	        	
+	            $.operate.save(prefix + "/add", $('#form-examSubjectCategory-add').serialize()+modifiernum+"&applicationCode="+JSON.stringify(dypieArr));
+	        }
+		}
+		
+
+ 		/*菜单管理-新增-选择菜单树*/
+        function selectMenuTree() {
+        	var treeId = $("#treeId").val();
+        	//var menuId = treeId > 0 ? treeId : 1;
+        	var menuId = 1;
+        	var url = prefix + "/selectMenuTree/" + menuId;
+			var options = {
+				title: '菜单选择',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+   			$("#treeId").val(body.find('#treeId').val());
+   			$("#treeName").val(body.find('#treeName').val());
+   		//	console.log(body.find('#treeId').val())
+   			if(body.find('#treeId').val() != 1){
+             //   $("#perms").parents(".form-group").hide();
+                $("#target").hide();
+   			}else{
+              //  $("#perms").parents(".form-group").hide();
+                $("#target").show();
+   			}
+   			layer.close(index);
+		}
+		
+		
+        
+        
+      
+		//简单分类增加项        
+		var ulStr1 = `<ul class="list-wrap">
+		            <li>
+		            <input type="text" placeholder="维度" class="n1">
+		                <i class="addDs glyphicon glyphicon-plus"></i>
+			            <i class="del glyphicon glyphicon-minus" data-status="ul"></i>
+		            </li>
+		        </ul>`
+		// 向下增加
+		$('.input_content').delegate('.addDs', 'click', function () {
+			$('.input_content').append(ulStr1)
+		})
+		// 删除
+		$('.input_content').delegate('.del', 'click', function () {
+			if($(this).attr('data-status') == "ul") {
+                $(this).parents('ul').remove()
+            } else {
+                $(this).parents('li').remove()
+            }
+			//$(this).parents('li').remove()
+		})
+
+	</script>
+</body>
+</html>

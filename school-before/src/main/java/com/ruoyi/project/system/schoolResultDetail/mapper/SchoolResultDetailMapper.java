@@ -64,5 +64,5 @@ public interface SchoolResultDetailMapper
 			Map<String, Object> parmMap);
 	
 	public List<Map<String, Object>> selectstudentresultlist(Map<String, Object> parmMap);
-	
+	public List<Map<String, Object>> lurulist(Map<String, Object> parmMap);
 }

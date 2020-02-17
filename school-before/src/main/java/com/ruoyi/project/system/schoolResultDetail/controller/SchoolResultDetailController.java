@@ -166,7 +166,24 @@ public class SchoolResultDetailController extends BaseController
         return prefix + "/schoolResultDetail";
     }
     
-
+    @GetMapping("/luru")
+//    @RequiresPermissions("system:schoolResultDetail:view")
+    public String luru(String id,ModelMap mmap)
+    {
+    	mmap.put("studentid", id);
+        return prefix + "/luru";
+    }
+    
+//    @RequiresPermissions("system:schoolResultDetail:list")
+    @PostMapping("/lurulist")
+    @ResponseBody
+    public TableDataInfo lurulist(@RequestParam Map<String, Object> parmMap)
+    {
+    	startPage();
+        List<Map<String, Object>> list=schoolResultDetailService.selectlurulist(parmMap);
+        return getDataTable(list);
+    }
+    
     @GetMapping("/result")
     @RequiresPermissions("system:schoolResultDetail:view")
     public String result(String id,ModelMap mmap)
@@ -183,6 +200,17 @@ public class SchoolResultDetailController extends BaseController
         startPage();
         List<Map<String, Object>> list=schoolResultDetailService.selectstudentresultlist(parmMap);
         return getDataTable(list);
+    }
+    
+
+    /**
+     * 新增学校成绩详情表
+     */
+    @GetMapping("/luruadd")
+    public String luruadd(String id, ModelMap mmap)
+    {
+    	mmap.put("id", id);
+        return prefix + "/luruadd";
     }
 
     /**

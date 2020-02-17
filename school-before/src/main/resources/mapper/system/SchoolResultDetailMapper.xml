@@ -97,6 +97,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	</if>
     </select>
     
+    <select id="lurulist" resultType="hashmap" parameterType="hashmap">
+	    select
+			srd.*,
+			s.students_name as 'name',
+			g.grade as 'grade',
+			c.nameclass as 'class'
+		from 
+			school_result_detail srd
+		left join 
+			schoolstudentslist s on s.id = srd.students_id
+		left join 
+			schoolgradelist g on g.id = s.grade_id
+		left join 
+			school_class c on c.id = s.class_id
+		where 
+			1=1
+		and 
+			srd.result_id = #{id} 
+		and
+			s.id is not null
+		and 
+			(srd.result &lt; 60 or srd.absent_flag =1 or srd.result is null)
+    </select>
+    
     <select id="selectSchoolResultDetailById" parameterType="Long" resultMap="SchoolResultDetailResult">
         <include refid="selectSchoolResultDetailVo"/>
         where id = #{id}
