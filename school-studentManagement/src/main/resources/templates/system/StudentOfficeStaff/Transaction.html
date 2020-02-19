@@ -226,7 +226,8 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="huifu(\'' + row.id + '\')"><i class="fa fa-edit"></i>恢复在校</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="shezhi(\'' + row.id + '\')"><i class="fa fa-edit"></i>设置异动</a> ');
+                        actions.push('<a class="btn btn-primary btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="huifu(\'' + row.id + '\')">恢复在校</a> ');
                         return actions.join('');
                     }
                 }]
@@ -234,56 +235,25 @@
             $.table.init(options);
         });
         
-        function vieweditor(id){
-        	var url = prefix + "/vieweditor/" + id;
+        function shezhi(id){
+        	var url = prefix2 + "/vieweditor4/" + id;
     		var options = {
-   				title: '家庭信息',
+   				title: '设置异动',
    				width: "380",
+   				height: "420",
    				url: url,
    				callBack: doSubmit
    			};
    			$.modal.openOptions(options);
         }
         
-        function vieweditor2(id){
-        	var url = prefix + "/vieweditor2/" + id;
-    		var options = {
-   				title: '在线报名申请',
-   				width: "380",
-   				height: "220",
-   				url: url,
-   				callBack: doSubmit2
-   			};
-   			$.modal.openOptions(options);
-        }
-        
         function doSubmit(index, layero){
 			var body = layer.getChildFrame('body', index);
-			
 			var id  = body.find('#id').val()
-			var fatherName  = body.find('#fatherName').val()
-			var fatherPhone  = body.find('#fatherPhone').val()
-			var motherName  = body.find('#motherName').val()
-			var motherPhone  = body.find('#motherPhone').val()
-			var homeAddress  = body.find('#homeAddress').val()
-			var Remarks  = body.find('#Remarks').val()
-   			
-			console.log(fatherName,fatherPhone,motherName,motherPhone,homeAddress,Remarks)
-			
-			
-			var str = "id="+id+"&fatherName="+fatherName+"&fatherPhone="+fatherPhone+
-			"&motherName="+motherName+"&motherPhone="+motherPhone+"&homeAddress="+homeAddress+"&Remarks="+Remarks
-			
-			$.operate.save(prefix + "/edit", str);
-   			layer.close(index);
-		}
-        
-        function doSubmit2(index, layero){
-			var body = layer.getChildFrame('body', index);
-			var id  = body.find('#id').val()
-			var approvalstate  = body.find('#approvalstate').val()
-			var str = "id="+id+"&approvalstate="+approvalstate;
-			$.operate.save(prefix + "/edit", str);
+			var ydtime  = body.find('#ydtime').val()
+			var ydreason  = body.find('#ydreason').val()
+			var str = "id="+id+"&ydtime="+ydtime+"&ydreason="+ydreason;
+			$.operate.save(prefix2 + "/edit", str);
    			layer.close(index);
 		}
         

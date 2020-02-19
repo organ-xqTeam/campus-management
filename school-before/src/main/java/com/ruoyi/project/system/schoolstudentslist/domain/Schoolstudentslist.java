@@ -82,7 +82,7 @@ public class Schoolstudentslist extends BaseEntity
 
     /** 入学时间 */
     //@Excel(name = "入学时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date admissionTime;
+    private String admissionTime;
 
     /** 状态 */
     //@Excel(name = "状态")
@@ -350,9 +350,22 @@ public class Schoolstudentslist extends BaseEntity
     
     private String sbid;
     private String ssid;
+    private String ydtime;
+    private String ydreason;
     
-    
-    public String getSbid() {
+    public String getYdtime() {
+		return ydtime;
+	}
+	public void setYdtime(String ydtime) {
+		this.ydtime = ydtime;
+	}
+	public String getYdreason() {
+		return ydreason;
+	}
+	public void setYdreason(String ydreason) {
+		this.ydreason = ydreason;
+	}
+	public String getSbid() {
 		return sbid;
 	}
 	public void setSbid(String sbid) {
@@ -527,12 +540,12 @@ public class Schoolstudentslist extends BaseEntity
     {
         return ages;
     }
-    public void setAdmissionTime(Date admissionTime) 
+    public void setAdmissionTime(String admissionTime) 
     {
         this.admissionTime = admissionTime;
     }
 
-    public Date getAdmissionTime() 
+    public String getAdmissionTime() 
     {
         return admissionTime;
     }

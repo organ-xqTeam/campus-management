@@ -52,6 +52,11 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     {
         return dateTimeNow(YYYY_MM_DD_HH_MM_SS);
     }
+    
+    public static final String getYear()
+    {
+        return dateTimeNow(YYYY);
+    }
 
     public static final String dateTimeNow()
     {

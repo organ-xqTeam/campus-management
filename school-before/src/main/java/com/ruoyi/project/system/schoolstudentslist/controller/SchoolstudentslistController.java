@@ -129,6 +129,14 @@ public class SchoolstudentslistController extends BaseController
     	mmap.put("schoolstudentslist", schoolstudentslist);
     	return prefix + "/vieweditor3";
     }
+    
+    @GetMapping("/vieweditor4/{id}")
+    public String vieweditor4(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+    	return prefix + "/vieweditor4";
+    }
 
     /**
      * 新增保存学生列

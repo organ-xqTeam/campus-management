@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FontText;
 import com.ruoyi.common.utils.drawImg;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -202,6 +203,8 @@ public class StudentOfficeStaffController extends BaseController
 //    	schoolstudentslist.setRemark14("1");
     	schoolstudentslist.setApprovalstate("2");
     	schoolstudentslist.setState("2");
+//    	DateUtils.getYear()
+    	schoolstudentslist.setAdmissionTime("2019-" + "10");
         startPage();
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         return getDataTable(list);
