@@ -342,7 +342,7 @@ public class AppHomeWorkController {
 		String studentsId="S"+dateFormat.format(da)+randomNum.substring(randomNum.length()-4, randomNum.length());
     	schoolstudentslist.setStudentsId(studentsId);
     	schoolstudentslist.setApprovalstate("1");
-    	schoolstudentslist.setRemark14("1");
+    	schoolstudentslist.setState("2");
     	String idnum = schoolstudentslist.getIdnum();
     	String nation = schoolstudentslist.getNation();
     	if(!idnum.matches(RegUtil.reg_idnum)){

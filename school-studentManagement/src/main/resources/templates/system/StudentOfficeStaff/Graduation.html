@@ -64,7 +64,7 @@
         var prefix = ctx + "system/StudentOfficeStaff";
 
         var certificateManagement = [[${certificateManagement}]]
-        var studentstatuslists = [[${studentstatuslists}]]
+    	var studentstatuslists = [[${@dict.getType('student_status')}]];
         
         $(function() {
             var options = {

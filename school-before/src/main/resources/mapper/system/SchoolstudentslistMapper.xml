@@ -70,10 +70,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="classId"    column="class_id"    />
         <result property="leavetime"    column="leavetime"    />
         <result property="userId"    column="user_id"    />
+        <result property="sbid"    column="sbid"    />
+        <result property="ssid"    column="ssid"    />
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select sbid,ssid,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
     </sql>
     
     <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -143,6 +145,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
             <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
             <if test="userId != null   and userId != ''"> and user_id = #{userId}</if>
+            <if test="sbid != null   and sbid != ''"> and sbid = #{sbid}</if>
+            <if test="ssid != null   and ssid != ''"> and ssid = #{ssid}</if>
         </where>
     </select>
     <select id="selectSchoolstudentslistListnotState" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -208,6 +212,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
             <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
             <if test="userId != null   and userId != ''"> and user_id = #{userId}</if>
+            <if test="sbid != null   and sbid != ''"> and sbid = #{sbid}</if>
+            <if test="ssid != null   and ssid != ''"> and ssid = #{ssid}</if>
         </where>
     </select>
     <select id="selectSchoolstudentslistListUnMove" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -280,6 +286,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
             <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
             <if test="userId != null   and userId != ''"> and user_id = #{userId}</if>
+            <if test="sbid != null   and sbid != ''"> and sbid = #{sbid}</if>
+            <if test="ssid != null   and ssid != ''"> and ssid = #{ssid}</if>
 	        and id not in (select student_ID  from schoolstudentdetails where charging_details_ID = #{remark17})
         </where>
     </select>
@@ -354,6 +362,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gradeId != null  and gradeId != ''">grade_id,</if>
             <if test="classId != null  and classId != ''">class_id,</if>
             <if test="userId != null   and userId != ''"> user_id ,</if>
+            <if test="sbid != null   and sbid != ''"> sbid ,</if>
+            <if test="ssid != null   and ssid != ''"> ssid ,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="studentsId != null  and studentsId != ''">#{studentsId},</if>
@@ -418,6 +428,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gradeId != null  and gradeId != ''">#{gradeId},</if>
             <if test="classId != null  and classId != ''">#{classId},</if>
             <if test="userId != null   and userId != ''">#{userId},</if>
+            <if test="sbid != null   and sbid != ''">#{sbid},</if>
+            <if test="ssid != null   and ssid != ''">#{ssid},</if>
          </trim>
     </insert>
 
@@ -486,6 +498,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="gradeId != null  and gradeId != ''">grade_id = #{gradeId},</if>
             <if test="classId != null  and classId != ''">class_id = #{classId},</if>
             <if test="userId != null   and userId != ''">user_id= #{userId},</if>
+            <if test="sbid != null   and sbid != ''">sbid= #{sbid},</if>
+            <if test="ssid != null   and ssid != ''">ssid= #{ssid},</if>
         </trim>
         where id = #{id}
     </update>

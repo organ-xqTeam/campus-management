@@ -348,7 +348,23 @@ public class Schoolstudentslist extends BaseEntity
     private String leavetime;
     private Long userId;
     
-    public String getGender() {
+    private String sbid;
+    private String ssid;
+    
+    
+    public String getSbid() {
+		return sbid;
+	}
+	public void setSbid(String sbid) {
+		this.sbid = sbid;
+	}
+	public String getSsid() {
+		return ssid;
+	}
+	public void setSsid(String ssid) {
+		this.ssid = ssid;
+	}
+	public String getGender() {
 		return gender;
 	}
 

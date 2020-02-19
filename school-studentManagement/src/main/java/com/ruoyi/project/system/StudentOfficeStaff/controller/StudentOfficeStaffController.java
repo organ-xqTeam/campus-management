@@ -30,14 +30,16 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.FontText;
 import com.ruoyi.common.utils.drawImg;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
+import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
+import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolgradelist.domain.Schoolgradelist;
 import com.ruoyi.project.system.schoolgradelist.service.ISchoolgradelistService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
-import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.CertificateManagement;
 import com.ruoyi.system.service.ICertificateManagementService;
 
@@ -63,6 +65,10 @@ public class StudentOfficeStaffController extends BaseController
     private ISchoolgradelistService schoolgradelistService;
     @Autowired
     private ICertificateManagementService certificateManagementService;
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
+    @Autowired
+    private ISchoolSpecialtyService schoolSpecialtyService;
     /**
      	* 迎新管理
      * @return
@@ -193,7 +199,9 @@ public class StudentOfficeStaffController extends BaseController
     	
 //    	schoolstudentslist.setApprovalstate("1");
 //    	schoolstudentslist.setState("2");
-    	schoolstudentslist.setRemark14("1");
+//    	schoolstudentslist.setRemark14("1");
+    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("2");
         startPage();
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         return getDataTable(list);
@@ -337,7 +345,7 @@ public class StudentOfficeStaffController extends BaseController
     public TableDataInfo Leavingschool(Schoolstudentslist schoolstudentslist)
     {
     	schoolstudentslist.setApprovalstate("2");
-//    	schoolstudentslist.setState("4");
+    	schoolstudentslist.setState("4");
     	startPage();
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);
@@ -365,7 +373,7 @@ public class StudentOfficeStaffController extends BaseController
     public TableDataInfo Graduation(Schoolstudentslist schoolstudentslist)
     {
     	schoolstudentslist.setApprovalstate("2");
-    	schoolstudentslist.setState("1");
+    	schoolstudentslist.setState("5");
     	startPage();
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);
@@ -446,7 +454,25 @@ public class StudentOfficeStaffController extends BaseController
     {
     	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
     	mmap.put("schoolstudentslist", schoolstudentslist);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
     	return prefix + "/ruxue";
+    }
+    
+
+    /**
+     * 搜索学院下的专业
+     * */
+    @GetMapping("/zhuanye/{id}")
+    @ResponseBody
+    
+    public List<SchoolSpecialty> zhuanye(@PathVariable("id") Long id)
+    {
+    	SchoolSpecialty schoolSpecialty = new SchoolSpecialty();
+    	schoolSpecialty.setBelongId(id);
+        List<SchoolSpecialty> list = schoolSpecialtyService.selectSchoolSpecialtyList(schoolSpecialty);
+        return list;
     }
 
 }

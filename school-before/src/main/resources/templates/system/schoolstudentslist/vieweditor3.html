@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<input id="id" name="id" th:field="${schoolstudentslist.id}" class="form-control" type="hidden" >
+		<input id="state_" name="state_" th:field="${schoolstudentslist.state}" class="form-control" type="hidden" >
+		<div class="form-group">
+			<label class="col-sm-3 control-label">请审批：</label>
+			<div class="col-sm-8">
+				<select class="form-control" id="state" name="state">
+                    <option value="0">在校</option>
+                    <option value="3">异动</option>
+                    <option value="4">离校</option>
+                    <option value="5">结业</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>

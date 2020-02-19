@@ -14,10 +14,6 @@
                                 <p>学生名</p>
                                 <input type="text" name="studentsName"/>
                             </li>
-                             <li>
-                                <p>学级：</p>
-                                <input type="text" name="academicLevel"/>
-                            </li>
                             <li class="select-time">
                                 <p>入学时间：</p>
                                 <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdmissionTime]"/>
@@ -88,11 +84,6 @@
                     title : '学生名称'
                 },
                 {
-                    field : 'academicLevel', 
-                    title : '学级'
-                },
-                
-                {
                     field : '', 
                     title : '家庭信息',
                     formatter: function(value, row, index) {
@@ -125,7 +116,7 @@
                     title : '备注'
                 }, */
                 {
-                    field : 'ages', 
+                    field : 'birth', 
                     title : '年龄'
                 },
                 {
@@ -152,10 +143,10 @@
                     		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
                     	}
                     	if (value == '2') {
-                    		return '<a class="btn btn-primary" href="#">通过</a>';
+                    		return '<a class="btn btn-primary" href="#" onclick="vieweditor2(\'' + row.id + '\')">通过</a>';
                     	}
                     	if (value == '3') {
-                    		return '<a class="btn btn-danger" href="#">拒绝</a>';
+                    		return '<a class="btn btn-danger" href="#" onclick="vieweditor2(\'' + row.id + '\')">拒绝</a>';
                     		
                     	}
                     }

@@ -79,7 +79,7 @@ public class SchoolstudentslistController extends BaseController
     public TableDataInfo list(Schoolstudentslist schoolstudentslist)
     {
         startPage();
-        schoolstudentslist.setApprovalstate("2");
+//        schoolstudentslist.setApprovalstate("2");
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         return getDataTable(list);
     }
@@ -121,6 +121,14 @@ public class SchoolstudentslistController extends BaseController
     	mmap.put("schoolstudentslist", schoolstudentslist);
     	return prefix + "/vieweditor2";
     }
+    
+    @GetMapping("/vieweditor3/{id}")
+    public String vieweditor3(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+    	return prefix + "/vieweditor3";
+    }
 
     /**
      * 新增保存学生列
@@ -150,7 +158,8 @@ public class SchoolstudentslistController extends BaseController
     	userService.insertUser(user);
     	user=  userService.selectUserList(user).get(0);
     	schoolstudentslist.setUserId(user.getUserId());
-    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setApprovalstate("1");
+    	schoolstudentslist.setState("2");
         return toAjax(schoolstudentslistService.insertSchoolstudentslist(schoolstudentslist));
     }
 
