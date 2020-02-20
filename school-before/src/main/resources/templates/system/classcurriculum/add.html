@@ -11,7 +11,7 @@
         	<input name="detailPosition" type="hidden" th:value="${detailPosition}">
         	<input name="cuurriculumId" type="hidden" th:value="${classcid}">
             <div class="form-group">    
-                <label class="col-sm-3 control-label">科目：</label>
+                <label class="col-sm-3 control-label">课程：</label>
                 <div class="col-sm-5">
                  <select  class="form-control" name="coursemanagementId">
 				    <option   th:each="coursemanagement:${coursemanagementList}" th:value="${coursemanagement.id}" 
@@ -32,6 +32,17 @@
                   th:value="${teachingInfo.id}" 
                   th:text="${teachingInfo.teachingName}" 
                   th:selected="${classcurriculumDetail?.teacherId}==${teachingInfo.id}"></option>
+				 </select>
+				</div> 
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">教室：</label>
+                <div class="col-sm-5">
+                 <select  class="form-control" name="remark1">
+                  <option  th:each="sr:${srlist}" 
+                  th:value="${sr.id}" 
+                  th:text="${sr.num}" 
+                  th:selected="${classcurriculumDetail?.remark1}==${sr.id}"></option>
 				 </select>
 				</div> 
             </div>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schooloutofclass.mapper.SchooloutofclassMapper">
+    
+    <resultMap type="Schooloutofclass" id="SchooloutofclassResult">
+        <result property="id"    column="id"    />
+        <result property="classid"    column="classid"    />
+        <result property="type"    column="type"    />
+        <result property="name"    column="name"    />
+        <result property="brief"    column="brief"    />
+        <result property="uploadtime"    column="uploadtime"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
+        <result property="deleteFlag"    column="delete_flag"    />
+    </resultMap>
+
+    <sql id="selectSchooloutofclassVo">
+        select id, classid, type, name, brief, uploadtime, file, filename, delete_flag from schooloutofclass
+    </sql>
+
+    <select id="selectSchooloutofclassList" parameterType="Schooloutofclass" resultMap="SchooloutofclassResult">
+        <include refid="selectSchooloutofclassVo"/>
+        <where>  
+            <if test="classid != null "> and classid = #{classid}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="brief != null  and brief != ''"> and brief = #{brief}</if>
+            <if test="uploadtime != null  and uploadtime != ''"> and uploadtime = #{uploadtime}</if>
+            <if test="file != null  and file != ''"> and file = #{file}</if>
+            <if test="filename != null  and filename != ''"> and filename like concat('%', #{filename}, '%')</if>
+            <if test="deleteFlag != null  and deleteFlag != ''"> and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchooloutofclassById" parameterType="Long" resultMap="SchooloutofclassResult">
+        <include refid="selectSchooloutofclassVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchooloutofclass" parameterType="Schooloutofclass">
+        insert into schooloutofclass
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="classid != null ">classid,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="brief != null  and brief != ''">brief,</if>
+            <if test="uploadtime != null  and uploadtime != ''">uploadtime,</if>
+            <if test="file != null  and file != ''">file,</if>
+            <if test="filename != null  and filename != ''">filename,</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="classid != null ">#{classid},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="brief != null  and brief != ''">#{brief},</if>
+            <if test="uploadtime != null  and uploadtime != ''">#{uploadtime},</if>
+            <if test="file != null  and file != ''">#{file},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchooloutofclass" parameterType="Schooloutofclass">
+        update schooloutofclass
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="classid != null ">classid = #{classid},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="brief != null  and brief != ''">brief = #{brief},</if>
+            <if test="uploadtime != null  and uploadtime != ''">uploadtime = #{uploadtime},</if>
+            <if test="file != null  and file != ''">file = #{file},</if>
+            <if test="filename != null  and filename != ''">filename = #{filename},</if>
+            <if test="deleteFlag != null  and deleteFlag != ''">delete_flag = #{deleteFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchooloutofclassById" parameterType="Long">
+        delete from schooloutofclass where id = #{id}
+    </delete>
+
+    <delete id="deleteSchooloutofclassByIds" parameterType="String">
+        delete from schooloutofclass where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

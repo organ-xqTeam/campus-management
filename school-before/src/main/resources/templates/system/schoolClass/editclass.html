@@ -7,15 +7,31 @@
 <body class="white-bg">
 	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
 		<input id="id" name="id" th:field="${student.id}" class="form-control" type="hidden">
+		<input id="admissionTime" name="admissionTime" th:field="${student.admissionTime}" class="form-control" type="hidden">
+		
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">所属学院：</label>
+        	<div class="col-sm-8">
+				<select class="form-control" name="sbid" id="sbid">
+					<option value="">---请选择学院---</option>
+					<option th:each="sb:${sblist}" 
+							th:value="${sb.id}" 
+							th:text="${sb.schoolName}">
+					</option>
+				</select>
+        	</div>
+        </div>
+       	<div class="form-group">    
+        	<label class="col-sm-3 control-label">所属专业：</label>
+        	<div class="col-sm-8">
+				<select class="form-control" name="ssid" id="ssid">
+				</select>
+        	</div>
+        </div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">班级：</label>
 			<div class="col-sm-8">
 				<select class="form-control" id="classId" name="classId">
-					<option th:each="class:${schoolClass}" 
-						th:value="${class.id}" 
-						th:text="${class.nameclass}" 
-						th:selected="${student?.classId}==${class.id}">
-					</option>
 				</select>
 			</div>
 		</div>
@@ -23,7 +39,45 @@
 	<th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
-	   
+
+    $('select[name="sbid"]').change(function(){
+    	var sbid = $('select[name="sbid"]').val();
+    	$.ajax({
+    		type: "get",
+    		url: ctx + "system/StudentOfficeStaff/zhuanye/"+sbid,
+    		dataType: "json",
+    		success: function (data) {
+    			var append = '<option value="">---请选择专业---</option>';
+    			for(var i=0; i<data.length; i++) {
+    				var ss = data[i];
+    				append += '<option value="'+ss.id+'">'+ss.name+'</option>';
+    			}
+    			$('#ssid').html(append);
+    		},
+    		async: false
+    	});
+    });
+    $('select[name="ssid"]').change(function(){
+//     	alert(666)
+//     	return;
+    	var admissionTime = $('#admissionTime').val();
+    	var sbid = $('#sbid').val();
+    	var ssid = $('#ssid').val();
+    	$.ajax({
+    		type: "get",
+    		url: ctx + "system/schoolClass/selectclass?gradelistId="+admissionTime+"&sbid="+sbid+'&ssid='+ssid,
+    		dataType: "json",
+    		success: function (data) {
+    			var append = '<option value="">---请选择班级---</option>';
+    			for(var i=0; i<data.length; i++) {
+    				var ss = data[i];
+    				append += '<option value="'+ss.id+'">'+ss.nameclass+'</option>';
+    			}
+    			$('#classId').html(append);
+    		},
+    		async: false
+    	});
+    });
     </script>
 </body>
 </html>

@@ -31,8 +31,16 @@ public class Schoolstudentslist extends BaseEntity
 
     /** 性别 */
     private String gender;
+    private String nianji;
     
-    /** 出生年月 */
+    public String getNianji() {
+		return nianji;
+	}
+	public void setNianji(String nianji) {
+		this.nianji = nianji;
+	}
+
+	/** 出生年月 */
     private String birth;
     
     /** 民族 */
@@ -176,6 +184,15 @@ public class Schoolstudentslist extends BaseEntity
 	}
 	public void setRemark20(String remark20) {
 		this.remark20 = remark20;
+	}
+
+    private String cardnum;
+    
+	public String getCardnum() {
+		return cardnum;
+	}
+	public void setCardnum(String cardnum) {
+		this.cardnum = cardnum;
 	}
 
 	//    @Excel(name = "报道状态：1已报道；2未报道")
@@ -352,8 +369,24 @@ public class Schoolstudentslist extends BaseEntity
     private String ssid;
     private String ydtime;
     private String ydreason;
+    private String sbid_;
+    private String ssid_;
     
-    public String getYdtime() {
+    
+    
+    public String getSbid_() {
+		return sbid_;
+	}
+	public void setSbid_(String sbid_) {
+		this.sbid_ = sbid_;
+	}
+	public String getSsid_() {
+		return ssid_;
+	}
+	public void setSsid_(String ssid_) {
+		this.ssid_ = ssid_;
+	}
+	public String getYdtime() {
 		return ydtime;
 	}
 	public void setYdtime(String ydtime) {

@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('新增班级')" />
+    <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -27,20 +28,38 @@
                     <input name="nameclass" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">年级：</label>
-                <div class="col-sm-8">
-                	<select class="form-control" name="gradelistId">
-						<option th:each="grade:${gradelist}" 
-							th:value="${grade.id}" 
-							th:text="${grade.grade}">
-						</option>
+	       	<div class="form-group">    
+	        	<label class="col-sm-3 control-label">所属学院：</label>
+	        	<div class="col-sm-8">
+					<select class="form-control" name="sbid" id="sbid">
+						<option value="">---请选择学院---</option>
+						<option th:each="sb:${sblist}" 
+								th:value="${sb.id}" 
+								th:text="${sb.schoolName}">
+					</option>
 					</select>
+	        	</div>
+	        </div>
+	       	<div class="form-group">    
+	        	<label class="col-sm-3 control-label">所属专业：</label>
+	        	<div class="col-sm-8">
+					<select class="form-control" name="ssid" id="ssid">
+					</select>
+	        	</div>
+	        </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入学年月：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+	                	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                    <input name="gradelistId" class="form-control" placeholder="yyyy" type="text">  
+                	</div>
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
         var prefix = ctx + "system/schoolClass"
         $("#form-class-add").validate({
@@ -52,6 +71,28 @@
                 $.operate.save(prefix + "/add", $('#form-class-add').serialize());
             }
         }
+        $("input[name='gradelistId']").datetimepicker({
+            format: "yyyy",
+            minView: "year",
+            autoclose: true
+        });
+	    $('select[name="sbid"]').change(function(){
+	    	var sbid = $('select[name="sbid"]').val();
+	    	$.ajax({
+	    		type: "get",
+	    		url: ctx + "system/StudentOfficeStaff/zhuanye/"+sbid,
+	    		dataType: "json",
+	    		success: function (data) {
+	    			var append = '';
+	    			for(var i=0; i<data.length; i++) {
+	    				var ss = data[i];
+	    				append += '<option value="'+ss.id+'">'+ss.name+'</option>';
+	    			}
+	    			$('#ssid').html(append);
+	    		},
+	    		async: false
+	    	});
+	    });
     </script>
 </body>
 </html>

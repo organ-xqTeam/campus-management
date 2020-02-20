@@ -49,8 +49,26 @@ public class Classschedulingmanagement extends BaseEntity
     /** 备注 */
     @Excel(name = "备注")
     private String remark2;
+    private String remark1_;
+    private String remark2_;
+    
+    public String getRemark1_() {
+		return remark1_;
+	}
 
-    /** 备注 */
+	public void setRemark1_(String remark1_) {
+		this.remark1_ = remark1_;
+	}
+
+	public String getRemark2_() {
+		return remark2_;
+	}
+
+	public void setRemark2_(String remark2_) {
+		this.remark2_ = remark2_;
+	}
+
+	/** 备注 */
     @Excel(name = "备注")
     private String remark3;
 

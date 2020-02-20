@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schooloutofclass-add">
+            <div class="form-group" style="display: none">    
+                <label class="col-sm-3 control-label">班级id：</label>
+                <div class="col-sm-8">
+                    <input name="classid" class="form-control" th:field="${schooloutofclass.classid}" type="text">
+                    <input name="type" class="form-control" th:field="${schooloutofclass.type}" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">文件名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">简介：</label>
+                <div class="col-sm-8">
+                    <input name="brief" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group" style="display: none">    
+                <label class="col-sm-3 control-label">文件地址：</label>
+                <div class="col-sm-8">
+                    <input name="file" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">文件名：</label>
+                <div class="col-sm-8">
+                    <input name="filename" class="form-control" type="text" style="display: none">
+                    <input id="filePath" name="filePath" class="form-control" type="file">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+    
+        var prefix = ctx + "system/schooloutofclass"
+        
+        var filefix = ctx + "system/fileinfo";
+        
+        $("#form-schooloutofclass-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+            	uploadFile();
+                $.operate.save(prefix + "/add", $('#form-schooloutofclass-add').serialize());
+            }
+        }
+        
+        function uploadFile() {
+        	var formData = new FormData();
+        	if ($('#filePath')[0].files[0] == null) {
+        		$.modal.alertWarning("请先选择文件路径");
+        		return false;
+        	}
+        	formData.append('file', $('#filePath')[0].files[0]);        	
+        	$.ajax({
+        		url: filefix + "/add",
+        		type: 'post',
+        		cache: false,
+        		data: formData,
+        		processData: false,
+        		contentType: false,
+        		dataType: "json",
+        		async: false,
+        		success: function(result) {
+        			var file = result.file;
+        			if (file) {
+        				$('input[name="filename"]').val(file.fileName);
+        				$('input[name="file"]').val(file.filePath);
+        			}
+        		}
+        	});
+        }
+        
+    </script>
+</body>
+</html>

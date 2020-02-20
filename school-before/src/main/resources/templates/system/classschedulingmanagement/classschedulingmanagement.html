@@ -15,24 +15,6 @@
                                 <input type="text" name="rowId"/>
                             </li>
                             <li>
-                                <p>班级：</p>
-                                <input type="text" name="classId"/>
-                            </li>
-                            <li>
-                                <p>状态：</p>
-                                <select name="classStatus">
-                                    <option value="">所有</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>部门表的别名：</p>
-                                <input type="text" name="deptalias"/>
-                            </li>
-                            <li>
-                                <p>用户表的别名：</p>
-                                <input type="text" name="useralias"/>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -51,15 +33,6 @@
                 <a class="btn btn-success single disabled" onclick="deletepk()" >
                     <i class="fa fa-remove"></i> 重置排课
                 </a>
-                <!-- <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:classschedulingmanagement:edit">
-                    <i class="fa fa-edit"></i> 修改
-                </a>
-                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:classschedulingmanagement:remove">
-                    <i class="fa fa-remove"></i> 删除
-                </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:classschedulingmanagement:export">
-                    <i class="fa fa-download"></i> 导出
-                 </a> -->
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -73,7 +46,7 @@
         var prefix = ctx + "system/classschedulingmanagement";
         //查看排课
         function showpk(){
-    	   alert("进入排课");
+//     	   alert("进入排课");
     	   var row=$("#bootstrap-table").bootstrapTable('getSelections');
 			if(row.length>=2){
 				$.modal.alert("只能选择一条数据");
@@ -111,13 +84,30 @@
                     title : '排课编号'
                 },
                 {
+                    field : 'remark1_', 
+                    title : '学院'
+                },
+                {
+                    field : 'remark2_', 
+                    title : '专业'
+                },
+                {
+                    field : 'gradeId', 
+                    title : '年级'
+                },
+                {
                     field : 'className', 
                     title : '班级'
                 },
-                {
-                    field : 'classGrade', 
-                    title : '年级'
-                },
+                
+//                 {
+//                     field : 'className', 
+//                     title : '班级'
+//                 },
+//                 {
+//                     field : 'classGrade', 
+//                     title : '年级'
+//                 },
                 {
                     field : 'classStatus', 
                     title : '状态'

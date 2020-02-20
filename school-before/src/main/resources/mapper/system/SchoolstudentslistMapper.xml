@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="studentsId"    column="students_id"    />
         <result property="studentsName"    column="students_name"    />
         <result property="gender"    column="gender"    />
+        <result property="nianji"    column="nianji"    />
         <result property="birth"    column="birth"    />
         <result property="nation"    column="nation"    />
         <result property="idnum"    column="idnum"    />
@@ -72,12 +73,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId"    column="user_id"    />
         <result property="sbid"    column="sbid"    />
         <result property="ssid"    column="ssid"    />
+        <result property="sbid_"    column="sbid_"    />
+        <result property="ssid_"    column="ssid_"    />
         <result property="ydtime"    column="ydtime"    />
         <result property="ydreason"    column="ydreason"    />
+        <result property="cardnum"    column="cardnum"    />
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select sbid,ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as 'nianji',(select school_name from school_belong where id=sbid) as 'sbid_',(select name from school_specialty where id=ssid) as 'ssid_', ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id, (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
     </sql>
     
     <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -145,12 +149,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
             <if test="gradeId != null  and gradeId != ''"> and grade_id = #{gradeId}</if>
-            <if test="classId != null  and classId != ''"> and class_id = #{classId}</if>
+            <if test="classId != null"> and class_id = #{classId}</if>
             <if test="userId != null   and userId != ''"> and user_id = #{userId}</if>
             <if test="sbid != null   and sbid != ''"> and sbid = #{sbid}</if>
             <if test="ssid != null   and ssid != ''"> and ssid = #{ssid}</if>
             <if test="ydtime != null   and ydtime != ''"> and ydtime = #{ydtime}</if>
             <if test="ydreason != null   and ydreason != ''"> and ydreason = #{ydreason}</if>
+            <if test="cardnum != null   and cardnum != ''"> and cardnum = #{cardnum}</if>
         </where>
     </select>
     <select id="selectSchoolstudentslistListnotState" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -220,6 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ssid != null   and ssid != ''"> and ssid = #{ssid}</if>
             <if test="ydtime != null   and ydtime != ''"> and ydtime = #{ydtime}</if>
             <if test="ydreason != null   and ydreason != ''"> and ydreason = #{ydreason}</if>
+            <if test="cardnum != null   and cardnum != ''"> and cardnum = #{cardnum}</if>            
         </where>
     </select>
     <select id="selectSchoolstudentslistListUnMove" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -296,6 +302,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ssid != null   and ssid != ''"> and ssid = #{ssid}</if>
             <if test="ydtime != null   and ydtime != ''"> and ydtime = #{ydtime}</if>
             <if test="ydreason != null   and ydreason != ''"> and ydreason = #{ydreason}</if>
+            <if test="cardnum != null   and cardnum != ''"> and cardnum = #{cardnum}</if>
+            
 	        and id not in (select student_ID  from schoolstudentdetails where charging_details_ID = #{remark17})
         </where>
     </select>
@@ -374,6 +382,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ssid != null   and ssid != ''"> ssid ,</if>
             <if test="ydtime != null   and ydtime != ''"> ydtime ,</if>
             <if test="ydreason != null   and ydreason != ''"> ydreason ,</if>
+            <if test="cardnum != null   and cardnum != ''"> cardnum ,</if>
+            
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="studentsId != null  and studentsId != ''">#{studentsId},</if>
@@ -442,6 +452,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ssid != null   and ssid != ''">#{ssid},</if>
             <if test="ydtime != null   and ydtime != ''">#{ydtime},</if>
             <if test="ydreason != null   and ydreason != ''">#{ydreason},</if>
+            <if test="cardnum != null   and cardnum != ''">#{cardnum},</if>
+            
          </trim>
     </insert>
 
@@ -508,12 +520,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
             <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
             <if test="gradeId != null  and gradeId != ''">grade_id = #{gradeId},</if>
-            <if test="classId != null  and classId != ''">class_id = #{classId},</if>
+            <if test="classId != null">class_id = #{classId},</if>
             <if test="userId != null   and userId != ''">user_id= #{userId},</if>
             <if test="sbid != null   and sbid != ''">sbid= #{sbid},</if>
             <if test="ssid != null   and ssid != ''">ssid= #{ssid},</if>
             <if test="ydtime != null   and ydtime != ''">ydtime= #{ydtime},</if>
             <if test="ydreason != null   and ydreason != ''">ydreason= #{ydreason},</if>
+            <if test="cardnum != null   and cardnum != ''">cardnum= #{cardnum},</if>
+            
         </trim>
         where id = #{id}
     </update>

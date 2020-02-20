@@ -14,21 +14,14 @@
                                 <p>学生名</p>
                                 <input type="text" name="studentsName"/>
                             </li>
-                             <li>
-                                <p>学级：</p>
-                                <input type="text" name="academicLevel"/>
+                            <li>
+                                <p>身份证号</p>
+                                <input type="text" name="idnum"/>
                             </li>
-                            <li class="select-time">
-                                <p>入学时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdmissionTime]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAdmissionTime]"/>
+                            <li>
+                                <p>入学年月</p>
+                                <input type="text" name="admissionTime"/>
                             </li>
-                            <!-- <li>
-                                <p>状态：</p>
-                                <input type="text" name="State"/>
-                            </li> -->
-                           
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -105,138 +98,45 @@
                     title : '学生名称'
                 },
                 {
-                    field : 'academicLevel', 
-                    title : '学级'
+                    field : 'cardnum', 
+                    title : '学生证号'
                 },
-                
-                /* {
-                    field : '', 
-                    title : '家庭信息',
+                {
+                    field : 'gender', 
+                    title : '性别',
                     formatter: function(value, row, index) {
-                    	console.log(1,row)
-                    	return '<a class="" href="#" onclick="vieweditor(\'' + row.id + '\')">查看编辑</a>';
-                    }
-                }, */
-                /* {
-                    field : 'fatherName', 
-                    title : '父亲名称'
-                },
-                {
-                    field : 'fatherPhone', 
-                    title : '父亲电话号'
-                },
-                {
-                    field : 'motherName', 
-                    title : '母亲名称'
-                },
-                {
-                    field : 'motherPhone', 
-                    title : '母亲电话号'
-                },
-                {
-                    field : 'homeAddress', 
-                    title : '家庭住址'
-                },
-                {
-                    field : 'Remarks', 
-                    title : '备注'
-                }, */
-                {
-                    field : 'ages', 
-                    title : '年龄'
-                },
-                {
-                    field : 'admissionTime', 
-                    title : '入学时间'
-                },
-                {
-                    field : 'state', 
-                    title : '状态',
-                    formatter: function(value, row, index) {
-                    	var datas = [[${@dict.getType('system_schoolenrollmentmanagement_state')}]];
+                    	var datas = [[${@dict.getType('student_sex')}]];
                     	return $.table.selectDictLabel(datas, value);
                     }
                 },
                 {
-                    field : 'remark1', 
-                    title : '材料附件'
-                },
-                /*{
-                    field : 'remark', 
-                    title : '备注'
+                    field : 'birth', 
+                    title : '出生日期'
                 },
                 {
-                    field : 'remark2', 
-                    title : '备注'
+                    field : 'sbid_', 
+                    title : '学院'
                 },
                 {
-                    field : 'remark3', 
-                    title : '备注'
+                    field : 'ssid_', 
+                    title : '专业'
                 },
                 {
-                    field : 'remark4', 
-                    title : '备注'
+                    field : 'nianji', 
+                    title : '年级',
+                    formatter: function(value, row, index) {
+                    	if (value) {
+                        	return parseInt(value);
+                    	}
+                    	else {
+                    		return '';
+                    	}
+                    }
                 },
                 {
-                    field : 'remark5', 
-                    title : '备注'
+                    field : 'rxzp', 
+                    title : '入学照片'
                 },
-                {
-                    field : 'remark6', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark7', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark8', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark9', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark10', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark11', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark12', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark13', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark14', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark15', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark16', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark17', 
-                    title : '备注'
-                },
-                {
-                    field : 'deptalias', 
-                    title : '部门表的别名'
-                },
-                {
-                    field : 'useralias', 
-                    title : '用户表的别名'
-                }, */
                 {
                     title: '操作',
                     align: 'center',
@@ -310,6 +210,7 @@
 			var isreceivejunxun  = body.find('#isreceivejunxun').val()
 			var sbid  = body.find('#sbid').val()
 			var ssid  = body.find('#ssid').val()
+			var cardnum  = body.find('#cardnum').val()
 
 			var str = "id="+id
 			+"&reportstate="+reportstate
@@ -320,6 +221,7 @@
 			+"&isreceivejunxun="+isreceivejunxun
 			+"&sbid="+sbid
 			+"&ssid="+ssid
+			+"&cardnum="+cardnum
 			
 			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
    			layer.close(index);

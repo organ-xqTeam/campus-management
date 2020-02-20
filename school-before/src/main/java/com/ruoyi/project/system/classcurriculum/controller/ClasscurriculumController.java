@@ -30,6 +30,8 @@ import com.ruoyi.project.system.classcurriculum.domain.Classcurriculum;
 import com.ruoyi.project.system.classcurriculum.service.IClasscurriculumService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
+import com.ruoyi.project.system.schoolclassroom.domain.Schoolclassroom;
+import com.ruoyi.project.system.schoolclassroom.service.ISchoolclassroomService;
 
 /**
  * 课Controller
@@ -47,14 +49,13 @@ public class ClasscurriculumController extends BaseController
     private IClasscurriculumService classcurriculumService;
     @Autowired
     private ITeachingInfoService teachingInfoService;
-    
     @Autowired
     private ICoursemanagementService coursemanagementService; 
+    @Autowired
+    private ISchoolclassroomService schoolclassroomService;
     
     @Autowired
     private IClasscurriculumDetailService  classcurriculumDetailService;
-
-
     @GetMapping()
     public String classcurriculum(String classsId,ModelMap mmap)
     {
@@ -169,7 +170,9 @@ public class ClasscurriculumController extends BaseController
     	mmap.put("detailPosition", detailPosition);
     	mmap.put("classcid", classcid);
     	
-    	
+    	Schoolclassroom classroom = new Schoolclassroom();
+    	List<Schoolclassroom> srlist = schoolclassroomService.selectSchoolclassroomList(classroom);
+    	mmap.put("srlist", srlist);
     	
     	
     	

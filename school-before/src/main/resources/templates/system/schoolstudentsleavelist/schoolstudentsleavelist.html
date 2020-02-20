@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学生请假列表')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse" style="display: block">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li style="display: none">
+                                <p>学生id：</p>
+                                <input type="text" id="studentid" name="studentid" th:field="${leave.studentid}"/>
+                            </li>
+                            <li>
+                                <p>请假日期：</p>
+                                <div class="input-group date" style="width: 200px">
+				                	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				                    <input name="leavedate" class="form-control" placeholder="yyyy-MM-dd" type="text">  
+			                	</div>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentsleavelist:add">
+                    <i class="fa fa-plus"></i> 学生请假
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentsleavelist:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentsleavelist:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolstudentsleavelist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolstudentsleavelist:remove')}]];
+        var prefix = ctx + "system/schoolstudentsleavelist";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add?studentid="+$('#studentid').val(),
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "学生请假",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'studentid', 
+                    title : '学生id',
+                    visible: false
+                },
+                {
+                    field : 'reason', 
+                    title : '请假事由'
+                },
+                {
+                    field : 'leavetime', 
+                    title : '请假时长'
+                },
+                {
+                    field : 'leavedate', 
+                    title : '请假日期'
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        $("input[name='leavedate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

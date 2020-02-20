@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学生列列表')" />
+</head>
+<body class="gray-bg">
+	<input type="text" id="classId" style="display: none" th:value="${class.id}"/>
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>学生名</p>
+                                <input type="text" name="studentsName"/>
+                                <input type="hidden" name="classId" value="0"/>
+                            </li>
+                            <li>
+                                <p>身份证号</p>
+                                <input type="text" name="idnum"/>
+                            </li>
+                            <li>
+                                <p>入学年月</p>
+                                <input type="text" name="admissionTime"/>
+                            </li>
+                            <li>
+                                <p>学院</p>
+                                <select name="sbid" id="sbid">
+									<option value="">---请选择学院---</option>
+									<option th:each="sb:${sblist}" 
+											th:value="${sb.id}" 
+											th:text="${sb.schoolName}">
+									</option>
+								</select>
+                            </li>
+                            <li>
+                                <p>专业</p>
+								<select name="ssid" id="ssid">
+								</select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="daoru()" shiro:hasPermission="system:schoolstudentslist:add">
+                    <i class="fa fa-plus"></i> 导入班级
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolstudentslist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolstudentslist:remove')}]];
+        var resultFlag = [[${@permission.hasPermi('system:schoolResultDetail:view')}]];
+        var homeFlag = [[${@permission.hasPermi('system:schoolHomework:view')}]];
+        var classFlag = [[${@permission.hasPermi('system:schoolClass:editclass')}]];
+        var leaveFlag = [[${@permission.hasPermi('system:schoolstudentsleavelist:view')}]];
+        
+        var prefix = ctx + "system/schoolstudentslist";
+        
+        $('select[name="sbid"]').change(function(){
+	    	var sbid = $('select[name="sbid"]').val();
+	    	$.ajax({
+	    		type: "get",
+	    		url: ctx + "system/StudentOfficeStaff/zhuanye/"+sbid,
+	    		dataType: "json",
+	    		success: function (data) {
+	    			var append = '<option value="">---请选择专业---</option>';
+	    			for(var i=0; i<data.length; i++) {
+	    				var ss = data[i];
+	    				append += '<option value="'+ss.id+'">'+ss.name+'</option>';
+	    			}
+	    			$('#ssid').html(append);
+	    		},
+	    		async: false
+	    	});
+	    });
+        
+        function daoru() {
+			var row=$("#bootstrap-table").bootstrapTable('getSelections');
+			for(var i=0; i<row.length; i++) {
+				var str = "id="+row[i].id+"&classId="+$('#classId').val();	
+  				$.operate.save(prefix + "/edit", str);
+     	   	}
+        }
+        
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add?classId="+$('#classId').val()+"&gradeId="+$('#gradeId').val(),
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+               // exportUrl: prefix + "/export",
+                modalName: "学生列",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'studentsId', 
+                    title : '学生id'
+                },
+                {
+                    field : 'studentsName', 
+                    title : '学生名称'
+                },
+                {
+                    field : 'cardnum', 
+                    title : '学生证号'
+                },
+                {
+                    field : 'gender', 
+                    title : '性别',
+                    formatter: function(value, row, index) {
+                    	var datas = [[${@dict.getType('student_sex')}]];
+                    	return $.table.selectDictLabel(datas, value);
+                    }
+                },
+                {
+                    field : 'birth', 
+                    title : '出生日期'
+                },
+                {
+                    field : 'sbid_', 
+                    title : '学院'
+                },
+                {
+                    field : 'ssid_', 
+                    title : '专业'
+                },
+                {
+                    field : 'nianji', 
+                    title : '年级',
+                    formatter: function(value, row, index) {
+                    	if (value) {
+                        	return parseInt(value);
+                    	}
+                    	else {
+                    		return '';
+                    	}
+                    }
+                },
+                {
+                    field : 'rxzp', 
+                    title : '入学照片'
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function tiaobanlishi(id) {
+        	var url = ctx + "system/schoolClass/history?studentsId="+id;
+    		var options = {
+   				title: '调班历史',
+   				width: "380",
+   				height: "250",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function viewresultdatail(id) {
+        	var url = ctx + "system/schoolResultDetail/result?id="+id;
+			$.modal.openTab("成绩管理", url);
+        }
+        
+        function viewhomework(id) {
+        	var url = ctx + "system/schoolHomework/result?id="+id;
+			$.modal.openTab("作业管理", url);
+        }
+        
+        function vieweditclass(id) {
+        	var url = ctx + "system/schoolClass/editclass?id="+id+"&classId="+$('#classId').val();
+    		var options = {
+   				title: '调班',
+   				width: "380",
+   				height: "250",
+   				url: url,
+   				callBack: doeditclass
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doeditclass(index, layero) {
+        	var body = layer.getChildFrame('body', index);		        	
+			var id  = body.find('#id').val();					// 学生id
+			var classId  = body.find('#classId').val();			// 班级id
+			var str = "id="+id+"&classId="+classId;			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+        }
+
+        function viewkaoqin(id) {
+        	var url = ctx + "system/schoolstudentsleavelist?studentid="+id;
+			$.modal.openTab("考勤管理", url);
+        }
+        
+        function vieweditor(id){
+        	var url = prefix + "/vieweditor/" + id;
+    		var options = {
+   				title: '家庭信息',
+   				width: "380",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+			
+			var id  = body.find('#id').val()
+			var fatherName  = body.find('#fatherName').val()
+			var fatherPhone  = body.find('#fatherPhone').val()
+			var motherName  = body.find('#motherName').val()
+			var motherPhone  = body.find('#motherPhone').val()
+			var homeAddress  = body.find('#homeAddress').val()
+			var Remarks  = body.find('#Remarks').val()
+   			
+			console.log(fatherName,fatherPhone,motherName,motherPhone,homeAddress,Remarks)
+			
+			
+			var str = "id="+id+"&fatherName="+fatherName+"&fatherPhone="+fatherPhone+
+			"&motherName="+motherName+"&motherPhone="+motherPhone+"&homeAddress="+homeAddress+"&Remarks="+Remarks
+			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+		}
+ 		function usersee (){
+        	$.modal.alert("暂无此功能！！！")
+        	console.log("usersee!!!")
+        }
+    </script>
+</body>
+</html>

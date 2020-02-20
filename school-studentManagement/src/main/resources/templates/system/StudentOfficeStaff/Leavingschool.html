@@ -14,48 +14,14 @@
                                 <p>学生名</p>
                                 <input type="text" name="studentsName"/>
                             </li>
-                             <li>
-                                <p>学级：</p>
-                                <input type="text" name="academicLevel"/>
+                            <li>
+                                <p>身份证号</p>
+                                <input type="text" name="idnum"/>
                             </li>
                             <li>
-                            	<p>离校情况：</p>
-			            	  	<select name="state" th:with="type=${@dict.getType('system_schoolenrollmentmanagement_state')}">
-			            	  		<option value=""></option>
-				                  	<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-				              	</select> 
+                                <p>入学年月</p>
+                                <input type="text" name="admissionTime"/>
                             </li>
-                             <li>
-                                <p>班级：</p>
-                                <select class="form-control" name="classId">
-                                	<option value=""></option>
-									<option th:each="class:${classlist}" 
-										th:value="${class.id}" 
-										th:text="${class.nameclass}" >
-									</option>
-								</select>
-                            </li>
-                             <li>
-                                <p>年级：</p>
-                                <select class="form-control" name="gradeId">
-                                	<option value=""></option>
-									<option th:each="grade:${gradelist}" 
-										th:value="${grade.id}" 
-										th:text="${grade.grade}" >
-									</option>
-								</select>
-                            </li>
-                            <li class="select-time">
-                                <p>入学时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdmissionTime]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAdmissionTime]"/>
-                            </li>
-                            <!-- <li>
-                                <p>状态：</p>
-                                <input type="text" name="State"/>
-                            </li> -->
-                           
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -112,14 +78,14 @@
                     field : 'idnum,', 
                     title : '身份证号'
                 },
-                {
-                    field : 'state', 
-                    title : '状态',
-                    formatter: function(value, row, index) {
-                    	var datas = [[${@dict.getType('system_schoolenrollmentmanagement_state')}]];
-                    	return $.table.selectDictLabel(datas, value);
-                    }
-                },
+//                 {
+//                     field : 'state', 
+//                     title : '状态',
+//                     formatter: function(value, row, index) {
+//                     	var datas = [[${@dict.getType('system_schoolenrollmentmanagement_state')}]];
+//                     	return $.table.selectDictLabel(datas, value);
+//                     }
+//                 },
                 {
                     field : 'lixian1', 
                     title : '图书馆办理信息',

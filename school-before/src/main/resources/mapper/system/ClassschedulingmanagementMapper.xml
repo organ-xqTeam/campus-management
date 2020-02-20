@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectClassschedulingmanagementVo">
-        select id, row_id, class_id,class_name as className, class_grade, class_status, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias from classschedulingmanagement
+        select id, row_id, class_id,class_name as className, class_grade, class_status, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias,(select school_name from school_belong where id=remark1) as 'remark1_', (select name from school_specialty where id=remark2) as 'remark2_', userAlias from classschedulingmanagement
     </sql>
 
     <select id="selectClassschedulingmanagementList" parameterType="Classschedulingmanagement" resultMap="ClassschedulingmanagementResult">

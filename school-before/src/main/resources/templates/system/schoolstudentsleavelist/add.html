@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增学生请假')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-schoolstudentsleavelist-add">
+            <div class="form-group" style="display: none">    
+                <label class="col-sm-3 control-label">学生id：</label>
+                <div class="col-sm-8">
+                    <input name="studentid" class="form-control" type="text" th:field="${leave.studentid}">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">请假事由：</label>
+                <div class="col-sm-8">
+                    <input name="reason" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">请假时长：</label>
+                <div class="col-sm-8">
+                    <input name="leavetime" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">请假日期：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+	                	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                    <input name="leavedate" class="form-control" placeholder="yyyy-MM-dd" type="text">  
+                	</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolstudentsleavelist"
+        $("#form-schoolstudentsleavelist-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-schoolstudentsleavelist-add').serialize());
+            }
+        }
+        $("input[name='leavedate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        
+    </script>
+</body>
+</html>

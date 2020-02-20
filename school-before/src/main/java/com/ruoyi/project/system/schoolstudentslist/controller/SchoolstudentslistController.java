@@ -21,6 +21,11 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
+import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
+import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
+import com.ruoyi.project.system.schoolClass.service.impl.SchoolClassServiceImpl;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.SysUser;
@@ -41,6 +46,10 @@ public class SchoolstudentslistController extends BaseController
     private ISysUserService userService ;
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
+    @Autowired
+    private ISchoolClassService schoolClassService;
     @GetMapping("/editBing/{id}")
     public String editBing(@PathVariable("id") Long id, ModelMap mmap)
     {
@@ -59,6 +68,16 @@ public class SchoolstudentslistController extends BaseController
         return prefix + "/schoolstudentslist";
     }
 
+    @GetMapping("/daoru/{id}")
+    public String daoru(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	SchoolClass sc = schoolClassService.selectSchoolClassById(id);
+    	mmap.put("class", sc);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
+        return "system/schoolClass/daoru";
+    }
     
     
     @GetMapping("/bindingStudent")
@@ -168,6 +187,7 @@ public class SchoolstudentslistController extends BaseController
     	schoolstudentslist.setUserId(user.getUserId());
     	schoolstudentslist.setApprovalstate("1");
     	schoolstudentslist.setState("2");
+    	schoolstudentslist.setClassId(0L);
         return toAjax(schoolstudentslistService.insertSchoolstudentslist(schoolstudentslist));
     }
 

@@ -18,6 +18,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.classschedulingmanagement.domain.Classschedulingmanagement;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
@@ -47,6 +49,8 @@ public class SchoolClassController extends BaseController
     
     @Autowired
     private ISchoolstudenthistorylistService schoolstudenthistorylistService;
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
 
     @RequiresPermissions("system:schoolClass:view")
     @GetMapping()
@@ -77,15 +81,6 @@ public class SchoolClassController extends BaseController
     @GetMapping("/classstudentlist")
     public String classstudentlist(Schoolstudentslist student, ModelMap mmap)
     {
-    	if (student.getClassId() != null) {
-        	SchoolClass class_ = schoolClassService.selectSchoolClassById(student.getClassId());
-        	if (class_ != null) {
-            	Schoolgradelist grade = schoolgradelistService.selectSchoolgradelistById(class_.getGradelistId()+"");
-            	if (grade != null) {
-                	student.setGradeId((long)grade.getId());
-            	}
-        	}
-    	}
     	mmap.put("student", student);
         return prefix + "/classstudentlist";
     }
@@ -103,11 +98,14 @@ public class SchoolClassController extends BaseController
     	
     	mmap.put("schoolClass", class2);
     	mmap.put("student", student);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/editclass";
     }
     
     /**
-     * 调班
+     * 调班历史
      */
     @GetMapping("/history")
     public String history(Schoolstudenthistorylist history, ModelMap mmap)
@@ -115,6 +113,17 @@ public class SchoolClassController extends BaseController
     	List<Schoolstudenthistorylist> list = schoolstudenthistorylistService.selectSchoolstudenthistorylistList(history);
     	mmap.put("list", list);
         return prefix + "/history";
+    }
+    
+    /**
+     * 调班过程筛选班级
+     * */
+    @GetMapping("/selectclass")
+    @ResponseBody
+    public List<SchoolClass> zhuanye(SchoolClass sc)
+    {
+    	List<SchoolClass> sclist = schoolClassService.selectSchoolClassList(sc);
+        return sclist;
     }
 
     /**
@@ -154,6 +163,9 @@ public class SchoolClassController extends BaseController
     	schoolgradelist.setDelFlag((long)0);
     	List<Schoolgradelist> schoolgradelistList = schoolgradelistService.selectSchoolgradelistList(schoolgradelist);
     	mmap.put("gradelist", schoolgradelistList);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/add";
     }
 
@@ -181,6 +193,9 @@ public class SchoolClassController extends BaseController
     	mmap.put("gradelist", schoolgradelistList);
         SchoolClass schoolClass = schoolClassService.selectSchoolClassById(id);
         mmap.put("schoolClass", schoolClass);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/edit";
     }
 

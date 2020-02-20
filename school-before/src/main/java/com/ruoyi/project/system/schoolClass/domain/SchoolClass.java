@@ -60,7 +60,25 @@ public class SchoolClass extends BaseEntity
     private String gradecharge;
         
     private String studentnum;
+    private String sbid;
+    private String ssid;
     
+	public String getSbid() {
+		return sbid;
+	}
+
+	public void setSbid(String sbid) {
+		this.sbid = sbid;
+	}
+
+	public String getSsid() {
+		return ssid;
+	}
+
+	public void setSsid(String ssid) {
+		this.ssid = ssid;
+	}
+
 	public String getGid() {
 		return gid;
 	}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolstudentsleavelist.mapper.SchoolstudentsleavelistMapper">
+    
+    <resultMap type="Schoolstudentsleavelist" id="SchoolstudentsleavelistResult">
+        <result property="id"    column="id"    />
+        <result property="studentid"    column="studentid"    />
+        <result property="reason"    column="reason"    />
+        <result property="leavetime"    column="leavetime"    />
+        <result property="leavedate"    column="leavedate"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSchoolstudentsleavelistVo">
+        select id, studentid, reason, leavetime, leavedate, del_flag from schoolstudentsleavelist
+    </sql>
+
+    <select id="selectSchoolstudentsleavelistList" parameterType="Schoolstudentsleavelist" resultMap="SchoolstudentsleavelistResult">
+        <include refid="selectSchoolstudentsleavelistVo"/>
+        <where>  
+            <if test="studentid != null "> and studentid = #{studentid}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="leavetime != null  and leavetime != ''"> and leavetime = #{leavetime}</if>
+            <if test="leavedate != null  and leavedate != ''"> and leavedate = #{leavedate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolstudentsleavelistById" parameterType="Long" resultMap="SchoolstudentsleavelistResult">
+        <include refid="selectSchoolstudentsleavelistVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolstudentsleavelist" parameterType="Schoolstudentsleavelist" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolstudentsleavelist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentid != null ">studentid,</if>
+            <if test="reason != null  and reason != ''">reason,</if>
+            <if test="leavetime != null  and leavetime != ''">leavetime,</if>
+            <if test="leavedate != null  and leavedate != ''">leavedate,</if>
+            <if test="delFlag != null ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentid != null ">#{studentid},</if>
+            <if test="reason != null  and reason != ''">#{reason},</if>
+            <if test="leavetime != null  and leavetime != ''">#{leavetime},</if>
+            <if test="leavedate != null  and leavedate != ''">#{leavedate},</if>
+            <if test="delFlag != null ">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolstudentsleavelist" parameterType="Schoolstudentsleavelist">
+        update schoolstudentsleavelist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentid != null ">studentid = #{studentid},</if>
+            <if test="reason != null  and reason != ''">reason = #{reason},</if>
+            <if test="leavetime != null  and leavetime != ''">leavetime = #{leavetime},</if>
+            <if test="leavedate != null  and leavedate != ''">leavedate = #{leavedate},</if>
+            <if test="delFlag != null ">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolstudentsleavelistById" parameterType="Long">
+        delete from schoolstudentsleavelist where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolstudentsleavelistByIds" parameterType="String">
+        delete from schoolstudentsleavelist where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

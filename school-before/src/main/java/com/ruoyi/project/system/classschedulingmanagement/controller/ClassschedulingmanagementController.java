@@ -18,6 +18,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.classschedulingmanagement.domain.Classschedulingmanagement;
 import com.ruoyi.project.system.classschedulingmanagement.service.IClassschedulingmanagementService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
@@ -44,6 +46,8 @@ public class ClassschedulingmanagementController extends BaseController
     private ISchoolClassService schoolclassService;
     @Autowired
     private ISchoolgradelistService  schoolgradelistService;
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
 
     @RequiresPermissions("system:classschedulingmanagement:view")
     @GetMapping()
@@ -90,6 +94,9 @@ public class ClassschedulingmanagementController extends BaseController
     	SchoolClass schoolClass =new SchoolClass();
     	List<SchoolClass> schoolClassList=schoolclassService.selectSchoolClassList(schoolClass);
     	mmap.put("schoolClassList", schoolClassList);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
     	return prefix + "/add";
     }
 
@@ -109,7 +116,7 @@ public class ClassschedulingmanagementController extends BaseController
     	Schoolgradelist schoolgradelist= schoolgradelistService.selectSchoolgradelistById(gradeId);
     	
     	classschedulingmanagement.setClassName(schoolClass.getNameclass());
-    	classschedulingmanagement.setClassGrade(schoolgradelist.getGrade());
+//    	classschedulingmanagement.setClassGrade(schoolgradelist.getGrade());
         return toAjax(classschedulingmanagementService.insertClassschedulingmanagement(classschedulingmanagement));
     }
 
@@ -127,6 +134,9 @@ public class ClassschedulingmanagementController extends BaseController
     	SchoolClass schoolClass =new SchoolClass();
     	List<SchoolClass> schoolClassList=schoolclassService.selectSchoolClassList(schoolClass);
     	mmap.put("schoolClassList", schoolClassList);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/edit";
     }
 

@@ -11,13 +11,8 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>年级：</p>
-                                <select class="form-control" name="gradelistId">
-									<option th:each="grade:${gradelist}" 
-										th:value="${grade.id}" 
-										th:text="${grade.grade}" >
-									</option>
-								</select>
+                                <p>入学时间：</p>
+                                <input type="text" name="gradelistId"/>
                             </li>
                             <li>
                                 <p>班级：</p>
@@ -82,7 +77,10 @@
                 },
                 {
                     field : 'grade', 
-                    title : '年级'
+                    title : '入学年月',
+                    formatter: function(value, row, index) {
+                        return value + '级';
+                    }
                 },
                 {
                     field : 'nameclass', 
@@ -103,20 +101,6 @@
                         if (value == '2') {
                         	actions.push('毕业');
                         }
-                        return actions.join('');
-                    }
-                },
-                {
-                    field : 'gradecharge', 
-                    title : '年级主任',
-                    formatter: function(value, row, index) {
-                        var actions = [];
-						if (value != null && value != '') {
-							 actions.push('<a class="" href="javascript:void(0)" onclick="viewedit('+row.gid+')">'+value+'</a> ');
-						}
-						else {
-							 actions.push('<a class="" href="javascript:void(0)" onclick="viewedit('+row.gid+')">编辑</a> ');
-						}
                         return actions.join('');
                     }
                 },
@@ -170,26 +154,6 @@
 			$.modal.openTab("班级周刊", url);
         }
         
-        function viewedit(id){
-        	var url = prefix2 + "/editgradecharge/" + id;
-    		var options = {
-   				title: '修改年级主任',
-   				width: "380",
-   				height: "250",
-   				url: url,
-   				callBack: doSubmit
-   			};
-   			$.modal.openOptions(options);
-        }
-        
-        function doSubmit(index, layero){
-			var body = layer.getChildFrame('body', index);			
-			var id  = body.find('#id').val()
-			var gradecharge  = body.find('#gradecharge').val()			
-			var str = "id="+id+"&gradecharge="+gradecharge;			
-			$.operate.save(prefix2 + "/edit", str);
-   			layer.close(index);
-		}
     </script>
 </body>
 </html>

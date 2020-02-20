@@ -2,11 +2,14 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <th:block th:include="include :: header('修改班级')" />
+    <th:block th:include="include :: datetimepicker-css" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-class-edit" th:object="${schoolClass}">
             <input name="id" th:field="*{id}" type="hidden">
+			<input id="sbid2" th:value="*{sbid}" class="form-control" type="hidden">
+			<input id="ssid2" th:value="*{ssid}" class="form-control" type="hidden">
             <div class="form-group">    
                 <label class="col-sm-3 control-label">编号：</label>
                 <div class="col-sm-8">
@@ -28,21 +31,39 @@
                     <input name="nameclass" th:field="*{nameclass}" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">年级：</label>
-                <div class="col-sm-8">
-                	<select class="form-control" name="gradelistId">
-						<option th:each="grade:${gradelist}" 
-							th:value="${grade.id}" 
-							th:text="${grade.grade}" 
-							th:selected="*{gradelistId}==${grade.id}">
-						</option>
+	       	<div class="form-group">    
+	        	<label class="col-sm-3 control-label">所属学院：</label>
+	        	<div class="col-sm-8">
+					<select class="form-control" name="sbid" id="sbid">
+						<option value="">---请选择学院---</option>
+						<option th:each="sb:${sblist}" 
+								th:value="${sb.id}" 
+								th:text="${sb.schoolName}" 
+								th:selected="*{sbid}==${sb.id}">
+					</option>
 					</select>
+	        	</div>
+	        </div>
+	       	<div class="form-group">    
+	        	<label class="col-sm-3 control-label">所属专业：</label>
+	        	<div class="col-sm-8">
+					<select class="form-control" name="ssid" id="ssid">
+					</select>
+	        	</div>
+	        </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">入学年月：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+	                	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                    <input name="gradelistId" th:field="*{gradelistId}" class="form-control" placeholder="yyyy" type="text">  
+                	</div>
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
         var prefix = ctx + "system/schoolClass";
         $("#form-class-edit").validate({
@@ -54,6 +75,50 @@
                 $.operate.save(prefix + "/edit", $('#form-class-edit').serialize());
             }
         }
+        $("input[name='gradelistId']").datetimepicker({
+            format: "yyyy",
+            minView: "year",
+            autoclose: true
+        });
+
+        var sbid2 = $('#sbid2').val();
+	    var ssid2 = $('#ssid2').val();
+	    $.ajax({
+			type: "get",
+			url: ctx + "system/StudentOfficeStaff/zhuanye/"+parseInt(sbid2),
+			dataType: "json",
+			success: function (data) {
+				var append = '';
+				for(var i=0; i<data.length; i++) {
+					var ss = data[i];
+					if (ssid2 == ss.id) {
+						append += '<option value="'+ss.id+'" selected>'+ss.name+'</option>';
+					}
+					else {
+						append += '<option value="'+ss.id+'">'+ss.name+'</option>';
+					}
+				}
+				$('#ssid').html(append);
+			},
+			async: false
+		});
+		$('select[id="sbid"]').change(function(){
+	    	var sbid = $('select[id="sbid"]').val();
+	    	$.ajax({
+	    		type: "get",
+	    		url: ctx + "system/StudentOfficeStaff/zhuanye/"+sbid,
+	    		dataType: "json",
+	    		success: function (data) {
+	    			var append = '';
+	    			for(var i=0; i<data.length; i++) {
+	    				var ss = data[i];
+	    				append += '<option value="'+ss.id+'">'+ss.name+'</option>';
+	    			}
+	    			$('#ssid').html(append);
+	    		},
+	    		async: false
+	    	});
+	    });
     </script>
 </body>
 </html>

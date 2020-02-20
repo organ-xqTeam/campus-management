@@ -68,8 +68,18 @@ public class ClasscurriculumDetail extends BaseEntity
     /** 科目id */
     @Excel(name = "科目id")
     private Long coursemanagementId;
+    
+    private String remark1;
+    
+    public String getRemark1() {
+		return remark1;
+	}
 
-    public void setId(Long id) 
+	public void setRemark1(String remark1) {
+		this.remark1 = remark1;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }

@@ -31,7 +31,6 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-framework</artifactId>
         </dependency>
-        
     </dependencies>
 	
 </project>

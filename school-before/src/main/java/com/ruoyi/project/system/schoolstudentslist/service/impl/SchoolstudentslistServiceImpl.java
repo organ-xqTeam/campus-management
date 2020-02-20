@@ -122,7 +122,7 @@ public class SchoolstudentslistServiceImpl implements ISchoolstudentslistService
     		if (student != null) {
     			SchoolClass class1 = schoolClassMapper.selectSchoolClassById(student.getClassId());
         		SchoolClass class2 = schoolClassMapper.selectSchoolClassById(schoolstudentslist.getClassId());
-        		schoolstudentslist.setGradeId(class2.getGradelistId());
+//        		schoolstudentslist.setGradeId(class2.getGradelistId());
         		if (class1 != null && class2 != null) {
             		history.setStudentsId(schoolstudentslist.getId());
             		history.setRemark(student.getStudentsName() + "于" + DateUtils.getTime() + "由"+class1.getNameclass()+"调到" + class2.getNameclass());
