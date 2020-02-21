@@ -50,14 +50,14 @@ public class AppMobilearticleController extends BaseController {
 //    /profile/upload/2020/01/15/2a3bce903a935a35b43a528a233d5426.jpg
     //展示图片
     @ResponseBody
-    @RequestMapping(value="/getIcon", method = RequestMethod.GET)
-    public void getIcon(String icon, HttpServletResponse response)
+    @RequestMapping(value="/getIcon")
+    public void getIcon(@RequestBody JSONObject param, HttpServletResponse response)
     {
     	String path = RuoYiConfig.getProfile();
     	File file = null;
     	FileInputStream fis = null;
     	try {
-    		file = new File(path + icon);
+    		file = new File(path + param.get("icon").toString());
     		if (!file.exists()) {
     			return;
     		}

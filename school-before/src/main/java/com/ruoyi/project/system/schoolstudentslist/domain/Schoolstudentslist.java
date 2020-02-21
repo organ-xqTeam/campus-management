@@ -166,8 +166,61 @@ public class Schoolstudentslist extends BaseEntity
     private String remark18;
     private String remark19;
     private String remark20;
+    private String remark21;
+    private String remark22;
+    private String remark23;
+    private String remark24;
+    private String remark25;
+
+    private String remark26;
+    private String remark27;
     
-    public String getRemark18() {
+    
+    
+    
+    public String getRemark26() {
+		return remark26;
+	}
+	public void setRemark26(String remark26) {
+		this.remark26 = remark26;
+	}
+	public String getRemark27() {
+		return remark27;
+	}
+	public void setRemark27(String remark27) {
+		this.remark27 = remark27;
+	}
+	public String getRemark21() {
+		return remark21;
+	}
+	public void setRemark21(String remark21) {
+		this.remark21 = remark21;
+	}
+	public String getRemark22() {
+		return remark22;
+	}
+	public void setRemark22(String remark22) {
+		this.remark22 = remark22;
+	}
+	public String getRemark23() {
+		return remark23;
+	}
+	public void setRemark23(String remark23) {
+		this.remark23 = remark23;
+	}
+	public String getRemark24() {
+		return remark24;
+	}
+	public void setRemark24(String remark24) {
+		this.remark24 = remark24;
+	}
+	public String getRemark25() {
+		return remark25;
+	}
+	public void setRemark25(String remark25) {
+		this.remark25 = remark25;
+	}
+	public String getRemark18() {
 		return remark18;
 	}
 	public void setRemark18(String remark18) {
@@ -361,8 +414,17 @@ public class Schoolstudentslist extends BaseEntity
     private Long gradeId;
     //@Excel(name = "班级id")
     private Long classId;
+    private String classId_;
     
-    private String leavetime;
+    
+    public String getClassId_() {
+		return classId_;
+	}
+	public void setClassId_(String classId_) {
+		this.classId_ = classId_;
+	}
+
+	private String leavetime;
     private Long userId;
     
     private String sbid;

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ruoyi.common.utils.CodeMsg;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.MapObjectUtil;
 import com.ruoyi.common.utils.RegUtil;
 import com.ruoyi.common.utils.Result;
@@ -343,6 +344,7 @@ public class AppHomeWorkController {
     	schoolstudentslist.setStudentsId(studentsId);
     	schoolstudentslist.setApprovalstate("1");
     	schoolstudentslist.setState("2");
+    	schoolstudentslist.setRemark23(DateUtils.getDate());
     	String idnum = schoolstudentslist.getIdnum();
     	String nation = schoolstudentslist.getNation();
     	if(!idnum.matches(RegUtil.reg_idnum)){

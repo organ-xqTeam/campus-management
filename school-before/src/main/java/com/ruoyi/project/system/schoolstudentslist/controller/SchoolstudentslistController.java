@@ -20,6 +20,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
@@ -156,6 +157,14 @@ public class SchoolstudentslistController extends BaseController
     	mmap.put("schoolstudentslist", schoolstudentslist);
     	return prefix + "/vieweditor4";
     }
+    
+    @GetMapping("/showview/{id}/{type}")
+    public String showview(@PathVariable("id") Long id,@PathVariable("type") Long type, ModelMap mmap)
+    {
+    	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+    	mmap.put("schoolstudentslist", schoolstudentslist);
+    	return prefix + "/showview" + type;
+    }
 
     /**
      * 新增保存学生列
@@ -211,6 +220,11 @@ public class SchoolstudentslistController extends BaseController
     @ResponseBody
     public AjaxResult editSave(Schoolstudentslist schoolstudentslist)
     {
+    	if (schoolstudentslist.getRemark24() != null && schoolstudentslist.getApprovalstate() != null) {
+    		if (schoolstudentslist.getApprovalstate().equals("2")) {
+    			schoolstudentslist.setRemark24(DateUtils.getDate());
+    		}
+    	}
         return toAjax(schoolstudentslistService.updateSchoolstudentslist(schoolstudentslist));
     }
 

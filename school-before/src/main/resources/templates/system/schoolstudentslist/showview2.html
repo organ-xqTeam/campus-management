@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<input id="id" name="id" th:field="${schoolstudentslist.id}"
+					class="form-control" type="hidden" >
+		<div class="form-group">
+			<label class="col-sm-3 control-label">毕业高中：</label>
+			<div class="col-sm-8">
+				<input id="remark1" name="remark1" th:field="${schoolstudentslist.remark1}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">高考省份：</label>
+			<div class="col-sm-8">
+				<input id="remark2" name="remark2" th:field="${schoolstudentslist.remark2}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">选择成绩类型：</label>
+			<div class="col-sm-8">
+				<input id="remark3" name="remark3" th:field="${schoolstudentslist.remark3}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">高考成绩：</label>
+			<div class="col-sm-8">
+				<input id="remark15" name="remark15" th:field="${schoolstudentslist.remark15}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">会考成绩：</label>
+			<div class="col-sm-8">
+				<input id="remark16" name="remark16" th:field="${schoolstudentslist.remark16}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">模考成绩：</label>
+			<div class="col-sm-8">
+				<input id="remark17" name="remark17" th:field="${schoolstudentslist.remark17}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">数学单科成绩：</label>
+			<div class="col-sm-8">
+				<input id="remark22" name="remark22" th:field="${schoolstudentslist.remark22}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">英语单科成绩：</label>
+			<div class="col-sm-8">
+				<input id=remark5 name="remark5" th:field="${schoolstudentslist.remark5}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>

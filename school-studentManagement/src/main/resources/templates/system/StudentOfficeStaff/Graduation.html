@@ -78,15 +78,15 @@
                 },
                 {
                     field : 'studentsId', 
-                    title : '学生id'
-                },
-                {
-                    field : 'studentsName', 
-                    title : '学生名称'
+                    title : '学号'
                 },
                 {
                     field : 'cardnum', 
                     title : '学生证号'
+                },
+                {
+                    field : 'studentsName', 
+                    title : '姓名'
                 },
                 {
                     field : 'gender', 
@@ -99,6 +99,53 @@
                 {
                     field : 'birth', 
                     title : '出生日期'
+                },
+                {
+                    field : 'loginPic', 
+                    title : '入学照片',
+                	formatter: function(value, row, index) {
+                		return $.table.imageView("/school-fast"+value);
+                	}
+                },
+                {
+                    field : 'classId_', 
+                    title : '班级名称'
+                },
+                {
+                    field : 'admissionTime', 
+                    title : '入学年月'
+                },
+                {
+                    field : 'xxxx', 
+                    title : '详细信息',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="xxxxview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'lxfs', 
+                    title : '联系方式',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="lxfsview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'birth', 
+                    title : '年龄'
+                },
+                {
+                    field : 'jtxx', 
+                    title : '家庭信息',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="jtxxview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'jwxx', 
+                    title : '既往学习信息',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="jwxxview(\'' + row.id + '\')">查看</a>';
+                    }
                 },
                 {
                     field : 'sbid_', 
@@ -119,10 +166,6 @@
                     		return '';
                     	}
                     }
-                },
-                {
-                    field : 'rxzp', 
-                    title : '入学照片'
                 },
               	{
                     field : '', 
@@ -167,6 +210,156 @@
         });
         
 
+        function jwxxview(id) {
+        	var url = ctx + "system/schoolstudentslist/showview/" + id + "/2";
+    		var options = {
+   				title: '既往学习信息',
+   				width: "380",
+   				url: url,
+   				callBack: dojwxxview
+   			};
+   			$.modal.openOptions(options);
+        }
+
+        function dojwxxview(index, layero){
+			var body = layer.getChildFrame('body', index);	
+			
+			var id  = body.find('#id').val();
+			var remark1  = body.find('#remark1').val();	
+			var remark2  = body.find('#remark2').val();	
+			var remark3  = body.find('#remark3').val();
+			var remark15  = body.find('#remark15').val();
+			var remark16  = body.find('#remark16').val();
+			var remark17  = body.find('#remark17').val();
+			var remark22  = body.find('#remark22').val();
+			var remark5  = body.find('#remark5').val();
+			
+			var str = "id="+id
+			+"&remark1="+remark1
+			+"&remark2="+remark2
+			+"&remark3="+remark3
+			+"&remark15="+remark15
+			+"&remark16="+remark16
+			+"&remark17="+remark17
+			+"&remark22="+remark22
+			+"&remark5="+remark5;			
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+        }
+
+        function jtxxview(id){
+        	var url = ctx + "system/schoolstudentslist/vieweditor/" + id;
+    		var options = {
+   				title: '家庭信息',
+   				width: "380",
+   				url: url,
+   				callBack: dojtxxview
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+
+        function dojtxxview(index, layero){
+			var body = layer.getChildFrame('body', index);
+			
+			var id  = body.find('#id').val()
+			var fatherName  = body.find('#fatherName').val()
+			var fatherPhone  = body.find('#fatherPhone').val()
+			var motherName  = body.find('#motherName').val()
+			var motherPhone  = body.find('#motherPhone').val()
+			var homeAddress  = body.find('#homeAddress').val()
+			var Remarks  = body.find('#Remarks').val()
+			var remark18  = body.find('#remark18').val()
+			var remark19  = body.find('#remark19').val()
+			var remark20  = body.find('#remark20').val()
+			var remark26  = body.find('#remark26').val()
+			var remark27  = body.find('#remark27').val()
+   			
+			console.log(fatherName,fatherPhone,motherName,motherPhone,homeAddress,Remarks)
+			
+			
+			var str = "id="+id+"&fatherName="+fatherName+"&fatherPhone="+fatherPhone+
+			"&motherName="+motherName+"&motherPhone="+motherPhone+"&homeAddress="+homeAddress
+			+"&Remarks="+Remarks
+			+"&remark18="+remark18
+			+"&remark19="+remark19
+			+"&remark20="+remark20
+			+"&remark26="+remark26
+			+"&remark27="+remark27
+
+			console.log(str)
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+		}
+        
+        function lxfsview(id) {
+        	var url = ctx + "system/schoolstudentslist/showview/" + id + "/1";
+    		var options = {
+   				title: '联系方式',
+   				width: "380",
+   				url: url,
+   				callBack: dolxfsview
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function dolxfsview(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val();
+			var remark12  = body.find('#remark12').val();	
+			var remark7  = body.find('#remark7').val();	
+			var remark11  = body.find('#remark11').val();	
+			var remark21  = body.find('#remark21').val();
+			var str = "id="+id
+			+"&remark12="+remark12
+			+"&remark7="+remark7
+			+"&remark21="+remark21
+			+"&remark11="+remark11;		
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+        }
+        
+		function xxxxview(id) {
+        	var url = ctx + "system/schoolstudentslist/showview/" + id + "/3";
+    		var options = {
+   				title: '详细信息',
+   				width: "380",
+   				url: url,
+   				callBack: doxxxxview
+   			};
+   			$.modal.openOptions(options);
+		}
+
+        function doxxxxview(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val();
+			var nation  = body.find('#nation').val();	
+			var remark10  = body.find('#remark10').val();	
+			var idnum  = body.find('#idnum').val();	
+			var remark9  = body.find('#remark9').val();	
+			var remark13  = body.find('#remark13').val();	
+// 			var remark23  = body.find('#remark23').val();	
+// 			var remark24  = body.find('#remark24').val();	
+			var remark25  = body.find('#remark25').val();	
+			var Remarks  = body.find('#Remarks').val();	
+			
+			var isrefuse  = body.find('#isrefuse').val();	
+			
+			var str = "id="+id
+			+"&nation="+nation
+			+"&remark10="+remark10
+			+"&idnum="+idnum
+			+"&remark13="+remark13
+// 			+"&remark23="+remark23
+// 			+"&remark24="+remark24
+			+"&remark25="+remark25
+			+"&Remarks="+Remarks
+			+"&isrefuse="+isrefuse
+			+"&remark9="+remark9;			
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+        }
+		
         function lixiao(id) {
         	$.modal.confirm("确认离校", function() {
     			var str = "id="+id+"&state=4";
