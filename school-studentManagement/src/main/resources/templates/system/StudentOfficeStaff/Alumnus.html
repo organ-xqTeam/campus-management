@@ -144,22 +144,6 @@
                     field : 'remark1', 
                     title : '材料附件'
                 },
-                {
-                    field : 'approvalstate', 
-                    title : '申请状态',
-                    formatter: function(value, row, index) {
-                    	if (value=='1') {
-                    		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
-                    	}
-                    	if (value == '2') {
-                    		return '<a class="btn btn-primary" href="#">通过</a>';
-                    	}
-                    	if (value == '3') {
-                    		return '<a class="btn btn-danger" href="#">拒绝</a>';
-                    		
-                    	}
-                    }
-                },
                 /*{
                     field : 'remark', 
                     title : '备注'
