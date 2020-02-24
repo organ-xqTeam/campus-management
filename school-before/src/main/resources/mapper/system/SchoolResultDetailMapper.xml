@@ -33,7 +33,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <select id="selectSchoolResultDetailStudentsListByResultId" resultType="hashmap" parameterType="hashmap">
       select 
       ss.id, ss.students_id as studentsId, ss.students_name as studentsName, ss.academic_level as academicLevel, ss.father_name, ss.father_phone, ss.mother_name, ss.mother_phone, ss.home_address, ss._remarks, ss.ages, ss.admission_time as admissionTime, ss._state, ss.del_flag, ss.deptAlias, ss.userAlias ,
-      ifnull(sgl.grade,"") as grade,
       ifnull(sc.nameclass,"") as nameclass ,
       ifnull(ss.grade_id,"") as gradeId ,
       ifnull(ss.class_id,"") as classId ,
@@ -41,14 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       srd.absent_flag,
       srd.id as did
       from schoolstudentslist ss
-      inner join  schoolgradelist sgl on  sgl.id=ss.grade_id
       left join school_class sc on sc.id=ss.class_id
       left join school_result_detail srd on srd.students_id=  ss.id
       <where>  
-       ss.del_flag='0' and  sgl.del_flag='0' and sc.delete_flag='0'
-       <if test="grade != null  and grade != '' ">
-        and sgl.grade like #{grade}
-       </if>
+       ss.del_flag='0' and sc.delete_flag='0'
        <if test="nameclass != null and nameclass != ''  ">
         and nameclass like #{nameclass}
        </if>
@@ -101,14 +96,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    select
 			srd.*,
 			s.students_name as 'name',
-			g.grade as 'grade',
+			YEAR(NOW())-YEAR(s.admission_time) as 'grade',
 			c.nameclass as 'class'
 		from 
 			school_result_detail srd
 		left join 
 			schoolstudentslist s on s.id = srd.students_id
-		left join 
-			schoolgradelist g on g.id = s.grade_id
 		left join 
 			school_class c on c.id = s.class_id
 		where 
