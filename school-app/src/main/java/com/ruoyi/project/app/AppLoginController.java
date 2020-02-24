@@ -99,6 +99,11 @@ public class AppLoginController{
 				
 			}
 			map.put("users", users);
+
+			Schoolstudentslist stu = new Schoolstudentslist();
+			stu.setCardnum(users.getLoginName());
+			List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+			map.put("userInfo", stulist);
 			
 			SysUserOnline userOnline = new SysUserOnline();
 			userOnline.setLoginName(users.getLoginName());
