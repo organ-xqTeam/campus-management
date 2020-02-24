@@ -90,7 +90,7 @@ public interface ISysUserService
      * @return 结果
      */
     public int insertUser(SysUser user);
-
+    
     /**
      * 保存用户信息
      * 

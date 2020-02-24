@@ -2,6 +2,7 @@ package com.ruoyi.project.system.StudentOfficeStaff.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ClassUtils;
@@ -30,6 +32,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.FontText;
 import com.ruoyi.common.utils.drawImg;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.shiro.service.SysPasswordService;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
@@ -42,8 +46,10 @@ import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.CertificateManagement;
 import com.ruoyi.system.domain.Studentstatuslist;
+import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ICertificateManagementService;
 import com.ruoyi.system.service.IStudentstatuslistService;
+import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 学生列Controller
@@ -73,6 +79,10 @@ public class StudentOfficeStaffController extends BaseController
     private ISchoolBelongService schoolBelongService;
     @Autowired
     private ISchoolSpecialtyService schoolSpecialtyService;
+    @Autowired
+    private ISysUserService userservice;
+    @Autowired
+    private SysPasswordService passwordService;
     /**
      	* 迎新管理
      * @return
@@ -212,6 +222,41 @@ public class StudentOfficeStaffController extends BaseController
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         return getDataTable(list);
     }
+    
+    /**
+     * 批量导入
+     * @return
+     */
+    @PostMapping("/daoru")
+    @ResponseBody
+    public AjaxResult daoru()
+    {
+    	Schoolstudentslist schoolstudentslist = new Schoolstudentslist();
+    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("2");
+    	schoolstudentslist.setAdmissionTime("2019-" + "10");
+        List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
+    	
+    	for(int i=0; i<list.size(); i++) {
+    		Schoolstudentslist stu = list.get(i);
+    		SysUser su = new SysUser();
+        	su.setDeptId(103L);
+        	su.setLoginName(stu.getCardnum());
+        	su.setUserName(stu.getStudentsName());
+        	
+
+        	su.setSalt(ShiroUtils.randomSalt());
+        	su.setPassword(passwordService.encryptPassword(su.getLoginName(), "123456", su.getSalt()));
+        	
+        	su.setCreateTime(new Date());
+        	su.setRoleId(5L);
+        	userservice.insertUser(su);
+        	
+        	
+    	}
+        return toAjax(true);
+    }
+    
     /**
      * 在校管理
      * @return

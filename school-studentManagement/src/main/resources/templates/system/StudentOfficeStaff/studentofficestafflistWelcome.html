@@ -47,6 +47,9 @@
 				<a class="btn btn-info" onclick="$.table.importExcel('importForm')">
 					<i class="fa fa-upload"></i> 导入
 				</a>
+				<a class="btn btn-info" onclick="piliang()">
+					批量生成
+				</a>
             </div>
             
             <form id="importForm" enctype="multipart/form-data" class="mt20 mb10" style="display: none;">
@@ -69,6 +72,7 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
+    
         var prefix = ctx + "system/StudentOfficeStaff";
         var prefix2 = ctx + "system/schoolstudentslist";
 
@@ -194,6 +198,23 @@
             $.table.init(options);
         });
         
+        function piliang() {
+        	$.ajax({
+         		url: prefix + "/daoru",
+         		type: 'post',
+         		cache: false,
+         		processData: false,
+         		contentType: false,
+         		dataType: "json",
+         		async: false,
+         		success: function(result) {
+         			console.log(result)
+         			
+         		}
+         	});
+//         	prefix
+        	console.log(row);
+        }
 
         function jwxxview(id) {
         	var url = ctx + "system/schoolstudentslist/showview/" + id + "/2";

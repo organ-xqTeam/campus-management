@@ -89,7 +89,7 @@ public interface SysUserMapper
      * @return 结果
      */
     public int updateUser(SysUser user);
-
+    
     /**
      * 新增用户信息
      * 
