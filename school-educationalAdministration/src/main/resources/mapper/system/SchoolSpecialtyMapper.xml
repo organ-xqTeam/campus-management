@@ -12,10 +12,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateDate"    column="update_date"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="belongName"    column="belong_name"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
+        <result property="content"    column="content"    />
+        <result property="stunum"    column="stunum"    />
+        
     </resultMap>
 
     <sql id="selectSchoolSpecialtyVo">
-        select id, name, belong_id, create_date, update_date, del_flag, belong_name from school_specialty
+        select id, name, belong_id, create_date, update_date, del_flag, belong_name,file,filename,content,stunum from school_specialty
     </sql>
 
     <select id="selectSchoolSpecialtyList" parameterType="SchoolSpecialty" resultMap="SchoolSpecialtyResult">
@@ -26,6 +31,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createDate != null "> and create_date = #{createDate}</if>
             <if test="updateDate != null "> and update_date = #{updateDate}</if>
             <if test="belongName != null  and belongName != ''"> and belong_name like concat('%', #{belongName}, '%')</if>
+            <if test="file != null "> and file = #{file}</if>
+            <if test="filename != null "> and filename = #{filename}</if>
+            <if test="content != null "> and content = #{content}</if>
+            <if test="stunum != null "> and stunum = #{stunum}</if>
               and del_flag="0"
         </where>
     </select>
@@ -44,6 +53,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateDate != null ">update_date,</if>
             <if test="delFlag != null  and delFlag != ''">del_flag,</if>
             <if test="belongName != null  and belongName != ''">belong_name,</if>
+            <if test="file != null  and file != ''">file,</if>
+            <if test="filename != null  and filename != ''">filename,</if>
+            <if test="content != null  and content != ''">content,</if>
+            <if test="stunum != null  and stunum != ''">stunum,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null  and name != ''">#{name},</if>
@@ -52,6 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateDate != null ">#{updateDate},</if>
             <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
             <if test="belongName != null  and belongName != ''">#{belongName},</if>
+            <if test="file != null  and file != ''">#{file},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
+            <if test="content != null  and content != ''">#{content},</if>
+            <if test="stunum != null  and stunum != ''">#{stunum},</if>
          </trim>
     </insert>
 
@@ -64,6 +81,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <!-- <if test="updateDate != null ">update_date = #{updateDate},</if> -->
             <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
             <if test="belongName != null  and belongName != ''">belong_name = #{belongName},</if>
+            <if test="file != null  and file != ''">file = #{file},</if>
+            <if test="filename != null  and filename != ''">filename = #{filename},</if>
+            <if test="content != null  and content != ''">content = #{content},</if>
+            <if test="stunum != null  and stunum != ''">stunum = #{stunum},</if>
+         
             update_date =now(),
         </trim>
         where id = #{id}

@@ -11,25 +11,8 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>专业名称：</p>
+                                <p>培训项目名称：</p>
                                 <input type="text" name="name"/>
-                            </li>
-                          
-                            <li class="select-time">
-                                <p>创建时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateDate]"/>
-                            </li>
-                            <li class="select-time">
-                                <p>更新时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdateDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdateDate]"/>
-                            </li>
-                            <li>
-                                <p>学院名称：</p>
-                                <input type="text" name="belongName"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -83,7 +66,7 @@
                 },
                 {
                     field : 'name', 
-                    title : '专业名称'
+                    title : '培训项目名称'//专业名称
                 },
                 {
                     field : 'belongName', 
@@ -94,8 +77,23 @@
                     title : '创建时间'
                 },
                 {
-                    field : 'updateDate', 
-                    title : '更新时间'
+                    field : 'content', 
+                    title : '内容'
+                },
+                {
+                    field : 'stunum', 
+                    title : '招生人数'
+                },
+                {
+                    field : 'file', 
+                    title : '图片',
+                	formatter: function(value, row, index) {
+                		console.log(value)
+                		//线上这么写
+                		return $.table.imageView("/school-fast"+value);
+                		//线下这么写
+//                 		return $.table.imageView(""+value);
+                	}
                 },
                 
                 {

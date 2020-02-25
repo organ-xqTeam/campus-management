@@ -39,8 +39,49 @@ public class SchoolSpecialty extends BaseEntity
 
     /** null */
     private String delFlag;
+    
+    
+    private String file;
+    private String filename;
+    private String content;
+    private String stunum;
+    
+    
 
-    /** 学院名称 */
+
+    public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getStunum() {
+		return stunum;
+	}
+
+	public void setStunum(String stunum) {
+		this.stunum = stunum;
+	}
+
+	/** 学院名称 */
     @Excel(name = "学院名称")
     private String belongName;
 
