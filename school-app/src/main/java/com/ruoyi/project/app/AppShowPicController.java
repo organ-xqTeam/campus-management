@@ -17,7 +17,7 @@ import com.ruoyi.framework.config.RuoYiConfig;
 
 @CrossOrigin
 @Controller
-@RequestMapping("/afasfasdf/showpic")
+@RequestMapping("/app/showpic")
 public class AppShowPicController extends BaseController {
 
 	@ResponseBody

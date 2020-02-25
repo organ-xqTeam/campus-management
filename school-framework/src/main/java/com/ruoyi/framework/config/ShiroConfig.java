@@ -248,7 +248,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/ajax/**", "anon");
         filterChainDefinitionMap.put("/uajax/**", "anon");//外部应用接口
-        filterChainDefinitionMap.put("/afasfasdf/**", "anon");//外部应用接口
+        filterChainDefinitionMap.put("/app/**", "anon");//外部应用接口
         filterChainDefinitionMap.put("/dist/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/ruoyi/**", "anon");
