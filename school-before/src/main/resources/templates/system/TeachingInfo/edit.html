@@ -340,6 +340,7 @@
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
         var prefix = ctx + "system/TeachingInfo";
+        var filefix = ctx + "system/fileinfo";
         $("#form-TeachingInfo-edit").validate({
             focusCleanup: true
         });
@@ -349,6 +350,7 @@
                 $.operate.save(prefix + "/edit", $('#form-TeachingInfo-edit').serialize());
             }
         }
+        
     </script>
 </body>
 </html>

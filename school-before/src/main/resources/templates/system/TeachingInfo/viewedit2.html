@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">	
+		<input id="id" name="id" th:field="${teacher.id}"
+					class="form-control" type="hidden" >
+		<div class="form-group">
+			<label class="col-sm-3 control-label">入职时间：</label>
+			<div class="col-sm-8">
+				<input id="entryDate" name="entryDate" th:field="${teacher.entryDate}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">授课年数：</label>
+			<div class="col-sm-8">
+				<input id="teachYears" name="teachYears" th:field="${teacher.teachYears}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">授课类别范围：</label>
+			<div class="col-sm-8">
+				<input id="classScope" name="classScope" th:field="${teacher.classScope}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">师资类别：</label>
+			<div class="col-sm-8">
+          		<select  class="form-control" id="classificationTeachers" name="classificationTeachers" th:with="type=${@dict.getType('classification_teachers')}">
+					<option th:each="dict : ${type}" th:selected="${dict.dictValue== teacher.classificationTeachers}"  th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">师资备注：</label>
+			<div class="col-sm-8">
+				<input id="remarks" name="remarks" th:field="${teacher.remarks}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">专业方向：</label>
+			<div class="col-sm-8">
+				<input id="professionalDirection" name="professionalDirection" th:field="${teacher.professionalDirection}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">科研成果：</label>
+			<div class="col-sm-8">
+				<input id="scientificResearch" name="scientificResearch" th:field="${teacher.scientificResearch}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">专题信息：</label>
+			<div class="col-sm-8">
+				<input id="thematicInformation" name="thematicInformation" th:field="${teacher.thematicInformation}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">教学情况：</label>
+			<div class="col-sm-8">
+				<input id="teachingSituation" name="teachingSituation" th:field="${teacher.teachingSituation}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">教学反馈意见：</label>
+			<div class="col-sm-8">
+				<input id="teachingFeedback" name="teachingFeedback" th:field="${teacher.teachingFeedback}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">反馈意见：</label>
+			<div class="col-sm-8">
+				<input id="feedbackOpinion" name="feedbackOpinion" th:field="${teacher.feedbackOpinion}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">分析报告：</label>
+			<div class="col-sm-8">
+				<input id="analysisReport" name="analysisReport" th:field="${teacher.analysisReport}"
+					class="form-control" type="text">
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>

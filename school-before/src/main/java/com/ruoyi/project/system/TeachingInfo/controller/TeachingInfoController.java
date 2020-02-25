@@ -23,6 +23,7 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
+import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 
@@ -80,6 +81,14 @@ public class TeachingInfoController extends BaseController
         return "system/TeachingInfo2/TeachingInfo";
     }
 
+    @GetMapping("/showview/{id}/{type}")
+    public String showview(@PathVariable("id") Long id,@PathVariable("type") Long type, ModelMap mmap)
+    {
+    	TeachingInfo teacher = teachingInfoService.selectTeachingInfoById(id);
+    	mmap.put("teacher", teacher);
+    	return prefix + "/viewedit" + type;
+    }
+    
     /**
      * 查询教师管理列表
      */
