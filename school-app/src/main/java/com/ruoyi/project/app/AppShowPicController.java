@@ -3,11 +3,13 @@ package com.ruoyi.project.app;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ruoyi.common.core.controller.BaseController;
@@ -15,12 +17,12 @@ import com.ruoyi.framework.config.RuoYiConfig;
 
 @CrossOrigin
 @Controller
-@RequestMapping("/ajax/showpic")
+@RequestMapping("/afasfasdf/showpic")
 public class AppShowPicController extends BaseController {
 
 	@ResponseBody
-	@RequestMapping(value="/getIcon")
-    public void getIcon(@RequestParam("icon") String icon, HttpServletResponse response)
+    @RequestMapping(value="/getIcon", method = RequestMethod.GET)
+    public void getIcon(String icon, HttpServletResponse response)
     {
     	String path = RuoYiConfig.getProfile();
     	File file = null;
