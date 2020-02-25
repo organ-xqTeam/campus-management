@@ -1,32 +1,23 @@
 package com.ruoyi.project.app;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.project.system.schoolmobilearticle.domain.Schoolmobilearticle;
 import com.ruoyi.project.system.schoolmobilearticle.service.ISchoolmobilearticleService;
 
 @CrossOrigin
 @Controller
-@RequestMapping("/uajax/app/mobilearticle")
+@RequestMapping("/ajax/app/mobilearticle")
 public class AppMobilearticleController extends BaseController {
 
     @Autowired
@@ -45,42 +36,6 @@ public class AppMobilearticleController extends BaseController {
     	PageHelper.startPage(pageNum, pageSize, null);
         List<Schoolmobilearticle> list = schoolmobilearticleService.selectSchoolmobilearticleList(mobilearticle);
         return getDataTable(list);
-    }
-    
-//    /profile/upload/2020/01/15/2a3bce903a935a35b43a528a233d5426.jpg
-    //展示图片
-    @ResponseBody
-    @RequestMapping(value="/getIcon")
-    public void getIcon(@RequestBody JSONObject param, HttpServletResponse response)
-    {
-    	String path = RuoYiConfig.getProfile();
-    	File file = null;
-    	FileInputStream fis = null;
-    	try {
-    		file = new File(path + param.get("icon").toString());
-    		if (!file.exists()) {
-    			return;
-    		}
-    		fis = new FileInputStream(file);
-    		final byte[] buf = new byte[1024];
-    		while (fis.read(buf) > 0) {
-    			response.getOutputStream().write(buf);
-    		}
-    	}
-    	catch(Exception e) {
-    		System.err.println(e.getMessage());
-    	}
-    	finally {
-    		if (fis != null) {
-    			try {
-    				fis.close();
-    			}
-    			catch (IOException e) {
-    				fis = null;
-    			}
-    		}
-    		response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-    	}
     }
     
 }

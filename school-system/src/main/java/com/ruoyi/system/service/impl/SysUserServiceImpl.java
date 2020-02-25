@@ -1,7 +1,10 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,6 +193,58 @@ public class SysUserServiceImpl implements ISysUserService
         insertUserRole(user);
         return rows;
     }
+    
+    @Override
+    @Transactional
+    public int insertUserList(List<SysUser> userList) {
+    	
+    	if (StringUtils.isNull(userList) || userList.size() == 0)
+        {
+            throw new BusinessException("导入用户数据不能为空！");
+        }
+    	
+        int successNum = 0;
+        int failureNum = 0;
+        StringBuilder successMsg = new StringBuilder();
+        StringBuilder failureMsg = new StringBuilder();
+        
+
+        SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	
+    	for(int i=0; i<userList.size(); i++) {
+    		
+    		SysUser user = userList.get(i);
+    		
+            try
+            {
+                // 验证是否存在这个用户
+        		SysUser u = userMapper.selectUserByLoginName(user.getLoginName());
+                if (StringUtils.isNull(u))
+                {
+                    user.setCreateBy(me.getUserName());
+                    user.setCreateTime(new Date());
+                    userMapper.insertUser(user);
+                    userRoleMapper.insertUserRole(user.getUserId()+"", "5");
+                    successNum++;
+                    successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 导入成功");
+                }
+            }
+            catch (Exception e)
+            {
+                failureNum++;
+                String msg = "<br/>" + failureNum + "、账号 " + user.getLoginName() + " 导入失败：";
+                failureMsg.append(msg + e.getMessage());
+                log.error(msg, e);
+            }
+    	}
+
+    	successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
+
+        return successNum;
+    	
+    	
+    }
+    
 
     /**
      * 修改保存用户信息

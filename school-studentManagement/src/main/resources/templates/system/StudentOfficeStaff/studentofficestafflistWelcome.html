@@ -208,12 +208,10 @@
          		dataType: "json",
          		async: false,
          		success: function(result) {
-         			console.log(result)
-         			alert('完成')
+//          			console.log(result.msg)
+         			$.modal.alert(result.msg);
          		}
          	});
-//         	prefix
-        	console.log(row);
         }
 
         function jwxxview(id) {

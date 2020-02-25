@@ -43,6 +43,8 @@ public interface SysUserRoleMapper
      */
     public int batchUserRole(List<SysUserRole> userRoleList);
     
+    public int insertUserRole(@Param("user_id") String user_id, @Param("role_id") String role_id);
+    
     /**
      * 删除用户和角色关联信息
      * 

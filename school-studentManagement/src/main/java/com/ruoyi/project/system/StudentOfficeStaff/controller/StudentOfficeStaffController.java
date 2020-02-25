@@ -2,6 +2,7 @@ package com.ruoyi.project.system.StudentOfficeStaff.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
@@ -237,6 +239,9 @@ public class StudentOfficeStaffController extends BaseController
     	schoolstudentslist.setAdmissionTime("2019-" + "10");
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	
+        List<SysUser> sulist = new ArrayList<SysUser>();
+        
+        
     	for(int i=0; i<list.size(); i++) {
     		Schoolstudentslist stu = list.get(i);
     		SysUser su = new SysUser();
@@ -244,16 +249,15 @@ public class StudentOfficeStaffController extends BaseController
         	su.setLoginName(stu.getCardnum());
         	su.setUserName(stu.getStudentsName());
         	
-
         	su.setSalt(ShiroUtils.randomSalt());
         	su.setPassword(passwordService.encryptPassword(su.getLoginName(), "123456", su.getSalt()));
         	
-        	su.setCreateTime(new Date());
-        	su.setRoleId(5L);
-        	userservice.insertUser(su);
-        	
+        	sulist.add(su);
         	
     	}
+    	
+
+    	int result = userservice.insertUserList(sulist);
         return toAjax(true);
     }
     

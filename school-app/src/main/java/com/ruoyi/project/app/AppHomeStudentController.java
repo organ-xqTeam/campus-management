@@ -162,7 +162,7 @@ public class AppHomeStudentController {
 		}
 		
 		Schoolstudentslist schoolstudentslist = new Schoolstudentslist();
-		schoolstudentslist.setStudentsId(user.getLoginName());
+		schoolstudentslist.setCardnum(user.getLoginName());
 		List<Schoolstudentslist> stlist = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
 		if (stlist.size() <= 0) {
 			return AjaxResult.success("无此学生");
@@ -250,7 +250,7 @@ public class AppHomeStudentController {
 			return AjaxResult.error("用户未登录");
 		}
 		Schoolstudentslist schoolstudentslist = new Schoolstudentslist();
-		schoolstudentslist.setStudentsId(user.getLoginName()+"");
+		schoolstudentslist.setCardnum(user.getLoginName()+"");
 		List<Schoolstudentslist> sinformaction = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
 		if (sinformaction.size() > 0) {
 			return AjaxResult.success(sinformaction.get(0));
@@ -276,7 +276,7 @@ public class AppHomeStudentController {
 			return AjaxResult.error("用户未登录");
 		}
 		Schoolstudentslist schoolstudentslist = new Schoolstudentslist();
-		schoolstudentslist.setStudentsId(user.getLoginName()+"");
+		schoolstudentslist.setCardnum(user.getLoginName()+"");
 		List<Schoolstudentslist> sinformaction = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
 		
 		
