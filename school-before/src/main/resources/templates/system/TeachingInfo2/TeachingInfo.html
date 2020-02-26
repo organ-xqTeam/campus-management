@@ -106,7 +106,10 @@
                 },                
                 {
                     field : 'certificationImage', 
-                    title : '照片'
+                    title : '照片',
+                	formatter: function(value, row, index) {
+                		return $.table.imageView("/school-fast"+value);
+                	}
                 },
                 {
                     field : 'remark2', 

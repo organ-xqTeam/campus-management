@@ -221,120 +221,19 @@
                     <input name="userId" th:field="*{userId}" class="form-control" type="text">
                 </div>
             </div>
-           <!--  <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
+            <div class="form-group" style="display: none">    
+                <label class="col-sm-3 control-label">认证照片：</label>
                 <div class="col-sm-8">
-                    <textarea name="remark1" class="form-control">[[*{remark1}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark2" class="form-control">[[*{remark2}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark3" class="form-control">[[*{remark3}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark4" class="form-control">[[*{remark4}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark5" class="form-control">[[*{remark5}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark6" class="form-control">[[*{remark6}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark7" class="form-control">[[*{remark7}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark8" class="form-control">[[*{remark8}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark9" class="form-control">[[*{remark9}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark10" class="form-control">[[*{remark10}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark11" class="form-control">[[*{remark11}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark12" class="form-control">[[*{remark12}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark13" class="form-control">[[*{remark13}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark14" class="form-control">[[*{remark14}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark15" class="form-control">[[*{remark15}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark16" class="form-control">[[*{remark16}]]</textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">备注：</label>
-                <div class="col-sm-8">
-                    <textarea name="remark17" class="form-control">[[*{remark17}]]</textarea>
+                    <input name="certificationImage" th:field="*{certificationImage}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">部门表的别名：</label>
+                <label class="col-sm-3 control-label">认证照片：</label>
                 <div class="col-sm-8">
-                    <input name="deptalias" th:field="*{deptalias}" class="form-control" type="text">
+                    <input name="certificationName" class="form-control" type="text" style="display: none">
+                    <input id="filePath" name="filePath" class="form-control" type="file">
                 </div>
             </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">用户表的别名：</label>
-                <div class="col-sm-8">
-                    <input name="useralias" th:field="*{useralias}" class="form-control" type="text">
-                </div>
-            </div> -->
         </form>
     </div>
     <th:block th:include="include :: footer" />
@@ -347,8 +246,35 @@
 
         function submitHandler() {
             if ($.validate.form()) {
+            	uploadFile();
                 $.operate.save(prefix + "/edit", $('#form-TeachingInfo-edit').serialize());
             }
+        }
+
+        function uploadFile() {
+        	var formData = new FormData();
+        	if ($('#filePath')[0].files[0] == null) {
+        		$.modal.alertWarning("请先选择文件路径");
+        		return false;
+        	}
+        	formData.append('file', $('#filePath')[0].files[0]);
+        	$.ajax({
+        		url: filefix + "/add",
+        		type: 'post',
+        		cache: false,
+        		data: formData,
+        		processData: false,
+        		contentType: false,
+        		dataType: "json",
+        		async: false,
+        		success: function(result) {
+        			var file = result.file;
+        			if (file) {
+        				$('input[name="certificationName"]').val(file.fileName);
+        				$('input[name="certificationImage"]').val(file.filePath);
+        			}
+        		}
+        	});
         }
         
     </script>

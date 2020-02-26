@@ -27,6 +27,7 @@ import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
@@ -73,8 +74,9 @@ public class AppLoginController{
 //			Md5Hash md5s = new Md5Hash(username + password + sessionid);
 //			String onlyid = md5s.toHex();
 			users.setPassword(null);
-			if(users.getRoleId()!=null) {
-				Long roleId=  users.getRoleId();
+			List<SysRole> roles = users.getRoles();
+			if(roles.size() == 1) {
+				Long roleId=  roles.get(0).getRoleId();
 				if(roleId==4) {
 					//教师
 					TeachingInfo teachingInfo =new TeachingInfo();
@@ -97,6 +99,9 @@ public class AppLoginController{
 					return AjaxResult.success("您无权限登陆客户端！");
 				}
 				
+			}
+			else {
+				return AjaxResult.success("您无权限登陆客户端！");
 			}
 			map.put("users", users);
 
