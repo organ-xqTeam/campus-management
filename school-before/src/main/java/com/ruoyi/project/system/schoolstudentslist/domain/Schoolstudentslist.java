@@ -190,13 +190,20 @@ public class Schoolstudentslist extends BaseEntity
     private String remark41;
     private String remark42;
     private String remark43;
+    private String remark44;
     
     
 
     
     
     
-    public String getRemark28() {
+    public String getRemark44() {
+		return remark44;
+	}
+	public void setRemark44(String remark44) {
+		this.remark44 = remark44;
+	}
+	public String getRemark28() {
 		return remark28;
 	}
 	public void setRemark28(String remark28) {

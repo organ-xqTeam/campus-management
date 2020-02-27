@@ -70,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark41"    column="remark41"    />
         <result property="remark42"    column="remark42"    />
         <result property="remark43"    column="remark43"    />
+        <result property="remark44"    column="remark44"    />
         <result property="lixian1"    column="lixian1"    />
         <result property="lixian2"    column="lixian2"    />
         <result property="lixian3"    column="lixian3"    />
@@ -105,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as 'nianji',(select school_name from school_belong where id=sbid) as 'sbid_',(select name from school_specialty where id=ssid) as 'ssid_', ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,remark21,remark22,remark23,remark24,remark25,remark26,remark27,remark28,remark29,remark30,remark31,remark32,remark33,remark34,remark35,remark36,remark37,remark38,remark39,remark40,remark41,remark42,remark43,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id,(select nameclass from school_class where id=class_id) as 'classId_', (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as 'nianji',(select school_name from school_belong where id=sbid) as 'sbid_',(select name from school_specialty where id=ssid) as 'ssid_', ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,remark21,remark22,remark23,remark24,remark25,remark26,remark27,remark28,remark29,remark30,remark31,remark32,remark33,remark34,remark35,remark36,remark37,remark38,remark39,remark40,remark41,remark42,remark43,remark44,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id,(select nameclass from school_class where id=class_id) as 'classId_', (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
     </sql>
     
     <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -176,6 +177,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark41 != null  and remark41 != ''"> and remark41 = #{remark41}</if>
             <if test="remark42 != null  and remark42 != ''"> and remark42 = #{remark42}</if>
             <if test="remark43 != null  and remark43 != ''"> and remark43 = #{remark43}</if>
+            <if test="remark44 != null  and remark44 != ''"> and remark44 = #{remark44}</if>
             <if test="lixian7 != null  and lixian7 != ''"> and lixian7 = #{lixian7}</if>
             <if test="lixian6 != null  and lixian6 != ''"> and lixian6 = #{lixian6}</if>
             <if test="lixian5 != null  and lixian5 != ''"> and lixian5 = #{lixian5}</if>
@@ -269,6 +271,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark41 != null  and remark41 != ''"> and remark41 = #{remark41}</if>
             <if test="remark42 != null  and remark42 != ''"> and remark42 = #{remark42}</if>
             <if test="remark43 != null  and remark43 != ''"> and remark43 = #{remark43}</if>
+            <if test="remark44 != null  and remark44 != ''"> and remark44 = #{remark44}</if>
             <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
             <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
             <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
@@ -369,6 +372,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark41 != null  and remark41 != ''"> and remark41 = #{remark41}</if>
             <if test="remark42 != null  and remark42 != ''"> and remark42 = #{remark42}</if>
             <if test="remark43 != null  and remark43 != ''"> and remark43 = #{remark43}</if>
+            <if test="remark44 != null  and remark44 != ''"> and remark44 = #{remark44}</if>
             <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
             <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
             <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
@@ -471,6 +475,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark41 != null  and remark41 != ''">remark41,</if>
             <if test="remark42 != null  and remark42 != ''">remark42,</if>
             <if test="remark43 != null  and remark43 != ''">remark43,</if>
+            <if test="remark44 != null  and remark44 != ''">remark44,</if>
             <if test="lixian1 != null  and lixian1 != ''">lixian1,</if>
             <if test="lixian2 != null  and lixian2 != ''">lixian2,</if>
             <if test="lixian3 != null  and lixian3 != ''">lixian3,</if>
@@ -564,6 +569,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark41 != null  and remark41 != ''">#{remark41},</if>
             <if test="remark42 != null  and remark42 != ''">#{remark42},</if>
             <if test="remark43 != null  and remark43 != ''">#{remark43},</if>
+            <if test="remark44 != null  and remark44 != ''">#{remark44},</if>
             <if test="lixian1 != null  and lixian1 != ''">#{lixian1},</if>
             <if test="lixian2 != null  and lixian2 != ''">#{lixian2},</if>
             <if test="lixian3 != null  and lixian3 != ''">#{lixian3},</if>
@@ -661,6 +667,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark41 != null  and remark41 != ''">remark41 = #{remark41},</if>
             <if test="remark42 != null  and remark42 != ''">remark42 = #{remark42},</if>
             <if test="remark43 != null  and remark43 != ''">remark43 = #{remark43},</if>
+            <if test="remark44 != null  and remark44 != ''">remark44 = #{remark44},</if>
             <if test="lixian1 != null  and lixian1 != ''">lixian1 = #{lixian1},</if>
             <if test="lixian2 != null  and lixian2 != ''">lixian2 = #{lixian2},</if>
             <if test="lixian3 != null  and lixian3 != ''">lixian3 = #{lixian3},</if>
