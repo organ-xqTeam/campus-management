@@ -9,6 +9,44 @@
 		<input id="id" name="id" th:field="${schoolstudentslist.id}"
 					class="form-control" type="hidden" >
 		<div class="form-group">
+			<label class="col-sm-3 control-label">文化程度：</label>
+			<div class="col-sm-8">
+				<input id="remark30" name="remark30" th:field="${schoolstudentslist.remark30}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">准考证号：</label>
+			<div class="col-sm-8">
+				<input id="remark34" name="remark34" th:field="${schoolstudentslist.remark34}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">报考类别：</label>
+			<div class="col-sm-8">
+             	<select  class="form-control" id="remark35" name="remark35">
+					<option value="1" th:selected="${schoolstudentslist.remark35} == 1">文</option>
+					<option value="2" th:selected="${schoolstudentslist.remark35} == 2">理</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-3 control-label">高中省：</label>
+			<div class="col-sm-8">
+				<input id="remark32" name="remark32" th:field="${schoolstudentslist.remark32}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">高中市：</label>
+			<div class="col-sm-8">
+				<input id="remark33" name="remark33" th:field="${schoolstudentslist.remark33}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
 			<label class="col-sm-3 control-label">毕业高中：</label>
 			<div class="col-sm-8">
 				<input id="remark1" name="remark1" th:field="${schoolstudentslist.remark1}"
@@ -60,10 +98,39 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label">英语单科成绩：</label>
 			<div class="col-sm-8">
-				<input id=remark5 name="remark5" th:field="${schoolstudentslist.remark5}"
+				<input id="remark5" name="remark5" th:field="${schoolstudentslist.remark5}"
 					class="form-control" type="text" >
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">雅思成绩：</label>
+			<div class="col-sm-8">
+				<input id="remark36" name="remark36" th:field="${schoolstudentslist.remark36}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">报考专业：</label>
+			<div class="col-sm-8">
+				<input id="remark41" name="remark41" th:field="${schoolstudentslist.remark41}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">调整专业：</label>
+			<div class="col-sm-8">
+				<input id="remark42" name="remark42" th:field="${schoolstudentslist.remark42}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">信息来源：</label>
+			<div class="col-sm-8">
+				<input id="remark43" name="remark43" th:field="${schoolstudentslist.remark43}"
+					class="form-control" type="text" >
+			</div>
+		</div>
+		
 	</div>
 	<th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
