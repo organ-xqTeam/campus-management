@@ -174,11 +174,125 @@ public class Schoolstudentslist extends BaseEntity
 
     private String remark26;
     private String remark27;
+    private String remark28;
+    private String remark29;
+    private String remark30;
+    private String remark31;
+    private String remark32;
+    private String remark33;
+    private String remark34;
+    private String remark35;
+    private String remark36;
+    private String remark37;
+    private String remark38;
+    private String remark39;
+    private String remark40;
+    private String remark41;
+    private String remark42;
+    private String remark43;
+    
+    
+
     
     
     
-    
-    public String getRemark26() {
+    public String getRemark28() {
+		return remark28;
+	}
+	public void setRemark28(String remark28) {
+		this.remark28 = remark28;
+	}
+	public String getRemark29() {
+		return remark29;
+	}
+	public void setRemark29(String remark29) {
+		this.remark29 = remark29;
+	}
+	public String getRemark30() {
+		return remark30;
+	}
+	public void setRemark30(String remark30) {
+		this.remark30 = remark30;
+	}
+	public String getRemark31() {
+		return remark31;
+	}
+	public void setRemark31(String remark31) {
+		this.remark31 = remark31;
+	}
+	public String getRemark32() {
+		return remark32;
+	}
+	public void setRemark32(String remark32) {
+		this.remark32 = remark32;
+	}
+	public String getRemark33() {
+		return remark33;
+	}
+	public void setRemark33(String remark33) {
+		this.remark33 = remark33;
+	}
+	public String getRemark34() {
+		return remark34;
+	}
+	public void setRemark34(String remark34) {
+		this.remark34 = remark34;
+	}
+	public String getRemark35() {
+		return remark35;
+	}
+	public void setRemark35(String remark35) {
+		this.remark35 = remark35;
+	}
+	public String getRemark36() {
+		return remark36;
+	}
+	public void setRemark36(String remark36) {
+		this.remark36 = remark36;
+	}
+	public String getRemark37() {
+		return remark37;
+	}
+	public void setRemark37(String remark37) {
+		this.remark37 = remark37;
+	}
+	public String getRemark38() {
+		return remark38;
+	}
+	public void setRemark38(String remark38) {
+		this.remark38 = remark38;
+	}
+	public String getRemark39() {
+		return remark39;
+	}
+	public void setRemark39(String remark39) {
+		this.remark39 = remark39;
+	}
+	public String getRemark40() {
+		return remark40;
+	}
+	public void setRemark40(String remark40) {
+		this.remark40 = remark40;
+	}
+	public String getRemark41() {
+		return remark41;
+	}
+	public void setRemark41(String remark41) {
+		this.remark41 = remark41;
+	}
+	public String getRemark42() {
+		return remark42;
+	}
+	public void setRemark42(String remark42) {
+		this.remark42 = remark42;
+	}
+	public String getRemark43() {
+		return remark43;
+	}
+	public void setRemark43(String remark43) {
+		this.remark43 = remark43;
+	}
+	public String getRemark26() {
 		return remark26;
 	}
 	public void setRemark26(String remark26) {

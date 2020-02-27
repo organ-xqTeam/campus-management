@@ -54,6 +54,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark25"    column="remark25"    />
         <result property="remark26"    column="remark26"    />
         <result property="remark27"    column="remark27"    />
+        <result property="remark28"    column="remark28"    />
+        <result property="remark29"    column="remark29"    />
+        <result property="remark30"    column="remark30"    />
+        <result property="remark31"    column="remark31"    />
+        <result property="remark32"    column="remark32"    />
+        <result property="remark33"    column="remark33"    />
+        <result property="remark34"    column="remark34"    />
+        <result property="remark35"    column="remark35"    />
+        <result property="remark36"    column="remark36"    />
+        <result property="remark37"    column="remark37"    />
+        <result property="remark38"    column="remark38"    />
+        <result property="remark39"    column="remark39"    />
+        <result property="remark40"    column="remark40"    />
+        <result property="remark41"    column="remark41"    />
+        <result property="remark42"    column="remark42"    />
+        <result property="remark43"    column="remark43"    />
         <result property="lixian1"    column="lixian1"    />
         <result property="lixian2"    column="lixian2"    />
         <result property="lixian3"    column="lixian3"    />
@@ -89,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as 'nianji',(select school_name from school_belong where id=sbid) as 'sbid_',(select name from school_specialty where id=ssid) as 'ssid_', ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,remark21,remark22,remark23,remark24,remark25,remark26,remark27,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id,(select nameclass from school_class where id=class_id) as 'classId_', (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as 'nianji',(select school_name from school_belong where id=sbid) as 'sbid_',(select name from school_specialty where id=ssid) as 'ssid_', ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,remark21,remark22,remark23,remark24,remark25,remark26,remark27,remark28,remark29,remark30,remark31,remark32,remark33,remark34,remark35,remark36,remark37,remark38,remark39,remark40,remark41,remark42,remark43,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id,(select nameclass from school_class where id=class_id) as 'classId_', (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
     </sql>
     
     <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -144,6 +160,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark25 != null  and remark25 != ''"> and remark25 = #{remark25}</if>
             <if test="remark26 != null  and remark26 != ''"> and remark26 = #{remark26}</if>
             <if test="remark27 != null  and remark27 != ''"> and remark27 = #{remark27}</if>
+            <if test="remark28 != null  and remark28 != ''"> and remark28 = #{remark28}</if>
+            <if test="remark29 != null  and remark29 != ''"> and remark29 = #{remark29}</if>
+            <if test="remark30 != null  and remark30 != ''"> and remark30 = #{remark30}</if>
+            <if test="remark31 != null  and remark31 != ''"> and remark31 = #{remark31}</if>
+            <if test="remark32 != null  and remark32 != ''"> and remark32 = #{remark32}</if>
+            <if test="remark33 != null  and remark33 != ''"> and remark33 = #{remark33}</if>
+            <if test="remark34 != null  and remark34 != ''"> and remark34 = #{remark34}</if>
+            <if test="remark35 != null  and remark35 != ''"> and remark35 = #{remark35}</if>
+            <if test="remark36 != null  and remark36 != ''"> and remark36 = #{remark36}</if>
+            <if test="remark37 != null  and remark37 != ''"> and remark37 = #{remark37}</if>
+            <if test="remark38 != null  and remark38 != ''"> and remark38 = #{remark38}</if>
+            <if test="remark39 != null  and remark39 != ''"> and remark39 = #{remark39}</if>
+            <if test="remark40 != null  and remark40 != ''"> and remark40 = #{remark40}</if>
+            <if test="remark41 != null  and remark41 != ''"> and remark41 = #{remark41}</if>
+            <if test="remark42 != null  and remark42 != ''"> and remark42 = #{remark42}</if>
+            <if test="remark43 != null  and remark43 != ''"> and remark43 = #{remark43}</if>
             <if test="lixian7 != null  and lixian7 != ''"> and lixian7 = #{lixian7}</if>
             <if test="lixian6 != null  and lixian6 != ''"> and lixian6 = #{lixian6}</if>
             <if test="lixian5 != null  and lixian5 != ''"> and lixian5 = #{lixian5}</if>
@@ -221,6 +253,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark25 != null  and remark25 != ''"> and remark25 = #{remark25}</if>
             <if test="remark26 != null  and remark26 != ''"> and remark26 = #{remark26}</if>
             <if test="remark27 != null  and remark27 != ''"> and remark27 = #{remark27}</if>
+            <if test="remark28 != null  and remark28 != ''"> and remark28 = #{remark28}</if>
+            <if test="remark29 != null  and remark29 != ''"> and remark29 = #{remark29}</if>
+            <if test="remark30 != null  and remark30 != ''"> and remark30 = #{remark30}</if>
+            <if test="remark31 != null  and remark31 != ''"> and remark31 = #{remark31}</if>
+            <if test="remark32 != null  and remark32 != ''"> and remark32 = #{remark32}</if>
+            <if test="remark33 != null  and remark33 != ''"> and remark33 = #{remark33}</if>
+            <if test="remark34 != null  and remark34 != ''"> and remark34 = #{remark34}</if>
+            <if test="remark35 != null  and remark35 != ''"> and remark35 = #{remark35}</if>
+            <if test="remark36 != null  and remark36 != ''"> and remark36 = #{remark36}</if>
+            <if test="remark37 != null  and remark37 != ''"> and remark37 = #{remark37}</if>
+            <if test="remark38 != null  and remark38 != ''"> and remark38 = #{remark38}</if>
+            <if test="remark39 != null  and remark39 != ''"> and remark39 = #{remark39}</if>
+            <if test="remark40 != null  and remark40 != ''"> and remark40 = #{remark40}</if>
+            <if test="remark41 != null  and remark41 != ''"> and remark41 = #{remark41}</if>
+            <if test="remark42 != null  and remark42 != ''"> and remark42 = #{remark42}</if>
+            <if test="remark43 != null  and remark43 != ''"> and remark43 = #{remark43}</if>
             <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
             <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
             <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
@@ -305,6 +353,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark25 != null  and remark25 != ''"> and remark25 = #{remark25}</if>
             <if test="remark26 != null  and remark26 != ''"> and remark26 = #{remark26}</if>
             <if test="remark27 != null  and remark27 != ''"> and remark27 = #{remark27}</if>
+            <if test="remark28 != null  and remark28 != ''"> and remark28 = #{remark28}</if>
+            <if test="remark29 != null  and remark29 != ''"> and remark29 = #{remark29}</if>
+            <if test="remark30 != null  and remark30 != ''"> and remark30 = #{remark30}</if>
+            <if test="remark31 != null  and remark31 != ''"> and remark31 = #{remark31}</if>
+            <if test="remark32 != null  and remark32 != ''"> and remark32 = #{remark32}</if>
+            <if test="remark33 != null  and remark33 != ''"> and remark33 = #{remark33}</if>
+            <if test="remark34 != null  and remark34 != ''"> and remark34 = #{remark34}</if>
+            <if test="remark35 != null  and remark35 != ''"> and remark35 = #{remark35}</if>
+            <if test="remark36 != null  and remark36 != ''"> and remark36 = #{remark36}</if>
+            <if test="remark37 != null  and remark37 != ''"> and remark37 = #{remark37}</if>
+            <if test="remark38 != null  and remark38 != ''"> and remark38 = #{remark38}</if>
+            <if test="remark39 != null  and remark39 != ''"> and remark39 = #{remark39}</if>
+            <if test="remark40 != null  and remark40 != ''"> and remark40 = #{remark40}</if>
+            <if test="remark41 != null  and remark41 != ''"> and remark41 = #{remark41}</if>
+            <if test="remark42 != null  and remark42 != ''"> and remark42 = #{remark42}</if>
+            <if test="remark43 != null  and remark43 != ''"> and remark43 = #{remark43}</if>
             <if test="lixian1 != null  and lixian1 != ''"> and lixian1 = #{lixian1}</if>
             <if test="lixian2 != null  and lixian2 != ''"> and lixian2 = #{lixian2}</if>
             <if test="lixian3 != null  and lixian3 != ''"> and lixian3 = #{lixian3}</if>
@@ -391,6 +455,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark25 != null  and remark25 != ''">remark25,</if>
             <if test="remark26 != null  and remark26 != ''">remark26,</if>
             <if test="remark27 != null  and remark27 != ''">remark27,</if>
+            <if test="remark28 != null  and remark28 != ''">remark28,</if>
+            <if test="remark29 != null  and remark29 != ''">remark29,</if>
+            <if test="remark30 != null  and remark30 != ''">remark30,</if>
+            <if test="remark31 != null  and remark31 != ''">remark31,</if>
+            <if test="remark32 != null  and remark32 != ''">remark32,</if>
+            <if test="remark33 != null  and remark33 != ''">remark33,</if>
+            <if test="remark34 != null  and remark34 != ''">remark34,</if>
+            <if test="remark35 != null  and remark35 != ''">remark35,</if>
+            <if test="remark36 != null  and remark36 != ''">remark36,</if>
+            <if test="remark37 != null  and remark37 != ''">remark37,</if>
+            <if test="remark38 != null  and remark38 != ''">remark38,</if>
+            <if test="remark39 != null  and remark39 != ''">remark39,</if>
+            <if test="remark40 != null  and remark40 != ''">remark40,</if>
+            <if test="remark41 != null  and remark41 != ''">remark41,</if>
+            <if test="remark42 != null  and remark42 != ''">remark42,</if>
+            <if test="remark43 != null  and remark43 != ''">remark43,</if>
             <if test="lixian1 != null  and lixian1 != ''">lixian1,</if>
             <if test="lixian2 != null  and lixian2 != ''">lixian2,</if>
             <if test="lixian3 != null  and lixian3 != ''">lixian3,</if>
@@ -468,6 +548,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark25 != null  and remark25 != ''">#{remark25},</if>
             <if test="remark26 != null  and remark26 != ''">#{remark26},</if>
             <if test="remark27 != null  and remark27 != ''">#{remark27},</if>
+            <if test="remark28 != null  and remark28 != ''">#{remark28},</if>
+            <if test="remark29 != null  and remark39 != ''">#{remark29},</if>
+            <if test="remark30 != null  and remark30 != ''">#{remark30},</if>
+            <if test="remark31 != null  and remark31 != ''">#{remark31},</if>
+            <if test="remark32 != null  and remark32 != ''">#{remark32},</if>
+            <if test="remark33 != null  and remark33 != ''">#{remark33},</if>
+            <if test="remark34 != null  and remark34 != ''">#{remark34},</if>
+            <if test="remark35 != null  and remark35 != ''">#{remark35},</if>
+            <if test="remark36 != null  and remark36 != ''">#{remark36},</if>
+            <if test="remark37 != null  and remark37 != ''">#{remark37},</if>
+            <if test="remark38 != null  and remark38 != ''">#{remark38},</if>
+            <if test="remark39 != null  and remark39 != ''">#{remark39},</if>
+            <if test="remark40 != null  and remark40 != ''">#{remark40},</if>
+            <if test="remark41 != null  and remark41 != ''">#{remark41},</if>
+            <if test="remark42 != null  and remark42 != ''">#{remark42},</if>
+            <if test="remark43 != null  and remark43 != ''">#{remark43},</if>
             <if test="lixian1 != null  and lixian1 != ''">#{lixian1},</if>
             <if test="lixian2 != null  and lixian2 != ''">#{lixian2},</if>
             <if test="lixian3 != null  and lixian3 != ''">#{lixian3},</if>
@@ -549,6 +645,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark25 != null  and remark25 != ''">remark25 = #{remark25},</if>
             <if test="remark26 != null  and remark26 != ''">remark26 = #{remark26},</if>
             <if test="remark27 != null  and remark27 != ''">remark27 = #{remark27},</if>
+            <if test="remark28 != null  and remark28 != ''">remark28 = #{remark28},</if>
+            <if test="remark29 != null  and remark29 != ''">remark29 = #{remark29},</if>
+            <if test="remark30 != null  and remark30 != ''">remark30 = #{remark30},</if>
+            <if test="remark31 != null  and remark31 != ''">remark31 = #{remark31},</if>
+            <if test="remark32 != null  and remark32 != ''">remark32 = #{remark32},</if>
+            <if test="remark33 != null  and remark33 != ''">remark33 = #{remark33},</if>
+            <if test="remark34 != null  and remark34 != ''">remark34 = #{remark34},</if>
+            <if test="remark35 != null  and remark35 != ''">remark35 = #{remark35},</if>
+            <if test="remark36 != null  and remark36 != ''">remark36 = #{remark36},</if>
+            <if test="remark37 != null  and remark37 != ''">remark37 = #{remark37},</if>
+            <if test="remark38 != null  and remark38 != ''">remark38 = #{remark38},</if>
+            <if test="remark39 != null  and remark39 != ''">remark39 = #{remark39},</if>
+            <if test="remark40 != null  and remark40 != ''">remark40 = #{remark40},</if>
+            <if test="remark41 != null  and remark41 != ''">remark41 = #{remark41},</if>
+            <if test="remark42 != null  and remark42 != ''">remark42 = #{remark42},</if>
+            <if test="remark43 != null  and remark43 != ''">remark43 = #{remark43},</if>
             <if test="lixian1 != null  and lixian1 != ''">lixian1 = #{lixian1},</if>
             <if test="lixian2 != null  and lixian2 != ''">lixian2 = #{lixian2},</if>
             <if test="lixian3 != null  and lixian3 != ''">lixian3 = #{lixian3},</if>
