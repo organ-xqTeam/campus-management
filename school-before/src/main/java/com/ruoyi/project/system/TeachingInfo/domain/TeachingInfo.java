@@ -24,7 +24,7 @@ public class TeachingInfo extends BaseEntity
     private String teacherId;
 
     /** 性别 */
-    @Excel(name = "性别")
+    @Excel(name = "性别", readConverterExp = "0=女,1=男")
     private String gendername;
 
     /** 生日 */
@@ -47,8 +47,7 @@ public class TeachingInfo extends BaseEntity
     @Excel(name = "授课类别范围")
     private String classScope;
 
-    /** 师资分类1、自有师资2、内训师资3、外部专家 */
-    @Excel(name = "师资分类1、自有师资2、内训师资3、外部专家")
+    @Excel(name = "师资分类", readConverterExp = "1=自有师资,2=内训师资,3=外部专家")
     private String classificationTeachers;
 
     /** 认证信息 */
@@ -64,7 +63,7 @@ public class TeachingInfo extends BaseEntity
     private String certificationGrade;
 
     /** 认证照片 */
-    @Excel(name = "认证照片")
+//    @Excel(name = "认证照片")
     private String certificationImage;
 
     /** 师资备注 */
@@ -100,7 +99,7 @@ public class TeachingInfo extends BaseEntity
     private String certificateName;
 
     /** 认证照片名 */
-    @Excel(name = "认证照片名")
+//    @Excel(name = "认证照片名")
     private String certificationName;
 
     /** 认证状态 */
@@ -108,7 +107,7 @@ public class TeachingInfo extends BaseEntity
     private String certificationState;
 
     /** 创建时间 */
-    @Excel(name = "创建时间")
+//    @Excel(name = "创建时间")
     private String createtime1;
 
     /** 备注 */
@@ -116,15 +115,15 @@ public class TeachingInfo extends BaseEntity
     private String remarks;
 
     /** 是否删除 */
-    @Excel(name = "是否删除")
+//    @Excel(name = "是否删除")
     private String isdelete;
 
     /** 分析报告 */
-    @Excel(name = "分析报告")
+//    @Excel(name = "分析报告")
     private String analysisReport;
 
     /** null */
-    @Excel(name = "null")
+//    @Excel(name = "null")
     private String teachPlace;
 
     /** 教师名称 */
@@ -136,7 +135,7 @@ public class TeachingInfo extends BaseEntity
     private String subjectName;
 
     /** 是否班主任 */
-    @Excel(name = "是否班主任")
+//    @Excel(name = "是否班主任")
     private String isheadteacher;
 
     /** 累计课时 */
@@ -156,82 +155,82 @@ public class TeachingInfo extends BaseEntity
     private String teachingRecord;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "身份证号码")
     private String remark1;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "部门")
     private String remark2;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "岗位")
     private String remark3;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "手机号码")
     private String remark4;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "办公电话")
     private String remark5;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "邮编")
     private String remark6;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "通讯地址")
     private String remark7;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "住址")
     private String remark8;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "紧急联系人姓名")
     private String remark9;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "紧急联系人电话")
     private String remark10;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "教学计划")
     private String remark11;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "证书名称")
     private String remark12;
 
     /** 备注 */
-    @Excel(name = "备注")
+    @Excel(name = "电子邮件")
     private String remark13;
 
     /** 备注 */
-    @Excel(name = "备注")
+//    @Excel(name = "备注")
     private String remark14;
 
     /** 备注 */
-    @Excel(name = "备注")
+//    @Excel(name = "备注")
     private String remark15;
 
     /** 备注 */
-    @Excel(name = "备注")
+//    @Excel(name = "备注")
     private String remark16;
 
     /** 备注 */
-    @Excel(name = "备注")
+//    @Excel(name = "备注")
     private String remark17;
 
     /** 删除标记 0:正常;1:删除 */
     private Long delFlag;
 
     /** 部门表的别名 */
-    @Excel(name = "部门表的别名")
+//    @Excel(name = "部门表的别名")
     private String deptalias;
 
     /** 用户表的别名 */
-    @Excel(name = "用户表的别名")
+//    @Excel(name = "用户表的别名")
     private String useralias;
     
     

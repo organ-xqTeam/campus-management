@@ -114,7 +114,7 @@ public class SchoolstudentslistController extends BaseController
     {
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
-        return util.exportExcel(list, "schoolstudentslist");
+        return util.exportExcel(list, "招生学生列表");
     }
 
     /**

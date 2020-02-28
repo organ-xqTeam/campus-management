@@ -14,7 +14,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2019-10-21
  */
-public class Schoolstudentslist extends BaseEntity
+public class LeavingSchoolList extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -22,18 +22,18 @@ public class Schoolstudentslist extends BaseEntity
     private Long id;
 
     /** 学生id */
-    //@Excel(name = "学生id")
+    ////@Excel(name = "学生id")
     private String studentsId;
 
     /** 学生名称 */
-    @Excel(name = "学生名称")
+    //@Excel(name = "学生名称")
     private String studentsName;
 
     /** 性别 */
-    @Excel(name = "用户性别", readConverterExp = "0=女,1=男")
+    //@Excel(name = "用户性别", readConverterExp = "0=女,1=男")
     private String gender;
     
-    @Excel(name = "年级")
+    //@Excel(name = "年级")
     private String nianji;
     
     public String getNianji() {
@@ -44,186 +44,186 @@ public class Schoolstudentslist extends BaseEntity
 	}
 
 	/** 出生年月 */
-    @Excel(name = "生日")
+    //@Excel(name = "生日")
     private String birth;
     
     /** 民族 */
-    @Excel(name = "民族")
+    //@Excel(name = "民族")
     private String nation;
     
     /** 身份证号 */
-    @Excel(name = "身份证号")
+    //@Excel(name = "身份证号")
     private String idnum;
     
     /** 是否有拒签历史 */
-    @Excel(name = "是否有拒签历史", readConverterExp = "0=否,1=是")
+    //@Excel(name = "是否有拒签历史", readConverterExp = "0=否,1=是")
     private String isrefuse;
     
     /** 审批状态 */
-    @Excel(name = "审批状态", readConverterExp = "1=未审批,2=通过,3=驳回")
+    //@Excel(name = "审批状态", readConverterExp = "1=未审批,2=通过,3=驳回")
     private String approvalstate;
 
     /** 学级 */
-//    @Excel(name = "学级")
+//    //@Excel(name = "学级")
     private String academicLevel;
 
     /** 父亲名称 */
-    @Excel(name = "父亲名称")
+    //@Excel(name = "父亲名称")
     private String fatherName;
 
     /** 父亲电话号 */
-    @Excel(name = "父亲电话号")
+    //@Excel(name = "父亲电话号")
     private String fatherPhone;
 
     /** 母亲名称 */
-    @Excel(name = "母亲名称")
+    //@Excel(name = "母亲名称")
     private String motherName;
 
     /** 母亲电话号 */
-    @Excel(name = "母亲电话号")
+    //@Excel(name = "母亲电话号")
     private String motherPhone;
 
     /** 家庭住址 */
-    @Excel(name = "家庭住址")
+    //@Excel(name = "家庭住址")
     private String homeAddress;
 
     /** 备注 */
-    @Excel(name = "备注")
+    //@Excel(name = "备注")
     private String Remarks;
 
     /** 年龄 */
-    //@Excel(name = "年龄")
+    ////@Excel(name = "年龄")
     private String ages;
 
     /** 入学时间 */
-    @Excel(name = "入学时间", width = 30, dateFormat = "yyyy-MM-dd")
+    //@Excel(name = "入学时间", width = 30, dateFormat = "yyyy-MM-dd")
     private String admissionTime;
 
     /** 状态 */
-    @Excel(name = "学籍状态", readConverterExp = "1=未注册学籍,2=注册学籍,3=已离校,4=保留学籍")
+    //@Excel(name = "学籍状态", readConverterExp = "1=未注册学籍,2=注册学籍,3=已离校,4=保留学籍")
     private String State;
 
     /** 备注 */
-    @Excel(name = "毕业高中")
+    //@Excel(name = "毕业高中")
     private String remark1;
 
     /** 备注 */
-    @Excel(name = "高考省份")
+    //@Excel(name = "高考省份")
     private String remark2;
 
     /** 备注 */
-    @Excel(name = "选择成绩类型")
+    //@Excel(name = "选择成绩类型")
     private String remark3;
 
     /** 备注 */
-    @Excel(name = "总分")
+    //@Excel(name = "总分")
     private String remark4;
 
     /** 备注 */
-    @Excel(name = "英语单科")
+    //@Excel(name = "英语单科")
     private String remark5;
 
     /** 备注 */
-    @Excel(name = "预选班级")
+    //@Excel(name = "预选班级")
     private String remark6;
 
     /** 备注 */
-    @Excel(name = "联系方式")
+    //@Excel(name = "联系方式")
     private String remark7;
 
     /** 备注 */
-    @Excel(name = "联系地址")
+    //@Excel(name = "联系地址")
     private String remark8;
 
     /** 备注 */
-    @Excel(name = "户口所在地")
+    //@Excel(name = "户口所在地")
     private String remark9;
 
     /** 备注 */
-    @Excel(name = "政治面貌")
+    //@Excel(name = "政治面貌")
     private String remark10;
 
     /** 备注 */
-    @Excel(name = "通讯地址")
+    //@Excel(name = "通讯地址")
     private String remark11;
 
     /** 备注 */
-    @Excel(name = "邮编")
+    //@Excel(name = "邮编")
     private String remark12;
 
     /** 备注 */
-    @Excel(name = "是否少数民族", readConverterExp = "1=是,0=否")
+    //@Excel(name = "是否少数民族", readConverterExp = "1=是,0=否")
     private String remark13;
 
     /** 备注 */
-    @Excel(name = "是否招生", readConverterExp = "1=是,0=否")
+    //@Excel(name = "是否招生", readConverterExp = "1=是,0=否")
     private String remark14;
 
     /** 备注 */
-    @Excel(name = "高考成绩")
+    //@Excel(name = "高考成绩")
     private String remark15;
 
     /** 备注 */
-    @Excel(name = "会考成绩")
+    //@Excel(name = "会考成绩")
     private String remark16;
 
     /** 备注 */
-    @Excel(name = "模考成绩")
+    //@Excel(name = "模考成绩")
     private String remark17;
-    @Excel(name = "监护人姓名")
+    //@Excel(name = "监护人姓名")
     private String remark18;
-    @Excel(name = "监护人与学生关系")
+    //@Excel(name = "监护人与学生关系")
     private String remark19;
-    @Excel(name = "监护人联系手机")
+    //@Excel(name = "监护人联系手机")
     private String remark20;
-    @Excel(name = "电子邮件")
+    //@Excel(name = "电子邮件")
     private String remark21;
-    @Excel(name = "数学单科成绩")
+    //@Excel(name = "数学单科成绩")
     private String remark22;
-    @Excel(name = "报名时间")
+    //@Excel(name = "报名时间")
     private String remark23;
-    @Excel(name = "录取时间")
+    //@Excel(name = "录取时间")
     private String remark24;
-//    @Excel(name = "用户")
+//    //@Excel(name = "用户")
     private String remark25;
 
-    @Excel(name = "紧急联系人姓名")
+    //@Excel(name = "紧急联系人姓名")
     private String remark26;
-    @Excel(name = "紧急联系人电话")
+    //@Excel(name = "紧急联系人电话")
     private String remark27;
-    @Excel(name = "国籍")
+    //@Excel(name = "国籍")
     private String remark28;
-    @Excel(name = "身高" , readConverterExp = "1=小于190,0=大于190")
+    //@Excel(name = "身高" , readConverterExp = "1=小于190,0=大于190")
     private String remark29;
-    @Excel(name = "文化程度")
+    //@Excel(name = "文化程度")
     private String remark30;
-    @Excel(name = "传真号码")
+    //@Excel(name = "传真号码")
     private String remark31;
-    @Excel(name = "毕业高中的省")
+    //@Excel(name = "毕业高中的省")
     private String remark32;
-    @Excel(name = "毕业高中的市")
+    //@Excel(name = "毕业高中的市")
     private String remark33;
-    @Excel(name = "准考证号")
+    //@Excel(name = "准考证号")
     private String remark34;
-    @Excel(name = "报考类别" , readConverterExp = "1=文,2=理")
+    //@Excel(name = "报考类别" , readConverterExp = "1=文,2=理")
     private String remark35;
-    @Excel(name = "雅思成绩")
+    //@Excel(name = "雅思成绩")
     private String remark36;
-    @Excel(name = "父亲工作单位")
+    //@Excel(name = "父亲工作单位")
     private String remark37;
-    @Excel(name = "父亲职务")
+    //@Excel(name = "父亲职务")
     private String remark38;
-    @Excel(name = "母亲工作单位")
+    //@Excel(name = "母亲工作单位")
     private String remark39;
-    @Excel(name = "母亲职务")
+    //@Excel(name = "母亲职务")
     private String remark40;
-    @Excel(name = "报考专业")
+    //@Excel(name = "报考专业")
     private String remark41;
-    @Excel(name = "调整专业")
+    //@Excel(name = "调整专业")
     private String remark42;
-    @Excel(name = "信息来源")
+    //@Excel(name = "信息来源")
     private String remark43;
-    @Excel(name = "联系手机")
+    //@Excel(name = "联系手机")
     private String remark44;
     
     
@@ -394,7 +394,7 @@ public class Schoolstudentslist extends BaseEntity
 		this.remark20 = remark20;
 	}
 
-	@Excel(name = "身份证号")
+	//@Excel(name = "身份证号")
     private String cardnum;
     
 	public String getCardnum() {
@@ -404,40 +404,40 @@ public class Schoolstudentslist extends BaseEntity
 		this.cardnum = cardnum;
 	}
 
-	@Excel(name = "报道状态", readConverterExp = "1=已报道,2=未报道")
+	//@Excel(name = "报道状态", readConverterExp = "1=已报道,2=未报道")
     private String reportstate;
-    @Excel(name = "未报到原因")
+    //@Excel(name = "未报到原因")
     private String notreportresult;
-    @Excel(name = "缴费状态")
+    //@Excel(name = "缴费状态")
     private String paystate;
-    @Excel(name = "是否注册", readConverterExp = "1=是,0=否")
+    //@Excel(name = "是否注册", readConverterExp = "1=是,0=否")
     private String isregister;
-    @Excel(name = "是否领取钥匙", readConverterExp = "1=是,0=否")
+    //@Excel(name = "是否领取钥匙", readConverterExp = "1=是,0=否")
     private String isreceivekey;
-    @Excel(name = "是否领取军训设备", readConverterExp = "1=是,0=否")
+    //@Excel(name = "是否领取军训设备", readConverterExp = "1=是,0=否")
     private String isreceivejunxun;
-    @Excel(name = "就业单位")
+    //@Excel(name = "就业单位")
     private String company;
-    @Excel(name = "就业情况审批状态")
+    //@Excel(name = "就业情况审批状态")
     private String comapproval;
-    @Excel(name = "工作岗位")
+    //@Excel(name = "工作岗位")
     private String post;
-    @Excel(name = "工作情况")
+    //@Excel(name = "工作情况")
     private String situation;
 
-    @Excel(name = "图书馆办理信息", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "图书馆办理信息", readConverterExp = "2=已办理")
     private String lixian1;
-    @Excel(name = "财务处办理信息", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "财务处办理信息", readConverterExp = "2=已办理")
     private String lixian2;
-    @Excel(name = "一卡通办理信息", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "一卡通办理信息", readConverterExp = "2=已办理")
     private String lixian3;
-    @Excel(name = "退宿办理信息", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "退宿办理信息", readConverterExp = "2=已办理")
     private String lixian4;
-    @Excel(name = "组织关系转出", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "组织关系转出", readConverterExp = "2=已办理")
     private String lixian5;
-    @Excel(name = "户口转出信息", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "户口转出信息", readConverterExp = "2=已办理")
     private String lixian6;
-    @Excel(name = "毕业证发放信息", readConverterExp = "2=已办理,1=未办理")
+    //@Excel(name = "毕业证发放信息", readConverterExp = "2=已办理")
     private String lixian7;
     
     
@@ -560,15 +560,15 @@ public class Schoolstudentslist extends BaseEntity
     private Long delFlag;
 
     /** 部门表的别名 */
-    //@Excel(name = "部门表的别名")
+    ////@Excel(name = "部门表的别名")
     private String deptalias;
 
     /** 用户表的别名 */
-    //@Excel(name = "用户表的别名")
+    ////@Excel(name = "用户表的别名")
     private String useralias;
-    //@Excel(name = "年级id")
+    ////@Excel(name = "年级id")
     private Long gradeId;
-    //@Excel(name = "班级id")
+    ////@Excel(name = "班级id")
     private Long classId;
     private String classId_;
     

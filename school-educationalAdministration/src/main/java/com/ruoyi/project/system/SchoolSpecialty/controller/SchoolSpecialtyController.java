@@ -72,7 +72,7 @@ public class SchoolSpecialtyController extends BaseController
     {
         List<SchoolSpecialty> list = schoolSpecialtyService.selectSchoolSpecialtyList(schoolSpecialty);
         ExcelUtil<SchoolSpecialty> util = new ExcelUtil<SchoolSpecialty>(SchoolSpecialty.class);
-        return util.exportExcel(list, "SchoolSpecialty");
+        return util.exportExcel(list, "培训项目列表");
     }
 
     /**

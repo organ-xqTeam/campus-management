@@ -113,7 +113,7 @@ public class TeachingInfoController extends BaseController
     {
         List<TeachingInfo> list = teachingInfoService.selectTeachingInfoList(teachingInfo);
         ExcelUtil<TeachingInfo> util = new ExcelUtil<TeachingInfo>(TeachingInfo.class);
-        return util.exportExcel(list, "TeachingInfo");
+        return util.exportExcel(list, "教师列表");
     }
 
     /**

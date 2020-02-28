@@ -26,7 +26,7 @@ public class SchoolSpecialty extends BaseEntity
     private String name;
 
     /** 分属表的id */
-    @Excel(name = "分属表的id")
+//    @Excel(name = "分属表的id")
     private Long belongId;
 
     /** 创建时间 */
@@ -34,7 +34,7 @@ public class SchoolSpecialty extends BaseEntity
     private Date createDate;
 
     /** 更新时间 */
-    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
+//    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date updateDate;
 
     /** null */
@@ -43,7 +43,9 @@ public class SchoolSpecialty extends BaseEntity
     
     private String file;
     private String filename;
+    @Excel(name = "内容")
     private String content;
+    @Excel(name = "招生人数")
     private String stunum;
     
     

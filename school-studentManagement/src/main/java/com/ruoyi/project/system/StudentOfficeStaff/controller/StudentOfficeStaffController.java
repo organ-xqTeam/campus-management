@@ -31,6 +31,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FontText;
 import com.ruoyi.common.utils.drawImg;
 import com.ruoyi.common.utils.poi.ExcelUtil;
@@ -44,6 +45,7 @@ import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolgradelist.domain.Schoolgradelist;
 import com.ruoyi.project.system.schoolgradelist.service.ISchoolgradelistService;
+import com.ruoyi.project.system.schoolstudentslist.domain.LeavingSchoolList;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.CertificateManagement;
@@ -212,15 +214,10 @@ public class StudentOfficeStaffController extends BaseController
     @ResponseBody
     public TableDataInfo listWelcome(Schoolstudentslist schoolstudentslist)
     {
-    	
-//    	schoolstudentslist.setApprovalstate("1");
-//    	schoolstudentslist.setState("2");
-//    	schoolstudentslist.setRemark14("1");
     	schoolstudentslist.setApprovalstate("2");
     	schoolstudentslist.setState("2");
-//    	DateUtils.getYear()
-    	schoolstudentslist.setAdmissionTime("2019-" + "10");
-        startPage();
+    	schoolstudentslist.setAdmissionTime(DateUtils.getYear() + "-" + "10");
+        startPage();        
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         return getDataTable(list);
     }
@@ -261,11 +258,58 @@ public class StudentOfficeStaffController extends BaseController
         return toAjax(true);
     }
     
+
+    /**
+     * 导出学生列列表
+     */
+    @RequiresPermissions("system:schoolstudentslist:export")
+    @PostMapping("/exportlistGraduation")
+    @ResponseBody
+    public AjaxResult export(Schoolstudentslist schoolstudentslist)
+    {
+    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("5");
+        List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
+        ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
+        return util.exportExcel(list, "结业学生列表");
+    }
+    @RequiresPermissions("system:schoolstudentslist:export")
+    @PostMapping("/exportlistLeaving")
+    @ResponseBody
+    public AjaxResult exportlistLeaving(Schoolstudentslist schoolstudentslist)
+    {
+    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("4");
+        List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
+        ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
+        return util.exportExcel(list, "离校学生列表");
+    }
+    @RequiresPermissions("system:schoolstudentslist:export")
+    @PostMapping("/exportstudentlist")
+    @ResponseBody
+    public AjaxResult exportstudentlist(Schoolstudentslist schoolstudentslist)
+    {
+        schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("0");
+        List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
+        ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
+        return util.exportExcel(list, "在校学生列表");
+    }    
+    @RequiresPermissions("system:schoolstudentslist:export")
+    @PostMapping("/exportwelcome")
+    @ResponseBody
+    public AjaxResult exportwelcome(Schoolstudentslist schoolstudentslist)
+    {
+    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("2");    	
+        List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
+        ExcelUtil<Schoolstudentslist> util = new ExcelUtil<Schoolstudentslist>(Schoolstudentslist.class);
+        return util.exportExcel(list, "新生列表");
+    }    
     /**
      * 在校管理
      * @return
      */
-    
     @RequiresPermissions("system:studentofficestaffSchoolmanagement:view")
     @GetMapping("/Schoolmanagement")
     public String Schoolmanagement()
