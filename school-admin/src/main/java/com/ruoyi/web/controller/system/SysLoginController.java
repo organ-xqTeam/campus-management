@@ -1,12 +1,16 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,14 +28,36 @@ import com.ruoyi.common.utils.StringUtils;
 public class SysLoginController extends BaseController
 {
     @GetMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response)
-    {
+    public String login(ModelMap mmap,HttpServletRequest request, HttpServletResponse response)
+    {	
+    	
+    	
+    	
+//    	AttributePrincipal principal1 = (AttributePrincipal)request.getUserPrincipal();   
+//		Map<String, Object> attributes = principal1.getAttributes();
+//		String username = null;
+//		String password = null;
+//		String rememberMe = "false";
+//		for (String key : attributes.keySet()) {
+//			System.out.println(key + "/" + attributes.get(key));
+//			if ("username".equals(key)) {
+//				username = (String) attributes.get(key);
+//			}
+//			if ("password".equals(key)) {
+//				password = (String) attributes.get(key);
+//			}
+//		}
+    	
+    	
         // 如果是Ajax请求，返回Json字符串。
         if (ServletUtils.isAjaxRequest(request))
         {
             return ServletUtils.renderString(response, "{\"code\":\"1\",\"msg\":\"未登录或登录超时。请重新登录\"}");
         }
 
+//        mmap.put("username", username);
+//        mmap.put("password", password);
+        
         return "login";
     }
 

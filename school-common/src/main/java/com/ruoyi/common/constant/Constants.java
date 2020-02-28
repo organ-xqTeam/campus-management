@@ -61,4 +61,35 @@ public class Constants
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
+    
+    /**
+     * 图片水印开关 -- 开启
+     */
+    public static final String WATERMARK_SWITCH_ON = "1";
+    /**
+     * 图片水印开关 -- 关闭
+     */
+    public static final String WATERMARK_SWITCH_OFF = "0";
+
+    /**
+     * 图片水印位置 -- 左上
+     */
+    public static final int WATERMARK_POSITION_TOP_LEFT = 1;
+    /**
+     * 图片水印位置 -- 右上
+     */
+    public static final int WATERMARK_POSITION_TOP_RIGHT = 2;
+    /**
+     * 图片水印位置 -- 左下
+     */
+    public static final int WATERMARK_POSITION_BOTTOM_LEFT = 3;
+    /**
+     * 图片水印位置 -- 右下(默认)
+     */
+    public static final int WATERMARK_POSITION_BOTTOM_RIGHT = 4;
+    /**
+     * 图片水印位置 -- 居中
+     */
+    public static final int WATERMARK_POSITION_CENTER = 5;
+
 }

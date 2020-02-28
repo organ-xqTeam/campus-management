@@ -3,6 +3,13 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -42,8 +49,30 @@ public class SysIndexController extends BaseController
 
     // 系统首页
     @GetMapping("/index")
-    public String index(ModelMap mmap)
+    public String index(ModelMap mmap,HttpServletRequest request, HttpServletResponse response)
     {
+    	
+    	
+    	
+//    	AttributePrincipal principal1 = (AttributePrincipal)request.getUserPrincipal();   
+//		Map<String, Object> attributes = principal1.getAttributes();
+//		String username = null;
+//		String password = null;
+//		String rememberMe = "false";
+//		for (String key : attributes.keySet()) {
+//			System.out.println(key + "/" + attributes.get(key));
+//			if ("username".equals(key)) {
+//				username = (String) attributes.get(key);
+//			}
+//			if ("password".equals(key)) {
+//				password = (String) attributes.get(key);
+//			}
+//		}
+		
+//		UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.login(token);
+    	
         // 取身份信息
         SysUser user = ShiroUtils.getSysUser();
         // 根据用户id取出菜单

@@ -6,12 +6,15 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.exception.ResultException;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.exception.file.FileSizeLimitExceededException;
 import com.ruoyi.common.exception.file.InvalidExtensionException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.Md5Utils;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 /**
  * 文件上传工具类
@@ -155,7 +158,7 @@ public class FileUploadUtils
     /**
      * 编码文件名
      */
-    private static final String encodingFilename(String fileName)
+    public static final String encodingFilename(String fileName)
     {
         fileName = fileName.replace("_", " ");
         fileName = Md5Utils.hash(fileName + System.nanoTime() + counter++);
@@ -239,5 +242,29 @@ public class FileUploadUtils
             extension = MimeTypeUtils.getExtension(file.getContentType());
         }
         return extension;
+    }
+    /**
+     * 循环压缩，直到合适大小
+     * @param srcPath 源文件路径
+     * @param destPath 目标文件路径
+     * @param quality 压缩质量
+     * @param compSize 压缩后的目标文件最大尺寸
+     * @throws ResultException 异常结果
+     */
+    public static void cycleCompress(String srcPath, String destPath, float quality, long compSize) throws ResultException {
+        try {
+            Thumbnails.of(srcPath).size(4000,4000).outputQuality(quality).toFile(destPath);
+        } catch (IOException e) {
+            throw new ResultException("图片处理异常");
+        }
+        File thumbFile = new File(destPath);
+        if (thumbFile.length() > compSize) {	// 大于最大值，再次压缩
+            thumbFile.delete();	// 删除源文件，quality不会随图片的减小而减小，所以重新压缩改变quality大小即可
+            quality = quality - 0.1f;
+            if (quality <= 0) {
+                return ;
+            }
+            cycleCompress(srcPath, destPath, quality, compSize);
+        }
     }
 }

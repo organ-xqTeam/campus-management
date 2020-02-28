@@ -1,7 +1,14 @@
 package com.ruoyi.common.config;
 
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.YamlUtil;
 
 /**
  * 全局配置类
@@ -29,6 +36,19 @@ public class Global
 
     /** 获取地址开关 */
     private static boolean addressEnabled;
+    
+    
+    private static String NAME = "application.yml";
+
+    /**
+     * 当前对象实例
+     */
+    private static Global global;
+
+    /**
+     * 保存全局属性值
+     */
+    private static Map<String, String> map = new HashMap<String, String>();
 
     public static String getName()
     {
@@ -112,5 +132,27 @@ public class Global
     public static String getUploadPath()
     {
         return getProfile() + "/upload";
+    }
+    /**
+     * 获取配置
+     */
+    public static String getConfig(String key)
+    {
+        String value = map.get(key);
+        if (value == null)
+        {
+            Map<?, ?> yamlMap = null;
+            try
+            {
+                yamlMap = YamlUtil.loadYaml(NAME);
+                value = String.valueOf(YamlUtil.getProperty(yamlMap, key));
+                map.put(key, value != null ? value : StringUtils.EMPTY);
+            }
+            catch (FileNotFoundException e)
+            {
+//                log.error("获取全局配置异常 {}", key);
+            }
+        }
+        return value;
     }
 }

@@ -9,7 +9,7 @@ ruoyi:
   # 实例演示开关
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: /home/ruoyi/uploadPath
+  profile: D:/ruoyi/uploadPath
   # 获取ip地址开关
   addressEnabled: true
 
@@ -136,3 +136,18 @@ xss:
   excludes: /system/notice/*
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+ftp:
+  #是否使用ftp管理上传
+  flag: false 
+  address: 192.168.1.15
+  port: 21
+  userName: vsftpd
+  password: root
+  server:
+    url: http://192.168.1.15/  # 图片文件的访问路径，根据实际情况修改  
+cas:
+  client-name: demo1Client
+  server:
+    url: http://127.0.0.1:8080/cas
+  project:
+    url: http://127.0.0.1:8088/index
