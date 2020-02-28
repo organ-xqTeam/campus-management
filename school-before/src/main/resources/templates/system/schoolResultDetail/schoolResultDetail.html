@@ -152,22 +152,35 @@
                     	return returnStr;
                     }
                 },
-                
-                
                 {
-                    title: '操作',
-                    align: 'center',
+                    field : 'filename', 
+                    title : '课程证书',
                     formatter: function(value, row, index) {
-                        var actions = [];
-                       /*  actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="usersee(\'' + row.id + '\')"><i class="fa fa-edit"></i>查看</a> '); */
-                        /* actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>'); */
-                        return actions.join('');
+                    	var actions = [];
+                    	console.log(row.file)
+                    	console.log(row.filename)
+                        if (row.file) {
+    	                    return "<a onclick='ondownload()' data-value="+row.file+" >"+value+"</a>";
+                        }
+                        else {
+                            return "<a onclick='upload("+row.did+")'>上传</a>";
+                        }
                     }
                 }]
             };
             $.table.init(options);
         });
+        
+        function ondownload(){
+        	//console.log(event.currentTarget)
+        	var objtp=$(event.currentTarget).attr("data-value");
+        	console.log( ctx + "common/download/resource?resource=" + objtp)
+        	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+        }
+        
+        function upload(id) {
+        	$.operate.edit(id);
+        }
         
         function vieweditor(id){
         	var url = prefix + "/vieweditor/" + id;

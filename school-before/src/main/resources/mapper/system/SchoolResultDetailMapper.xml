@@ -13,10 +13,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateDate"    column="update_date"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="resultId"    column="result_id"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
     </resultMap>
 
     <sql id="selectSchoolResultDetailVo">
-        select id, students_id, result, absent_flag, create_date, update_date, del_flag, result_id from school_result_detail
+        select id, students_id, result, absent_flag, create_date, update_date, del_flag, result_id,file,filename from school_result_detail
     </sql>
 
     <select id="selectSchoolResultDetailList" parameterType="SchoolResultDetail" resultMap="SchoolResultDetailResult">
@@ -28,6 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createDate != null "> and create_date = #{createDate}</if>
             <if test="updateDate != null "> and update_date = #{updateDate}</if>
             <if test="resultId != null "> and result_id = #{resultId}</if>
+            <if test="file != null "> and file = #{file}</if>
+            <if test="filename != null "> and filename = #{filename}</if>
         </where>
     </select>
      <select id="selectSchoolResultDetailStudentsListByResultId" resultType="hashmap" parameterType="hashmap">
@@ -38,6 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       ifnull(ss.class_id,"") as classId ,
       srd.result,
       srd.absent_flag,
+      ifnull(srd.file,"") as file ,      
+      ifnull(srd.filename,"") as filename ,
       srd.id as did
       from schoolstudentslist ss
       left join school_class sc on sc.id=ss.class_id
@@ -129,6 +135,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateDate != null ">update_date,</if>
             <if test="delFlag != null  and delFlag != ''">del_flag,</if>
             <if test="resultId != null ">result_id,</if>
+            <if test="file != null ">file,</if>
+            <if test="filename != null ">filename,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="studentsId != null ">#{studentsId},</if>
@@ -138,6 +146,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateDate != null ">#{updateDate},</if>
             <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
             <if test="resultId != null ">#{resultId},</if>
+            <if test="file != null ">file,</if>
+            <if test="filename != null ">filename,</if>
          </trim>
     </insert>
 
@@ -151,6 +161,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateDate != null ">update_date = #{updateDate},</if>
             <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
             <if test="resultId != null ">result_id = #{resultId},</if>
+            <if test="file != null ">file = #{file},</if>
+            <if test="filename != null ">filename = #{filename},</if>
         </trim>
         where id = #{id}
     </update>

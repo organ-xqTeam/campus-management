@@ -48,10 +48,29 @@ public class SchoolResultDetail extends BaseEntity
     @Excel(name = "学校成绩表的id school_result")
     private Long resultId;
     
+    private String file;
+    private String filename;
+    
     
     
 
-    public void setId(Long id) 
+    public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }
