@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysNotice;
+import com.ruoyi.system.domain.SysNoticeUser;
 
 /**
  * 公告 服务层
@@ -33,7 +34,7 @@ public interface ISysNoticeService
      * @return 结果
      */
     public int insertNotice(SysNotice notice);
-
+    public int insertNoticeUser(SysNoticeUser snu);
     /**
      * 修改公告
      * 
@@ -49,4 +50,5 @@ public interface ISysNoticeService
      * @return 结果
      */
     public int deleteNoticeByIds(String ids);
+    public int deleteNoticeUser(List<SysNoticeUser> snulist);
 }

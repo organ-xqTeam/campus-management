@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.system.domain.SysNotice;
+import com.ruoyi.system.domain.SysNoticeUser;
 import com.ruoyi.system.mapper.SysNoticeMapper;
 import com.ruoyi.system.service.ISysNoticeService;
 
@@ -56,6 +57,11 @@ public class SysNoticeServiceImpl implements ISysNoticeService
         return noticeMapper.insertNotice(notice);
     }
 
+    @Override
+    public int insertNoticeUser(SysNoticeUser snu) {
+    	return noticeMapper.insertNoticeuser(snu);
+    }
+    
     /**
      * 修改公告
      * 
@@ -79,4 +85,13 @@ public class SysNoticeServiceImpl implements ISysNoticeService
     {
         return noticeMapper.deleteNoticeByIds(Convert.toStrArray(ids));
     }
+    
+    @Override
+    public int deleteNoticeUser(List<SysNoticeUser> snulist) {
+    	for(SysNoticeUser snu : snulist) {
+    		noticeMapper.deleteNoticeUser(snu);
+    	}
+    	return 1;
+    }
+    
 }

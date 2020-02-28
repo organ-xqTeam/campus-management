@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.SysNotice;
+import com.ruoyi.system.domain.SysNoticeUser;
 
 /**
  * 公告 数据层
@@ -33,6 +35,7 @@ public interface SysNoticeMapper
      * @return 结果
      */
     public int insertNotice(SysNotice notice);
+    public int insertNoticeuser(SysNoticeUser snu);
 
     /**
      * 修改公告
@@ -49,4 +52,5 @@ public interface SysNoticeMapper
      * @return 结果
      */
     public int deleteNoticeByIds(String[] noticeIds);
+    public int deleteNoticeUser(SysNoticeUser snu);
 }

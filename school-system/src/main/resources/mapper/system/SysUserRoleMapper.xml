@@ -45,4 +45,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  	        #{userId}
             </foreach> 
 	</delete>
+	
+	<delete id="deleteNoticeUser" parameterType="SysNoticeUser">
+		delete from sys_notice_user where userid=#{userid} and noticeid=#{noticeid}
+	</delete>
+	
 </mapper> 

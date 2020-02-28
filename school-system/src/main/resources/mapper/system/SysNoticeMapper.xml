@@ -33,11 +33,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="noticeTitle != null and noticeTitle != ''">
 				AND notice_title like concat('%', #{noticeTitle}, '%')
 			</if>
+			<if test="userid != null and userid != ''">
+				AND notice_id in (select noticeid from sys_notice_user where userid=#{userid})
+			</if>
 			<if test="noticeType != null and noticeType != ''">
 				AND notice_type = #{noticeType}
 			</if>
 			<if test="createBy != null and createBy != ''">
 				AND create_by like concat('%', #{createBy}, '%')
+			</if>
+			<if test="yearbefore != null and yearbefore != ''">
+				AND create_time &gt;= #{yearbefore}
 			</if>
 		</where>
     </select>
@@ -61,6 +67,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			sysdate()
 		)
     </insert>
+    
+    <insert id="insertNoticeuser" parameterType="SysNoticeUser">
+        insert into sys_notice_user 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null and userid != '' ">userid, </if>
+			<if test="noticeid != null and noticeid != '' ">noticeid, </if>
+ 		</trim>
+ 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null and userid != ''">#{userid}, </if>
+			<if test="noticeid != null and noticeid != ''">#{noticeid}, </if>
+ 		</trim>
+    </insert>
 	 
     <update id="updateNotice" parameterType="SysNotice">
         update sys_notice 
@@ -80,6 +98,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="noticeId" collection="array" open="(" separator="," close=")">
             #{noticeId}
         </foreach>
+    </delete>
+
+    <delete id="deleteNoticeUser" parameterType="SysNoticeUser">
+    	delete from sys_notice_user where noticeid=#{noticeid} and userid=#{userid}
     </delete>
     
 </mapper>
