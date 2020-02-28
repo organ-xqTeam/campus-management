@@ -43,8 +43,27 @@ public class SysUser extends BaseEntity
     private String userName;
     
     private String token;
+    
+    private String noticeid;
+    private String noticeid2;
+    
+    public String getNoticeid2() {
+		return noticeid2;
+	}
 
-    public String getToken() {
+	public void setNoticeid2(String noticeid2) {
+		this.noticeid2 = noticeid2;
+	}
+
+	public String getNoticeid() {
+		return noticeid;
+	}
+
+	public void setNoticeid(String noticeid) {
+		this.noticeid = noticeid;
+	}
+
+	public String getToken() {
 		return token;
 	}
 

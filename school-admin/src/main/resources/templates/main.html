@@ -27,6 +27,15 @@
 	             </div>
             </div>
             <div class="col-sm-6">
+            	<div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>公告</h5>
+                    </div>
+                    <div class="ibox-content" id="notice_tag">
+                    </div>
+	             </div>
+            </div>
+            <div class="col-sm-6">
 	            <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>审计统计</h5>
@@ -46,7 +55,7 @@
     <script th:inline="javascript">
     	
     
-    
+    	var noticeList = new Array();
     	
     
     	var datas = [[${@dict.getType('sys_oper_type')}]];
@@ -59,6 +68,21 @@
     		str.push(obj.dictLabel)
 		};
     	$(function(){
+
+    		$.ajax({
+    			type: "GET",
+        		url: [[@{/system/mynoticelist}]],
+    			contentType: "application/json;charset=utf-8",
+    			success: function (data) {
+    				noticeList = data.rows;
+    			},
+    			async: false
+    		});
+    		
+    		for(var i=0; i<noticeList.length; i++) {
+    			$('#notice_tag').html(noticeList[i].noticeTitle + '<br>');
+    		}
+    		
     		$.ajax({
         		url: [[@{/system/userOnlinenum}]],
         		type: 'GET',
@@ -67,6 +91,7 @@
         			$("#onlinenum").text(result.data)
         		}
         	});
+    		
     		var pieChart = echarts.init(document.getElementById("echarts-pie-chart"));
     		 $.ajax({
  	            type: "GET",

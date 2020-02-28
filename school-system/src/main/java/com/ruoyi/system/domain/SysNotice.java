@@ -28,8 +28,28 @@ public class SysNotice extends BaseEntity
 
     /** 公告状态（0正常 1关闭） */
     private String status;
+    
+    private String userid;
+    
+    private String yearbefore;
+    
+    public String getYearbefore() {
+		return yearbefore;
+	}
 
-    public Long getNoticeId()
+	public void setYearbefore(String yearbefore) {
+		this.yearbefore = yearbefore;
+	}
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public Long getNoticeId()
     {
         return noticeId;
     }

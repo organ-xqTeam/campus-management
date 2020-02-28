@@ -1,15 +1,12 @@
 package com.ruoyi.web.controller.system;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
-import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,12 +17,16 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysMenu;
+import com.ruoyi.system.domain.SysNotice;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysMenuService;
+import com.ruoyi.system.service.ISysNoticeService;
 import com.ruoyi.system.service.ISysOperLogService;
 import com.ruoyi.system.service.ISysUserOnlineService;
 
@@ -45,34 +46,14 @@ public class SysIndexController extends BaseController
     private ISysOperLogService operLogService;
     @Autowired
     private ISysUserOnlineService userOnlineService;
+    @Autowired
+    private ISysNoticeService noticeService;
     
 
     // 系统首页
     @GetMapping("/index")
-    public String index(ModelMap mmap,HttpServletRequest request, HttpServletResponse response)
+    public String index(ModelMap mmap)
     {
-    	
-    	
-    	
-//    	AttributePrincipal principal1 = (AttributePrincipal)request.getUserPrincipal();   
-//		Map<String, Object> attributes = principal1.getAttributes();
-//		String username = null;
-//		String password = null;
-//		String rememberMe = "false";
-//		for (String key : attributes.keySet()) {
-//			System.out.println(key + "/" + attributes.get(key));
-//			if ("username".equals(key)) {
-//				username = (String) attributes.get(key);
-//			}
-//			if ("password".equals(key)) {
-//				password = (String) attributes.get(key);
-//			}
-//		}
-		
-//		UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.login(token);
-    	
         // 取身份信息
         SysUser user = ShiroUtils.getSysUser();
         // 根据用户id取出菜单
@@ -129,4 +110,23 @@ public class SysIndexController extends BaseController
     	List<SysUserOnline> list = userOnlineService.selectUserOnlineList(null);
     	return AjaxResult.success(list.size());
     }
+    
+
+    /**
+     * 主页上显示自己的公告
+     */
+    @GetMapping("/system/mynoticelist")
+    @ResponseBody
+    public TableDataInfo mynoticelist()
+    {
+    	SysNotice notice = new SysNotice();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	notice.setUserid(me.getUserId()+"");
+    	notice.setNoticeType("2");
+    	notice.setYearbefore(DateUtils.getYearBefore(1));
+        startPage();
+        List<SysNotice> list = noticeService.selectNoticeList(notice);
+        return getDataTable(list);
+    }
+    
 }

@@ -3,6 +3,7 @@ package com.ruoyi.common.utils;
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -56,6 +57,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     public static final String getYear()
     {
         return dateTimeNow(YYYY);
+    }
+    
+    public static final String getYearBefore(int num)
+    {
+    	SimpleDateFormat format = new SimpleDateFormat(YYYYMMDDHHMMSS);
+    	Calendar c = Calendar.getInstance();
+    	c.setTime(new Date());
+    	c.add(Calendar.YEAR, -num);
+    	Date y = c.getTime();
+    	String year = format.format(y);
+        return year;
     }
 
     public static final String dateTimeNow()

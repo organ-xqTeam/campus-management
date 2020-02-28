@@ -71,6 +71,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="status != null and status != ''">
 			AND u.status = #{status}
 		</if>
+		<if test="noticeid != null and noticeid != ''">
+			AND u.user_id in (select userid from sys_notice_user where noticeid=#{noticeid})
+		</if>
+		<if test="noticeid2 != null and noticeid2 != ''">
+			AND u.user_id not in (select userid from sys_notice_user where noticeid=#{noticeid2})
+		</if>
 		<if test="phonenumber != null and phonenumber != ''">
 			AND u.phonenumber like concat('%', #{phonenumber}, '%')
 		</if>
