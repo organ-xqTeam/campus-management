@@ -9,7 +9,7 @@ ruoyi:
   # 实例演示开关
   demoEnabled: true
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: /home/ruoyi/uploadPath
+  profile: D:/ruoyi/uploadPath
   # 获取ip地址开关
   addressEnabled: true
 
@@ -19,7 +19,7 @@ server:
   port: 8088
   servlet:
     # 应用的访问路径
-    context-path: /school-fast
+    context-path: /
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8
@@ -145,9 +145,14 @@ ftp:
   password: root
   server:
     url: http://192.168.1.15/  # 图片文件的访问路径，根据实际情况修改  
+
+#cas server\u5730\u5740\uFF0C\u5916\u7F51\u8BBF\u95EE\u9700\u7528\u5916\u7F51IP,\u53EF\u4EE5\u5199\u57DF\u540D
 cas:
-  client-name: demo1Client
-  server:
-    url: http://127.0.0.1:8080/cas
-  project:
-    url: http://127.0.0.1:8088/index
+   server-url: http://127.0.0.1:8080/cas
+#\u5F53\u524D\u9879\u76EE\u5730\u5740\uFF0C\u5916\u7F51\u8BBF\u95EE\u9700\u7528\u5916\u7F51IP
+   service: http://127.0.0.1
+#\u767B\u5F55\u6210\u529F\u5730\u5740
+   service.loginSuccessUrl : /index
+#\u6743\u9650\u8BA4\u8BC1\u5931\u8D25\u8DF3\u8F6C\u5730\u5740
+   service.unauthorizedUrl : /error.html    
+    

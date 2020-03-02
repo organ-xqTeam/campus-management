@@ -6,7 +6,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -60,10 +65,21 @@ public class SysIndexController extends BaseController
 
     // 系统首页
     @GetMapping("/index")
-    public String index(ModelMap mmap)
+    public String index(ModelMap mmap,HttpServletRequest request)
     {
+    	
+    	SysUser user = (SysUser) request.getSession().getAttribute("user");
+    	System.out.println(user);
+    	Subject subject = SecurityUtils.getSubject();
+//        PrincipalCollection principalCollection = subject.getPrincipals();
+        String realmName = user.getLoginName();
+        PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(user, realmName);
+        // 重新加载Principal
+        subject.runAs(newPrincipalCollection);
+    	
+    	
         // 取身份信息
-        SysUser user = ShiroUtils.getSysUser();
+//        SysUser user = ShiroUtils.getSysUser();
         // 根据用户id取出菜单
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);
