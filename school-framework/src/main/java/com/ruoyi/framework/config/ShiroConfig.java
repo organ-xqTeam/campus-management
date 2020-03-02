@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 import javax.servlet.Filter;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
@@ -15,15 +17,13 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.spring.SpringUtils;
-import com.ruoyi.framework.shiro.realm.UserRealm;
 import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
 import com.ruoyi.framework.shiro.session.OnlineSessionFactory;
 import com.ruoyi.framework.shiro.web.filter.LogoutFilter;
@@ -33,6 +33,7 @@ import com.ruoyi.framework.shiro.web.filter.online.OnlineSessionFilter;
 import com.ruoyi.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
 import com.ruoyi.framework.shiro.web.session.OnlineWebSessionManager;
 import com.ruoyi.framework.shiro.web.session.SpringSessionValidationScheduler;
+
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
 /**
@@ -40,7 +41,7 @@ import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
  * 
  * @author ruoyi
  */
-@Configuration
+//@Configuration
 public class ShiroConfig
 {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
@@ -141,13 +142,13 @@ public class ShiroConfig
     /**
      * 自定义Realm
      */
-    @Bean
-    public UserRealm userRealm(EhCacheManager cacheManager)
-    {
-        UserRealm userRealm = new UserRealm();
-        userRealm.setCacheManager(cacheManager);
-        return userRealm;
-    }
+//    @Bean
+//    public UserRealm userRealm(EhCacheManager cacheManager)
+//    {
+//        UserRealm userRealm = new UserRealm();
+//        userRealm.setCacheManager(cacheManager);
+//        return userRealm;
+//    }
 
     /**
      * 自定义sessionDAO会话
@@ -198,20 +199,20 @@ public class ShiroConfig
     /**
      * 安全管理器
      */
-    @Bean
-    public SecurityManager securityManager(UserRealm userRealm)
-    {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        // 设置realm.
-        securityManager.setRealm(userRealm);
-        // 记住我
-        securityManager.setRememberMeManager(rememberMeManager());
-        // 注入缓存管理器;
-        securityManager.setCacheManager(getEhCacheManager());
-        // session管理器
-        securityManager.setSessionManager(sessionManager());
-        return securityManager;
-    }
+//    @Bean
+//    public SecurityManager securityManager(UserRealm userRealm)
+//    {
+//        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+//        // 设置realm.
+//        securityManager.setRealm(userRealm);
+//        // 记住我
+//        securityManager.setRememberMeManager(rememberMeManager());
+//        // 注入缓存管理器;
+//        securityManager.setCacheManager(getEhCacheManager());
+//        // session管理器
+//        securityManager.setSessionManager(sessionManager());
+//        return securityManager;
+//    }
 
     /**
      * 退出过滤器
