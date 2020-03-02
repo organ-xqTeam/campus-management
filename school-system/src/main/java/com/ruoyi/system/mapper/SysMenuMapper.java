@@ -121,4 +121,40 @@ public interface SysMenuMapper
      * @return 结果
      */
     public SysMenu checkMenuNameUnique(@Param("menuName") String menuName, @Param("parentId") Long parentId);
+
+	//本年度正在审核的招生数量
+	public Integer count1();
+	//本年度审核通过的招生数量
+	public Integer count2();
+	//往年招生通过的数量
+	public Integer count3();
+	//招生总数
+	public Integer count4();
+	//空余宿舍数量，点击可进入
+	public Integer count5();
+	//教室总量，可用数量，不可用数量
+	public Integer count6();
+	public Integer count10();
+	public Integer count11();
+	//资产总量
+	public Integer count7();
+	//设备报修单数量，未解决数量
+	public Integer count8();
+	public Integer count12();
+	//累计举行会议数量
+	public Integer count9();
+	
+	public Integer count13();
+	public Integer count14();
+	public Integer count15();
+	public Integer count16();
+	public Integer count17();
+	public Integer count18();
+	public Integer count19();
+	public Integer count20();
+	public Integer count21();
+	public Integer count22();
+	public Integer count23();
+	public Integer count24();
+	public Integer count25();
 }

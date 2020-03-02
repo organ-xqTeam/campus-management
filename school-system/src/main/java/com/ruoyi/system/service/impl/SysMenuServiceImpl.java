@@ -318,6 +318,107 @@ public class SysMenuServiceImpl implements ISysMenuService
         return UserConstants.MENU_NAME_UNIQUE;
     }
 
+	@Override
+	public Integer count1() {
+		return menuMapper.count1();
+	}
+	@Override
+	public Integer count2() {
+		return menuMapper.count2();
+	}
+	@Override
+	public Integer count3() {
+		return menuMapper.count3();
+	}
+	@Override
+	public Integer count4() {
+		return menuMapper.count4();
+	}
+	@Override
+	public Integer count5() {
+		return menuMapper.count5();
+	}
+	@Override
+	public Integer count6() {
+		return menuMapper.count6();
+	}
+	@Override
+	public Integer count7() {
+		return menuMapper.count7();
+	}
+	@Override
+	public Integer count8() {
+		return menuMapper.count8();
+	}
+	@Override
+	public Integer count9() {
+		return menuMapper.count9();
+	}
+	@Override
+	public Integer count10() {
+		return menuMapper.count10();
+	}
+	@Override
+	public Integer count11() {
+		return menuMapper.count11();
+	}
+	@Override
+	public Integer count12() {
+		return menuMapper.count12();
+	}
+	@Override
+	public Integer count13() {
+		return menuMapper.count13();
+	}
+	@Override
+	public Integer count14() {
+		return menuMapper.count14();
+	}
+	@Override
+	public Integer count15() {
+		return menuMapper.count15();
+	}
+	@Override
+	public Integer count16() {
+		return menuMapper.count16();
+	}
+	@Override
+	public Integer count17() {
+		return menuMapper.count17();
+	}
+	@Override
+	public Integer count18() {
+		return menuMapper.count18();
+	}
+	@Override
+	public Integer count19() {
+		return menuMapper.count19();
+	}
+	@Override
+	public Integer count20() {
+		return menuMapper.count20();
+	}
+	@Override
+	public Integer count21() {
+		return menuMapper.count21();
+	}
+	@Override
+	public Integer count22() {
+		return menuMapper.count22();
+	}
+	@Override
+	public Integer count23() {
+		return menuMapper.count23();
+	}
+	@Override
+	public Integer count24() {
+		return menuMapper.count24();
+	}
+	@Override
+	public Integer count25() {
+		return menuMapper.count25();
+	}
+
     /**
      * 根据父节点的ID获取所有子节点
      * 

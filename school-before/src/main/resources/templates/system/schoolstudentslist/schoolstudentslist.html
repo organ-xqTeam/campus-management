@@ -14,11 +14,9 @@
                                 <p>学生名</p>
                                 <input type="text" name="studentsName"/>
                             </li>
-                            <li class="select-time">
-                                <p>入学时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginAdmissionTime]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endAdmissionTime]"/>
+                            <li>
+                                <p>入学年份</p>
+                                <input type="text" name="admissionTime"/>
                             </li>
                             <!-- <li>
                                 <p>状态：</p>
@@ -215,12 +213,14 @@
                     	if (value=='1') {
                     		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
                     	}
-                    	if (value == '2') {
+                    	else if (value == '2') {
                     		return '<a class="btn btn-primary" href="#" onclick="vieweditor2(\'' + row.id + '\')">通过</a>';
                     	}
-                    	if (value == '3') {
-                    		return '<a class="btn btn-danger" href="#" onclick="vieweditor2(\'' + row.id + '\')">拒绝</a>';
-                    		
+                    	else if (value == '3') {
+                    		return '<a class="btn btn-danger" href="#" onclick="vieweditor2(\'' + row.id + '\')">拒绝</a>';                    		
+                    	}
+                    	else {
+                    		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
                     	}
                     }
                 },

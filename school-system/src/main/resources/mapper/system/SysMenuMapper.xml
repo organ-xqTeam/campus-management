@@ -175,5 +175,68 @@
 		sysdate()
 		)
 	</insert>
+    
+    <select id="count1" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist where (approvalstate=1 or approvalstate is null) and admission_time like concat('%', YEAR(NOW()), '%')
+    </select>
+    <select id="count2" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist where (approvalstate=2) and admission_time like concat('%', YEAR(NOW()), '%')
+    </select>
+    <select id="count3" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist where (approvalstate=2) and admission_time &lt; DATE_SUB(CURDATE(),INTERVAL dayofyear(now())-1 DAY)
+    </select>
+    <select id="count4" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist
+    </select>
+    <select id="count5" resultType="java.lang.Integer">
+    	select count(*) from schooldorm
+    </select>
+    <select id="count6" resultType="java.lang.Integer">
+    	select count(*) from schoolclassroom
+    </select>
+    <select id="count7" resultType="java.lang.Integer">
+    	select count(*) from schoolassets
+    </select>
+    <select id="count8" resultType="java.lang.Integer">
+    	select count(*) from schoolequipment
+    </select>
+    <select id="count9" resultType="java.lang.Integer">
+    	select count(*) from schoolmetting
+    </select>
+    <select id="count10" resultType="java.lang.Integer">
+    	select count(*) from schoolclassroom where state=2
+    </select>
+    <select id="count11" resultType="java.lang.Integer">
+    	select count(*) from schoolclassroom where state=1
+    </select>
+    <select id="count12" resultType="java.lang.Integer">
+    	select count(*) from schoolequipment where state &lt;&gt; 3
+    </select>
+    <select id="count13" resultType="java.lang.Integer">
+    </select>
+    <select id="count14" resultType="java.lang.Integer">
+    </select>
+    <select id="count15" resultType="java.lang.Integer">
+    </select>
+    <select id="count16" resultType="java.lang.Integer">
+    </select>
+    <select id="count17" resultType="java.lang.Integer">
+    </select>
+    <select id="count18" resultType="java.lang.Integer">
+    </select>
+    <select id="count19" resultType="java.lang.Integer">
+    </select>
+    <select id="count20" resultType="java.lang.Integer">
+    </select>
+    <select id="count21" resultType="java.lang.Integer">
+    </select>
+    <select id="count22" resultType="java.lang.Integer">
+    </select>
+    <select id="count23" resultType="java.lang.Integer">
+    </select>
+    <select id="count24" resultType="java.lang.Integer">
+    </select>
+    <select id="count25" resultType="java.lang.Integer">
+    </select>
 
 </mapper> 

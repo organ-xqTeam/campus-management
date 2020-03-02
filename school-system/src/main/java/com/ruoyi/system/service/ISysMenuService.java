@@ -128,4 +128,29 @@ public interface ISysMenuService
      * @return 结果
      */
     public String checkMenuNameUnique(SysMenu menu);
+	public Integer count1();
+	public Integer count2();
+	public Integer count3();
+	public Integer count4();
+	public Integer count5();
+	public Integer count6();
+	public Integer count7();
+	public Integer count8();
+	public Integer count9();
+	public Integer count10();
+	public Integer count11();
+	public Integer count12();
+	public Integer count13();
+	public Integer count14();
+	public Integer count15();
+	public Integer count16();
+	public Integer count17();
+	public Integer count18();
+	public Integer count19();
+	public Integer count20();
+	public Integer count21();
+	public Integer count22();
+	public Integer count23();
+	public Integer count24();
+	public Integer count25();
 }

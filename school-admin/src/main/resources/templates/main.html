@@ -35,7 +35,16 @@
                     </div>
 	             </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6" id="hidden_tag">
+            	<div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 id="role_tag"></h5>
+                    </div>
+                    <div class="ibox-content" id="content_tag">
+                    </div>
+	             </div>
+            </div>
+            <div class="col-sm-6" style="display: none">
 	            <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>审计统计</h5>
@@ -51,15 +60,14 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
     <th:block th:include="include :: echarts-js" />
+    <th:block th:include="include :: footer" />
     
     <script th:inline="javascript">
     	
-    
-    	var noticeList = new Array();
-    	
-    
     	var datas = [[${@dict.getType('sys_oper_type')}]];
     	//console.log(datas)
+    	
+    	var role;
     
     	var str= []
     	for(var i = 0; i < datas.length; i++) {
@@ -67,20 +75,112 @@
     		var obj = datas[i]
     		str.push(obj.dictLabel)
 		};
+		
     	$(function(){
 
-    		$.ajax({
+     		$.ajax({
     			type: "GET",
         		url: [[@{/system/mynoticelist}]],
     			contentType: "application/json;charset=utf-8",
     			success: function (data) {
+		   			var noticeList = new Array();
     				noticeList = data.rows;
+    	    		for(var i=0; i<noticeList.length; i++) {
+    	    			$('#notice_tag').html(noticeList[i].noticeTitle + '<br>');
+    	    		}
+    			},
+    			async: false
+    		});
+
+    		$.ajax({
+    			type: "GET",
+        		url: [[@{/system/myrole}]],
+    			contentType: "application/json;charset=utf-8",
+    			success: function (data) {
+    		    	console.log(data)
+    		    	if (data.me.length == 1 && data.me[0].roleId == '6') {
+// 						console.log('招生老师')
+    		    		role = 6;
+    		    		var tag = '招生项目数量：'+ '<a href="javascript:void(0)" onclick="zsxm()">'+data.ssnum+'</a>' +'个' + '<br>';
+    		        	//本年度正在审核的招生数量
+    		        	//本年度审核通过的招生数量
+    		        	//往年招生通过的数量
+    		        	//招生总数
+    		    		tag += '本年度正在审核的招生数量： '+ data.count1 +'个' + '<br>';
+    		    		tag += '本年度审核通过的招生数量： '+ data.count2 +'个' + '<br>';
+    		    		tag += '往年招生通过的数量：             '+ data.count3 +'个' + '<br>';
+    		    		tag += '招生总数：                                 '+ data.count4 +'个';
+    		    		
+    		    		$('#content_tag').html(tag);
+    		   			$('#role_tag').html('招生老师');
+    		    	}
+    		    	if (data.me.length == 1 && data.me[0].roleId == '7') {
+// 						console.log('学生处工作人员')
+    		    		role = 7;
+
+    		        	//本年度迎新学生总量，已办理入学数量，剩余数量
+    		        	//显示在校学生总数，各个年级的人数，以及各个，学院，专业人数
+    		        	//显示累计异动学生数
+    		        	//显示当年离校学生总数，已办理人数，剩余人数
+    		        	//显示当年结业学生总数，已发证人数，剩余人数
+    		        	//显示当年就业学生总数，剩余人数
+    		    		var tag = '本年度迎新学生总量：'+data.count13+'个，已办理入学数量：'+data.count14+'个，剩余数量：'+data.count15+'个<br>';
+    		    		tag += '在校学生总数：'+data.count16+'个<br>';
+    		    		tag += '累计异动学生数：'+data.count17+'个<br>';
+    		    		tag += '当年离校学生总数：'+data.count18+'个，已办理人数：'+data.count19+'个，剩余人数：'+data.count20+'个<br>';
+    		    		tag += '当年结业学生总数：'+data.count21+'个，已发证人数：'+data.count22+'个，剩余人数：'+data.count23+'个<br>';
+    		    		tag += '当年就业学生总数：'+data.count24+'个，剩余人数：'+data.count25+'个<br>';
+    		    		
+    		    		$('#content_tag').html(tag);
+    		   			$('#role_tag').html('学生处工作人员');
+    		    	}
+    		    	if (data.me.length == 1 && data.me[0].roleId == '8') {
+// 						console.log('后勤人员')
+    		    		role = 8;
+    		        	//空余宿舍数量，点击可进入
+    		        	//教室总量，可用数量，不可用数量
+    		        	//资产总量
+    		        	//设备报修单数量，未解决数量
+    		        	//累计举行会议数量
+    		    		var tag = '空余宿舍数量：'+ '<a href="javascript:void(0)" onclick="kyss()">'+data.count5+'</a>' +'个' + '<br>';
+    		    		tag += '教室数量： '        + data.count6 +'个' + '<br>';
+    		    		tag += '可用教室数量： '     + data.count10 +'个' + '<br>';
+    		    		tag += '不可用教室数量： '   + data.count11 +'个' + '<br>';
+    		    		tag += '资产数量： '   + data.count7 +'个' + '<br>';
+    		    		tag += '设备报修单数量： '   + data.count8 +'个' + '<br>';
+    		    		tag += '未解决数量： '   + data.count12 +'个' + '<br>';
+    		    		tag += '累计举行会议数量： '   + data.count9 +'个' + '';
+    		    		$('#content_tag').html(tag);
+    		   			$('#role_tag').html('后勤人员');
+    		    		
+    		    	}
+    		    	if (data.me.length == 1 && data.me[0].roleId == '9') {
+// 						console.log('教学人员')
+    		    		role = 9;
+    		    	}
+    		    	if (data.me.length == 1 && data.me[0].roleId == '11') {
+// 						console.log('管理员')
+    		    		role = 11;
+    		    		var tag = '通知公告数量：'+ '<a href="javascript:void(0)" onclick="tzgg()">'+data.noticenum+'</a>' +'个';
+    		    		$('#content_tag').html(tag);
+    		   			$('#role_tag').html('管理员功能');
+    		    	}
     			},
     			async: false
     		});
     		
-    		for(var i=0; i<noticeList.length; i++) {
-    			$('#notice_tag').html(noticeList[i].noticeTitle + '<br>');
+    		switch(role) {
+	    		case 6:
+					break;
+	    		case 7:
+					break;
+	    		case 8:
+					break;
+    	    	case 11:
+    				break;
+    	 		default:
+    	 			$('#hidden_tag').hide();
+    	 			break
     		}
     		
     		$.ajax({
@@ -150,6 +250,22 @@
  	            }
  	        });
     	})
+    
+    	function tzgg(){
+        	var url = [[@{/system/notice}]];
+			$.modal.openTab("通知公告", url);
+    	}
+    	
+    	function zsxm(){
+        	var url = [[@{/system/SchoolSpecialty}]];
+			$.modal.openTab("招生项目", url);
+    	}
+    	
+    	function kyss() {
+        	var url = [[@{/system/schooldorm}]];
+			$.modal.openTab("空余宿舍", url);
+    	}
+    	
     </script>
 </body>
 </html>
