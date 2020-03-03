@@ -184,19 +184,20 @@ public class SysIndexController extends BaseController
     	int count10 = menuService.count10();
     	int count11 = menuService.count11();
     	int count12 = menuService.count12();
-//    	int count13 = menuService.count13();
-//    	int count14 = menuService.count14();
-//    	int count15 = menuService.count15();
-//    	int count16 = menuService.count16();
-//    	int count17 = menuService.count17();
-//    	int count18 = menuService.count18();
-//    	int count19 = menuService.count19();
-//    	int count20 = menuService.count20();
-//    	int count21 = menuService.count21();
-//    	int count22 = menuService.count22();
-//    	int count23 = menuService.count23();
-//    	int count24 = menuService.count24();
-//    	int count25 = menuService.count25();
+    	int count13 = menuService.count13();
+    	int count14 = menuService.count14();
+    	int count15 = menuService.count15();
+    	int count16 = menuService.count16();
+    	int count17 = menuService.count17();
+    	int count18 = menuService.count18();
+    	int count19 = menuService.count19();
+    	int count20 = menuService.count20();
+    	int count21 = menuService.count21();
+    	int count22 = menuService.count22();
+    	int count23 = menuService.count23();
+    	int count24 = menuService.count24();
+    	int count25 = menuService.count25();
+    	List<Map<String, Object>> count26 = menuService.count26();
     	
     	//本年度正在审核的招生数量
     	result.put("count1", count1);
@@ -226,19 +227,20 @@ public class SysIndexController extends BaseController
     	//显示当年离校学生总数，已办理人数，剩余人数
     	//显示当年结业学生总数，已发证人数，剩余人数
     	//显示当年就业学生总数，剩余人数
-//    	result.put("count13", count13);
-//    	result.put("count14", count14);
-//    	result.put("count15", count15);
-//    	result.put("count16", count16);
-//    	result.put("count17", count17);
-//    	result.put("count18", count18);
-//    	result.put("count19", count19);
-//    	result.put("count20", count20);
-//    	result.put("count21", count21);
-//    	result.put("count22", count22);
-//    	result.put("count23", count23);
-//    	result.put("count24", count24);
-//    	result.put("count25", count25);
+    	result.put("count13", count13);
+    	result.put("count14", count14);
+    	result.put("count15", count15);
+    	result.put("count16", count16);
+    	result.put("count17", count17);
+    	result.put("count18", count18);
+    	result.put("count19", count19);
+    	result.put("count20", count20);
+    	result.put("count21", count21);
+    	result.put("count22", count22);
+    	result.put("count23", count23);
+    	result.put("count24", count24);
+    	result.put("count25", count25);
+    	result.put("count26", count26);
 
 
     	

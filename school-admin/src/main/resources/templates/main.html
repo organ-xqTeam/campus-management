@@ -131,6 +131,9 @@
     		    		tag += '当年结业学生总数：'+data.count21+'个，已发证人数：'+data.count22+'个，剩余人数：'+data.count23+'个<br>';
     		    		tag += '当年就业学生总数：'+data.count24+'个，剩余人数：'+data.count25+'个<br>';
     		    		
+    		    		for (var i=0; i<data.count26.length; i++) {
+    		    			tag += data.count26[i].ssname+'专业人数'+data.count26[i].num+'人<br>';
+    		    		}
     		    		$('#content_tag').html(tag);
     		   			$('#role_tag').html('学生处工作人员');
     		    	}

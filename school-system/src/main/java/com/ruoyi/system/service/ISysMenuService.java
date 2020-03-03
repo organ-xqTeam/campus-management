@@ -153,4 +153,5 @@ public interface ISysMenuService
 	public Integer count23();
 	public Integer count24();
 	public Integer count25();
+	public List<Map<String, Object>> count26();
 }

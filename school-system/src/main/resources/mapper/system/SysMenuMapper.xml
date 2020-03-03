@@ -228,21 +228,58 @@
     	select count(*) from schoolstudentslist s where s.approvalstate=2 and s._state=3
     </select>
     <select id="count18" resultType="java.lang.Integer">
-    
+		select count(*) from schoolstudentslist s where s.approvalstate=2 and s._state in (4,5)		
     </select>
     <select id="count19" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist s where s.approvalstate=2 and s._state=4
     </select>
     <select id="count20" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist s where s.approvalstate=2 and s._state=5
     </select>
     <select id="count21" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist s where s.approvalstate=2 and s._state=5
     </select>
     <select id="count22" resultType="java.lang.Integer">
+    	SELECT
+			count(*)
+		FROM
+			schoolstudentslist s 
+		left join 
+			certificateManagement c on c.students_id = s.id
+		WHERE
+			s.approvalstate = 2 
+		AND 
+			s._state =5
+		and 
+			c.certificatenum is not null
     </select>
     <select id="count23" resultType="java.lang.Integer">
+    	SELECT
+			count(*)
+		FROM
+			schoolstudentslist s 
+		left join 
+			certificateManagement c on c.students_id = s.id
+		WHERE
+			s.approvalstate = 2 
+		AND 
+			s._state =5
+		and 
+			c.certificatenum is null				
     </select>
     <select id="count24" resultType="java.lang.Integer">
+		select count(*) from schoolstudentslist where comapproval=1 and _state=4 
     </select>
     <select id="count25" resultType="java.lang.Integer">
+    	select count(*) from schoolstudentslist where comapproval &lt;&gt; 1 and _state=4 
     </select>
+    <select id="count26" resultType="Map">
+   		select
+			ss.name as 'ssname',
+			(select count(*) from schoolstudentslist s where s.ssid = ss.id) as 'num'
+		from 
+			school_specialty ss
+    </select>
+    
 
 </mapper> 

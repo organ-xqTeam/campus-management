@@ -1,7 +1,10 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
+
 import com.ruoyi.system.domain.SysMenu;
 
 /**
@@ -157,4 +160,5 @@ public interface SysMenuMapper
 	public Integer count23();
 	public Integer count24();
 	public Integer count25();
+	public List<Map<String, Object>> count26();
 }

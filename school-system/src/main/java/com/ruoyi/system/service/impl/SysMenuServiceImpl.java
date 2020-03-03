@@ -8,9 +8,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.Ztree;
 import com.ruoyi.common.utils.StringUtils;
@@ -417,6 +420,10 @@ public class SysMenuServiceImpl implements ISysMenuService
 	@Override
 	public Integer count25() {
 		return menuMapper.count25();
+	}
+	@Override
+	public List<Map<String, Object>> count26() {
+		return menuMapper.count26();
 	}
 
     /**
