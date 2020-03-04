@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.system.domain.Schoolenterprisecooperation;
 import com.ruoyi.system.mapper.SchoolenterprisecooperationMapper;
 import com.ruoyi.system.service.ISchoolenterprisecooperationService;
@@ -55,6 +56,7 @@ public class SchoolenterprisecooperationServiceImpl implements ISchoolenterprise
     @Override
     public int insertSchoolenterprisecooperation(Schoolenterprisecooperation schoolenterprisecooperation)
     {
+    	schoolenterprisecooperation.setCreateDate(DateUtils.getTime());
         return schoolenterprisecooperationMapper.insertSchoolenterprisecooperation(schoolenterprisecooperation);
     }
 
