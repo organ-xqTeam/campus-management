@@ -108,14 +108,15 @@ public class ClassschedulingmanagementController extends BaseController
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(Classschedulingmanagement classschedulingmanagement)
-    {
+    {    	
+    	String classId= classschedulingmanagement.getClassId();
+    	if (classId != null) {
+        	SchoolClass schoolClass= schoolclassService.selectSchoolClassById(Long.valueOf(classId));
+        	classschedulingmanagement.setClassName(schoolClass.getNameclass());
+    	}
     	
-    	String  classId= classschedulingmanagement.getClassId();
-    	String gradeId= classschedulingmanagement.getGradeId();
-    	SchoolClass schoolClass= schoolclassService.selectSchoolClassById(Long.valueOf(classId));
-    	Schoolgradelist schoolgradelist= schoolgradelistService.selectSchoolgradelistById(gradeId);
-    	
-    	classschedulingmanagement.setClassName(schoolClass.getNameclass());
+//    	String gradeId= classschedulingmanagement.getGradeId();
+//    	Schoolgradelist schoolgradelist= schoolgradelistService.selectSchoolgradelistById(gradeId);    	
 //    	classschedulingmanagement.setClassGrade(schoolgradelist.getGrade());
         return toAjax(classschedulingmanagementService.insertClassschedulingmanagement(classschedulingmanagement));
     }

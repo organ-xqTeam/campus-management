@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.mapper.CoursemanagementMapper;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
@@ -55,6 +56,7 @@ public class CoursemanagementServiceImpl implements ICoursemanagementService
     @Override
     public int insertCoursemanagement(Coursemanagement coursemanagement)
     {
+    	coursemanagement.setCreateDate(DateUtils.getTime());
         return coursemanagementMapper.insertCoursemanagement(coursemanagement);
     }
 

@@ -104,6 +104,7 @@ public class SchoolstudentslistServiceImpl implements ISchoolstudentslistService
     @Override
     public int insertSchoolstudentslist(Schoolstudentslist schoolstudentslist)
     {
+    	schoolstudentslist.setCreateDate(DateUtils.getTime());
         return schoolstudentslistMapper.insertSchoolstudentslist(schoolstudentslist);
     }
 

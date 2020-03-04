@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.mapper.TeachingInfoMapper;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
@@ -55,6 +56,7 @@ public class TeachingInfoServiceImpl implements ITeachingInfoService
     @Override
     public int insertTeachingInfo(TeachingInfo teachingInfo)
     {
+    	teachingInfo.setCreateDate(DateUtils.getTime());
         return teachingInfoMapper.insertTeachingInfo(teachingInfo);
     }
 

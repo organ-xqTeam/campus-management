@@ -34,10 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="delFlag"    column="del_flag"    />
         <result property="deptalias"    column="deptAlias"    />
         <result property="useralias"    column="userAlias"    />
+        <result property="createDate"    column="create_date"    />
     </resultMap>
 
     <sql id="selectTeachingMaterialManagementVo">
-        select id, textbook_name, subject_name, class_name, batch_teaching_materials, purchase_time, unit_price, quantity_num, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias from teaching_material_management
+        select id,create_date, textbook_name, subject_name, class_name, batch_teaching_materials, purchase_time, unit_price, quantity_num, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias from teaching_material_management
     </sql>
 
     <select id="selectTeachingMaterialManagementList" parameterType="TeachingMaterialManagement" resultMap="TeachingMaterialManagementResult">
@@ -108,6 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null ">del_flag,</if>
             <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
             <if test="useralias != null  and useralias != ''">userAlias,</if>
+            <if test="createDate != null  and createDate != ''">create_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="textbookName != null  and textbookName != ''">#{textbookName},</if>
@@ -138,6 +140,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null ">#{delFlag},</if>
             <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
+            <if test="createDate != null  and createDate != ''">#{createDate},</if>
          </trim>
     </insert>
 

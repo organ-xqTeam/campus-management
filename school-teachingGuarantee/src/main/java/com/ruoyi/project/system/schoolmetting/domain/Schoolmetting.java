@@ -52,8 +52,18 @@ public class Schoolmetting extends BaseEntity
     /** 是否更新 */
     @Excel(name = "是否更新")
     private String deleteFlag;
+    
+    private String createDate;
+    
+    public String getCreateDate() {
+		return createDate;
+	}
 
-    public String getPlace2() {
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getPlace2() {
 		return place2;
 	}
 

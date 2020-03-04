@@ -236,9 +236,18 @@ public class TeachingInfo extends BaseEntity
     
     private Long userId;
 
+    private String createDate;
     
     
-    public Long getUserId() {
+    public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public Long getUserId() {
 		return userId;
 	}
 

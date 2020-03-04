@@ -46,8 +46,8 @@ public class Schoolresearchlearning extends BaseEntity
     /** 是否更新 */
     @Excel(name = "是否更新")
     private String deleteFlag;
-
-    public void setId(Long id) 
+    
+	public void setId(Long id) 
     {
         this.id = id;
     }

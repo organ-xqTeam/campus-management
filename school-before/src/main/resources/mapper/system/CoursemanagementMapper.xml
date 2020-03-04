@@ -35,16 +35,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deptalias"    column="deptAlias"    />
         <result property="useralias"    column="userAlias"    />
         <result property="teacherId"    column="teacher_id"    />
+        <result property="createDate"    column="create_date"    />
     </resultMap>
 
     <sql id="selectCoursemanagementVo">
-        select id, row_id, subjectmanagement_id, students_name, academic_level, curriculu_system, accumulated_class_hour, course_fascicle, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias,teacher_id from coursemanagement
+        select id, row_id, subjectmanagement_id, students_name, academic_level, curriculu_system, accumulated_class_hour, course_fascicle, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias,teacher_id,create_date from coursemanagement
     </sql>
 
     <select id="selectCoursemanagementList" parameterType="Coursemanagement" resultMap="CoursemanagementResult">
         select co.id, co.row_id, co.subjectmanagement_id, co.students_name, co.academic_level, co.curriculu_system, co.accumulated_class_hour, co.course_fascicle, co.remark, co.remark1, co.remark2, co.remark3, co.remark4, co.remark5, co.remark6, co.remark7, co.remark8, co.remark9, co.remark10, co.remark11, co.remark12, co.remark13, 
         co.remark14, co.remark15, co.remark16, co.remark17, co.del_flag, co.deptAlias, co.userAlias ,co.teacher_id 
-        ,sj.students_name as subjectmanagementName,ti.teaching_name AS teachingName
+        ,sj.students_name as subjectmanagementName,ti.teaching_name AS teachingName, co.create_date
         from coursemanagement co
         left join subjectmanagement sj  on sj.id=co.subjectmanagement_id
         left join teaching_info ti on ti.id=co.teacher_id
@@ -115,6 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
             <if test="useralias != null  and useralias != ''">userAlias,</if>
             <if test="teacherId  != null  and teacherId  != ''">teacher_id,</if>
+            <if test="createDate  != null  and createDate  != ''">create_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="rowId != null  and rowId != ''">#{rowId},</if>
@@ -146,6 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
             <if test="teacherId  != null  and teacherId  != ''">#{teacherId},</if>
+            <if test="createDate  != null  and createDate  != ''">#{createDate},</if>
          </trim>
     </insert>
 

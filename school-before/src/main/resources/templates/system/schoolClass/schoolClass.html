@@ -63,6 +63,8 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "班级",
+                sortName:"createDate",
+                sortOrder:"desc",
                 columns: [{
                     checkbox: true
                 },
@@ -104,6 +106,11 @@
                         return actions.join('');
                     }
                 },
+                {
+                    field : 'createDate', 
+                    title : '创建日期'
+                },
+                
                 {
                     field : 'kechengbiao', 
                     title : '课程表',

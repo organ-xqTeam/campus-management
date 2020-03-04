@@ -7,6 +7,7 @@ import com.ruoyi.project.system.classschedulingmanagement.mapper.Classscheduling
 import com.ruoyi.project.system.classschedulingmanagement.domain.Classschedulingmanagement;
 import com.ruoyi.project.system.classschedulingmanagement.service.IClassschedulingmanagementService;
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 /**
  * 排课管理Service业务层处理
  * 
@@ -52,6 +53,7 @@ public class ClassschedulingmanagementServiceImpl implements IClassschedulingman
     @Override
     public int insertClassschedulingmanagement(Classschedulingmanagement classschedulingmanagement)
     {
+    	classschedulingmanagement.setCreateDate(DateUtils.getTime());
         return classschedulingmanagementMapper.insertClassschedulingmanagement(classschedulingmanagement);
     }
 

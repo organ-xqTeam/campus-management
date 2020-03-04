@@ -1,7 +1,5 @@
 package com.ruoyi.project.system.schoolstudentslist.domain;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -225,13 +223,19 @@ public class Schoolstudentslist extends BaseEntity
     private String remark43;
     @Excel(name = "联系手机")
     private String remark44;
-    
+    private String code;
     
 
     
     
     
-    public String getRemark44() {
+    public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getRemark44() {
 		return remark44;
 	}
 	public void setRemark44(String remark44) {
@@ -590,9 +594,17 @@ public class Schoolstudentslist extends BaseEntity
     private String sbid_;
     private String ssid_;
     
+    private String createDate;
     
     
-    public String getSbid_() {
+    
+    public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+	public String getSbid_() {
 		return sbid_;
 	}
 	public void setSbid_(String sbid_) {

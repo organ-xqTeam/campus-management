@@ -134,8 +134,18 @@ public class Coursemanagement extends BaseEntity
     
     //教师名称
     private String teachingName;
+    
+    private String createDate;
+    
+    public String getCreateDate() {
+		return createDate;
+	}
 
-    public void setId(Long id) 
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }

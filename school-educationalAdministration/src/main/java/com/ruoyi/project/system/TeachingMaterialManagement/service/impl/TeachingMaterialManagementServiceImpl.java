@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.TeachingMaterialManagement.domain.TeachingMaterialManagement;
 import com.ruoyi.project.system.TeachingMaterialManagement.mapper.TeachingMaterialManagementMapper;
 import com.ruoyi.project.system.TeachingMaterialManagement.service.ITeachingMaterialManagementService;
@@ -55,6 +56,7 @@ public class TeachingMaterialManagementServiceImpl implements ITeachingMaterialM
     @Override
     public int insertTeachingMaterialManagement(TeachingMaterialManagement teachingMaterialManagement)
     {
+    	teachingMaterialManagement.setCreateDate(DateUtils.getTime());
         return teachingMaterialManagementMapper.insertTeachingMaterialManagement(teachingMaterialManagement);
     }
 

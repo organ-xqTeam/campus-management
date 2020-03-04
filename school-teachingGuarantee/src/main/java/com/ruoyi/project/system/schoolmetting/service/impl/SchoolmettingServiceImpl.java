@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.schoolmetting.domain.Schoolmetting;
 import com.ruoyi.project.system.schoolmetting.mapper.SchoolmettingMapper;
 import com.ruoyi.project.system.schoolmetting.service.ISchoolmettingService;
@@ -55,6 +56,7 @@ public class SchoolmettingServiceImpl implements ISchoolmettingService
     @Override
     public int insertSchoolmetting(Schoolmetting schoolmetting)
     {
+    	schoolmetting.setCreateDate(DateUtils.getTime());
         return schoolmettingMapper.insertSchoolmetting(schoolmetting);
     }
 

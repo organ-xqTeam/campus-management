@@ -15,10 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.CodeMsg;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.MapObjectUtil;
@@ -26,6 +31,8 @@ import com.ruoyi.common.utils.RegUtil;
 import com.ruoyi.common.utils.Result;
 import com.ruoyi.project.system.ClasscurriculumDetail.domain.ClasscurriculumDetail;
 import com.ruoyi.project.system.ClasscurriculumDetail.service.IClasscurriculumDetailService;
+import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
+import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 import com.ruoyi.project.system.schoolHomework.domain.SchoolHomework;
@@ -42,7 +49,7 @@ import com.ruoyi.system.service.ISysUserService;
 @CrossOrigin
 @Controller
 @RequestMapping("/uajax/app/appHomeWork")
-public class AppHomeWorkController {
+public class AppHomeWorkController extends BaseController {
     @Autowired
     private ISysUserService userService ;
 	@Autowired
@@ -55,6 +62,8 @@ public class AppHomeWorkController {
 	private ICoursemanagementService  coursemanagementService; 
 	@Autowired
 	private IClasscurriculumDetailService classcurriculumDetailService;
+	@Autowired
+	private ISchoolSpecialtyService schoolSpecialtyService;
 	
 	//学生作业打卡接口
 	@ResponseBody
@@ -347,7 +356,11 @@ public class AppHomeWorkController {
     	schoolstudentslist.setRemark23(DateUtils.getDate());
     	String idnum = schoolstudentslist.getIdnum();
     	String nation = schoolstudentslist.getNation();
-    	if(!idnum.matches(RegUtil.reg_idnum)){
+    	String code = schoolstudentslist.getCode();
+    	if (!code.equals("1234")) {
+    		return Result.error(CodeMsg.NOT_CODE);
+    	}
+    	if (!idnum.matches(RegUtil.reg_idnum)){
     		return Result.error(CodeMsg.NOT_IDNUM);
     	}
     	if (nation != null) {
@@ -382,6 +395,13 @@ public class AppHomeWorkController {
     	
         return Result.success(schoolstudentslistService.insertSchoolstudentslist(schoolstudentslist));
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/editbaoming")
+	public Object editbaoming(@RequestBody Schoolstudentslist schoolstudentslist) {
+        return Result.success(schoolstudentslistService.updateSchoolstudentslist(schoolstudentslist));
+	}
+	
 	/**
 	 * 
 	 * 学生端查询在线报名
@@ -398,6 +418,17 @@ public class AppHomeWorkController {
 		else {
 			return Result.success("未查到该学员");
 		}
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/baomingsl")
+	public TableDataInfo baomingsl(@RequestBody JSONObject param) {		
+    	int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());		
+		SchoolSpecialty ss = new SchoolSpecialty();
+    	PageHelper.startPage(pageNum, pageSize, null);		
+    	List<SchoolSpecialty> sslist = schoolSpecialtyService.selectSchoolSpecialtyList(ss);    	
+    	return getDataTable(sslist);		
 	}
 
 }

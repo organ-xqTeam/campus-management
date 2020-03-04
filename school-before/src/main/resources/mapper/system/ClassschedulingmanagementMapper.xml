@@ -32,11 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="delFlag"    column="del_flag"    />
         <result property="deptalias"    column="deptAlias"    />
         <result property="useralias"    column="userAlias"    />
+        <result property="createDate"    column="create_date"    />
         
     </resultMap>
 
     <sql id="selectClassschedulingmanagementVo">
-        select id, row_id, class_id,class_name as className, class_grade, class_status, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias,(select school_name from school_belong where id=remark1) as 'remark1_', (select name from school_specialty where id=remark2) as 'remark2_', userAlias from classschedulingmanagement
+        select id, row_id, class_id,class_name as className, class_grade, class_status, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias,(select school_name from school_belong where id=remark1) as 'remark1_', (select name from school_specialty where id=remark2) as 'remark2_', userAlias, create_date from classschedulingmanagement
     </sql>
 
     <select id="selectClassschedulingmanagementList" parameterType="Classschedulingmanagement" resultMap="ClassschedulingmanagementResult">
@@ -103,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useralias != null  and useralias != ''">userAlias,</if>
             <if test="className != null  and className != ''">class_name,</if>
             <if test="gradeId != null  and gradeId != ''">grade_id,</if>
+            <if test="createDate != null  and createDate != ''">create_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="rowId != null  and rowId != ''">#{rowId},</if>
@@ -132,6 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
             <if test="className != null  and className != ''">#{className},</if>
              <if test="gradeId != null  and gradeId != ''">#{gradeId},</if>
+             <if test="createDate != null  and createDate != ''">#{createDate},</if>
          </trim>
     </insert>
 

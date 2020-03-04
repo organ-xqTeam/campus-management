@@ -40,6 +40,7 @@ public class CodeMsg {
 	public static CodeMsg NOT_IDNUM = new CodeMsg(200104,"不是身份证号");
 	public static CodeMsg REPEAT_IDNUM = new CodeMsg(200105,"该身份证号已注册");
 	public static CodeMsg NOT_NATION = new CodeMsg(200106,"请输入正确的民族");
+	public static CodeMsg NOT_CODE = new CodeMsg(200107,"验证码不正确");
 	
 	private CodeMsg(int retCode, String message) {
 		this.msg = message;

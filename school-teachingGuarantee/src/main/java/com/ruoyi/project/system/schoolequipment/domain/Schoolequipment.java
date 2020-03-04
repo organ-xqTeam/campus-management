@@ -54,8 +54,20 @@ public class Schoolequipment extends BaseEntity
     /** 是否更新 */
     @Excel(name = "是否更新")
     private String deleteFlag;
+    
+    private String createDate;
+    
+    
 
-    public void setId(Long id) 
+    public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }

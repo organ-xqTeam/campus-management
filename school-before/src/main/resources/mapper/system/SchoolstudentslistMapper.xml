@@ -103,10 +103,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="ydtime"    column="ydtime"    />
         <result property="ydreason"    column="ydreason"    />
         <result property="cardnum"    column="cardnum"    />
+        <result property="createDate"    column="create_date"    />
     </resultMap>
 
     <sql id="selectSchoolstudentslistVo">
-        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as 'nianji',(select school_name from school_belong where id=sbid) as 'sbid_',(select name from school_specialty where id=ssid) as 'ssid_', ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,remark21,remark22,remark23,remark24,remark25,remark26,remark27,remark28,remark29,remark30,remark31,remark32,remark33,remark34,remark35,remark36,remark37,remark38,remark39,remark40,remark41,remark42,remark43,remark44,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id,(select nameclass from school_class where id=class_id) as 'classId_', (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as 'leavetime' from schoolstudentslist s
+        select cardnum,sbid,YEAR(NOW())-YEAR(admission_time) as "nianji",(select school_name from school_belong where id=sbid) as "sbid_",(select name from school_specialty where id=ssid) as "ssid_", ssid,ydreason,ydtime,user_id,id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17,remark18,remark19,remark20,remark21,remark22,remark23,remark24,remark25,remark26,remark27,remark28,remark29,remark30,remark31,remark32,remark33,remark34,remark35,remark36,remark37,remark38,remark39,remark40,remark41,remark42,remark43,remark44,lixian7,lixian6,lixian5,lixian4,lixian3,lixian2,lixian1,reportstate,notreportresult,paystate,isregister,isreceivekey,isreceivejunxun,company,comapproval,post,situation, del_flag, deptAlias, userAlias, grade_id, class_id,(select nameclass from school_class where id=class_id) as "classId_", (select sum(leavetime) from schoolstudentsleavelist l where l.del_flag='0' and l.studentid=s.id) as "leavetime" from schoolstudentslist s
     </sql>
     
     <select id="selectStudengByIdnum" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
@@ -303,7 +304,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectSchoolstudentslistListUnMove" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
         select* from (select 
-        id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias, grade_id, class_id 
+        id, students_id, students_name,gender,birth,nation,idnum,isrefuse,approvalstate, academic_level, father_name, father_phone, mother_name, mother_phone, home_address, _remarks, ages, admission_time, _state, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias, grade_id, class_id ,create_date
         ,(select count(*) from school_dorm_students sds where sds.isdisuse='0' and sds.students_id=sl.id )  as isusecount
         from schoolstudentslist sl ) as aa where aa.isusecount=0 
       
@@ -504,6 +505,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ydtime != null   and ydtime != ''"> ydtime ,</if>
             <if test="ydreason != null   and ydreason != ''"> ydreason ,</if>
             <if test="cardnum != null   and cardnum != ''"> cardnum ,</if>
+            <if test="createDate != null   and createDate != ''"> create_date ,</if>
             
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -598,6 +600,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="ydtime != null   and ydtime != ''">#{ydtime},</if>
             <if test="ydreason != null   and ydreason != ''">#{ydreason},</if>
             <if test="cardnum != null   and cardnum != ''">#{cardnum},</if>
+            <if test="createDate != null   and createDate != ''">#{createDate},</if>
             
          </trim>
     </insert>

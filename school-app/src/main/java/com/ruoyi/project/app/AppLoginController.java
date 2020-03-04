@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -53,23 +54,18 @@ public class AppLoginController{
 	
 	@PostMapping("/login")
 	@ResponseBody
-	public AjaxResult ajaxLogin(@RequestBody JSONObject requestParams) {
-		
-		System.out.println(requestParams);
-		
-		Map<String, Object> map =new HashMap<String, Object>();
+	public AjaxResult ajaxLogin(@RequestBody JSONObject requestParams) throws Exception {
+		Map<String, Object> map =new HashMap<String, Object>();		
 		String username = (String) requestParams.get("username");
-		String password = (String) requestParams.get("password");
-		//true
-		String rememberMe = (String) requestParams.get("rememberMe");
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
-		Subject subject = SecurityUtils.getSubject();
+		String password = (String) requestParams.get("password");		
 		try {
-			subject.login(token);
-			SysUser users = userService.selectUserByLoginName(token.getUsername());
+			SysUser users = userService.selectUserByLoginName(username);
+			if (!passwordService.matches(users, password)) {
+				throw new AuthenticationException();
+			}
 			users.setPassword(null);
 			users.setSalt(null);
-			String sessionid = subject.getSession().getId().toString();
+			String sessionid = UUID.randomUUID().toString().replaceAll("-","");
 			users.setToken(sessionid);
 //			Md5Hash md5s = new Md5Hash(username + password + sessionid);
 //			String onlyid = md5s.toHex();
@@ -129,6 +125,32 @@ public class AppLoginController{
 			return AjaxResult.success(map);
 		} catch (AuthenticationException e) {
 			String msg = "用户或密码错误";
+			if (StringUtils.isNotEmpty(e.getMessage())) {
+				msg = e.getMessage();
+			}
+			return AjaxResult.error(msg);
+		}
+	}
+	
+
+	@PostMapping("/idphlogin")
+	@ResponseBody
+	public AjaxResult idphlogin(@RequestBody JSONObject requestParams) throws Exception {
+		Map<String, Object> map =new HashMap<String, Object>();		
+		String idnum = (String) requestParams.get("idnum");
+		String phone = (String) requestParams.get("phone");		
+		try {
+			Schoolstudentslist s = new Schoolstudentslist();
+			s.setIdnum(idnum);
+			s.setRemark44(phone);
+			List<Schoolstudentslist> slist = schoolstudentslistService.selectSchoolstudentslistList(s);
+			if (slist.size() != 1) {
+				throw new AuthenticationException();
+			}
+			map.put("student", slist.get(0));
+			return AjaxResult.success(map);
+		} catch (AuthenticationException e) {
+			String msg = "身份证或手机号错误";
 			if (StringUtils.isNotEmpty(e.getMessage())) {
 				msg = e.getMessage();
 			}

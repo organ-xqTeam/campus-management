@@ -62,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deptalias"    column="deptAlias"    />
         <result property="useralias"    column="userAlias"    />
         <result property="userId"    column="user_id"    />
+        <result property="createDate"    column="create_date"    />
     </resultMap>
 
     <sql id="selectTeachingInfoVo">
@@ -192,6 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''">deptAlias,</if>
             <if test="useralias != null  and useralias != ''">userAlias,</if>
             <if test="userId != null  and userId != ''">user_id,</if>
+            <if test="createDate != null  and createDate != ''">create_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="teacherId != null  and teacherId != ''">#{teacherId},</if>
@@ -250,6 +252,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''">#{deptalias},</if>
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
             <if test="userId != null  and userId != ''">#{userId},</if>
+            <if test="createDate != null  and createDate != ''">#{createDate},</if>
          </trim>
     </insert>
 

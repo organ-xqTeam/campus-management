@@ -54,7 +54,7 @@
         var editFlag = [[${@permission.hasPermi('system:schoolmetting:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:schoolmetting:remove')}]];
         var prefix = ctx + "system/schoolmetting";
-
+		
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -62,6 +62,8 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
+                sortName:"createDate",
+                sortOrder:"desc",
                 modalName: "会议",
                 columns: [{
                     checkbox: true

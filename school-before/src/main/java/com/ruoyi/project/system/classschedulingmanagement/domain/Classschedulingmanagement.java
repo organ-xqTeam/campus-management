@@ -138,8 +138,20 @@ public class Classschedulingmanagement extends BaseEntity
     /** 用户表的别名 */
     @Excel(name = "用户表的别名")
     private String useralias;
+    
+    private String createDate;
+    
+    
 
-    public void setId(Long id) 
+    public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }

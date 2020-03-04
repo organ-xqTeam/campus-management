@@ -15,10 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark0"    column="remark0"    />
         <result property="state"    column="state"    />
         <result property="deleteFlag"    column="delete_flag"    />
+        <result property="createDate"    column="create_date"    />
     </resultMap>
 
     <sql id="selectSchoolequipmentVo">
-        select id, num, type, department, repairman, repairplace, repairtime, remark0, state, delete_flag from schoolequipment
+        select id,create_date, num, type, department, repairman, repairplace, repairtime, remark0, state, delete_flag from schoolequipment
     </sql>
 
     <select id="selectSchoolequipmentList" parameterType="Schoolequipment" resultMap="SchoolequipmentResult">
@@ -53,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark0 != null  and remark0 != ''">remark0,</if>
             <if test="state != null  and state != ''">state,</if>
             <if test="deleteFlag != null  and deleteFlag != ''">delete_flag,</if>
+            <if test="createDate != null  and createDate != ''">create_date,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="num != null  and num != ''">#{num},</if>
@@ -64,6 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark0 != null  and remark0 != ''">#{remark0},</if>
             <if test="state != null  and state != ''">#{state},</if>
             <if test="deleteFlag != null  and deleteFlag != ''">#{deleteFlag},</if>
+            <if test="createDate != null  and createDate != ''">#{createDate},</if>
          </trim>
     </insert>
 

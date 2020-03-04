@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.schoolequipment.domain.Schoolequipment;
 import com.ruoyi.project.system.schoolequipment.mapper.SchoolequipmentMapper;
 import com.ruoyi.project.system.schoolequipment.service.ISchoolequipmentService;
@@ -55,6 +56,7 @@ public class SchoolequipmentServiceImpl implements ISchoolequipmentService
     @Override
     public int insertSchoolequipment(Schoolequipment schoolequipment)
     {
+    	schoolequipment.setCreateDate(DateUtils.getTime());
         return schoolequipmentMapper.insertSchoolequipment(schoolequipment);
     }
 
