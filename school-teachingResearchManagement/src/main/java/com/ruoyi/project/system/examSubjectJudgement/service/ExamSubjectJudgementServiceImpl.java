@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.examSubjectJudgement.domain.ExamSubjectJudgement;
 import com.ruoyi.project.system.examSubjectJudgement.mapper.ExamSubjectJudgementMapper;
 
@@ -54,6 +55,7 @@ public class ExamSubjectJudgementServiceImpl implements IExamSubjectJudgementSer
 	@Override
 	public int insertExamSubjectJudgement(ExamSubjectJudgement examSubjectJudgement)
 	{
+		examSubjectJudgement.setCreateDate(DateUtils.getNowDate());
 	    return examSubjectJudgementMapper.insertExamSubjectJudgement(examSubjectJudgement);
 	}
 	

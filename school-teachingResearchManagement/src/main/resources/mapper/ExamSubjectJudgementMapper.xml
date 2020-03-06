@@ -20,10 +20,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="delFlag"    column="del_flag"    />
         <result property="applicationCode"    column="application_code"    />
         <result property="tenantCode"    column="tenant_code"    />
+        <result property="courseid"    column="courseid"    />
+        <result property="coursename"    column="coursename"    />
     </resultMap>
 	
 	<sql id="selectExamSubjectJudgementVo">
-        select id, category_id, serial_number, subject_name, answer, score, analysis, level, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code, (select category_name from exam_subject_category where id=(select parent_id from exam_subject_category where id=category_id)) as 'cepingleixing' from exam_subject_judgement
+        select id, category_id, serial_number, subject_name, answer, score, analysis, level, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code, (select category_name from exam_subject_category where id=(select parent_id from exam_subject_category where id=category_id)) as 'cepingleixing', courseid, (select students_name from coursemanagement where id = courseid) as 'coursename' from exam_subject_judgement
     </sql>
 	
     <select id="selectExamSubjectJudgementList" parameterType="ExamSubjectJudgement" resultMap="ExamSubjectJudgementResult">
@@ -44,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="delFlag != null "> and del_flag = #{delFlag}</if>
              <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
              <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+             <if test="courseid != null  and courseid != '' "> and courseid = #{courseid}</if>
          </where>
     </select>
     
@@ -70,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="delFlag != null  ">del_flag,</if>
 			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
 			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+			<if test="courseid != null  and courseid != ''  ">courseid,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null  and id != ''  ">#{id},</if>
@@ -87,6 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="delFlag != null  ">#{delFlag},</if>
 			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
 			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+			<if test="courseid != null  and courseid != ''  ">#{courseid},</if>
          </trim>
     </insert>
 	 
@@ -107,6 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null  ">del_flag = #{delFlag},</if>
             <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
             <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+            <if test="courseid != null  and courseid != ''  ">courseid = #{courseid},</if>
         </trim>
         where id = #{id}
     </update>

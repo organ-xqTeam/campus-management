@@ -26,6 +26,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.Stringutil;
 import com.ruoyi.common.utils.poi.ExcelUtil2;
+import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
+import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 import com.ruoyi.project.system.examEvaluationDimension.domain.ExamEvaluationDimension;
 import com.ruoyi.project.system.examEvaluationDimension.service.IExamEvaluationDimensionService;
 import com.ruoyi.project.system.examSubjectCategory.domain.ExamSubjectCategory;
@@ -62,6 +64,8 @@ public class ExamSubjectJudgementController extends BaseController
 	
 	@Autowired
 	private IExamSubjectCategoryService examSubjectCategoryService;
+	@Autowired
+	private ICoursemanagementService coursemanagementService;
 	
 	@RequiresPermissions("system:examSubjectJudgement:view")
 	@GetMapping()
@@ -69,6 +73,53 @@ public class ExamSubjectJudgementController extends BaseController
 	{
 	    return prefix + "/examSubjectJudgement";
 	}
+	
+	/**
+	 * 以下接口是为校园系统增加的
+	 * ↓
+	 * ↓
+	 * ↓
+	 * ↓
+	 * ↓
+	 * ↓
+	 * ↓
+	 * ↓
+	 * */	
+	@RequiresPermissions("system:examSubjectJudgement:view")
+	@GetMapping("/schooltestquestions")
+	public String schooltestquestions(ModelMap mmap)
+	{
+		Coursemanagement c = new Coursemanagement();
+		List<Coursemanagement> clist = coursemanagementService.selectCoursemanagementList(c);
+		mmap.put("clist", clist);
+	    return "system/schooltestquestions/schooltestquestions";
+	}
+	@GetMapping("/add")
+	public String add(ModelMap mmap)
+	{	
+		ExamEvaluationDimension examEvaluationDimension = new ExamEvaluationDimension();
+		List<ExamEvaluationDimension>  la = examEvaluationDimensionService.selectExamEvaluationDimensionList(examEvaluationDimension );
+		//根据父类id 查询维度
+		mmap.put("dimension", la);
+		ExamSubjectCategory examnew = new ExamSubjectCategory();
+		examnew.setType(2);
+		mmap.put("exam", examnew);
+		Coursemanagement c = new Coursemanagement();
+		List<Coursemanagement> clist = coursemanagementService.selectCoursemanagementList(c);
+		mmap.put("clist", clist);
+	    return "system/schooltestquestions/add";
+	}
+	/**
+	 * ↑
+	 * ↑
+	 * ↑
+	 * ↑
+	 * ↑
+	 * ↑
+	 * ↑
+	 * ↑
+	 * 以上接口是为校园系统增加的
+	 * */
 	
 	/**
 	 * 查询简答题列表
@@ -270,27 +321,41 @@ public class ExamSubjectJudgementController extends BaseController
 		ExamSubjectCategory examnew = examSubjectCategoryService.selectExamSubjectCategoryById(examSubjectJudgement.getCategoryId());
 		
 		ExamSubjectCategory exam = null;
+		
 		String str = examSubjectJudgement.getCategoryId();
-		do {
-			exam = examSubjectCategoryService.selectExamSubjectCategoryById(str);
-			str = exam.getParentId();
-		}while(!"-1".equals(exam.getParentId()));
-		examnew.setType(exam.getType());
+		if (str.equals("-1")) {
+			examnew = new ExamSubjectCategory();
+			examnew.setType(2);
+		}
+		else {
+			do {
+				exam = examSubjectCategoryService.selectExamSubjectCategoryById(str);
+				str = exam.getParentId();
+			}while(!"-1".equals(exam.getParentId()));
+			examnew.setType(exam.getType());
+		}
 		
 		//获取分类
 		List<ExamSubjectCategory> examall = examSubjectCategoryService.selectMenuAll();
 		
-		ExamEvaluationDimension examEvaluationDimension = new ExamEvaluationDimension();
-		examEvaluationDimension.setSubjectChoicesId(exam.getId());
-		List<ExamEvaluationDimension>  la = examEvaluationDimensionService.selectExamEvaluationDimensionList(examEvaluationDimension );
+		if (exam == null) {
+			mmap.put("dimension", null);
+		}
+		else {
+			ExamEvaluationDimension examEvaluationDimension = new ExamEvaluationDimension();
+			examEvaluationDimension.setSubjectChoicesId(exam.getId());
+			List<ExamEvaluationDimension>  la = examEvaluationDimensionService.selectExamEvaluationDimensionList(examEvaluationDimension );
+			mmap.put("dimension", la);
+		}
 		
 		
 		//根据父类id 查询维度
 		
-		
-		mmap.put("dimension", la);
 		mmap.put("exam", examnew);
 		mmap.put("examall", examall);
+		Coursemanagement c = new Coursemanagement();
+		List<Coursemanagement> clist = coursemanagementService.selectCoursemanagementList(c);
+		mmap.put("clist", clist);
 	    return prefix + "/edit";
 	}
 	

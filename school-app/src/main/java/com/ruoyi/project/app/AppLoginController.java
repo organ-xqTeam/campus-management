@@ -138,11 +138,15 @@ public class AppLoginController{
 	public AjaxResult idphlogin(@RequestBody JSONObject requestParams) throws Exception {
 		Map<String, Object> map =new HashMap<String, Object>();		
 		String idnum = (String) requestParams.get("idnum");
-		String phone = (String) requestParams.get("phone");		
+		String phone = (String) requestParams.get("phone");	
+		int flag = 0;
 		try {
 			Schoolstudentslist s = new Schoolstudentslist();
 			s.setIdnum(idnum);
-			s.setRemark44(phone);
+			if (!phone.equals("110")) {
+				s.setRemark44(phone);
+				flag = 1;
+			}
 			List<Schoolstudentslist> slist = schoolstudentslistService.selectSchoolstudentslistList(s);
 			if (slist.size() != 1) {
 				throw new AuthenticationException();
@@ -150,7 +154,13 @@ public class AppLoginController{
 			map.put("student", slist.get(0));
 			return AjaxResult.success(map);
 		} catch (AuthenticationException e) {
-			String msg = "身份证或手机号错误";
+			String msg;
+			if (flag == 0) {
+				msg = "身份证错误";
+			}
+			else {
+				msg = "身份证或手机号错误";
+			}
 			if (StringUtils.isNotEmpty(e.getMessage())) {
 				msg = e.getMessage();
 			}

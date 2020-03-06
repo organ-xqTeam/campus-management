@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<th:block th:include="include :: header('简答题列表')" />
+<th:block th:include="include :: layout-latest-css" />
+<th:block th:include="include :: ztree-css" />
+</head>
+<body class="gray-bg">
+	<div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+
+					<input type="hidden" id="deptId" name="categoryId" value="-1"> 
+					<div class="select-list">
+						<ul>
+							<li>序号：<input type="text" name="serialNumber" />
+							</li>
+
+							<li>题目名称：<input type="text" name="subjectName" />
+							</li>
+							<li><a class="btn btn-primary btn-rounded btn-sm"
+								onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm"
+								onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+
+			<div class="btn-group-sm" id="toolbar" role="group">
+			<!-- 	<a class="btn btn-success" onclick="onclickadd()"
+					shiro:hasPermission="system:examSubjectJudgement:add"> <i
+					class="fa fa-plus"></i> 添加
+				</a> <a class="btn btn-primary single disabled"
+					onclick="$.operate.edit()"
+					shiro:hasPermission="system:examSubjectJudgement:edit"> <i
+					class="fa fa-edit"></i> 修改
+				</a> <a class="btn btn-danger multiple disabled"
+					onclick="$.operate.removeAll()"
+					shiro:hasPermission="system:examSubjectJudgement:remove"> <i
+					class="fa fa-remove"></i> 删除
+				</a> -->
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: layout-latest-js" />
+	<th:block th:include="include :: ztree-js" />
+	 <script th:inline="javascript">
+    var message = [[${menu}]];
+  //  console.log(message)
+    
+    </script>
+	
+	<script th:inline="javascript">
+	
+        var editFlag = [[${@permission.hasPermi('system:examSubjectJudgement:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:examSubjectJudgement:remove')}]];
+        var prefix = ctx + "system/examSubjectJudgement";
+
+        $(function() {
+		    queryUserList();
+        });
+        
+        function queryUserList(){
+        	  var options = {
+                    url: prefix + "/list",
+                    createUrl: prefix + "/add/{id}",
+                    updateUrl: prefix + "/edit/{id}",
+                    removeUrl: prefix + "/remove",
+      				exportUrl: prefix + "/export",
+                    modalName: "简答题",
+                    columns: [{
+      		            checkbox: true
+      		        },
+      				{
+      					field : 'id', 
+      					title : 'id',
+      					sortable: true
+      				},
+      				{
+      					field : 'serialNumber', 
+      					title : '序号',
+      					sortable: true
+      				},
+      				{
+      					field : 'subjectName', 
+      					title : '题目名称',
+      					sortable: true
+      				}]
+                  };
+                  $.table.init(options);
+        }
+    	
+    </script>
+</body>
+</html>

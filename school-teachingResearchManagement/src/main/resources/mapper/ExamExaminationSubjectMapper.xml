@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examExaminationSubject.mapper.ExamExaminationSubjectMapper">
+    
+    <resultMap type="ExamExaminationSubject" id="ExamExaminationSubjectResult">
+        <result property="id"    column="id"    />
+        <result property="examinationId"    column="examination_id"    />
+        <result property="subjectId"    column="subject_id"    />
+        <result property="type"    column="type"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+        <result property="serialNumber"    column="serial_number"    />
+    </resultMap>
+	
+	<sql id="selectExamExaminationSubjectVo">
+        select id, examination_id, subject_id, type, application_code, tenant_code, serial_number from exam_examination_subject
+    </sql>
+	
+    <select id="selectExamExaminationSubjectList" parameterType="ExamExaminationSubject" resultMap="ExamExaminationSubjectResult">
+        <include refid="selectExamExaminationSubjectVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="examinationId != null  and examinationId != '' "> and examination_id = #{examinationId}</if>
+             <if test="subjectId != null  and subjectId != '' "> and subject_id = #{subjectId}</if>
+             <if test="type != null "> and type = #{type}</if>
+             <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+             <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamExaminationSubjectById" parameterType="String" resultMap="ExamExaminationSubjectResult">
+        <include refid="selectExamExaminationSubjectVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamExaminationSubject" parameterType="ExamExaminationSubject">
+        insert into exam_examination_subject
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="examinationId != null  and examinationId != ''  ">examination_id,</if>
+			<if test="subjectId != null  and subjectId != ''  ">subject_id,</if>
+			<if test="type != null  ">type,</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+			<if test="serialNumber != null  ">serial_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="examinationId != null  and examinationId != ''  ">#{examinationId},</if>
+			<if test="subjectId != null  and subjectId != ''  ">#{subjectId},</if>
+			<if test="type != null  ">#{type},</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+			<if test="serialNumber != null  ">#{serialNumber},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamExaminationSubject" parameterType="ExamExaminationSubject">
+        update exam_examination_subject
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="examinationId != null  and examinationId != ''  ">examination_id = #{examinationId},</if>
+            <if test="subjectId != null  and subjectId != ''  ">subject_id = #{subjectId},</if>
+            <if test="type != null  ">type = #{type},</if>
+            <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+            <if test="serialNumber != null  ">serial_number = #{serialNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamExaminationSubjectById" parameterType="String">
+        delete from exam_examination_subject where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamExaminationSubjectByIds" parameterType="String">
+        delete from exam_examination_subject where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

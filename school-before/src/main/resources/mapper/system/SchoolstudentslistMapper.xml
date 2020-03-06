@@ -556,7 +556,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark26 != null  and remark26 != ''">#{remark26},</if>
             <if test="remark27 != null  and remark27 != ''">#{remark27},</if>
             <if test="remark28 != null  and remark28 != ''">#{remark28},</if>
-            <if test="remark29 != null  and remark39 != ''">#{remark29},</if>
+            <if test="remark29 != null  and remark29 != ''">#{remark29},</if>
             <if test="remark30 != null  and remark30 != ''">#{remark30},</if>
             <if test="remark31 != null  and remark31 != ''">#{remark31},</if>
             <if test="remark32 != null  and remark32 != ''">#{remark32},</if>

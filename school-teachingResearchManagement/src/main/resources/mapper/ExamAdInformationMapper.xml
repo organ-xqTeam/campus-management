@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examAdInformation.mapper.ExamAdInformationMapper">
+    
+    <resultMap type="ExamAdInformation" id="ExamAdInformationResult">
+        <result property="id"    column="id"    />
+        <result property="adclassification"    column="adclassification"    />
+        <result property="classificationid"    column="classificationid"    />
+        <result property="spotType"    column="spot_type"    />
+        <result property="spotSize"    column="spot_size"    />
+        <result property="imageBase"    column="image_base"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="createAt"    column="create_at"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateAt"    column="update_at"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="isRepair"    column="is_repair"    />
+        <result property="isBusy"    column="is_busy"    />
+    </resultMap>
+	
+	<sql id="selectExamAdInformationVo">
+        select id, adclassification, classificationid, spot_type, spot_size, image_base, image_url, create_at, create_by, update_at, update_by, del_flag, is_repair, is_busy from exam_ad_information
+    </sql>
+	
+    <select id="selectExamAdInformationList" parameterType="ExamAdInformation" resultMap="ExamAdInformationResult">
+        <include refid="selectExamAdInformationVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="adclassification != null  and adclassification != '' "> and adclassification = #{adclassification}</if>
+             <if test="classificationid != null  and classificationid != '' "> and classificationid = #{classificationid}</if>
+             <if test="spotType != null  and spotType != '' "> and spot_type = #{spotType}</if>
+             <if test="spotSize != null  and spotSize != '' "> and spot_size = #{spotSize}</if>
+             <if test="imageBase != null  and imageBase != '' "> and image_base = #{imageBase}</if>
+             <if test="imageUrl != null  and imageUrl != '' "> and image_url = #{imageUrl}</if>
+             <if test="createAt != null "> and create_at = #{createAt}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateAt != null "> and update_at = #{updateAt}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="isRepair != null  and isRepair != '' "> and is_repair = #{isRepair}</if>
+             <if test="isBusy != null  and isBusy != '' "> and is_busy = #{isBusy}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamAdInformationById" parameterType="Long" resultMap="ExamAdInformationResult">
+        <include refid="selectExamAdInformationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamAdInformation" parameterType="ExamAdInformation">
+        insert into exam_ad_information
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="adclassification != null  and adclassification != ''  ">adclassification,</if>
+			<if test="classificationid != null  and classificationid != ''  ">classificationid,</if>
+			<if test="spotType != null  and spotType != ''  ">spot_type,</if>
+			<if test="spotSize != null  and spotSize != ''  ">spot_size,</if>
+			<if test="imageBase != null  and imageBase != ''  ">image_base,</if>
+			<if test="imageUrl != null  and imageUrl != ''  ">image_url,</if>
+			<if test="createAt != null  ">create_at,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateAt != null  ">update_at,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="isRepair != null  and isRepair != ''  ">is_repair,</if>
+			<if test="isBusy != null  and isBusy != ''  ">is_busy,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="adclassification != null  and adclassification != ''  ">#{adclassification},</if>
+			<if test="classificationid != null  and classificationid != ''  ">#{classificationid},</if>
+			<if test="spotType != null  and spotType != ''  ">#{spotType},</if>
+			<if test="spotSize != null  and spotSize != ''  ">#{spotSize},</if>
+			<if test="imageBase != null  and imageBase != ''  ">#{imageBase},</if>
+			<if test="imageUrl != null  and imageUrl != ''  ">#{imageUrl},</if>
+			<if test="createAt != null  ">#{createAt},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateAt != null  ">#{updateAt},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="isRepair != null  and isRepair != ''  ">#{isRepair},</if>
+			<if test="isBusy != null  and isBusy != ''  ">#{isBusy},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamAdInformation" parameterType="ExamAdInformation">
+        update exam_ad_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adclassification != null  and adclassification != ''  ">adclassification = #{adclassification},</if>
+            <if test="classificationid != null  and classificationid != ''  ">classificationid = #{classificationid},</if>
+            <if test="spotType != null  and spotType != ''  ">spot_type = #{spotType},</if>
+            <if test="spotSize != null  and spotSize != ''  ">spot_size = #{spotSize},</if>
+            <if test="imageBase != null  and imageBase != ''  ">image_base = #{imageBase},</if>
+            <if test="imageUrl != null  and imageUrl != ''  ">image_url = #{imageUrl},</if>
+            <if test="createAt != null  ">create_at = #{createAt},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateAt != null  ">update_at = #{updateAt},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="isRepair != null  and isRepair != ''  ">is_repair = #{isRepair},</if>
+            <if test="isBusy != null  and isBusy != ''  ">is_busy = #{isBusy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamAdInformationById" parameterType="Long">
+        delete from exam_ad_information where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamAdInformationByIds" parameterType="String">
+        delete from exam_ad_information where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

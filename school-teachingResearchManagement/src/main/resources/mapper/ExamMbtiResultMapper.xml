@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examMbtiResult.mapper.ExamMbtiResultMapper">
+    
+    <resultMap type="ExamMbtiResult" id="ExamMbtiResultResult">
+        <result property="id"    column="id"    />
+        <result property="optionName"    column="option_name"    />
+        <result property="optionCode"    column="option_code"    />
+        <result property="optionContent"    column="option_content"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+    </resultMap>
+	
+	<sql id="selectExamMbtiResultVo">
+        select id, option_name, option_code, option_content, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code from exam_mbti_result
+    </sql>
+	
+    <select id="selectExamMbtiResultList" parameterType="ExamMbtiResult" resultMap="ExamMbtiResultResult">
+        <include refid="selectExamMbtiResultVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="optionName != null  and optionName != '' "> and option_name = #{optionName}</if>
+             <if test="optionCode != null  and optionCode != '' "> and option_code = #{optionCode}</if>
+             <if test="optionContent != null  and optionContent != '' "> and option_content = #{optionContent}</if>
+             <if test="creator != null  and creator != '' "> and creator = #{creator}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="modifier != null  and modifier != '' "> and modifier = #{modifier}</if>
+             <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamMbtiResultById" parameterType="String" resultMap="ExamMbtiResultResult">
+        <include refid="selectExamMbtiResultVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamMbtiResult" parameterType="ExamMbtiResult">
+        insert into exam_mbti_result
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="optionName != null  and optionName != ''  ">option_name,</if>
+			<if test="optionCode != null  and optionCode != ''  ">option_code,</if>
+			<if test="optionContent != null  and optionContent != ''  ">option_content,</if>
+			<if test="creator != null  and creator != ''  ">creator,</if>
+			<if test="createDate != null  ">create_date,</if>
+			<if test="modifier != null  and modifier != ''  ">modifier,</if>
+			<if test="modifyDate != null  ">modify_date,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="optionName != null  and optionName != ''  ">#{optionName},</if>
+			<if test="optionCode != null  and optionCode != ''  ">#{optionCode},</if>
+			<if test="optionContent != null  and optionContent != ''  ">#{optionContent},</if>
+			<if test="creator != null  and creator != ''  ">#{creator},</if>
+			<if test="createDate != null  ">#{createDate},</if>
+			<if test="modifier != null  and modifier != ''  ">#{modifier},</if>
+			<if test="modifyDate != null  ">#{modifyDate},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamMbtiResult" parameterType="ExamMbtiResult">
+        update exam_mbti_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="optionName != null  and optionName != ''  ">option_name = #{optionName},</if>
+            <if test="optionCode != null  and optionCode != ''  ">option_code = #{optionCode},</if>
+            <if test="optionContent != null  and optionContent != ''  ">option_content = #{optionContent},</if>
+            <if test="creator != null  and creator != ''  ">creator = #{creator},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="modifier != null  and modifier != ''  ">modifier = #{modifier},</if>
+            <if test="modifyDate != null  ">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamMbtiResultById" parameterType="String">
+        delete from exam_mbti_result where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamMbtiResultByIds" parameterType="String">
+        delete from exam_mbti_result where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

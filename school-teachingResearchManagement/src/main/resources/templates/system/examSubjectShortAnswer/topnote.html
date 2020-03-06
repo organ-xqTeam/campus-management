@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<th:block th:include="include :: header('热门信息编辑')" />
+</head>
+<body class="gray-bg">
+
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="hotinformaction">
+		
+			
+			<input id="id" name="id" class="form-control" th:value="${menu.id}" type="hidden">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">是否热门：</label>
+				<div class="col-sm-8">
+					<label class="toggle-switch switch-solid"> <input
+						type="checkbox" id="status"
+						th:checked="${menu.modifier == '1' ? true : false}"> <span></span>
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>图片上的title：</label>
+				<div class="col-sm-8">
+					<input id="title" name="title" class="form-control"
+						th:value="${menu.hottitle}" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>热门描述：</label>
+				<div class="col-sm-8">
+					<input id="description" name="description" class="form-control"
+						th:value="${menu.description}" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>热门热度：</label>
+				<div class="col-sm-8">
+					<input id="hotnum" name="hotnum" class="form-control" 
+						th:value="${menu.hotnum}" type="number" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">图像img：</label>
+				<div class="col-sm-8">
+					<input id="imageBase" name="imageBase" class="form-control" data-value=""
+						type="file" accept=".jpg,.jpeg,.png"> <img id="showImg"
+						th:src="@{${menu.creator}}" style="width: 40%">
+				</div>
+			</div>
+		</form>
+
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+	
+	
+		$("#hotinformaction").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});	
+	
+	
+    	var numer = [[${menu}]]
+    	console.log(numer)
+    	 var prefix = ctx + "system/examSubjectShortAnswer";
+    	$('#imageBase').on('change',function(e){
+		      // 检查是否是图片
+		      var filePath = $(this).val(),
+		      fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();//获取文件后缀名
+		      //检查后缀名
+		      if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+		            showError('文件格式必须为：png/jpg/jpeg');//showError是另外写的一个显示错误信息的function
+		            return;  
+		      }
+		      //获取并记录图片的base64编码
+		      var reader = new FileReader();
+		      reader.readAsDataURL(e.target.files[0]); // 读出 base64
+		      reader.onloadend = function () {
+		            // 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
+		           var dataURL = reader.result;//base64
+		           dataURLnew = reader;
+		           // 显示图片
+		           $('#showImg').attr('src',dataURL);
+		           //上传图片
+		           var formData = new FormData()  //创建一个forData 
+		            formData.append('file', $('#imageBase')[0].files[0]) //把file添加进去  name命名为img
+		            $.ajax({
+		                url: prefix + "/importImg",
+		                data: formData,
+		                type: "POST",
+		                async: false,
+		                cache: false,
+		                contentType: false,
+		                processData: false,
+		                success: function(data) {
+		                	if (data.code != 0) {
+		                		$.modal.msgError("图片上传失败！！！");
+							}
+		                	
+		                	$("#imageBase").attr("data-value",data.msg)
+		                	
+		                     //成功
+		                },
+		                error: function(obj) {
+		                      //失败
+		                    //  console.log(obj)
+		                      $.modal.msgError("图片上传失败！！！");
+		                }
+		              })
+		      };
+		});
+    </script>
+</body>
+</html>

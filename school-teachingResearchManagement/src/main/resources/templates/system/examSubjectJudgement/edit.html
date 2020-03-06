@@ -64,7 +64,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-examSubjectJudgement-edit" th:object="${examSubjectJudgement}">
             <input id="id" name="id" th:field="*{id}"  type="hidden">
-			<div class="form-group">	
+			<div id="hid_flag" class="form-group">	
 				<label class="col-sm-3 control-label">分类ID：</label>
 				<div class="col-sm-8">
 					<!-- <input id="categoryId" name="categoryId" th:field="*{categoryId}" class="form-control" type="text" readonly="true"> -->
@@ -87,7 +87,19 @@
 					<input id="subjectName" name="subjectName" th:field="*{subjectName}" class="form-control" type="text" required>
 				</div>
 			</div>
-			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">课程名称：</label>
+				<div class="col-sm-8">
+					<select class="form-control" name="courseid">
+						<option value="">---请选择课程---</option>
+						<option th:each="c:${clist}" 
+								th:value="${c.id}" 
+								th:text="${c.studentsName}"
+								th:selected="*{courseid}==${c.id}">
+						</option>
+					</select>
+				</div>
+			</div>
 			<div class="form-group" id="s1" >	
 				<label class="col-sm-3 control-label">添加选项：</label>
 				<div class="input_content divcss5-b">
@@ -168,6 +180,11 @@
     
     
     var examall = [[${examall}]];
+    
+    var ishidden = [[${examSubjectJudgement.categoryId}]]
+    if (ishidden == '-1') {
+    	$('#hid_flag').hide();
+    }
     
     //	console.log(examall)
     

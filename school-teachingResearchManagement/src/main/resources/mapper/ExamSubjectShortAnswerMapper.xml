@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examSubjectShortAnswer.mapper.ExamSubjectShortAnswerMapper">
+    
+    <resultMap type="ExamSubjectShortAnswer" id="ExamSubjectShortAnswerResult">
+        <result property="id"    column="id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="subjectName"    column="subject_name"    />
+        <result property="answer"    column="answer"    />
+        <result property="score"    column="score"    />
+        <result property="analysis"    column="analysis"    />
+        <result property="level"    column="level"    />
+        <result property="creator"    column="creator"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="modifier"    column="modifier"    />
+        <result property="modifyDate"    column="modify_date"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="applicationCode"    column="application_code"    />
+        <result property="tenantCode"    column="tenant_code"    />
+        <result property="hotnum"    column="hotnum"    />
+        <result property="description"    column="description"    />
+        <result property="hottitle"    column="hottitle"    />
+        <result property="courseid"    column="courseid"    />
+    </resultMap>
+	
+	<sql id="selectExamSubjectShortAnswerVo">
+        select id, category_id, serial_number, subject_name, answer, score, analysis, level, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code,hotnum,description,hottitle, courseid, (select students_name from coursemanagement where id = courseid) as 'coursename' from exam_subject_short_answer
+    </sql>
+	
+    <select id="selectExamSubjectShortAnswerList" parameterType="ExamSubjectShortAnswer" resultMap="ExamSubjectShortAnswerResult">
+        <include refid="selectExamSubjectShortAnswerVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="categoryId != null  and categoryId != '' "> and category_id = #{categoryId}</if>
+             <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
+             <if test="subjectName != null  and subjectName != '' "> and subject_name like concat ( '%',#{subjectName},'%')</if>
+             <if test="answer != null  and answer != '' "> and answer = #{answer}</if>
+             <if test="score != null "> and score = #{score}</if>
+             <if test="analysis != null  and analysis != '' "> and analysis = #{analysis}</if>
+             <if test="level != null "> and level = #{level}</if>
+             <if test="creator != null  and creator != '' "> and creator = #{creator}</if>
+             <if test="createDate != null "> and create_date = #{createDate}</if>
+             <if test="modifier != null  and modifier != '' "> and modifier = #{modifier}</if>
+             <if test="modifyDate != null "> and modify_date = #{modifyDate}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="applicationCode != null  and applicationCode != '' "> and application_code = #{applicationCode}</if>
+             <if test="tenantCode != null  and tenantCode != '' "> and tenant_code = #{tenantCode}</if>
+             <if test="hotnum != null  and hotnum != '' "> and hotnum = #{hotnum}</if>
+             <if test="description != null  and description != '' "> and description = #{description}</if>
+             <if test="hottitle != null  and hottitle != '' "> and hottitle = #{hottitle}</if>
+             <if test="courseid != null  and courseid != '' "> and courseid = #{courseid}</if>
+         </where>
+    </select>
+    
+    <select id="selectExamSubjectShortAnswerById" parameterType="String" resultMap="ExamSubjectShortAnswerResult">
+        <include refid="selectExamSubjectShortAnswerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamSubjectShortAnswer" parameterType="ExamSubjectShortAnswer">
+        insert into exam_subject_short_answer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="categoryId != null  and categoryId != ''  ">category_id,</if>
+			<if test="serialNumber != null  ">serial_number,</if>
+			<if test="subjectName != null  and subjectName != ''  ">subject_name,</if>
+			<if test="answer != null  and answer != ''  ">answer,</if>
+			<if test="score != null  ">score,</if>
+			<if test="analysis != null  and analysis != ''  ">analysis,</if>
+			<if test="level != null  ">level,</if>
+			<if test="creator != null  and creator != ''  ">creator,</if>
+			<if test="createDate != null  ">create_date,</if>
+			<if test="modifier != null  and modifier != ''  ">modifier,</if>
+			<if test="modifyDate != null  ">modify_date,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">application_code,</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">tenant_code,</if>
+			<if test="hotnum != null  and hotnum != ''  ">hotnum,</if>
+			<if test="description != null  and description != ''  ">description,</if>
+			<if test="hottitle != null  and hottitle != ''  ">hottitle,</if>
+			<if test="courseid != null  and courseid != ''  ">courseid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="categoryId != null  and categoryId != ''  ">#{categoryId},</if>
+			<if test="serialNumber != null  ">#{serialNumber},</if>
+			<if test="subjectName != null  and subjectName != ''  ">#{subjectName},</if>
+			<if test="answer != null  and answer != ''  ">#{answer},</if>
+			<if test="score != null  ">#{score},</if>
+			<if test="analysis != null  and analysis != ''  ">#{analysis},</if>
+			<if test="level != null  ">#{level},</if>
+			<if test="creator != null  and creator != ''  ">#{creator},</if>
+			<if test="createDate != null  ">#{createDate},</if>
+			<if test="modifier != null  and modifier != ''  ">#{modifier},</if>
+			<if test="modifyDate != null  ">#{modifyDate},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="applicationCode != null  and applicationCode != ''  ">#{applicationCode},</if>
+			<if test="tenantCode != null  and tenantCode != ''  ">#{tenantCode},</if>
+			<if test="hotnum != null  and hotnum != ''  ">#{hotnum},</if>
+			<if test="description != null  and description != ''  ">#{description},</if>
+			<if test="hottitle != null  and hottitle != ''  ">#{hottitle},</if>
+			<if test="courseid != null  and courseid != ''  ">#{courseid},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateExamSubjectShortAnswer" parameterType="ExamSubjectShortAnswer">
+        update exam_subject_short_answer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null  and categoryId != ''  ">category_id = #{categoryId},</if>
+            <if test="serialNumber != null  ">serial_number = #{serialNumber},</if>
+            <if test="subjectName != null  and subjectName != ''  ">subject_name = #{subjectName},</if>
+            <if test="answer != null  and answer != ''  ">answer = #{answer},</if>
+            <if test="score != null  ">score = #{score},</if>
+            <if test="analysis != null  and analysis != ''  ">analysis = #{analysis},</if>
+            <if test="level != null  ">level = #{level},</if>
+            <if test="creator != null  and creator != ''  ">creator = #{creator},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="modifier != null  and modifier != ''  ">modifier = #{modifier},</if>
+            <if test="modifyDate != null  ">modify_date = #{modifyDate},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="applicationCode != null  and applicationCode != ''  ">application_code = #{applicationCode},</if>
+            <if test="tenantCode != null  and tenantCode != ''  ">tenant_code = #{tenantCode},</if>
+            <if test="hotnum != null  and hotnum != '' ">  hotnum = #{hotnum},</if>
+             <if test="description != null  and description != '' ">  description = #{description},</if>
+             <if test="hottitle != null  and hottitle != '' ">  hottitle = #{hottitle},</if>
+             <if test="courseid != null  and courseid != '' ">  courseid = #{courseid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteExamSubjectShortAnswerById" parameterType="String">
+        delete from exam_subject_short_answer where id = #{id}
+    </delete>
+	
+    <delete id="deleteExamSubjectShortAnswerByIds" parameterType="String">
+        delete from exam_subject_short_answer where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
