@@ -160,9 +160,11 @@ public class ExamSubjectShortAnswerController extends BaseController
 		mmap.put("clist", clist);
 	    return "system/schooltestpaper/add";
 	}
-	@GetMapping("/selectMenuTree")
-	public String tree(ModelMap mmap)
+	
+	@GetMapping("/selectMenuTree2/{courseid}")
+	public String tree(@PathVariable("courseid") String courseid, ModelMap mmap)
 	{
+		mmap.put("courseid", courseid);
 //		mmap.put("menu", examSubjectCategoryService.selectMenuById(menuId));
 	    return "system/schooltestpaper/tree";
 	}

@@ -12,7 +12,8 @@
 			<div class="col-sm-12 search-collapse">
 				<form id="formId">
 
-					<input type="hidden" id="deptId" name="categoryId" value="-1"> 
+					<input type="hidden" name="categoryId" value="-1"> 
+					<input type="hidden" th:value="${courseid}"> 
 					<div class="select-list">
 						<ul>
 							<li>序号：<input type="text" name="serialNumber" />
