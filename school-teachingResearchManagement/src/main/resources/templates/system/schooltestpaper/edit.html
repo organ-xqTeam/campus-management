@@ -7,6 +7,7 @@
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-examSubjectShortAnswer-edit" th:object="${examSubjectShortAnswer}">
             <input id="id" name="id" th:field="*{id}"  type="hidden">
+            <input id="issave" name="issave" th:field="*{issave}"  type="hidden">
 			<div class="form-group" style="display: none">	
 				<label class="col-sm-3 control-label">测评分类ID：</label>
 				<div class="col-sm-8">
@@ -77,6 +78,7 @@
 								<th>id</th>
 								<th>编号</th>
 								<th>名称</th>
+								<th>分值</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -163,6 +165,7 @@
 						<td>`+ssa.exid+`</td>
 						<td>`+ssa.exnum+`</td>
 						<td>`+ssa.exname+`</td>
+						<td>`+ssa.exscore+`</td>
 						<td><i class="del glyphicon glyphicon-remove"></i></td>
 					</tr>
 					`
@@ -212,12 +215,28 @@
 						ssa1: $(ssa[0]).text(),
 						ssa2: $(ssa[1]).text(),
 						ssa3: $(ssa[2]).text(),
+						ssa4: $(ssa[3]).text(),
 					}
 				//	console.log(dn)
 					postarr[i] = dn
 				}
 			}
-			//console.log(postarr)
+			
+			var score_ = 0;
+			for(var i=0; i<postarr.length; i++) {
+				console.log(postarr[i].ssa4);
+				score_ += parseInt(postarr[i].ssa4);
+			}
+			console.log(score_);
+			console.log(parseInt($('#score').val()));
+			
+			if (score_ == parseInt($('#score').val())) {
+				$('#issave').val('1');				
+			}
+			if (score_ != parseInt($('#score').val())) {
+				$('#issave').val('0');				
+			}
+
 	        if ($.validate.form()) {
 	        	
 	        	
@@ -294,11 +313,13 @@
 					ssa1: $(ssa[1]).text(),
 					ssa2: $(ssa[2]).text(),
 					ssa3: $(ssa[3]).text(),
+					ssa4: $(ssa[4]).text(),
 				}
 				 ulStr1 += `<tr> 
 						<td>`+dn.ssa1+`</td>
 						<td>`+dn.ssa2+`</td>
 						<td>`+dn.ssa3+`</td>
+						<td>`+dn.ssa4+`</td>
 						<td><i class="del glyphicon glyphicon-remove"></i></td>
 					</tr>
 					`

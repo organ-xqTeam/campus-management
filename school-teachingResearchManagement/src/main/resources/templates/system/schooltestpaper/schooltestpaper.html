@@ -96,6 +96,24 @@
 					sortable: true
 				},
 				{
+					field : 'issave', 
+					title : '是否保存',
+					sortable: true,
+                    formatter: function(value, row, index) {
+        				var actions = [];
+                        if (value == '1') {
+                        	actions.push('是');
+                        }
+                        else if (value == '0') {
+                        	actions.push('否');
+                        }
+                        else {
+                        	actions.push('否');
+                        }
+                        return actions.join('');
+                    }
+				},
+				{
 					field : 'createDate', 
 					title : '上传时间',
 					sortable: true

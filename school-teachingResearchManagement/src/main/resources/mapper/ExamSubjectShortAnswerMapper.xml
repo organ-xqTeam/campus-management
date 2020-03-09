@@ -24,10 +24,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="description"    column="description"    />
         <result property="hottitle"    column="hottitle"    />
         <result property="courseid"    column="courseid"    />
+        <result property="issave"    column="issave"    />
     </resultMap>
 	
 	<sql id="selectExamSubjectShortAnswerVo">
-        select id, category_id, serial_number, subject_name, answer, score, analysis, level, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code,hotnum,description,hottitle, courseid, (select students_name from coursemanagement where id = courseid) as 'coursename' from exam_subject_short_answer
+        select id, category_id, serial_number, subject_name, answer, score, analysis, level, creator, create_date, modifier, modify_date, del_flag, application_code, tenant_code,hotnum,description,hottitle, courseid, (select students_name from coursemanagement where id = courseid) as 'coursename', issave from exam_subject_short_answer
     </sql>
 	
     <select id="selectExamSubjectShortAnswerList" parameterType="ExamSubjectShortAnswer" resultMap="ExamSubjectShortAnswerResult">
@@ -52,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="description != null  and description != '' "> and description = #{description}</if>
              <if test="hottitle != null  and hottitle != '' "> and hottitle = #{hottitle}</if>
              <if test="courseid != null  and courseid != '' "> and courseid = #{courseid}</if>
+             <if test="issave != null  and issave != '' "> and issave = #{issave}</if>
          </where>
     </select>
     
@@ -82,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="description != null  and description != ''  ">description,</if>
 			<if test="hottitle != null  and hottitle != ''  ">hottitle,</if>
 			<if test="courseid != null  and courseid != ''  ">courseid,</if>
+			<if test="issave != null  and issave != ''  ">issave,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null  and id != ''  ">#{id},</if>
@@ -103,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="description != null  and description != ''  ">#{description},</if>
 			<if test="hottitle != null  and hottitle != ''  ">#{hottitle},</if>
 			<if test="courseid != null  and courseid != ''  ">#{courseid},</if>
+			<if test="issave != null  and issave != ''  ">#{issave},</if>
          </trim>
     </insert>
 	 
@@ -127,6 +131,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="description != null  and description != '' ">  description = #{description},</if>
              <if test="hottitle != null  and hottitle != '' ">  hottitle = #{hottitle},</if>
              <if test="courseid != null  and courseid != '' ">  courseid = #{courseid},</if>
+             <if test="issave != null  and issave != '' ">  issave = #{issave},</if>
         </trim>
         where id = #{id}
     </update>

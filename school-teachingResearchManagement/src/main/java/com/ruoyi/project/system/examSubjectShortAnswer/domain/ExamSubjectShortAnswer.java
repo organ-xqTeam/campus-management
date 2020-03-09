@@ -56,8 +56,15 @@ public class ExamSubjectShortAnswer extends BaseEntity
 	
 	private String courseid;
 	private String coursename;
+	private String issave;
 	
-	
+	public String getIssave() {
+		return issave;
+	}
+
+	public void setIssave(String issave) {
+		this.issave = issave;
+	}
 
 	public String getCourseid() {
 		return courseid;

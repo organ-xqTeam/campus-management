@@ -327,6 +327,7 @@ public class ExamSubjectShortAnswerController extends BaseController
 				jsonObject.put("exid", ex.getId());
 				jsonObject.put("exnum", ex.getSerialNumber());
 				jsonObject.put("exname", ex.getSubjectName());
+				jsonObject.put("exscore", ex.getScore());
 				jsonObject.put("tenantCode", e.getTenantCode());
 				if (map.containsKey(e.getTenantCode())) {
 					List<JSONObject> la11 = map.get(e.getTenantCode());
