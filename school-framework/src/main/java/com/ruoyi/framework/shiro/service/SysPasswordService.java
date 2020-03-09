@@ -25,8 +25,8 @@ import com.ruoyi.system.domain.SysUser;
 @Component
 public class SysPasswordService
 {
-//    @Autowired
-//    private CacheManager cacheManager;
+    @Autowired
+    private CacheManager cacheManager;
 
     private Cache<String, AtomicInteger> loginRecordCache;
 
@@ -36,7 +36,7 @@ public class SysPasswordService
     @PostConstruct
     public void init()
     {
-//        loginRecordCache = cacheManager.getCache(ShiroConstants.LOGINRECORDCACHE);
+        loginRecordCache = cacheManager.getCache(ShiroConstants.LOGINRECORDCACHE);
     }
 
     public void validate(SysUser user, String password)

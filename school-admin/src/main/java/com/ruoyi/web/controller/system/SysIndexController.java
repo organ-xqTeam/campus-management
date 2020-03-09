@@ -68,18 +68,18 @@ public class SysIndexController extends BaseController
     public String index(ModelMap mmap,HttpServletRequest request)
     {
     	
-    	SysUser user = (SysUser) request.getSession().getAttribute("user");
-    	System.out.println(user);
-    	Subject subject = SecurityUtils.getSubject();
-//        PrincipalCollection principalCollection = subject.getPrincipals();
-        String realmName = user.getLoginName();
-        PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(user, realmName);
-        // 重新加载Principal
-        subject.runAs(newPrincipalCollection);
+//    	SysUser user = (SysUser) request.getSession().getAttribute("user");
+//    	System.out.println(user);
+//    	Subject subject = SecurityUtils.getSubject();
+////        PrincipalCollection principalCollection = subject.getPrincipals();
+//        String realmName = user.getLoginName();
+//        PrincipalCollection newPrincipalCollection = new SimplePrincipalCollection(user, realmName);
+//        // 重新加载Principal
+//        subject.runAs(newPrincipalCollection);
     	
     	
         // 取身份信息
-//        SysUser user = ShiroUtils.getSysUser();
+        SysUser user = ShiroUtils.getSysUser();
         // 根据用户id取出菜单
         List<SysMenu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);

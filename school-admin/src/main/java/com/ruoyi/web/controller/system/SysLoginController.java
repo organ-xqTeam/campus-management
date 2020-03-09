@@ -23,7 +23,7 @@ import com.ruoyi.common.utils.StringUtils;
 @Controller
 public class SysLoginController extends BaseController
 {
-//    @GetMapping("/login")
+    @GetMapping("/login")
     public String login(HttpServletRequest request, HttpServletResponse response)
     {
         // 如果是Ajax请求，返回Json字符串。

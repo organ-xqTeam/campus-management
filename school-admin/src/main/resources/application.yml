@@ -104,7 +104,7 @@ shiro:
     # 首页地址
     indexUrl: /index
     # 验证码开关
-    captchaEnabled: true
+    captchaEnabled: false
     # 验证码类型 math 数组计算 char 字符
     captchaType: math
   cookie:
@@ -124,7 +124,7 @@ shiro:
     # 相隔多久检查一次session的有效性，默认就是10分钟
     validationInterval: 10
     # 同一个用户最大会话数，比如2的意思是同一个账号允许最多同时两个人登录（默认-1不限制）
-    maxSession: -1
+    maxSession: 1
     # 踢出之前登录的/之后登录的用户，默认踢出之前登录的用户
     kickoutAfter: false
 
@@ -146,13 +146,5 @@ ftp:
   server:
     url: http://192.168.1.15/  # 图片文件的访问路径，根据实际情况修改  
 
-#cas server\u5730\u5740\uFF0C\u5916\u7F51\u8BBF\u95EE\u9700\u7528\u5916\u7F51IP,\u53EF\u4EE5\u5199\u57DF\u540D
-cas:
-   server-url: http://127.0.0.1:8080/cas
-#\u5F53\u524D\u9879\u76EE\u5730\u5740\uFF0C\u5916\u7F51\u8BBF\u95EE\u9700\u7528\u5916\u7F51IP
-   service: http://127.0.0.1
-#\u767B\u5F55\u6210\u529F\u5730\u5740
-   service.loginSuccessUrl : /index
-#\u6743\u9650\u8BA4\u8BC1\u5931\u8D25\u8DF3\u8F6C\u5730\u5740
-   service.unauthorizedUrl : /error.html    
+ 
     
