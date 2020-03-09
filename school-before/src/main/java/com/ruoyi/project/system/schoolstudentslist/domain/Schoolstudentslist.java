@@ -225,11 +225,75 @@ public class Schoolstudentslist extends BaseEntity
     private String remark44;
     private String code;
     
+    private String remark45;
+    private String remark46;
+    private String remark47;
+    private String icon;
+    private String iconname;
+    private String yasi;
+    private String  yasiname;
+    private String qq;
+    private String  weixin;
+    
 
     
     
     
-    public String getCode() {
+    public String getRemark45() {
+		return remark45;
+	}
+	public void setRemark45(String remark45) {
+		this.remark45 = remark45;
+	}
+	public String getRemark46() {
+		return remark46;
+	}
+	public void setRemark46(String remark46) {
+		this.remark46 = remark46;
+	}
+	public String getRemark47() {
+		return remark47;
+	}
+	public void setRemark47(String remark47) {
+		this.remark47 = remark47;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	public String getIconname() {
+		return iconname;
+	}
+	public void setIconname(String iconname) {
+		this.iconname = iconname;
+	}
+	public String getYasi() {
+		return yasi;
+	}
+	public void setYasi(String yasi) {
+		this.yasi = yasi;
+	}
+	public String getYasiname() {
+		return yasiname;
+	}
+	public void setYasiname(String yasiname) {
+		this.yasiname = yasiname;
+	}
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	public String getWeixin() {
+		return weixin;
+	}
+	public void setWeixin(String weixin) {
+		this.weixin = weixin;
+	}
+	public String getCode() {
 		return code;
 	}
 	public void setCode(String code) {
