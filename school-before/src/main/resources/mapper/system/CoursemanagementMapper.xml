@@ -36,10 +36,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="useralias"    column="userAlias"    />
         <result property="teacherId"    column="teacher_id"    />
         <result property="createDate"    column="create_date"    />
+        <result property="sbid"    column="sbid"    />
+        <result property="ssid"    column="ssid"    />
+        <result property="grade"    column="grade"    />
     </resultMap>
 
     <sql id="selectCoursemanagementVo">
-        select id, row_id, subjectmanagement_id, students_name, academic_level, curriculu_system, accumulated_class_hour, course_fascicle, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias,teacher_id,create_date from coursemanagement
+        select id,sbid,ssid,grade, row_id, subjectmanagement_id, students_name, academic_level, curriculu_system, accumulated_class_hour, course_fascicle, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias,teacher_id,create_date from coursemanagement
     </sql>
 
     <select id="selectCoursemanagementList" parameterType="Coursemanagement" resultMap="CoursemanagementResult">
@@ -117,6 +120,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useralias != null  and useralias != ''">userAlias,</if>
             <if test="teacherId  != null  and teacherId  != ''">teacher_id,</if>
             <if test="createDate  != null  and createDate  != ''">create_date,</if>
+            <if test="ssid  != null  and ssid  != ''">ssid,</if>
+            <if test="sbid  != null  and sbid  != ''">sbid,</if>
+            <if test="grade  != null  and grade  != ''">grade,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="rowId != null  and rowId != ''">#{rowId},</if>
@@ -149,6 +155,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useralias != null  and useralias != ''">#{useralias},</if>
             <if test="teacherId  != null  and teacherId  != ''">#{teacherId},</if>
             <if test="createDate  != null  and createDate  != ''">#{createDate},</if>
+            <if test="ssid  != null  and ssid  != ''">#{ssid},</if>
+            <if test="sbid  != null  and sbid  != ''">#{sbid},</if>
+            <if test="grade  != null  and grade  != ''">#{grade},</if>
          </trim>
     </insert>
 
@@ -184,6 +193,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''">deptAlias = #{deptalias},</if>
             <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
             <if test="teacherId  != null  and teacherId  != ''">teacher_id=#{teacherId},</if>
+            <if test="ssid  != null  and ssid  != ''">ssid=#{ssid},</if>
+            <if test="sbid  != null  and sbid  != ''">sbid=#{sbid},</if>
+            <if test="grade  != null  and grade  != ''">grade=#{grade},</if>
         </trim>
         where id = #{id}
     </update>

@@ -18,6 +18,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
@@ -38,10 +40,12 @@ public class CoursemanagementController extends BaseController
     private String prefix = "system/coursemanagement";
 
     @Autowired
-    private ICoursemanagementService coursemanagementService;
-    
+    private ICoursemanagementService coursemanagementService;    
     @Autowired
     private ISubjectmanagementService  subjectmanagementService;
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
+    
     @Autowired
     private ITeachingInfoService teachingInfoService;
     @RequiresPermissions("system:coursemanagement:view")
@@ -49,6 +53,18 @@ public class CoursemanagementController extends BaseController
     public String coursemanagement()
     {
         return prefix + "/coursemanagement";
+    }
+    @GetMapping("/viewedit/{id}")
+    public String viewedit(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	Coursemanagement course = new Coursemanagement();
+    	course = coursemanagementService.selectCoursemanagementById(id);
+    	mmap.put("course", course);
+    	TeachingInfo teachingInfo =new TeachingInfo();
+    	teachingInfo.setDelFlag((long)0);
+    	List<TeachingInfo> teachingInfoList=  teachingInfoService.selectTeachingInfoList(teachingInfo);
+    	mmap.put("teachingInfoList", teachingInfoList);
+        return prefix + "/viewedit";
     }
 
     /**
@@ -93,6 +109,9 @@ public class CoursemanagementController extends BaseController
     	TeachingInfo teachingInfo =new TeachingInfo();
     	List<TeachingInfo> teachingInfoList= teachingInfoService.selectTeachingInfoList(teachingInfo);
     	mmap.put("teachingInfoList", teachingInfoList);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/add";
     }
 
@@ -125,6 +144,9 @@ public class CoursemanagementController extends BaseController
     	List<TeachingInfo> teachingInfoList= teachingInfoService.selectTeachingInfoList(teachingInfo);
     	mmap.put("teachingInfoList", subjectmanagementList);
     	mmap.put("teachingInfoList", teachingInfoList);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/edit";
     }
 

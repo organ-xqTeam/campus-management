@@ -77,6 +77,7 @@
 								<th>id</th>
 								<th>编号</th>
 								<th>名称</th>
+								<th>分值</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -153,6 +154,7 @@
 						ssa1: $(ssa[0]).text(),
 						ssa2: $(ssa[1]).text(),
 						ssa3: $(ssa[2]).text(),
+						ssa4: $(ssa[3]).text(),
 					}
 					//console.log(dn)
 					postarr[i] = dn
@@ -275,11 +277,39 @@
 					ssa1: $(ssa[1]).text(),
 					ssa2: $(ssa[2]).text(),
 					ssa3: $(ssa[3]).text(),
+					ssa4: $(ssa[4]).text(),
+				}
+				
+				var postarr = [];
+				var arr =  $("#s1 tr")
+				if (arr.length > 0) {
+					for (var i = 0; i < arr.length; i++) {
+						var ssa = arr.eq(i).find('td')
+						var post = {
+							ssa1: $(ssa[0]).text(),
+							ssa2: $(ssa[1]).text(),
+							ssa3: $(ssa[2]).text(),
+							ssa4: $(ssa[3]).text(),
+						}
+					//	console.log(dn)
+						postarr[i] = post
+					}
+					var flag = false;
+					for(var i=0; i<postarr.length; i++) {
+						if (postarr[i].ssa1 == dn.ssa1) {
+							flag = true;
+						}
+					}
+					if (flag) {
+						$.modal.alert('题目重复');
+						break;
+					}
 				}
 				 ulStr1 += `<tr> 
 						<td>`+dn.ssa1+`</td>
 						<td>`+dn.ssa2+`</td>
 						<td>`+dn.ssa3+`</td>
+						<td>`+dn.ssa4+`</td>
 						<td><i class="del glyphicon glyphicon-remove"></i></td>
 					</tr>`
 				saveList[i] = dn;

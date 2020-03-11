@@ -315,6 +315,35 @@
 					ssa3: $(ssa[3]).text(),
 					ssa4: $(ssa[4]).text(),
 				}
+				
+				var postarr = [];
+				var arr =  $("#s1 tr")
+				if (arr.length > 0) {
+					for (var i = 0; i < arr.length; i++) {
+						var ssa = arr.eq(i).find('td')
+						var post = {
+							ssa1: $(ssa[0]).text(),
+							ssa2: $(ssa[1]).text(),
+							ssa3: $(ssa[2]).text(),
+							ssa4: $(ssa[3]).text(),
+						}
+					//	console.log(dn)
+						postarr[i] = post
+					}
+					var flag = false;
+					console.log(postarr)
+					for(var i=0; i<postarr.length; i++) {
+						if (postarr[i].ssa1 == dn.ssa1) {
+							flag = true;
+						}
+					}
+					if (flag) {
+						$.modal.alert('题目重复');
+						break;
+					}
+				}
+				
+				
 				 ulStr1 += `<tr> 
 						<td>`+dn.ssa1+`</td>
 						<td>`+dn.ssa2+`</td>

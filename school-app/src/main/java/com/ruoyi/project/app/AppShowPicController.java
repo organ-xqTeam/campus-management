@@ -64,7 +64,7 @@ public class AppShowPicController extends BaseController {
     }
 	
 	@ResponseBody
-    @RequestMapping(value="/upload", method = RequestMethod.GET)
+    @RequestMapping(value="/upload", method = RequestMethod.POST)
     public JSONObject upload(@RequestParam("file") MultipartFile file, FileInfo fileInfo) throws IOException {
 		{
 			JSONObject result = new JSONObject();

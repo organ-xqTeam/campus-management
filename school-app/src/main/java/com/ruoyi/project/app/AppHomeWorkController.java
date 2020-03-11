@@ -357,12 +357,24 @@ public class AppHomeWorkController extends BaseController {
     	String idnum = schoolstudentslist.getIdnum();
     	String nation = schoolstudentslist.getNation();
     	String code = schoolstudentslist.getCode();
-    	if (!code.equals("1234")) {
-    		return Result.error(CodeMsg.NOT_CODE);
-    	}
+//    	if (!code.equals("1234")) {
+//    		return Result.error(CodeMsg.NOT_CODE);
+//    	}
     	if (!idnum.matches(RegUtil.reg_idnum)){
     		return Result.error(CodeMsg.NOT_IDNUM);
     	}
+    	Schoolstudentslist stuCheckRepeat = new Schoolstudentslist();
+    	stuCheckRepeat.setIdnum(schoolstudentslist.getIdnum());
+    	List<Schoolstudentslist> stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);    	
+		if (stuCheckRepeatList.size() != 0) {
+    		return Result.error(CodeMsg.REPEAT_IDNUMBER);
+		}
+    	stuCheckRepeat = new Schoolstudentslist();
+    	stuCheckRepeat.setRemark44(schoolstudentslist.getRemark44());
+    	stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);
+    	if (stuCheckRepeatList.size() != 0) {
+    		return Result.error(CodeMsg.REPEAT_PHONE);
+		}
     	if (nation != null) {
     		boolean flag = true;
     		for(String n : RegUtil.nation) {

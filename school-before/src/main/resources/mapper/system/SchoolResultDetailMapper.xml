@@ -34,42 +34,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="filename != null "> and filename = #{filename}</if>
         </where>
     </select>
-     <select id="selectSchoolResultDetailStudentsListByResultId" resultType="hashmap" parameterType="hashmap">
-      select 
-      ss.id, ss.students_id as studentsId, ss.students_name as studentsName, ss.academic_level as academicLevel, ss.father_name, ss.father_phone, ss.mother_name, ss.mother_phone, ss.home_address, ss._remarks, ss.ages, ss.admission_time as admissionTime, ss._state, ss.del_flag, ss.deptAlias, ss.userAlias ,
-      ifnull(sc.nameclass,"") as nameclass ,
-      ifnull(ss.grade_id,"") as gradeId ,
-      ifnull(ss.class_id,"") as classId ,
-      srd.result,
-      srd.absent_flag,
-      ifnull(srd.file,"") as file ,      
-      ifnull(srd.filename,"") as filename ,
-      srd.id as did
-      from schoolstudentslist ss
-      left join school_class sc on sc.id=ss.class_id
-      left join school_result_detail srd on srd.students_id=  ss.id
-      <where>  
-       ss.del_flag='0' and sc.delete_flag='0'
-       <if test="nameclass != null and nameclass != ''  ">
-        and nameclass like #{nameclass}
-       </if>
-       <if test="studentsName != null and studentsName != '' ">
-        and students_name like #{studentsName}
-       </if>
-       <if test="resultId != null and resultId != '' ">
-        and srd.result_id=#{resultId}
-       </if>
-       <if test="gradeId != null and gradeId != '' ">
-        and grade_id=#{gradeId}
-       </if>
-       <if test="classId != null and classId != '' ">
-        and class_id=#{classId}
-       </if>
-      </where>
-    
-    
-   
-    
+	<select id="selectSchoolResultDetailStudentsListByResultId" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			ss.id,
+			ss.students_id AS studentsId,
+			ss.students_name AS studentsName,
+			ss.academic_level AS academicLevel,
+			ss.father_name,
+			ss.father_phone,
+			ss.mother_name,
+			ss.mother_phone,
+			ss.home_address,
+			ss._remarks,
+			ss.ages,
+			ss.admission_time AS admissionTime,
+			ss._state,
+			ss.del_flag,
+			ss.deptAlias,
+			ss.userAlias,
+			ifnull( ss.grade_id, "" ) AS gradeId,
+			ifnull( ss.class_id, "" ) AS classId,
+			(select result from school_result_detail where result_id=#{resultId} and students_id=ss.id) as 'result',
+			(select absent_flag from school_result_detail where result_id=#{resultId} and students_id=ss.id) as 'absent_flag',
+			(select file from school_result_detail where result_id=#{resultId} and students_id=ss.id) as 'file',
+			(select filename from school_result_detail where result_id=#{resultId} and students_id=ss.id) as 'filename',
+			(select id from school_result_detail where result_id=#{resultId} and students_id=ss.id) as 'did'	
+		FROM
+			schoolstudentslist ss
+		<where>
+			1=1
+		<if test="ssid != null and ssid != ''  ">
+       		and ss.ssid = #{ssid}
+  		</if>	
+		<if test="sbid != null and sbid != ''  ">
+       		and ss.sbid = #{sbid}
+  		</if>	
+        </where>
     </select> 
     
     <select id="selectstudentresultlist" resultType="hashmap" parameterType="hashmap">
@@ -114,8 +114,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			1=1
 		and 
 			srd.result_id = #{id} 
-		and
-			s.id is not null
+		and 
+			s.ssid=#{ssid} 
+		and 
+			s.sbid=#{sbid}
 		and 
 			(srd.result &lt; 60 or srd.absent_flag =1 or srd.result is null)
     </select>

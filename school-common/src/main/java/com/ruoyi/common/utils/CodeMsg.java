@@ -41,6 +41,8 @@ public class CodeMsg {
 	public static CodeMsg REPEAT_IDNUM = new CodeMsg(200105,"该身份证号已注册");
 	public static CodeMsg NOT_NATION = new CodeMsg(200106,"请输入正确的民族");
 	public static CodeMsg NOT_CODE = new CodeMsg(200107,"验证码不正确");
+	public static CodeMsg REPEAT_IDNUMBER = new CodeMsg(200107,"该身份证号重复");
+	public static CodeMsg REPEAT_PHONE = new CodeMsg(200107,"该手机号重复");
 	
 	private CodeMsg(int retCode, String message) {
 		this.msg = message;

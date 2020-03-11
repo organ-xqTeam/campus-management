@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examStudentList.mapper.ExamStudentListMapper">
+    
+    <resultMap type="ExamStudentList" id="ExamStudentListResult">
+        <result property="id"    column="id"    />
+        <result property="studentid"    column="studentid"    />
+        <result property="paperid"    column="paperid"    />
+        <result property="total"    column="total"    />
+    </resultMap>
+
+    <sql id="selectExamStudentListVo">
+        select id, studentid, paperid, total from exam_student_list
+    </sql>
+
+    <select id="selectExamStudentListList" parameterType="ExamStudentList" resultMap="ExamStudentListResult">
+        <include refid="selectExamStudentListVo"/>
+        <where>  
+            <if test="studentid != null  and studentid != ''"> and studentid = #{studentid}</if>
+            <if test="paperid != null  and paperid != ''"> and paperid = #{paperid}</if>
+            <if test="total != null  and total != ''"> and total = #{total}</if>
+        </where>
+    </select>
+    
+    <select id="selectExamStudentList" parameterType="hashmap" resultType="hashmap">
+        select
+			s.id,
+			s.students_id as 'studentid',
+			s.students_name as 'name',
+			YEAR(NOW())-YEAR(s.admission_time) + 1 as "nianji",
+			c.nameclass as 'class',
+			(select total from exam_student_list where studentid=s.id and paperid=#{paperid}) as 'total',
+			(select id from exam_student_list where studentid=s.id and paperid=#{paperid}) as 'did'
+		from 
+			schoolstudentslist s
+		left join 
+			school_class c on c.id = s.class_id
+		where 
+			1=1
+		<if test="sbid != null  and sbid != ''"> and s.sbid=#{sbid}</if>
+		<if test="ssid != null  and ssid != ''"> and s.ssid=#{ssid}</if>
+		<if test="name != null  and name != ''"> and s.students_name like concat ('%', #{name}, '%')</if>
+		<if test="nianji != null  and nianji != ''"> and s.admission_time like concat ('%', #{nianji}, '%')</if>
+		<if test="nameclass != null  and nameclass != ''"> and c.nameclass like concat ('%', #{nameclass}, '%')</if>
+    </select>
+    
+    <select id="selectExamStudentListById" parameterType="Long" resultMap="ExamStudentListResult">
+        <include refid="selectExamStudentListVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamStudentList" parameterType="ExamStudentList">
+        insert into exam_student_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="studentid != null  and studentid != ''">studentid,</if>
+            <if test="paperid != null  and paperid != ''">paperid,</if>
+            <if test="total != null  and total != ''">total,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="studentid != null  and studentid != ''">#{studentid},</if>
+            <if test="paperid != null  and paperid != ''">#{paperid},</if>
+            <if test="total != null  and total != ''">#{total},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExamStudentList" parameterType="ExamStudentList">
+        update exam_student_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentid != null  and studentid != ''">studentid = #{studentid},</if>
+            <if test="paperid != null  and paperid != ''">paperid = #{paperid},</if>
+            <if test="total != null  and total != ''">total = #{total},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamStudentListById" parameterType="Long">
+        delete from exam_student_list where id = #{id}
+    </delete>
+
+    <delete id="deleteExamStudentListByIds" parameterType="String">
+        delete from exam_student_list where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

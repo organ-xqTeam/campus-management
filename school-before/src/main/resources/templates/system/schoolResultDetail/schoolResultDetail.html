@@ -10,14 +10,15 @@
                 <form id="formId">
                     <div class="select-list">
                     	<input type="hidden" id="resultId" name="resultId" th:value="${resultId}"/>
+                    	<input type="hidden" id="sbid" name="sbid" th:value="${course?.sbid}"/>
+                    	<input type="hidden" id="ssid" name="ssid" th:value="${course?.ssid}"/>
                         <ul>
                             <li>
                                 <p>学生名称:</p>
                                 <input type="text" name="studentsName"/>
                             </li>
                              <li>
-                                <p>年级：</p>
-                                
+                                <p>年级：</p>                                
                                 <select  class="form-control" name="gradeId">
                                 <option value="">----</option>
 							    <option  th:each="schoolgradelist:${schoolgradelistList}" th:value="${schoolgradelist.id}" th:text="${schoolgradelist.grade}" ></option>
@@ -67,8 +68,9 @@
 		}
 		function luru(){
 			console.log(resultId)
-
-        	var url = prefix + "/luru?id="+resultId;
+			var sbid = $('#sbid').val();
+			var ssid = $('#ssid').val();
+        	var url = prefix + "/luru?id="+resultId+"&ssid="+ssid+"&sbid="+sbid;
 			$.modal.openTab("补考清单", url);
 		}
         $(function() {
@@ -79,6 +81,8 @@
                 removeUrl: prefix + "/remove",
                // exportUrl: prefix + "/export",
                 modalName: "学生列",
+                sortName:"result",
+                sortOrder:"desc",
                 columns: [{
                     checkbox: true
                 },

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolcoursewareinfo.mapper.SchoolcoursewareinfoMapper">
+    
+    <resultMap type="Schoolcoursewareinfo" id="SchoolcoursewareinfoResult">
+        <result property="id"    column="id"    />
+        <result property="num"    column="num"    />
+        <result property="name"    column="name"    />
+        <result property="ctime"    column="ctime"    />
+        <result property="jieshao"    column="jieshao"    />
+        <result property="price"    column="price"    />
+        <result property="teacherid"    column="teacherid"    />
+        <result property="teachername"    column="teachername"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
+        <result property="showcontent"    column="showcontent"    />
+        <result property="pingjia"    column="pingjia"    />
+    </resultMap>
+
+    <sql id="selectSchoolcoursewareinfoVo">
+        select id, num, name, ctime, jieshao, price, teacherid, file, filename, showcontent, pingjia, (select teaching_name from teaching_info where id=teacherid) as 'teachername' from schoolcoursewareinfo
+    </sql>
+
+    <select id="selectSchoolcoursewareinfoList" parameterType="Schoolcoursewareinfo" resultMap="SchoolcoursewareinfoResult">
+        <include refid="selectSchoolcoursewareinfoVo"/>
+        <where>  
+            <if test="num != null  and num != ''"> and num = #{num}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="ctime != null  and ctime != ''"> and ctime = #{ctime}</if>
+            <if test="jieshao != null  and jieshao != ''"> and jieshao = #{jieshao}</if>
+            <if test="price != null  and price != ''"> and price = #{price}</if>
+            <if test="teacherid != null  and teacherid != ''"> and teacherid = #{teacherid}</if>
+            <if test="file != null  and file != ''"> and file = #{file}</if>
+            <if test="filename != null  and filename != ''"> and filename like concat('%', #{filename}, '%')</if>
+            <if test="showcontent != null  and showcontent != ''"> and showcontent = #{showcontent}</if>
+            <if test="pingjia != null  and pingjia != ''"> and pingjia = #{pingjia}</if>
+        </where>
+    </select>
+    
+    <select id="selectSchoolcoursewareinfoById" parameterType="Long" resultMap="SchoolcoursewareinfoResult">
+        <include refid="selectSchoolcoursewareinfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSchoolcoursewareinfo" parameterType="Schoolcoursewareinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into schoolcoursewareinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="num != null  and num != ''">num,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="ctime != null  and ctime != ''">ctime,</if>
+            <if test="jieshao != null  and jieshao != ''">jieshao,</if>
+            <if test="price != null  and price != ''">price,</if>
+            <if test="teacherid != null  and teacherid != ''">teacherid,</if>
+            <if test="file != null  and file != ''">file,</if>
+            <if test="filename != null  and filename != ''">filename,</if>
+            <if test="showcontent != null  and showcontent != ''">showcontent,</if>
+            <if test="pingjia != null  and pingjia != ''">pingjia,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="num != null  and num != ''">#{num},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="ctime != null  and ctime != ''">#{ctime},</if>
+            <if test="jieshao != null  and jieshao != ''">#{jieshao},</if>
+            <if test="price != null  and price != ''">#{price},</if>
+            <if test="teacherid != null  and teacherid != ''">#{teacherid},</if>
+            <if test="file != null  and file != ''">#{file},</if>
+            <if test="filename != null  and filename != ''">#{filename},</if>
+            <if test="showcontent != null  and showcontent != ''">#{showcontent},</if>
+            <if test="pingjia != null  and pingjia != ''">#{pingjia},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSchoolcoursewareinfo" parameterType="Schoolcoursewareinfo">
+        update schoolcoursewareinfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="num != null  and num != ''">num = #{num},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="ctime != null  and ctime != ''">ctime = #{ctime},</if>
+            <if test="jieshao != null  and jieshao != ''">jieshao = #{jieshao},</if>
+            <if test="price != null  and price != ''">price = #{price},</if>
+            <if test="teacherid != null  and teacherid != ''">teacherid = #{teacherid},</if>
+            <if test="file != null  and file != ''">file = #{file},</if>
+            <if test="filename != null  and filename != ''">filename = #{filename},</if>
+            <if test="showcontent != null  and showcontent != ''">showcontent = #{showcontent},</if>
+            <if test="pingjia != null  and pingjia != ''">pingjia = #{pingjia},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSchoolcoursewareinfoById" parameterType="Long">
+        delete from schoolcoursewareinfo where id = #{id}
+    </delete>
+
+    <delete id="deleteSchoolcoursewareinfoByIds" parameterType="String">
+        delete from schoolcoursewareinfo where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

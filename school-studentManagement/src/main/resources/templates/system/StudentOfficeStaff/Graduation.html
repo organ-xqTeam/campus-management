@@ -79,6 +79,13 @@
                     visible: false
                 },
                 {
+                    field : 'icon', 
+                    title : '头像',
+                    formatter: function(value, row, index) {
+                		return $.table.imageView("/school-fast"+value);
+                	}
+                },
+                {
                     field : 'studentsId', 
                     title : '学号'
                 },
@@ -147,6 +154,19 @@
                     title : '既往学习信息',
                     formatter: function(value, row, index) {
                     	return '<a class="" href="#" onclick="jwxxview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'yasiname', 
+                    title : '成绩单',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (row.yasi) {
+    	                    return "<a onclick='ondownload()' data-value="+row.yasi+" >"+value+"</a>";
+                        }
+                        else {
+                            return "";
+                        }
                     }
                 },
 //                 {
@@ -243,6 +263,9 @@
 			var remark41  = body.find('#remark41').val();
 			var remark42  = body.find('#remark42').val();
 			var remark43  = body.find('#remark43').val();
+			var remark45  = body.find('#remark45').val();
+			var remark46  = body.find('#remark46').val();
+			var remark47  = body.find('#remark47').val();
 			
 			var remark5  = body.find('#remark5').val();
 			
@@ -263,6 +286,9 @@
 			+"&remark43="+remark43
 			+"&remark42="+remark42
 			+"&remark41="+remark41
+			+"&remark45="+remark45
+			+"&remark46="+remark46
+			+"&remark47="+remark47
 			+"&remark5="+remark5;			
 			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
    			layer.close(index);
@@ -341,12 +367,17 @@
 			var remark31  = body.find('#remark31').val();	
 			var remark21  = body.find('#remark21').val();
 			var remark44  = body.find('#remark44').val();	
+			var qq  = body.find('#qq').val();
+			var weixin  = body.find('#weixin').val();
+			
 			var str = "id="+id
 			+"&remark12="+remark12
 			+"&remark7="+remark7
 			+"&remark21="+remark21
 			+"&remark31="+remark31
 			+"&remark44="+remark44
+			+"&qq="+qq
+			+"&weixin="+weixin
 			+"&remark11="+remark11;		
 			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
    			layer.close(index);
@@ -468,6 +499,12 @@
 				 
 	   			//layer.close(index);
 			}
+	        function ondownload(){
+	        	//console.log(event.currentTarget)
+	        	var objtp=$(event.currentTarget).attr("data-value");
+	        	console.log( ctx + "common/download/resource?resource=" + objtp)
+	        	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+	        }
         
     </script>
 </body>

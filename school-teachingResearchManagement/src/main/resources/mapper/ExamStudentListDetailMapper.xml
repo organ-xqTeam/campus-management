@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.examStudentListDetail.mapper.ExamStudentListDetailMapper">
+    
+    <resultMap type="ExamStudentListDetail" id="ExamStudentListDetailResult">
+        <result property="id"    column="id"    />
+        <result property="detailid"    column="detailid"    />
+        <result property="questionid"    column="questionid"    />
+        <result property="choose"    column="choose"    />
+    </resultMap>
+
+    <sql id="selectExamStudentListDetailVo">
+        select id, detailid, questionid, choose from exam_student_list_detail
+    </sql>
+
+    <select id="selectExamStudentListDetailList" parameterType="ExamStudentListDetail" resultMap="ExamStudentListDetailResult">
+        <include refid="selectExamStudentListDetailVo"/>
+        <where>  
+            <if test="detailid != null  and detailid != ''"> and detailid = #{detailid}</if>
+            <if test="questionid != null  and questionid != ''"> and questionid = #{questionid}</if>
+            <if test="choose != null  and choose != ''"> and choose = #{choose}</if>
+        </where>
+    </select>
+    
+    <select id="selectExamStudentListDetail" parameterType="hashmap" resultType="hashmap">
+        select
+			id,
+			subject_name as 'name',
+			score,
+			(select choose from exam_student_list_detail where questionid = j.id and detailid=#{did}) as 'choose',
+			j.answer
+		from 
+			exam_subject_judgement j
+		where 
+			1=1
+		and 
+		  id in (select subject_id from exam_examination_subject where examination_id = (select paperid from exam_student_list where id=#{did}))
+    </select>
+    
+    <select id="selectExamStudentListDetailById" parameterType="Long" resultMap="ExamStudentListDetailResult">
+        <include refid="selectExamStudentListDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertExamStudentListDetail" parameterType="ExamStudentListDetail">
+        insert into exam_student_list_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null ">id,</if>
+            <if test="detailid != null  and detailid != ''">detailid,</if>
+            <if test="questionid != null  and questionid != ''">questionid,</if>
+            <if test="choose != null  and choose != ''">choose,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null ">#{id},</if>
+            <if test="detailid != null  and detailid != ''">#{detailid},</if>
+            <if test="questionid != null  and questionid != ''">#{questionid},</if>
+            <if test="choose != null  and choose != ''">#{choose},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExamStudentListDetail" parameterType="ExamStudentListDetail">
+        update exam_student_list_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detailid != null  and detailid != ''">detailid = #{detailid},</if>
+            <if test="questionid != null  and questionid != ''">questionid = #{questionid},</if>
+            <if test="choose != null  and choose != ''">choose = #{choose},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExamStudentListDetailById" parameterType="Long">
+        delete from exam_student_list_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteExamStudentListDetailByIds" parameterType="String">
+        delete from exam_student_list_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -29,6 +29,8 @@ import com.ruoyi.project.system.classcurriculum.domain.Classcurriculum;
 import com.ruoyi.project.system.classcurriculum.service.IClasscurriculumService;
 import com.ruoyi.project.system.classschedulingmanagement.domain.Classschedulingmanagement;
 import com.ruoyi.project.system.classschedulingmanagement.service.IClassschedulingmanagementService;
+import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
+import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
@@ -68,6 +70,9 @@ public class SchoolResultDetailController extends BaseController
     private ISchoolClassService schoolClassService;
     @Autowired
     private IClassschedulingmanagementService classschedulingmanagementService;
+    @Autowired
+    private ICoursemanagementService coursemanagementService;
+    
     @RequiresPermissions("system:schoolResultDetail:view")
     @GetMapping()
     public String schoolResultDetail(String id,ModelMap mmap)
@@ -81,6 +86,9 @@ public class SchoolResultDetailController extends BaseController
     	SchoolResult schoolResult=  schoolResultService.selectSchoolResultById(Long.valueOf(id));
     	//获取课程id  coursemanagementId
     	Long coursemanagementId= schoolResult.getCurriculumId();
+    	Coursemanagement course = new Coursemanagement();
+    	course = coursemanagementService.selectCoursemanagementById(coursemanagementId);
+    	mmap.put("course", course);
     	//
     	ClasscurriculumDetail classcurriculumDetail =new ClasscurriculumDetail();
     	classcurriculumDetail.setCoursemanagementId(coursemanagementId);
@@ -167,10 +175,11 @@ public class SchoolResultDetailController extends BaseController
     }
     
     @GetMapping("/luru")
-//    @RequiresPermissions("system:schoolResultDetail:view")
-    public String luru(String id,ModelMap mmap)
+    public String luru(@RequestParam("id") String id, @RequestParam("sbid") String sbid, @RequestParam("ssid") String ssid, ModelMap mmap)
     {
-    	mmap.put("studentid", id);
+    	mmap.put("id", id);
+    	mmap.put("sbid", sbid);
+    	mmap.put("ssid", ssid);
         return prefix + "/luru";
     }
     

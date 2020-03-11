@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增学生列')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">		
+		<input id="id" name="id" th:field="${courseware.id}"
+					class="form-control" type="hidden" >
+		<div class="form-group">
+			<label class="col-sm-3 control-label">课程介绍：</label>
+			<div class="col-sm-8">
+				<textarea id="jieshao" name="jieshao" class="form-control">[[*{courseware.jieshao}]]</textarea>
+			</div>
+		</div>
+	</div>
+	<th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>

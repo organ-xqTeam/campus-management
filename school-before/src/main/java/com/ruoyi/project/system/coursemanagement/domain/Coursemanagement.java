@@ -137,7 +137,37 @@ public class Coursemanagement extends BaseEntity
     
     private String createDate;
     
-    public String getCreateDate() {
+    private String ssid;
+    private String sbid;
+    private String grade;
+    
+    
+    
+    public String getSsid() {
+		return ssid;
+	}
+
+	public void setSsid(String ssid) {
+		this.ssid = ssid;
+	}
+
+	public String getSbid() {
+		return sbid;
+	}
+
+	public void setSbid(String sbid) {
+		this.sbid = sbid;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getCreateDate() {
 		return createDate;
 	}
 

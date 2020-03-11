@@ -31,18 +31,6 @@
                                 <input type="text" name="accumulatedClassHour"/>
                             </li>
                             <li>
-                                <p>课程分册：</p>
-                                <input type="text" name="courseFascicle"/>
-                            </li>
-                            <li>
-                                <p>部门表的别名：</p>
-                                <input type="text" name="deptalias"/>
-                            </li>
-                            <li>
-                                <p>用户表的别名：</p>
-                                <input type="text" name="useralias"/>
-                            </li>
-                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -75,7 +63,9 @@
         var editFlag = [[${@permission.hasPermi('system:coursemanagement:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:coursemanagement:remove')}]];
         var shijianFlag = [[${@permission.hasPermi('system:ReduceTask:view')}]];
+        var coursewareFlag = [[${@permission.hasPermi('system:coursemanagement:view')}]];
         var prefix = ctx + "system/coursemanagement";
+        var prefix2 = ctx + "system/schoolcoursewareinfo";
 		function shijian(cid) {
         	var url = ctx + "system/ReduceTask?cid="+cid;
 			$.modal.openTab("实践任务管理", url);
@@ -98,13 +88,14 @@
                     title : '编号',
                     visible: false
                 },
+//                 {
+//                     field : 'rowId', 
+//                     title : '编号'
+//                 },
                 {
-                    field : 'rowId', 
-                    title : '编号'
-                },
-                {
-                    field : 'subjectmanagementName', 
-                    title : '科目管理'
+                    field : 'subjectmanagementId', 
+//                     field : 'subjectmanagementName', 
+                    title : '科目'
                 },
                 {
                     field : 'studentsName', 
@@ -112,7 +103,17 @@
                 },
                 {
                     field : 'academicLevel', 
-                    title : '分类'
+                    title : '分类',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (value == '1') {
+                        	actions.push('必修');
+                        }
+                        if (value == '2') {
+                        	actions.push('选修');
+                        }
+                        return actions.join('');
+                    }
                 },
                 {
                     field : 'curriculuSystem', 
@@ -122,94 +123,22 @@
                     field : 'accumulatedClassHour', 
                     title : '累计课时'
                 },
-                {
-                    field : 'courseFascicle', 
-                    title : '课程分册'
-                },
+//                 {
+//                     field : 'courseFascicle', 
+//                     title : '课程分册'
+//                 },
                 {
                     field : 'teachingName', 
-                    title : '教师名称'
+                    title : '任课教师',
+                    formatter: function(value, row, index) {
+                    	if (value) {
+                        	return '<a class="" href="#" onclick="vieweditor(\'' + row.id + '\')">'+value+'</a>';
+                    	}
+                    	else {
+                        	return '<a class="" href="#" onclick="vieweditor(\'' + row.id + '\')">编辑</a>';
+                    	}
+                    }
                 },
-                /* {
-                    field : 'remark', 
-                    title : '备注'
-                },
-                 {
-                    field : 'remark1', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark2', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark3', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark4', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark5', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark6', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark7', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark8', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark9', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark10', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark11', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark12', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark13', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark14', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark15', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark16', 
-                    title : '备注'
-                },
-                {
-                    field : 'remark17', 
-                    title : '备注'
-                },
-                {
-                    field : 'deptalias', 
-                    title : '部门表的别名'
-                },
-                {
-                    field : 'useralias', 
-                    title : '用户表的别名'
-                }, */
                 {
                     title: '操作',
                     align: 'center',
@@ -220,10 +149,45 @@
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
+                },
+                {
+                    title: '课件视频',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	var actions = [];
+                    	return '<a class="'+coursewareFlag+'" href="#" onclick="kjsp(\'' + row.id + '\')">查看</a>';
+                    }
                 }]
             };
             $.table.init(options);
         });
+        
+        function vieweditor(id){
+        	var url = prefix + "/viewedit/" + id;
+    		var options = {
+   				title: '任课老师',
+   				width: "380",
+   				height: "300",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val()
+			var teacherId  = body.find('#teacherId').val()   			
+			var str = "id="+id+"&teacherId="+teacherId			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+		}
+        
+        function kjsp(id) {
+        	var url = prefix2 + "?id="+id;
+			$.modal.openTab("课件视频", url);
+        }
+        
     </script>
 </body>
 </html>
