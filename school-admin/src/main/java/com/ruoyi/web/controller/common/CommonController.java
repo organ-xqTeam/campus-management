@@ -1,22 +1,30 @@
 package com.ruoyi.web.controller.common;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.config.ServerConfig;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.ueditor.ActionEnter;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.file.FileUtils;
+import com.ruoyi.framework.config.RuoYiConfig;
 
 /**
  * 通用请求处理
@@ -90,6 +98,23 @@ public class CommonController
         }
     }
 
+    
+    @RequestMapping(value="/js/config")
+    public void config(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("application/json");
+        String rootPath = RuoYiConfig.getUploadPath();
+        try {
+            String exec = new ActionEnter(request, rootPath).exec();
+            PrintWriter writer = response.getWriter();
+            writer.write(exec);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
     /**
      * 本地资源通用下载
      */
