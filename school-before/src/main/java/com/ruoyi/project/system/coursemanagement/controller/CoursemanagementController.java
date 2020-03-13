@@ -18,6 +18,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.CourseSystem.domain.CourseSystem;
+import com.ruoyi.project.system.CourseSystem.service.ICourseSystemService;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
@@ -45,6 +47,8 @@ public class CoursemanagementController extends BaseController
     private ISubjectmanagementService  subjectmanagementService;
     @Autowired
     private ISchoolBelongService schoolBelongService;
+    @Autowired
+    private ICourseSystemService courseSystemService;
     
     @Autowired
     private ITeachingInfoService teachingInfoService;
@@ -112,6 +116,9 @@ public class CoursemanagementController extends BaseController
     	SchoolBelong sb = new SchoolBelong();
     	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
     	mmap.put("sblist", sblist);
+    	CourseSystem cs = new CourseSystem();
+    	List<CourseSystem> cslist = courseSystemService.selectCourseSystemList(cs);
+    	mmap.put("cslist", cslist);
         return prefix + "/add";
     }
 
@@ -147,6 +154,9 @@ public class CoursemanagementController extends BaseController
     	SchoolBelong sb = new SchoolBelong();
     	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
     	mmap.put("sblist", sblist);
+    	CourseSystem cs = new CourseSystem();
+    	List<CourseSystem> cslist = courseSystemService.selectCourseSystemList(cs);
+    	mmap.put("cslist", cslist);
         return prefix + "/edit";
     }
 

@@ -96,9 +96,9 @@ public class CourseSystemController extends BaseController
     @ResponseBody
     public AjaxResult addSave(CourseSystem courseSystem)
     {
-    	Long specialtyId=  courseSystem.getSpecialtyId();
-    	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
-    	courseSystem.setSpecialtyName(schoolSpecialty.getName());
+//    	Long specialtyId=  courseSystem.getSpecialtyId();
+//    	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
+//    	courseSystem.setSpecialtyName(schoolSpecialty.getName());
         return toAjax(courseSystemService.insertCourseSystem(courseSystem));
     }
 
@@ -125,9 +125,9 @@ public class CourseSystemController extends BaseController
     @ResponseBody
     public AjaxResult editSave(CourseSystem courseSystem)
     {
-    	Long specialtyId=  courseSystem.getSpecialtyId();
-    	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
-    	courseSystem.setSpecialtyName(schoolSpecialty.getName());
+//    	Long specialtyId=  courseSystem.getSpecialtyId();
+//    	SchoolSpecialty  schoolSpecialty= schoolSpecialtyService.selectSchoolSpecialtyById(specialtyId);
+//    	courseSystem.setSpecialtyName(schoolSpecialty.getName());
         return toAjax(courseSystemService.updateCourseSystem(courseSystem));
     }
 

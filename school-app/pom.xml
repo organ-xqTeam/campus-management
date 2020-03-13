@@ -42,6 +42,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>school-educationalAdministration</artifactId>
         </dependency>
+ 		<dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>school-teachingResearchManagement</artifactId>
+        </dependency>
         
     </dependencies>
 	

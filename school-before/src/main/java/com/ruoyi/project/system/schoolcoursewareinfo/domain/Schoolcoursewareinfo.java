@@ -58,10 +58,18 @@ public class Schoolcoursewareinfo extends BaseEntity
     @Excel(name = "评价信息")
     private String pingjia;
     private String teachername;
-    
+    private String courseid;
     
 
-    public String getTeachername() {
+    public String getCourseid() {
+		return courseid;
+	}
+
+	public void setCourseid(String courseid) {
+		this.courseid = courseid;
+	}
+
+	public String getTeachername() {
 		return teachername;
 	}
 

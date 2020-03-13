@@ -17,10 +17,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="filename"    column="filename"    />
         <result property="showcontent"    column="showcontent"    />
         <result property="pingjia"    column="pingjia"    />
+        <result property="courseid"    column="courseid"    />
+        
     </resultMap>
 
     <sql id="selectSchoolcoursewareinfoVo">
-        select id, num, name, ctime, jieshao, price, teacherid, file, filename, showcontent, pingjia, (select teaching_name from teaching_info where id=teacherid) as 'teachername' from schoolcoursewareinfo
+        select id,courseid, num, name, ctime, jieshao, price, teacherid, file, filename, showcontent, pingjia, (select teaching_name from teaching_info where id=teacherid) as 'teachername' from schoolcoursewareinfo
     </sql>
 
     <select id="selectSchoolcoursewareinfoList" parameterType="Schoolcoursewareinfo" resultMap="SchoolcoursewareinfoResult">
@@ -36,6 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="filename != null  and filename != ''"> and filename like concat('%', #{filename}, '%')</if>
             <if test="showcontent != null  and showcontent != ''"> and showcontent = #{showcontent}</if>
             <if test="pingjia != null  and pingjia != ''"> and pingjia = #{pingjia}</if>
+            <if test="courseid != null  and courseid != ''"> and courseid = #{courseid}</if>
+            
         </where>
     </select>
     
@@ -57,6 +61,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="filename != null  and filename != ''">filename,</if>
             <if test="showcontent != null  and showcontent != ''">showcontent,</if>
             <if test="pingjia != null  and pingjia != ''">pingjia,</if>
+            <if test="courseid != null  and courseid != ''">courseid,</if>
+            
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="num != null  and num != ''">#{num},</if>
@@ -69,6 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="filename != null  and filename != ''">#{filename},</if>
             <if test="showcontent != null  and showcontent != ''">#{showcontent},</if>
             <if test="pingjia != null  and pingjia != ''">#{pingjia},</if>
+            <if test="courseid != null  and courseid != ''">#{courseid},</if>
+            
          </trim>
     </insert>
 
@@ -84,7 +92,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="file != null  and file != ''">file = #{file},</if>
             <if test="filename != null  and filename != ''">filename = #{filename},</if>
             <if test="showcontent != null  and showcontent != ''">showcontent = #{showcontent},</if>
-            <if test="pingjia != null  and pingjia != ''">pingjia = #{pingjia},</if>
+            <if test="pingjia != null  and pingjia != ''">pingjia = #{pingjia},</if>>
+            <if test="courseid != null  and courseid != ''">courseid = #{courseid},</if>
+            
         </trim>
         where id = #{id}
     </update>

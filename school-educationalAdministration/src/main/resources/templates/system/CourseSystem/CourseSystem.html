@@ -81,15 +81,16 @@
                     field : 'name', 
                     title : '体系名称'
                 },
-                {
-                    field : 'specialtyName', 
-                    title : '专业名称'
-                },
+//                 {
+//                     field : 'specialtyName', 
+//                     title : '专业名称'
+//                 },
                 {
                     field : 'content', 
                     title : '体系说明',
                     formatter: function(value, row, index) {
-                        return value.substring(8)+"....";
+                    	console.log(value)
+                        return value.substring(0,8)+"....";
                     }
                 },
                 {

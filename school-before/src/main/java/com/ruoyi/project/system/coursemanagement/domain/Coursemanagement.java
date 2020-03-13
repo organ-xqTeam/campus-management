@@ -38,8 +38,18 @@ public class Coursemanagement extends BaseEntity
     /** 课程体系 */
     @Excel(name = "课程体系")
     private String curriculuSystem;
+    private String curriculuSystemname;
+    
 
-    /** 累计课时 */
+    public String getCurriculuSystemname() {
+		return curriculuSystemname;
+	}
+
+	public void setCurriculuSystemname(String curriculuSystemname) {
+		this.curriculuSystemname = curriculuSystemname;
+	}
+
+	/** 累计课时 */
     @Excel(name = "累计课时")
     private String accumulatedClassHour;
 

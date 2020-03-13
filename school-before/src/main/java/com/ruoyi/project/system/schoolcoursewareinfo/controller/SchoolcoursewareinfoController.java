@@ -106,8 +106,9 @@ public class SchoolcoursewareinfoController extends BaseController
      * 新增课件列
      */
     @GetMapping("/add")
-    public String add()
+    public String add(String courseid, ModelMap map)
     {
+    	map.put("courseid", courseid);
         return prefix + "/add";
     }
 
