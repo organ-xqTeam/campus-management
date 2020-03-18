@@ -1,7 +1,10 @@
 package com.ruoyi.project.system.schoolchargemanagement.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,9 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
 import com.ruoyi.project.system.schoolchargemanagement.service.ISchoolchargemanagementService;
+import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
+import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 收费管理Controller
@@ -32,7 +38,9 @@ import com.ruoyi.project.system.schoolchargemanagement.service.ISchoolchargemana
 public class SchoolchargemanagementController extends BaseController
 {
     private String prefix = "system/schoolchargemanagement";
-    
+
+    @Autowired
+    private ISchoolstudentslistService schoolstudentslistService;
     @Autowired
     private ISchoolchargemanagementService schoolchargemanagementService;
 
@@ -41,6 +49,47 @@ public class SchoolchargemanagementController extends BaseController
     public String schoolchargemanagement()
     {
         return prefix + "/schoolchargemanagement";
+    }
+    
+    /**
+     * 学生缴费管理
+     * */
+    @RequiresPermissions("system:studentchargelist:view")
+    @GetMapping("/studentchargeview")
+    public String studentchargeview()
+    {
+        return prefix + "/studentchargeview";
+    }
+    
+    /**
+     * 学生缴费管理列表
+     * */
+    @RequiresPermissions("system:studentchargelist:list")
+    @PostMapping("/studentchargelist")
+    @ResponseBody
+    public TableDataInfo studentchargelist()
+    {
+        startPage();
+        SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+        List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        Map<String, Object> param = new HashMap<String, Object>();
+        if (stulist.size() == 1) {
+        	param.put("studentid", stulist.get(0).getId());
+        }
+        List<Map<String, Object>> list = schoolchargemanagementService.selectStudentChargeList(param);
+        return getDataTable(list);
+    }
+    
+    /**
+     * 学生缴费
+     * */
+    @RequiresPermissions("system:studentchargelist:charge")
+    @GetMapping("/charge")
+    public String charge()
+    {
+        return prefix + "/charge";
     }
 
     /**

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增学生明细')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <div class="form-horizontal m" id="form-schoolstudentdetails-add"> 
+            <!-- <div class="form-group">    
+                <label class="col-sm-3 control-label">收费明细id：</label>
+                <div class="col-sm-8">
+                </div>
+            </div> -->
+            <input id="chargingDetailsId" name="chargingDetailsId" class="form-control" th:value="${studentdetails.id}" type="hidden" readonly="readonly">
+            <!-- <div class="form-group">
+                <label class="col-sm-3 control-label">学生id：</label>
+                <div class="col-sm-8">
+                    <input id="studentId" name="studentId" class="form-control"></input>
+                </div>
+            </div> -->
+        </div> 
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <p>学生名</p>
+                            <input type="text" name="studentsName"/>
+                        </li>
+                         <li>
+                            <p>学级：</p>
+                            <input type="text" name="academicLevel"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+        <div class="btn-group-sm" id="toolbar" role="group">
+           	<button type="button" class="btn btn-w-m btn-primary" onclick="disable()">批量设置-已缴费</button>
+          	<button type="button" class="btn btn-w-m btn-primary" onclick="enable()">批量设置-未缴费</button>
+        </div>
+	      <div class="col-sm-12 select-table table-striped">
+	            <table id="bootstrap-table"></table>
+	      </div>
+        
+        
+    </div>
+    <th:block th:include="include :: footer" />
+    
+    <script th:inline="javascript">
+    	//收费明细
+	    var studentdetailsid = [[${studentdetails}]]
+	   // console.log(studentdetailsid)
+	    
+	    //学员信息
+	    //var studentlist = [[${studentlist}]]
+	    //console.log(studentlist)
+    </script>
+    <script type="text/javascript">
+        var prefix = ctx + "system/schoolstudentdetails"
+        $("#form-schoolstudentdetails-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            //if ($.validate.form()) {
+            	var arrayObj = new Array();
+            	var arr =  $(".selected")
+            	arr.each( function( index, val ) {
+				  	let obj = {
+				  		nameid:$(val).find("td:eq(1)").text(),
+				  		name:$(val).find("td:eq(2)").text(),
+				  		state:$(val).find("a").text(),
+				  		id:$(val).find("a").attr("data-value"),
+				  	}
+				  	arrayObj.push(obj);
+				});
+                $.operate.save(prefix + "/add", "chargingDetailsId="+studentdetailsid.id+"&remark2="+JSON.stringify(arrayObj));
+            //}
+        }
+        
+        console.log("id",studentdetailsid.id)
+        $(function() {
+            var options = {
+                url: prefix + "/studentslistService/list/"+studentdetailsid.id,
+                modalName: "学生明细",
+                //showRefresh:false,
+                //showSearch:false,
+                //showColumns:false,
+                //showToggle:false,
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+               
+                {
+                    field : 'studentsId', 
+                    title : '学生id'
+                },
+                {
+                    field : 'studentsName', 
+                    title : '学生名称'
+                },
+                {
+                    field : 'academicLevel', 
+                    title : '学级'
+                },
+                {	
+                	//visible: editFlag == 'hidden' ? false : true,
+                    field : '', 
+                    title : '缴费状态',
+                    align: 'center',
+		        	formatter: function (value, row, index) {
+		        		return statusTools(row);
+		        	}
+                },
+                ]
+            };
+            $.table.init(options);
+        });
+        /* 项目状态显示 */
+		function statusTools(row) {
+		   	return '<a class=\"btn btn-primary btn-xs \" data-value=\"'+row.id+'\" onclick="onclickstate(\'' + row.id + '\')">未缴费</a> ';
+		}
+		
+		
+		function onclickstate(userId) {	
+			//console.log(event.target.innerHTML)
+			var obj = event.target.innerHTML
+			if(obj == '未缴费'){
+				event.target.innerHTML='已缴费';
+			}else if(obj == '已缴费'){
+				event.target.innerHTML='未缴费';
+			}
+		}
+		// 批量设置已缴费
+		function disable() {	
+			//console.log($("#bootstrap-table tbody a"))
+			
+			
+			$("#bootstrap-table tbody a").each( function( index, val ) {
+				val.innerHTML="已缴费"
+				//console.log( index, val, this );
+			});
+			
+			//$("#bootstrap-table tbody a").innerHTML="已缴费"
+		}
+		// 批量设置未缴费
+		function enable() {
+			//console.log($("#bootstrap-table tbody a"))
+			$("#bootstrap-table tbody a").each( function( index, val ) {
+				//console.log( index, val, this );
+				val.innerHTML="未缴费"
+			});
+			//$("#bootstrap-table tbody a").innerHTML="未缴费"
+		}
+		
+    </script>
+</body>
+</html>

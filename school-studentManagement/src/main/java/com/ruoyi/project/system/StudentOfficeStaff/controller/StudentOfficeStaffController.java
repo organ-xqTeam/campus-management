@@ -468,6 +468,20 @@ public class StudentOfficeStaffController extends BaseController
     	
     	return prefix + "/Graduation";
     }
+    @RequiresPermissions("system:studentofficestaffGraduation:view")
+    @GetMapping("/Graduation2")
+    public String Graduation2(ModelMap mmap)
+    {
+    	
+    	
+    	List<Studentstatuslist> sl = studentstatuslistService.selectStudentstatuslistList(null);
+    	
+    	List<CertificateManagement> list = certificateManagementService.selectCertificateManagementList(null);
+		mmap.put("certificateManagement", list);
+		mmap.put("studentstatuslists", sl);
+    	
+    	return prefix + "/Graduation2";
+    }
     @RequiresPermissions("system:studentofficestaffsetstudentstatus:view")
     @GetMapping("/setstudentstatus/{id}")
     public String setstudentstatus(@PathVariable("id") Long id,ModelMap mmap)
@@ -488,6 +502,22 @@ public class StudentOfficeStaffController extends BaseController
     {
     	schoolstudentslist.setApprovalstate("2");
     	schoolstudentslist.setState("5");
+    	startPage();
+    	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
+    	return getDataTable(list);
+    }
+    @RequiresPermissions("system:studentofficestaffGraduation:list")
+    @PostMapping("/listGraduation2")
+    @ResponseBody
+    public TableDataInfo Graduation2(Schoolstudentslist schoolstudentslist)
+    {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+        List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (stulist.size() == 1) {
+        	schoolstudentslist.setId(stulist.get(0).getId());
+        }
     	startPage();
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);

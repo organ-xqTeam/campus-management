@@ -17,34 +17,34 @@
 			<label class="col-sm-3 control-label">民族：</label>
 			<div class="col-sm-8">
 				<input id="nation" name="nation" th:field="${schoolstudentslist.nation}"
-					class="form-control" type="text" >
+					class="form-control" type="text" readonly="readonly" >
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">政治面貌：</label>
 			<div class="col-sm-8">
 				<input id="remark10" name="remark10" th:field="${schoolstudentslist.remark10}"
-					class="form-control" type="text" >
+					class="form-control" type="text" readonly="readonly" >
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">身份证号码：</label>
 			<div class="col-sm-8">
 				<input id="idnum" name="idnum" th:field="${schoolstudentslist.idnum}"
-					class="form-control" type="text" >
+					class="form-control" type="text" readonly="readonly" >
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">户口所在地：</label>
 			<div class="col-sm-8">
 				<input id="remark9" name="remark9" th:field="${schoolstudentslist.remark9}"
-					class="form-control" type="text" >
+					class="form-control" type="text" readonly="readonly" >
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">是否少数民族：</label>
 			<div class="col-sm-8">
-          		<select  class="form-control" name="remark13" id="remark13" th:with="type=${@dict.getType('common_isorno')}">
+          		<select  class="form-control" name="remark13" id="remark13" th:with="type=${@dict.getType('common_isorno')}" readonly="readonly">
 					<option th:each="dict : ${type}" th:selected="${dict.dictValue== schoolstudentslist.remark13}"  th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
 					</option>
 				</select>
@@ -53,7 +53,7 @@
 		<div class="form-group">
 			<label class="col-sm-3 control-label">是否有拒签历史：</label>
 			<div class="col-sm-8">
-          		<select  class="form-control" name="isrefuse" id="isrefuse" th:with="type=${@dict.getType('common_isorno')}">
+          		<select  class="form-control" name="isrefuse" id="isrefuse" th:with="type=${@dict.getType('common_isorno')}" readonly="readonly">
 					<option th:each="dict : ${type}" th:selected="${dict.dictValue== schoolstudentslist.isrefuse}"  th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
 					</option>
 				</select>
@@ -77,14 +77,14 @@
 			<label class="col-sm-3 control-label">备注：</label>
 			<div class="col-sm-8">
 				<input id="Remarks" name="Remarks" th:field="${schoolstudentslist.Remarks}"
-					class="form-control" type="text" >
+					class="form-control" type="text" readonly="readonly" >
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">用户：</label>
 			<div class="col-sm-8">
 				<input id="remark25" name="remark25" th:field="${schoolstudentslist.remark25}"
-					class="form-control" type="text" >
+					class="form-control" type="text" readonly="readonly" >
 			</div>
 		</div>
 	</div>

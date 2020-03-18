@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertExamStudentList" parameterType="ExamStudentList">
+    <insert id="insertExamStudentList" parameterType="ExamStudentList" useGeneratedKeys="true" keyProperty="id">
         insert into exam_student_list
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null ">id,</if>

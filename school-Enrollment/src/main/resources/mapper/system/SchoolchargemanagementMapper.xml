@@ -68,6 +68,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
+    <select id="selectStudentChargeList" parameterType="hashmap" resultType="hashmap">
+   		select 
+			s.id,
+			s.project_ID as 'projectId',
+			s.pay_service as 'payService',
+			s._times as 'times',
+			(select remark from schoolstudentdetails where student_ID = #{studentid} and remark1 = s.id) as 'state'
+		from 
+			schoolchargemanagement s
+		where 
+			1=1
+    </select>
+    
     <select id="selectSchoolchargemanagementById" parameterType="Long" resultMap="SchoolchargemanagementResult">
         <include refid="selectSchoolchargemanagementVo"/>
         where id = #{id}

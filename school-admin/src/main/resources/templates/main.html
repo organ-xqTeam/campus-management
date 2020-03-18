@@ -98,6 +98,14 @@
     			contentType: "application/json;charset=utf-8",
     			success: function (data) {
     		    	console.log(data)
+    		    	if (data.me.length == 1 && data.me[0].roleId == '5') {
+// 						console.log('学生')
+    		    		role = 5;
+//     		    		var tag = '<a href="javascript:void(0)" onclick="grxx()">'+'个人信息'+'</a></br>';
+    		    		var tag = '<a href="javascript:void(0)" onclick="zhmm()">'+'账户密码'+'</a>';
+    		    		$('#content_tag').html(tag);
+    		   			$('#role_tag').html('账户密码');
+    		    	}
     		    	if (data.me.length == 1 && data.me[0].roleId == '6') {
 // 						console.log('招生老师')
     		    		role = 6;
@@ -173,6 +181,8 @@
     		});
     		
     		switch(role) {
+		    	case 5:
+					break;
 	    		case 6:
 					break;
 	    		case 7:
@@ -267,6 +277,16 @@
     	function kyss() {
         	var url = [[@{/system/schooldorm}]];
 			$.modal.openTab("空余宿舍", url);
+    	}
+    	
+    	function grxx(id) {
+        	var url = [[@{/system/schoolstudentslist/grxx}]];
+			$.modal.openTab("个人信息", url);
+    	}
+    	
+    	function zhmm(id) {
+        	var url = [[@{/system/schoolstudentslist/zhmm}]];
+			$.modal.openTab("账户密码", url);
     	}
     	
     </script>

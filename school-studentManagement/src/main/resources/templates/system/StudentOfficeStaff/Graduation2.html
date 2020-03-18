@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('学生列列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>学生名</p>
+                                <input type="text" name="studentsName"/>
+                            </li>
+                            <li>
+                                <p>身份证号</p>
+                                <input type="text" name="idnum"/>
+                            </li>
+                            <li>
+                                <p>入学年月</p>
+                                <input type="text" name="admissionTime"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+             <!--    <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentslist:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a> -->
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:schoolstudentslist:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:schoolstudentslist:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:schoolstudentslist:remove')}]];
+        var prefix = ctx + "system/StudentOfficeStaff";
+        var prefix2 = ctx + "system/schoolstudentslist";
+
+        var certificateManagement = [[${certificateManagement}]]
+        var studentstatuslists = [[${studentstatuslists}]]
+        
+        $(function() {
+            var options = {
+                url: prefix + "/listGraduation2",
+               // createUrl: prefix + "/add",
+              //  updateUrl: prefix + "/edit/{id}",
+              //  removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/exportlistGraduation",
+                sortName:"createDate",
+                sortOrder:"desc",
+                modalName: "学生列",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'icon', 
+                    title : '头像',
+                    formatter: function(value, row, index) {
+                		return $.table.imageView("/school-fast"+value);
+                	}
+                },
+                {
+                    field : 'studentsId', 
+                    title : '学号'
+                },
+                {
+                    field : 'cardnum', 
+                    title : '学生证号'
+                },
+                {
+                    field : 'studentsName', 
+                    title : '姓名'
+                },
+                {
+                    field : 'gender', 
+                    title : '性别',
+                    formatter: function(value, row, index) {
+                    	var datas = [[${@dict.getType('student_sex')}]];
+                    	return $.table.selectDictLabel(datas, value);
+                    }
+                },
+                {
+                    field : 'birth', 
+                    title : '出生日期'
+                },
+                {
+                    field : 'loginPic', 
+                    title : '入学照片',
+                	formatter: function(value, row, index) {
+                		return $.table.imageView("/school-fast"+value);
+                	}
+                },
+                {
+                    field : 'classId_', 
+                    title : '班级名称'
+                },
+                {
+                    field : 'admissionTime', 
+                    title : '入学年月'
+                },
+                {
+                    field : 'xxxx', 
+                    title : '详细信息',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="xxxxview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'lxfs', 
+                    title : '联系方式',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="lxfsview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'birth', 
+                    title : '年龄'
+                },
+                {
+                    field : 'jtxx', 
+                    title : '家庭信息',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="jtxxview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'jwxx', 
+                    title : '既往学习信息',
+                    formatter: function(value, row, index) {
+                    	return '<a class="" href="#" onclick="jwxxview(\'' + row.id + '\')">查看</a>';
+                    }
+                },
+                {
+                    field : 'yasiname', 
+                    title : '成绩单',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (row.yasi) {
+    	                    return "<a onclick='ondownload()' data-value="+row.yasi+" >"+value+"</a>";
+                        }
+                        else {
+                            return "";
+                        }
+                    }
+                },
+//                 {
+//                     field : 'sbid_', 
+//                     title : '学院'
+//                 },
+                {
+                    field : 'ssid_', 
+                    title : '培训项目'
+                },
+                {
+                    field : 'nianji', 
+                    title : '年级',
+                    formatter: function(value, row, index) {
+                    	if (value) {
+                        	return parseInt(value);
+                    	}
+                    	else {
+                    		return '';
+                    	}
+                    }
+                },
+              	{
+                    field : '', 
+                    title : '学籍状态',
+                    formatter: function(value, row, index) {
+                    	//未注册学籍
+                    	//注册学籍
+                    	//已离校
+                    	//保留学籍
+                    	//studentstatuslists
+                    	var values
+                    	for (i = 0; i < studentstatuslists.length; i++) { 
+                    		if(studentstatuslists[i].studentsId == row.id){
+                    			values = studentstatuslists[i].state
+                    		}
+						}
+                    	console.log(values)
+                    	if(!values  || values ==''){
+                    		values =1
+                    	}
+                    	console.log(values)
+                    	var datas = [[${@dict.getType('student_status')}]];
+                    	return $.table.selectDictLabel(datas, values);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];                       
+                        actions.push('<a class="" href="javascript:void(0)" onclick="DownloadCertificate(\''+row.id+'\')">下载证书</a> ');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+
+        function jwxxview(id) {
+        	var url = ctx + "system/schoolstudentslist/showview/" + id + "/2";
+    		var options = {
+   				title: '既往学习信息',
+   				width: "380",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
+        }
+
+        function dojwxxview(index, layero){
+			var body = layer.getChildFrame('body', index);	
+			
+			var id  = body.find('#id').val();
+			var remark1  = body.find('#remark1').val();	
+			var remark2  = body.find('#remark2').val();	
+			var remark3  = body.find('#remark3').val();
+			var remark15  = body.find('#remark15').val();
+			var remark16  = body.find('#remark16').val();
+			var remark17  = body.find('#remark17').val();
+			var remark22  = body.find('#remark22').val();
+			var remark30  = body.find('#remark30').val();
+			var remark32  = body.find('#remark32').val();
+			var remark33  = body.find('#remark33').val();
+			var remark34  = body.find('#remark34').val();
+			var remark35  = body.find('#remark35').val();
+			var remark36  = body.find('#remark36').val();
+			var remark41  = body.find('#remark41').val();
+			var remark42  = body.find('#remark42').val();
+			var remark43  = body.find('#remark43').val();
+			var remark45  = body.find('#remark45').val();
+			var remark46  = body.find('#remark46').val();
+			var remark47  = body.find('#remark47').val();
+			
+			var remark5  = body.find('#remark5').val();
+			
+			var str = "id="+id
+			+"&remark1="+remark1
+			+"&remark2="+remark2
+			+"&remark3="+remark3
+			+"&remark15="+remark15
+			+"&remark16="+remark16
+			+"&remark17="+remark17
+			+"&remark22="+remark22
+			+"&remark30="+remark30
+			+"&remark32="+remark32
+			+"&remark33="+remark33
+			+"&remark34="+remark34
+			+"&remark35="+remark35
+			+"&remark36="+remark36
+			+"&remark43="+remark43
+			+"&remark42="+remark42
+			+"&remark41="+remark41
+			+"&remark45="+remark45
+			+"&remark46="+remark46
+			+"&remark47="+remark47
+			+"&remark5="+remark5;			
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+        }
+
+        function jtxxview(id){
+        	var url = ctx + "system/schoolstudentslist/vieweditor/" + id;
+    		var options = {
+   				title: '家庭信息',
+   				width: "380",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+
+        function dojtxxview(index, layero){
+			var body = layer.getChildFrame('body', index);
+			
+			var id  = body.find('#id').val()
+			var fatherName  = body.find('#fatherName').val()
+			var fatherPhone  = body.find('#fatherPhone').val()
+			var motherName  = body.find('#motherName').val()
+			var motherPhone  = body.find('#motherPhone').val()
+			var homeAddress  = body.find('#homeAddress').val()
+			var Remarks  = body.find('#Remarks').val()
+			var remark18  = body.find('#remark18').val()
+			var remark19  = body.find('#remark19').val()
+			var remark20  = body.find('#remark20').val()
+			var remark26  = body.find('#remark26').val()
+			var remark27  = body.find('#remark27').val()
+			var remark37  = body.find('#remark37').val()
+			var remark38  = body.find('#remark38').val()
+			var remark39  = body.find('#remark39').val()
+			var remark40  = body.find('#remark40').val()
+   			
+			console.log(fatherName,fatherPhone,motherName,motherPhone,homeAddress,Remarks)
+			
+			
+			var str = "id="+id+"&fatherName="+fatherName+"&fatherPhone="+fatherPhone+
+			"&motherName="+motherName+"&motherPhone="+motherPhone+"&homeAddress="+homeAddress
+			+"&Remarks="+Remarks
+			+"&remark18="+remark18
+			+"&remark19="+remark19
+			+"&remark20="+remark20
+			+"&remark26="+remark26
+			+"&remark27="+remark27
+			+"&remark37="+remark37
+			+"&remark38="+remark38
+			+"&remark39="+remark39
+			+"&remark40="+remark40
+
+			console.log(str)
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+		}
+        
+        function lxfsview(id) {
+        	var url = ctx + "system/schoolstudentslist/showview/" + id + "/1";
+    		var options = {
+   				title: '联系方式',
+   				width: "380",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function dolxfsview(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val();
+			var remark12  = body.find('#remark12').val();	
+			var remark7  = body.find('#remark7').val();	
+			var remark11  = body.find('#remark11').val();	
+			var remark31  = body.find('#remark31').val();	
+			var remark21  = body.find('#remark21').val();
+			var remark44  = body.find('#remark44').val();	
+			var qq  = body.find('#qq').val();
+			var weixin  = body.find('#weixin').val();
+			
+			var str = "id="+id
+			+"&remark12="+remark12
+			+"&remark7="+remark7
+			+"&remark21="+remark21
+			+"&remark31="+remark31
+			+"&remark44="+remark44
+			+"&qq="+qq
+			+"&weixin="+weixin
+			+"&remark11="+remark11;		
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+        }
+        
+		function xxxxview(id) {
+        	var url = ctx + "system/schoolstudentslist/showview/" + id + "/3";
+    		var options = {
+   				title: '详细信息',
+   				width: "380",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
+		}
+
+        function doxxxxview(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val();
+			var nation  = body.find('#nation').val();	
+			var remark10  = body.find('#remark10').val();	
+			var idnum  = body.find('#idnum').val();	
+			var remark9  = body.find('#remark9').val();	
+			var remark13  = body.find('#remark13').val();	
+// 			var remark23  = body.find('#remark23').val();	
+// 			var remark24  = body.find('#remark24').val();	
+			var remark25  = body.find('#remark25').val();	
+			var Remarks  = body.find('#Remarks').val();	
+			
+			var isrefuse  = body.find('#isrefuse').val();	
+			
+			var str = "id="+id
+			+"&nation="+nation
+			+"&remark10="+remark10
+			+"&idnum="+idnum
+			+"&remark13="+remark13
+// 			+"&remark23="+remark23
+// 			+"&remark24="+remark24
+			+"&remark25="+remark25
+			+"&Remarks="+Remarks
+			+"&isrefuse="+isrefuse
+			+"&remark9="+remark9;			
+			$.operate.save(ctx + "system/schoolstudentslist/edit", str);
+   			layer.close(index);
+        }
+		
+        function lixiao(id) {
+        	$.modal.confirm("确认离校", function() {
+    			var str = "id="+id+"&state=4";
+    			$.operate.save(prefix2 + "/edit", str);
+        	});
+        }
+        
+        function DownloadCertificate(obj){
+        	
+        	console.log("下载证书！！")
+        	
+        	var isd = "-1";
+        	for (i = 0; i < certificateManagement.length; i++) { 
+        		if(certificateManagement[i].studentsId == obj  ){
+        			isd = certificateManagement[i].certificatenum
+        		}
+			}
+        	if(isd == -1){
+        		$.modal.msgError("证书不存在！！");
+        		return
+        	}
+        	
+        	window.location.href =ctx  + "common/download/resource/?resource="+isd;
+        	//window.location.href = prefix + "/listGraduation/download/" + obj;
+        }
+        function uploadCertificate(obj){
+        	//var id ="1"
+        	var url = prefix + "/uploadCer/" + obj;
+    		var options = {
+   				title: '上传证书',
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);
+			 var prefix1 = ctx + "system/certificateManagement"
+			 console.log(body.find('#form-certificateManagement-add').length)
+			 console.log(body.find('#form-certificateManagement-edit').length)
+			 if(body.find('#form-certificateManagement-add').length != 0){
+			 	$.operate.save(prefix1 + "/add", body.find('#form-certificateManagement-add').serialize());
+			 }else if(body.find('#form-certificateManagement-edit').length != 0){
+				$.operate.save(prefix1 + "/edit",body.find('#form-certificateManagement-edit').serialize());
+			 }
+			 
+   			//layer.close(index);
+		}
+        
+	       function  setstudentstatus(obj){
+	    	   	var url = prefix + "/setstudentstatus/" + obj;
+	    		var options = {
+	    			width: "380",
+	   				title: '设置学籍状态',
+	   				url: url,
+	   				callBack: doSubmitset
+	   			};
+	   			$.modal.openOptions(options);
+	       }
+	       function doSubmitset(index, layero){
+				var body = layer.getChildFrame('body', index);
+				var num = body.find("#status option:selected").val()
+				var sid = body.find("#sid").val()
+				 console.log(num)
+				 console.log(sid)
+				 
+				 
+				 $.operate.save(ctx+"system/studentstatuslist" + "/setstudentstatus","studentsId="+sid+"&State="+num);
+				 
+				 
+				 
+	   			//layer.close(index);
+			}
+	        function ondownload(){
+	        	//console.log(event.currentTarget)
+	        	var objtp=$(event.currentTarget).attr("data-value");
+	        	console.log( ctx + "common/download/resource?resource=" + objtp)
+	        	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+	        }
+        
+    </script>
+</body>
+</html>

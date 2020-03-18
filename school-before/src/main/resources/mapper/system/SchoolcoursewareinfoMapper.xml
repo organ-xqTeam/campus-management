@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="file != null  and file != ''">file = #{file},</if>
             <if test="filename != null  and filename != ''">filename = #{filename},</if>
             <if test="showcontent != null  and showcontent != ''">showcontent = #{showcontent},</if>
-            <if test="pingjia != null  and pingjia != ''">pingjia = #{pingjia},</if>>
+            <if test="pingjia != null  and pingjia != ''">pingjia = #{pingjia},</if>
             <if test="courseid != null  and courseid != ''">courseid = #{courseid},</if>
             
         </trim>

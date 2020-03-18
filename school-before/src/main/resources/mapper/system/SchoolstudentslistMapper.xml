@@ -126,6 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSchoolstudentslistList" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">
         <include refid="selectSchoolstudentslistVo"/>
         <where>  
+            <if test="id != null  and id != ''"> and id = #{id}</if>
             <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
             <if test="birth != null  and studentsId != ''"> and birth = #{birth}</if>
             <if test="nation != null  and nation != ''"> and nation = #{nation}</if>

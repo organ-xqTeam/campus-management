@@ -41,6 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="sbid"    column="sbid"    />
         <result property="ssid"    column="ssid"    />
         <result property="grade"    column="grade"    />
+        <result property="file"    column="file"    />
+        <result property="filename"    column="filename"    />
     </resultMap>
 
     <sql id="selectCoursemanagementVo">
@@ -48,13 +50,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectCoursemanagementList" parameterType="Coursemanagement" resultMap="CoursemanagementResult">
-        select co.id, co.row_id, co.subjectmanagement_id, co.students_name, co.academic_level, co.curriculu_system, co.accumulated_class_hour, co.course_fascicle, co.remark, co.remark1, co.remark2, co.remark3, co.remark4, co.remark5, co.remark6, co.remark7, co.remark8, co.remark9, co.remark10, co.remark11, co.remark12, co.remark13, 
-        co.remark14, co.remark15, co.remark16, co.remark17, co.del_flag, co.deptAlias, co.userAlias ,co.teacher_id 
-        ,sj.students_name as subjectmanagementName,ti.teaching_name AS teachingName, co.create_date,
-        (select name from course_system where id=co.curriculu_system) as 'curriculu_system_name'
-        from coursemanagement co
-        left join subjectmanagement sj  on sj.id=co.subjectmanagement_id
-        left join teaching_info ti on ti.id=co.teacher_id
+    	SELECT
+			co.id,
+			co.row_id,
+			co.subjectmanagement_id,
+			co.students_name,
+			co.academic_level,
+			co.curriculu_system,
+			co.accumulated_class_hour,
+			co.course_fascicle,
+			co.remark,
+			co.remark1,
+			co.remark2,
+			co.remark3,
+			co.remark4,
+			co.remark5,
+			co.remark6,
+			co.remark7,
+			co.remark8,
+			co.remark9,
+			co.remark10,
+			co.remark11,
+			co.remark12,
+			co.remark13,
+			co.remark14,
+			co.remark15,
+			co.remark16,
+			co.remark17,
+			co.del_flag,
+			co.deptAlias,
+			co.userAlias,
+			co.teacher_id,
+			sj.students_name AS subjectmanagementName,
+			ti.teaching_name AS teachingName,
+			co.create_date,
+			( SELECT NAME FROM course_system WHERE id = co.curriculu_system ) AS 'curriculu_system_name',
+			( SELECT school_name FROM school_belong WHERE id = co.sbid ) AS 'sbid',
+			( SELECT NAME FROM school_specialty WHERE id = co.ssid ) AS 'ssid',
+			co.grade
+            <if test="studentid != null and studentid != ''">
+				,(select file from coursemanagementfile where courseid=co.id and studentid=#{studentid}) as file
+				,(select filename from coursemanagementfile where courseid=co.id and studentid=#{studentid}) as filename
+			</if>
+		FROM
+			coursemanagement co
+			LEFT JOIN subjectmanagement sj ON sj.id = co.subjectmanagement_id
+			LEFT JOIN teaching_info ti ON ti.id = co.teacher_id
         <where>  
             <if test="rowId != null  and rowId != ''"> and row_id = #{rowId}</if>
             <if test="subjectmanagementId != null  and subjectmanagementId != ''"> and subjectmanagement_id = #{subjectmanagementId}</if>
@@ -83,6 +124,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
             <if test="teacherId != null  and teacherId != ''"> and ti.id = #{teacherId}</if>
+            <if test="studentid != null  and studentid != ''"> and co.id in (select courseid from coursemanagementfile where studentid = #{studentid})</if>
         </where>
     </select>
     

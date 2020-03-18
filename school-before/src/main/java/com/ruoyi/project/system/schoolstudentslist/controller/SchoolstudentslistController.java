@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
@@ -12,9 +14,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -22,6 +26,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.shiro.service.SysPasswordService;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
@@ -45,12 +51,15 @@ public class SchoolstudentslistController extends BaseController
     private String prefix = "system/schoolstudentslist";
     @Autowired
     private ISysUserService userService ;
+	@Autowired
+	private SysPasswordService passwordService;
     @Autowired
-    private ISchoolstudentslistService schoolstudentslistService;
+    private ISchoolClassService schoolClassService;
     @Autowired
     private ISchoolBelongService schoolBelongService;
     @Autowired
-    private ISchoolClassService schoolClassService;
+    private ISchoolstudentslistService schoolstudentslistService;
+	
     @GetMapping("/editBing/{id}")
     public String editBing(@PathVariable("id") Long id, ModelMap mmap)
     {
@@ -199,6 +208,74 @@ public class SchoolstudentslistController extends BaseController
     	schoolstudentslist.setClassId(0L);
         return toAjax(schoolstudentslistService.insertSchoolstudentslist(schoolstudentslist));
     }
+    
+    /**
+     * 个人信息
+     * */
+    @GetMapping("/grxx")
+    public String grxx(ModelMap mmap)
+    {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+        List<Schoolstudentslist> schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (schoolstudentslist.size() == 1) {
+            stu = schoolstudentslist.get(0);
+            mmap.put("schoolstudentslist", stu);
+            return prefix + "/edit_mine";
+        }
+        else {
+            return prefix + "/error";
+        }        
+    }
+    
+    /**
+     * 账户密码
+     * */
+    @GetMapping("/zhmm")
+    public String zhmm(ModelMap mmap)
+    {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+        List<Schoolstudentslist> schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (schoolstudentslist.size() == 1) {
+            stu = schoolstudentslist.get(0);
+            mmap.put("me", me);
+            return prefix + "/edit_password";
+        }
+        else {
+            return prefix + "/error";
+        }        
+    }
+
+    @ResponseBody
+    @PostMapping("/editpass")
+    public AjaxResult editpass(@RequestBody JSONObject param) {
+    	System.out.println(param);
+    	String pass = param.get("pass").toString();
+    	String newpass = param.get("newpass").toString();
+    	String newpass2 = param.get("newpass2").toString();
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+		if (!passwordService.matches(me, pass)) {
+			return AjaxResult.error("原密码不正确");
+		}
+		if (!newpass.equals(newpass2)) {
+			return AjaxResult.error("新密码与确认密码不一致");
+		}
+		userService.checkUserAllowed(me);
+		me.setSalt(ShiroUtils.randomSalt());
+		me.setPassword(passwordService.encryptPassword(me.getLoginName(), newpass, me.getSalt()));
+        if (userService.resetUserPwd(me) > 0)
+        {
+            if (ShiroUtils.getUserId() == me.getUserId())
+            {
+                ShiroUtils.setSysUser(userService.selectUserById(me.getUserId()));
+            }
+        	return toAjax(true);
+        }
+		return AjaxResult.error("修改失败");		
+    }
 
     /**
      * 修改学生列
@@ -219,6 +296,19 @@ public class SchoolstudentslistController extends BaseController
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(Schoolstudentslist schoolstudentslist)
+    {
+    	if (schoolstudentslist.getRemark24() != null && schoolstudentslist.getApprovalstate() != null) {
+    		if (schoolstudentslist.getApprovalstate().equals("2")) {
+    			schoolstudentslist.setRemark24(DateUtils.getDate());
+    		}
+    	}
+        return toAjax(schoolstudentslistService.updateSchoolstudentslist(schoolstudentslist));
+    }
+    
+    @Log(title = "学生列", businessType = BusinessType.UPDATE)
+    @PostMapping("/edit2")
+    @ResponseBody
+    public AjaxResult editSave2(Schoolstudentslist schoolstudentslist)
     {
     	if (schoolstudentslist.getRemark24() != null && schoolstudentslist.getApprovalstate() != null) {
     		if (schoolstudentslist.getApprovalstate().equals("2")) {

@@ -1,7 +1,9 @@
 package com.ruoyi.project.system.schoolResult.service;
 
-import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
 
 /**
  * 学校成绩Service接口
@@ -26,6 +28,7 @@ public interface ISchoolResultService
      * @return 学校成绩集合
      */
     public List<SchoolResult> selectSchoolResultList(SchoolResult schoolResult);
+    public List<Map<String, Object>> selectSchoolResultList2(SchoolResult schoolResult);
 
     /**
      * 新增学校成绩

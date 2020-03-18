@@ -92,29 +92,12 @@
 //                     field : 'rowId', 
 //                     title : '编号'
 //                 },
-                {
-                    field : 'subjectmanagementId', 
-//                     field : 'subjectmanagementName', 
-                    title : '科目'
-                },
+                
                 {
                     field : 'studentsName', 
                     title : '课程名称'
                 },
-                {
-                    field : 'academicLevel', 
-                    title : '分类',
-                    formatter: function(value, row, index) {
-                        var actions = [];
-                        if (value == '1') {
-                        	actions.push('必修');
-                        }
-                        if (value == '2') {
-                        	actions.push('选修');
-                        }
-                        return actions.join('');
-                    }
-                },
+                
                 {
                     field : 'curriculuSystemname', 
                     title : '课程体系'
@@ -123,6 +106,19 @@
                     field : 'accumulatedClassHour', 
                     title : '累计课时'
                 },
+                {
+                    field : 'sbid', 
+                    title : '所属学院'
+                },
+                {
+                    field : 'ssid', 
+                    title : '所属专业'
+                },
+                {
+                    field : 'grade', 
+                    title : '年级'
+                },
+                
 //                 {
 //                     field : 'courseFascicle', 
 //                     title : '课程分册'

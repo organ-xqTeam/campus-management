@@ -42,9 +42,13 @@ public class ExamStudentListServiceImpl implements IExamStudentListService
      * @return 【请填写功能名称】
      */
     @Override
+    public List<ExamStudentList> selectExamStudentListList(ExamStudentList esl) {
+      return examStudentListMapper.selectExamStudentListList(esl);
+    }
+    
+    @Override
     public List<Map<String, Object>> selectExamStudentListList(Map<String, Object> param)
     {
-//        return examStudentListMapper.selectExamStudentListList(examStudentList);
         return examStudentListMapper.selectExamStudentList(param);
     }
 

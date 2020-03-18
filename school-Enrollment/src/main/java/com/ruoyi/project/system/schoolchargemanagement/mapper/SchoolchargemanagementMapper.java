@@ -1,7 +1,9 @@
 package com.ruoyi.project.system.schoolchargemanagement.mapper;
 
-import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
 
 /**
  * 收费管理Mapper接口
@@ -26,7 +28,7 @@ public interface SchoolchargemanagementMapper
      * @return 收费管理集合
      */
     public List<Schoolchargemanagement> selectSchoolchargemanagementList(Schoolchargemanagement schoolchargemanagement);
-
+    public List<Map<String, Object>> selectStudentChargeList(Map<String, Object> param);
     /**
      * 新增收费管理
      * 

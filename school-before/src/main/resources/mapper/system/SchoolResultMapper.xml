@@ -17,7 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSchoolResultVo">
-        select id, curriculum_name, curriculum_id, exam_name, exam_id, exam_date, create_date, update_date, del_flag from school_result
+        select 
+        	id, curriculum_name, curriculum_id, exam_name, exam_id, exam_date, create_date, update_date, del_flag 
+        from 
+        	school_result
     </sql>
 
     <select id="selectSchoolResultList" parameterType="SchoolResult" resultMap="SchoolResultResult">
@@ -31,6 +34,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createDate != null "> and create_date = #{createDate}</if>
             <if test="updateDate != null "> and update_date = #{updateDate}</if>
         </where>
+    </select>
+    
+    <select id="selectSchoolResultList2" parameterType="SchoolResult" resultType="hashmap">
+        select
+			r.*
+            <if test="studentid != null and studentid != ''">
+				,(select d.result from school_result_detail d where d.result_id = r.id and d.students_id=#{studentid}) as 'result'
+			</if>
+		from 
+			school_result r
+		where 
+			1=1
+			<if test="studentid != null and studentid != ''">
+				and r.id in (select result_id from school_result_detail where students_id=#{studentid})
+			</if>			
     </select>
     
     <select id="selectSchoolResultById" parameterType="Long" resultMap="SchoolResultResult">

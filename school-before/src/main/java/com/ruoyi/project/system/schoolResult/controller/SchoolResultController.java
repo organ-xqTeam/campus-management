@@ -1,7 +1,9 @@
 package com.ruoyi.project.system.schoolResult.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
 import com.ruoyi.project.system.schoolResult.service.ISchoolResultService;
+import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
+import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 学校成绩Controller
@@ -39,12 +44,21 @@ public class SchoolResultController extends BaseController
     private ISchoolResultService schoolResultService;
     @Autowired
     private ICoursemanagementService  coursemanagementService ;
+    @Autowired
+    private ISchoolstudentslistService schoolstudentslistService;
 
     @RequiresPermissions("system:schoolResult:view")
     @GetMapping()
     public String schoolResult()
     {
         return prefix + "/schoolResult";
+    }
+    
+    @RequiresPermissions("system:schoolResult:studentresult")
+    @GetMapping("/studentresult")
+    public String studentResultView()
+    {
+        return prefix + "/studentResultView";
     }
 
     /**
@@ -57,6 +71,23 @@ public class SchoolResultController extends BaseController
     {
         startPage();
         List<SchoolResult> list = schoolResultService.selectSchoolResultList(schoolResult);
+        return getDataTable(list);
+    }
+    
+    @RequiresPermissions("system:schoolResult:studentresultlist")
+    @PostMapping("/studentresultlist")
+    @ResponseBody
+    public TableDataInfo studentresultlist(SchoolResult schoolResult)
+    {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+        List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (stulist.size() == 1) {
+        	schoolResult.setStudentid(stulist.get(0).getId()+"");
+        }
+        startPage();
+        List<Map<String, Object>> list = schoolResultService.selectSchoolResultList2(schoolResult);
         return getDataTable(list);
     }
 

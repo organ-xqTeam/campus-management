@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.schoolchargemanagement.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,10 @@ public class SchoolchargemanagementServiceImpl implements ISchoolchargemanagemen
     {
         return schoolchargemanagementMapper.selectSchoolchargemanagementList(schoolchargemanagement);
     }
-
+    @Override
+    public List<Map<String, Object>> selectStudentChargeList(Map<String, Object> param) {
+    	return schoolchargemanagementMapper.selectStudentChargeList(param);
+    }
     /**
      * 新增收费管理
      * 

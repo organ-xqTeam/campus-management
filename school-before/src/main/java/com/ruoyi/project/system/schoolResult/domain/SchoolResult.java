@@ -51,8 +51,19 @@ public class SchoolResult extends BaseEntity
 
     /** 是否删除 0未删除 1删除 */
     private String delFlag;
+    private String studentid;
+    
+    
 
-    public void setId(Long id) 
+    public String getStudentid() {
+		return studentid;
+	}
+
+	public void setStudentid(String studentid) {
+		this.studentid = studentid;
+	}
+
+	public void setId(Long id) 
     {
         this.id = id;
     }

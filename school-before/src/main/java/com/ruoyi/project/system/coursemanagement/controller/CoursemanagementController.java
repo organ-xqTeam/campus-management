@@ -2,6 +2,7 @@ package com.ruoyi.project.system.coursemanagement.controller;
 
 import java.util.List;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,11 @@ import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
+import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
+import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.project.system.subjectmanagement.domain.Subjectmanagement;
 import com.ruoyi.project.system.subjectmanagement.service.ISubjectmanagementService;
+import com.ruoyi.system.domain.SysUser;
 
 /**
  * 课程管理Controller
@@ -42,13 +46,15 @@ public class CoursemanagementController extends BaseController
     private String prefix = "system/coursemanagement";
 
     @Autowired
+    private ISchoolBelongService schoolBelongService;
+    @Autowired
+    private ICourseSystemService courseSystemService;
+    @Autowired
     private ICoursemanagementService coursemanagementService;    
     @Autowired
     private ISubjectmanagementService  subjectmanagementService;
     @Autowired
-    private ISchoolBelongService schoolBelongService;
-    @Autowired
-    private ICourseSystemService courseSystemService;
+    private ISchoolstudentslistService schoolstudentslistService;
     
     @Autowired
     private ITeachingInfoService teachingInfoService;
@@ -58,6 +64,23 @@ public class CoursemanagementController extends BaseController
     {
         return prefix + "/coursemanagement";
     }
+    /**
+     * 学生查看课程证书页
+     * */
+    @RequiresPermissions("system:coursemanagement:view")
+    @GetMapping("/coursemanagement2")
+    public String coursemanagement2(ModelMap mmap)
+    {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+        List<Schoolstudentslist> schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (schoolstudentslist.size() == 1) {
+        	mmap.put("studentid", schoolstudentslist.get(0).getId());
+        }    	
+        return prefix + "/coursemanagement2";
+    }
+    
     @GetMapping("/viewedit/{id}")
     public String viewedit(@PathVariable("id") Long id, ModelMap mmap)
     {

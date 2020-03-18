@@ -150,10 +150,38 @@ public class Coursemanagement extends BaseEntity
     private String ssid;
     private String sbid;
     private String grade;
+    private String studentid;
+    private String file;
+    private String filename;
     
     
     
-    public String getSsid() {
+    
+    public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public String getStudentid() {
+		return studentid;
+	}
+
+	public void setStudentid(String studentid) {
+		this.studentid = studentid;
+	}
+
+	public String getSsid() {
 		return ssid;
 	}
 

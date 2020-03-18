@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('课程管理列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>编号：</p>
+                                <input type="text" name="rowId"/>
+                                <input type="hidden" name="studentid" th:value="*{studentid}"/>
+                            </li>
+                            <!-- <li>
+                                <p>科目管理id：</p>
+                                <input type="text" name="subjectmanagementId"/>
+                            </li> -->
+                            <li>
+                                <p>分类：</p>
+                                <input type="text" name="academicLevel"/>
+                            </li>
+                            <li>
+                                <p>课程体系：</p>
+                                <input type="text" name="curriculuSystem"/>
+                            </li>
+                            <li>
+                                <p>累计课时：</p>
+                                <input type="text" name="accumulatedClassHour"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+             
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/coursemanagement";
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                modalName: "课程证书",
+                sortName:"createDate",
+                sortOrder:"desc",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'id', 
+                    title : '编号',
+                    visible: false
+                },
+                {
+                    field : 'studentsName', 
+                    title : '课程名称'
+                },
+                {
+                    field : 'curriculuSystemname', 
+                    title : '课程体系'
+                },
+                {
+                    field : 'accumulatedClassHour', 
+                    title : '累计课时'
+                },
+                {
+                    field : 'sbid', 
+                    title : '所属学院'
+                },
+                {
+                    field : 'ssid', 
+                    title : '所属专业'
+                },
+                {
+                    field : 'grade', 
+                    title : '年级'
+                },
+                {
+                    field : 'teachingName', 
+                    title : '任课教师'
+                },
+                {
+                    field : 'filename', 
+                    title : '课程证书',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        if (row.file) {
+    	                    return "<a onclick='ondownload()' data-value="+row.file+" >"+value+"</a>";
+                        }
+                        else {
+                            return "";
+                        }
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+        
+        function ondownload(){
+        	//console.log(event.currentTarget)
+        	var objtp=$(event.currentTarget).attr("data-value");
+        	console.log( ctx + "common/download/resource?resource=" + objtp)
+        	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+        }
+        
+        function vieweditor(id){
+        	var url = prefix + "/viewedit/" + id;
+    		var options = {
+   				title: '任课老师',
+   				width: "380",
+   				height: "300",
+   				url: url,
+   				callBack: doSubmit
+   			};
+   			$.modal.openOptions(options);
+        }
+        
+        function doSubmit(index, layero){
+			var body = layer.getChildFrame('body', index);			
+			var id  = body.find('#id').val()
+			var teacherId  = body.find('#teacherId').val()   			
+			var str = "id="+id+"&teacherId="+teacherId			
+			$.operate.save(prefix + "/edit", str);
+   			layer.close(index);
+		}
+        
+        function kjsp(id) {
+        	var url = prefix2 + "?id="+id;
+			$.modal.openTab("课件视频", url);
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.schoolchargemanagement.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
 
@@ -27,7 +28,7 @@ public interface ISchoolchargemanagementService
      * @return 收费管理集合
      */
     public List<Schoolchargemanagement> selectSchoolchargemanagementList(Schoolchargemanagement schoolchargemanagement);
-
+    public List<Map<String, Object>> selectStudentChargeList(Map<String, Object> param);
     /**
      * 新增收费管理
      * 

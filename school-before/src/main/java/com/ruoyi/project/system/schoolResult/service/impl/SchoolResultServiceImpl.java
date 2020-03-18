@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.schoolResult.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,11 @@ public class SchoolResultServiceImpl implements ISchoolResultService
     public List<SchoolResult> selectSchoolResultList(SchoolResult schoolResult)
     {
         return schoolResultMapper.selectSchoolResultList(schoolResult);
+    }
+
+    @Override
+    public List<Map<String, Object>> selectSchoolResultList2(SchoolResult schoolResult) {
+    	return schoolResultMapper.selectSchoolResultList2(schoolResult);
     }
 
     /**

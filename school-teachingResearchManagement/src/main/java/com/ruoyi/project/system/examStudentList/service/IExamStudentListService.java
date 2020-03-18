@@ -26,6 +26,8 @@ public interface IExamStudentListService
      * @param examStudentList 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
+    public List<ExamStudentList> selectExamStudentListList(ExamStudentList esl);
+    
     public List<Map<String, Object>> selectExamStudentListList(Map<String, Object> param);
 
     /**
