@@ -217,7 +217,15 @@ public class SchoolstudentdetailsController extends BaseController
     @ResponseBody
     public AjaxResult changeStatus(Schoolstudentdetails schoolstudentdetails)
     {
-    	return toAjax(schoolstudentdetailsService.updateSchoolstudentdetails(schoolstudentdetails));
+    	List<Schoolstudentdetails> list = schoolstudentdetailsService.selectSchoolstudentdetailsList(schoolstudentdetails);
+    	if (list.size() == 0) {
+    		schoolstudentdetailsService.insertSchoolstudentdetails(schoolstudentdetails);
+    	}
+    	else {
+    		schoolstudentdetails.setId(list.get(0).getId());
+    		schoolstudentdetailsService.updateSchoolstudentdetails(schoolstudentdetails);
+    	}
+    	return toAjax(true);
     }
 
     /**

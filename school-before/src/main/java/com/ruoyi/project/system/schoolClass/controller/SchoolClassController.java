@@ -80,9 +80,14 @@ public class SchoolClassController extends BaseController
      */
     @RequiresPermissions("system:schoolClass:classstudentlist")
     @GetMapping("/classstudentlist")
-    public String classstudentlist(@RequestParam("ssname") String ssname, @RequestParam("classId") String student, ModelMap mmap)
+    public String classstudentlist(@RequestParam("ssname") String ssname, @RequestParam("classId") String classId, ModelMap mmap)
     {
     	mmap.put("ssname", ssname);
+    	mmap.put("classId", classId);
+        return prefix + "/classstudentlist";
+    }
+    public String classstudentlist(Schoolstudentslist student, ModelMap mmap)
+    {
     	mmap.put("student", student);
         return prefix + "/classstudentlist";
     }

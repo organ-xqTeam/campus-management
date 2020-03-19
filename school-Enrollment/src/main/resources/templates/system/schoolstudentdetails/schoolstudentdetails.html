@@ -114,23 +114,23 @@
         /* 项目状态显示 */
 		function statusTools(row) {
 		    if (row.jiaofeizhuangtai == 1) {
-    			return '<a class=\"btn btn-primary btn-xs  \" onclick="">已缴费</a> ';
+    			return '<a class=\"btn btn-primary btn-xs  \" onclick="enable('+row.id+')">已缴费</a> ';
     		} else {
-    			return '<a class=\"btn btn-warning btn-xs \" onclick="">未缴费</a> ';
+    			return '<a class=\"btn btn-warning btn-xs \" onclick="disable('+row.id+')">未缴费</a> ';
     		}
 		}
 		
 		/* 项目管理-未完成 */
 		function disable(userId) {	
 			$.modal.confirm("已缴费？", function() {
-				$.operate.post(prefix + "/changeStatus", { "id": userId, "remark": 1 });
+				$.operate.post(prefix + "/changeStatus", { "studentId": userId, "remark": 1, "remark1":cid });
 		    })
 		}
 
 		/* 项目管理-已完成 */
 		function enable(userId) {
 			$.modal.confirm("未缴费？", function() {
-				$.operate.post(prefix + "/changeStatus", { "id": userId, "remark": 0 });
+				$.operate.post(prefix + "/changeStatus", { "studentId": userId, "remark": 0, "remark1":cid });
 		    })
 		}
     </script>

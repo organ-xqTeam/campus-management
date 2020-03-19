@@ -146,9 +146,9 @@
  		/* 项目状态显示 */
 		function statusTools(row) {
 		    if (row.state == 1) {
-    			return '<a class=\"btn btn-primary  \" onclick="enable(\'' + row.id + '\')">未完成</a> ';
+    			return '<a class=\"btn btn-warning btn-xs  \" onclick="enable(\'' + row.id + '\')">未完成</a> ';
     		} else {
-    			return '<a class=\"btn btn-primary \" onclick="disable(\'' + row.id + '\')">已完成</a> ';
+    			return '<a class=\"btn btn-primary btn-xs \" onclick="disable(\'' + row.id + '\')">已完成</a> ';
     		}
 		}
 		
