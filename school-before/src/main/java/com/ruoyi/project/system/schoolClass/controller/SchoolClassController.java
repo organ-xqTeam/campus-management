@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ruoyi.common.annotation.Log;
@@ -79,8 +80,9 @@ public class SchoolClassController extends BaseController
      */
     @RequiresPermissions("system:schoolClass:classstudentlist")
     @GetMapping("/classstudentlist")
-    public String classstudentlist(Schoolstudentslist student, ModelMap mmap)
+    public String classstudentlist(@RequestParam("ssname") String ssname, @RequestParam("classId") String student, ModelMap mmap)
     {
+    	mmap.put("ssname", ssname);
     	mmap.put("student", student);
         return prefix + "/classstudentlist";
     }

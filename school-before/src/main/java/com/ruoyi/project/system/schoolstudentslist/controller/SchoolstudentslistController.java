@@ -287,6 +287,13 @@ public class SchoolstudentslistController extends BaseController
         mmap.put("schoolstudentslist", schoolstudentslist);
         return prefix + "/edit";
     }
+    @GetMapping("/usersee/{id}")
+    public String usersee(@PathVariable("id") Long id, ModelMap mmap)
+    {
+        Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
+        mmap.put("schoolstudentslist", schoolstudentslist);
+        return prefix + "/usersee";
+    }
 
     /**
      * 修改保存学生列

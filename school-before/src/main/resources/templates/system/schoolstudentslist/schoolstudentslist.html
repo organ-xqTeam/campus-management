@@ -233,16 +233,16 @@
                     title : '申请状态',
                     formatter: function(value, row, index) {
                     	if (value=='1') {
-                    		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
+                    		return '<a class="btn btn-success btn-xs" href="#" onclick="vieweditor2(\'' + row.id + '\')">录取管理</a>';
                     	}
                     	else if (value == '2') {
-                    		return '<a class="btn btn-primary" href="#" onclick="vieweditor2(\'' + row.id + '\')">通过</a>';
+                    		return '<a class="btn btn-primary btn-xs" href="#" onclick="vieweditor2(\'' + row.id + '\')">通过</a>';
                     	}
                     	else if (value == '3') {
-                    		return '<a class="btn btn-danger" href="#" onclick="vieweditor2(\'' + row.id + '\')">拒绝</a>';                    		
+                    		return '<a class="btn btn-danger btn-xs" href="#" onclick="vieweditor2(\'' + row.id + '\')">拒绝</a>';                    		
                     	}
                     	else {
-                    		return '<a class="btn btn-success" href="#" onclick="vieweditor2(\'' + row.id + '\')">在线报名申请</a>';
+                    		return '<a class="btn btn-success btn-xs" href="#" onclick="vieweditor2(\'' + row.id + '\')">录取管理</a>';
                     	}
                     }
                 },
@@ -327,7 +327,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                       /*  actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="usersee(\'' + row.id + '\')"><i class="fa fa-edit"></i>查看</a> '); */
+                        actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="usersee(\'' + row.id + '\')"><i class="fa fa-search"></i>查看</a> '); 
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
@@ -448,7 +448,7 @@
         function vieweditor2(id){
         	var url = prefix + "/vieweditor2/" + id;
     		var options = {
-   				title: '在线报名申请',
+   				title: '录取管理',
    				width: "380",
    				height: "220",
    				url: url,
@@ -506,9 +506,15 @@
    			layer.close(index);
 		}
         
- 		function usersee (){
-        	$.modal.alert("暂无此功能！！！")
-        	console.log("usersee!!!")
+ 		function usersee (id){
+        	var url = prefix + "/usersee/" + id;
+    		var options = {
+   				title: '查看',
+   				width: "1280",
+   				height: "720",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
         }
         function ondownload(){
         	//console.log(event.currentTarget)

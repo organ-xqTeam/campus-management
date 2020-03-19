@@ -13,7 +13,7 @@
                             <li>
                                 <p>学生名</p>
                                 <input type="text" name="studentsName"/>
-                                <input type="text" id="classId" name="classId" th:value="${student.classId}"/>
+                                <input type="text" id="classId" name="classId" th:value="${classId}"/>
                             </li>
                             <li>
                                 <p>身份证号</p>
@@ -55,6 +55,8 @@
         var leaveFlag = [[${@permission.hasPermi('system:schoolstudentsleavelist:view')}]];
         
         var prefix = ctx + "system/schoolstudentslist";
+        var ssname = [[${ssname}]]
+        console.log(ssname)
         
         function daoru() {
         	var url = prefix + "/daoru/"+$('#classId').val();
@@ -92,6 +94,20 @@
                     field : 'studentsName', 
                     title : '学生名称'
                 },
+                {
+                    field : 'ssname', 
+                    title : '专业',
+                    formatter: function(value, row, index) {
+//                     	alert(ssname != null)
+                    	if (ssname != 'null') {
+                        	return ssname;
+                    	}
+                    	else {
+                    		return '-';
+                    	}
+                    }
+                },
+                
                 {
                     field : 'admissionTime', 
                     title : '学级',

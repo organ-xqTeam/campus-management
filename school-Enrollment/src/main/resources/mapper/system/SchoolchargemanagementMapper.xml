@@ -79,6 +79,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			schoolchargemanagement s
 		where 
 			1=1
+            <if test="remark2 != null  and remark2 != ''"> and remark2 = #{remark2}</if>
+            <if test="remark3 != null  and remark3 != ''"> and remark3 = #{remark3}</if>
+            <if test="remark4 != null  and remark4 != ''"> and remark4 = #{remark4}</if>
     </select>
     
     <select id="selectSchoolchargemanagementById" parameterType="Long" resultMap="SchoolchargemanagementResult">

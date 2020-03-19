@@ -135,8 +135,8 @@
         function vieweditor(id){
         	
         	//localStorage.setItem("detailscharges",id);
-        	var url = ctx + "system/schooldetailscharges/"+id;
-			$.modal.openTab("收费明细", url);
+        	var url = ctx + "system/schoolstudentdetails?cid="+id;
+			$.modal.openTab("学生明细", url);
         }
         
  		function usersee (){

@@ -62,7 +62,16 @@ public class SchoolClass extends BaseEntity
     private String studentnum;
     private String sbid;
     private String ssid;
+    private String ssname;
     
+	public String getSsname() {
+		return ssname;
+	}
+
+	public void setSsname(String ssname) {
+		this.ssname = ssname;
+	}
+
 	public String getSbid() {
 		return sbid;
 	}

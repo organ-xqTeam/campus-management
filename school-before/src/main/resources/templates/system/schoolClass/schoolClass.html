@@ -110,7 +110,10 @@
                     field : 'createDate', 
                     title : '创建日期'
                 },
-                
+                {
+                    field : 'ssname', 
+                    title : '专业'
+                },
                 {
                     field : 'kechengbiao', 
                     title : '课程表',
@@ -125,7 +128,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                        actions.push('<a class="'+studentFlag+'" href="javascript:void(0)" onclick="viewstudent('+row.id+')">学生管理</a> ');
+                        actions.push('<a class="'+studentFlag+'" href="javascript:void(0)" onclick="viewstudent(\'' + row.id + '\',\'' + row.ssname + '\'' + ')">学生管理</a> ');
                         actions.push('<a class="'+outFlag+'" href="javascript:void(0)" onclick="viewkewai('+row.id+')">课外学习</a> ');
                         actions.push('<a class="'+outFlag+'" href="javascript:void(0)" onclick="viewhuaxu('+row.id+')">课堂花絮</a> ');
                         actions.push('<a class="'+outFlag+'" href="javascript:void(0)" onclick="viewzhoukan('+row.id+')">班级周刊</a> ');
@@ -141,8 +144,8 @@
 			$.modal.openTab("课程表", url);
         }
         
-        function viewstudent(id) {
-        	var url = prefix + "/classstudentlist?classId="+id;
+        function viewstudent(id, ssname) {
+        	var url = prefix + "/classstudentlist?classId="+id+"&ssname="+ssname;
 			$.modal.openTab("学生管理", url);
         }
         

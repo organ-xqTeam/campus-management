@@ -113,26 +113,26 @@ public class SchoolResultDetailController extends BaseController
     	
     	//声明排课管理集合
     	//声明班级id的集合
-    	List<String> schoolclassIdList= new ArrayList<>();
+//    	List<String> schoolclassIdList= new ArrayList<>();
     	//通过课表集合获得classschedulingmanagement_id 排课管理的id
-    	for (Classcurriculum classcurriculum : ClasscurriculumList) {
-			if(classcurriculum.getClassschedulingmanagementId()!=null) {
-				Classschedulingmanagement classschedulingmanagement=classschedulingmanagementService.selectClassschedulingmanagementById( Long.valueOf(classcurriculum.getClassschedulingmanagementId()));
-				if(classschedulingmanagement!=null&&classschedulingmanagement.getClassId()!=null) {
-					schoolclassIdList.add(classschedulingmanagement.getClassId());
-				}
-			}
-    	}
+//    	for (Classcurriculum classcurriculum : ClasscurriculumList) {
+//			if(classcurriculum.getClassschedulingmanagementId()!=null) {
+//				Classschedulingmanagement classschedulingmanagement=classschedulingmanagementService.selectClassschedulingmanagementById( Long.valueOf(classcurriculum.getClassschedulingmanagementId()));
+//				if(classschedulingmanagement!=null&&classschedulingmanagement.getClassId()!=null) {
+//					schoolclassIdList.add(classschedulingmanagement.getClassId());
+//				}
+//			}
+//    	}
     	
     	//通过班级id获取所有学生
-    	List<Schoolstudentslist> schoolstudentslistList =new ArrayList<>();
+//    	List<Schoolstudentslist> schoolstudentslistList =new ArrayList<>();
     	
-    	for (String schoolclassId : schoolclassIdList) {
-    		Schoolstudentslist schoolstudentslist =new Schoolstudentslist();
-    		schoolstudentslist.setClassId(Long.valueOf(schoolclassId));
-    		schoolstudentslistList.addAll(schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist));
-			
-		}
+//    	for (String schoolclassId : schoolclassIdList) {
+//    		Schoolstudentslist schoolstudentslist =new Schoolstudentslist();
+//    		schoolstudentslist.setClassId(Long.valueOf(schoolclassId));
+//    		schoolstudentslistList.addAll(schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist));
+//			
+//		}
     	
     	
     	
@@ -141,9 +141,9 @@ public class SchoolResultDetailController extends BaseController
     	List<Schoolstudentslist> schoolstudentslistList= schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);*/
     	//所有学生的id
     	Set<Long> studentsIdList= new HashSet<>();
-    	for (Schoolstudentslist schoolstudentslist2 : schoolstudentslistList) {
-    		studentsIdList.add(schoolstudentslist2.getId());
-		}
+//    	for (Schoolstudentslist schoolstudentslist2 : schoolstudentslistList) {
+//    		studentsIdList.add(schoolstudentslist2.getId());
+//		}
     	//通过resultid 查找 SchoolResultDetail
     	SchoolResultDetail schoolResultDetail =new SchoolResultDetail();
     	schoolResultDetail.setResultId(Long.valueOf(id));

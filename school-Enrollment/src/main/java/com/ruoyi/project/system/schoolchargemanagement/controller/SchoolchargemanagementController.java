@@ -21,6 +21,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
 import com.ruoyi.project.system.schoolchargemanagement.service.ISchoolchargemanagementService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
@@ -39,6 +41,8 @@ public class SchoolchargemanagementController extends BaseController
 {
     private String prefix = "system/schoolchargemanagement";
 
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
     @Autowired
@@ -77,6 +81,15 @@ public class SchoolchargemanagementController extends BaseController
         Map<String, Object> param = new HashMap<String, Object>();
         if (stulist.size() == 1) {
         	param.put("studentid", stulist.get(0).getId());
+        	if (stulist.get(0).getAdmissionTime() != null) {
+            	param.put("remark2", stulist.get(0).getAdmissionTime().substring(0, 4));
+        	}
+        	if (stulist.get(0).getSbid() != null) {
+            	param.put("remark3", stulist.get(0).getSbid());
+        	}
+        	if (stulist.get(0).getSsid() != null) {
+            	param.put("remark4", stulist.get(0).getSsid());
+        	}
         }
         List<Map<String, Object>> list = schoolchargemanagementService.selectStudentChargeList(param);
         return getDataTable(list);
@@ -122,8 +135,11 @@ public class SchoolchargemanagementController extends BaseController
      * 新增收费管理
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         return prefix + "/add";
     }
 
@@ -145,6 +161,9 @@ public class SchoolchargemanagementController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
         Schoolchargemanagement schoolchargemanagement = schoolchargemanagementService.selectSchoolchargemanagementById(id);
         mmap.put("schoolchargemanagement", schoolchargemanagement);
         return prefix + "/edit";

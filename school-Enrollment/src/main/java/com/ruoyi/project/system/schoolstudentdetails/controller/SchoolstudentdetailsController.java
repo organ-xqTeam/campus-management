@@ -24,6 +24,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
+import com.ruoyi.project.system.schoolchargemanagement.service.ISchoolchargemanagementService;
 import com.ruoyi.project.system.schooldetailscharges.domain.Schooldetailscharges;
 import com.ruoyi.project.system.schooldetailscharges.service.ISchooldetailschargesService;
 import com.ruoyi.project.system.schoolstudentdetails.domain.Schoolstudentdetails;
@@ -44,7 +46,8 @@ public class SchoolstudentdetailsController extends BaseController
     private String prefix = "system/schoolstudentdetails";
     
     @Autowired
-    private ISchooldetailschargesService schooldetailschargesService;
+    private ISchooldetailschargesService schooldetailschargesService;@Autowired
+    private ISchoolchargemanagementService schoolchargemanagementService;
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
     @Autowired
@@ -53,13 +56,10 @@ public class SchoolstudentdetailsController extends BaseController
     @RequiresPermissions("system:schoolstudentdetails:view")
     @GetMapping("")
     public String schoolstudentdetails(
-    		@RequestParam("cid") String cid, @RequestParam("admission") String admission, ModelMap mmap
+    		@RequestParam("cid") String cid, ModelMap mmap
 //    		@PathVariable("id") Long id, ModelMap mmap
     ){	
-    	System.out.println(cid);
-    	System.out.println(admission);
     	mmap.put("cid", cid);
-    	mmap.put("admission", admission);
     	return prefix + "/schoolstudentdetails";
 //    	Schooldetailscharges sss = schooldetailschargesService.selectSchooldetailschargesById(id);
 //    	List<Schoolstudentslist> studentslists = schoolstudentslistService.selectSchoolstudentslistList(null);    	
@@ -93,14 +93,16 @@ public class SchoolstudentdetailsController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(
-    		@RequestParam("cid") String cid, @RequestParam("admission") String admission
+    		@RequestParam("cid") String cid
 //    		@PathVariable("id") Long id,Schoolstudentdetails schoolstudentdetails
     ){
     	System.out.println(cid);
-    	System.out.println(admission);
     	Map<String, Object> param = new HashMap<String, Object>();
+    	Schoolchargemanagement sc = schoolchargemanagementService.selectSchoolchargemanagementById(Long.valueOf(cid));
     	param.put("cid", cid);
-    	param.put("admission", admission);
+    	param.put("remark2", sc.getRemark2());
+    	param.put("remark3", sc.getRemark3());
+    	param.put("remark4", sc.getRemark4());
     	List<Map<String, Object>> list = schoolstudentdetailsService.selectSchoolstudentdetailsList(param);
     	return getDataTable(list);
 //    	schoolstudentdetails.setChargingDetailsId(id+"");

@@ -256,8 +256,8 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var actions = [];
-                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="lixiao(\'' + row.id + '\')">离校办理</a> ');
-                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="lixian(\'' + row.id + '\')">离线办理</a> ');
+                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="lixiao(\'' + row.id + '\')">状态设置</a> ');
+                   		actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="lixian(\'' + row.id + '\')">离校管理</a> ');
                         return actions.join('');
                     }
                 }]

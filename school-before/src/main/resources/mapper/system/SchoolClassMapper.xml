@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deleteFlag"    column="delete_flag"    />
         <result property="sbid"    column="sbid"    />
         <result property="ssid"    column="ssid"    />
+        <result property="ssname"    column="ssname"    />
     </resultMap>
 
     <sql id="selectSchoolClassVo">
@@ -30,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			c.delete_flag AS 'delete_flag',
 			c.sbid,
 			c.ssid,
+			(select name from school_specialty where id = c.ssid) as 'ssname',
 			(
 				SELECT
 					count(*)

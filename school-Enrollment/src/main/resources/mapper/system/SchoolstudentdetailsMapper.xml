@@ -63,13 +63,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectSchoolstudentdetailsList2" parameterType="hashmap" resultType="hashmap">
-    	select 
+		select 
 			*,
 			(select remark from schoolstudentdetails where student_ID = s.id and remark1 = #{cid}) as 'jiaofeizhuangtai'
 		from 
 			schoolstudentslist s
 		where 
-			s.admission_time like concat('%', #{admission} ,'%')
+			1=1
+		<if test="remark2 != null and remark2 != ''"> and s.admission_time like concat('%', #{remark2} ,'%')</if>
+		<if test="remark3 != null and remark3 != ''"> and s.sbid = #{remark3}</if>
+		<if test="remark4 != null and remark4 != ''"> and s.ssid = #{remark4}</if>	
     </select>
      
     
