@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -354,6 +355,12 @@ public class AppHomeWorkController extends BaseController {
     	schoolstudentslist.setApprovalstate("1");
     	schoolstudentslist.setState("2");
     	schoolstudentslist.setRemark23(DateUtils.getDate());
+    	String val = "";
+    	Random random = new Random();
+    	for (int i = 0; i < 10; i++) {
+    		val += String.valueOf(random.nextInt(10));
+    	}
+    	schoolstudentslist.setBmnum(val);
     	String idnum = schoolstudentslist.getIdnum();
     	String nation = schoolstudentslist.getNation();
     	String code = schoolstudentslist.getCode();

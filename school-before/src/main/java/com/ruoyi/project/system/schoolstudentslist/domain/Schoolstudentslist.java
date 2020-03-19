@@ -234,12 +234,15 @@ public class Schoolstudentslist extends BaseEntity
     private String  yasiname;
     private String qq;
     private String  weixin;
+    private String bmnum;
     
-
-    
-    
-    
-    public String getRemark45() {
+    public String getBmnum() {
+		return bmnum;
+	}
+	public void setBmnum(String bmnum) {
+		this.bmnum = bmnum;
+	}
+	public String getRemark45() {
 		return remark45;
 	}
 	public void setRemark45(String remark45) {

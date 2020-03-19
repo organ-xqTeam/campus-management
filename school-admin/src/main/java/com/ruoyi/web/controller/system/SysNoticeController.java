@@ -52,6 +52,7 @@ public class SysNoticeController extends BaseController
     /**
      * 公告发布-发布列表页
      */
+    @RequiresPermissions("system:notice:fabu")
     @GetMapping("/noticeview")
     public String noticelist(SysNotice notice, ModelMap model)
     {

@@ -28,9 +28,11 @@ import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysDictData;
 import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.SysUserOnline;
+import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysUserOnlineService;
 import com.ruoyi.system.service.ISysUserService;
 
@@ -51,6 +53,8 @@ public class AppLoginController{
 	private ITeachingInfoService teachingInfoService;
 	@Autowired
 	private ISchoolstudentslistService schoolstudentslistService; 
+    @Autowired
+    private ISysDictDataService dictDataService;
 	
 	@PostMapping("/login")
 	@ResponseBody
@@ -156,7 +160,7 @@ public class AppLoginController{
 		} catch (AuthenticationException e) {
 			String msg;
 			if (flag == 0) {
-				msg = "身份证错误";
+				msg = "查不到该考生信息！请核对身份证号码是否正确。";
 			}
 			else {
 				msg = "身份证或手机号错误";
@@ -251,8 +255,14 @@ public class AppLoginController{
 		return AjaxResult.success();
 	}
 	
-	
-	
+	@PostMapping("/getVariable")
+	@ResponseBody
+	public AjaxResult getVariable() {
+		SysDictData dictData = new SysDictData();
+		dictData.setDictType("sys_business_variable");
+        List<SysDictData> list = dictDataService.selectDictDataList(dictData);
+        return AjaxResult.success(list);
+	}
 
 //	@Log(title = "重置密码", businessType = BusinessType.UPDATE)
 //	@PostMapping("/resetPwd")
