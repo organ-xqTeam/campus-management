@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,16 +94,18 @@ public class SchoolstudentdetailsController extends BaseController
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(
-    		@RequestParam("cid") String cid
+    		@RequestParam Map<String, Object> requestParam
 //    		@PathVariable("id") Long id,Schoolstudentdetails schoolstudentdetails
     ){
-    	System.out.println(cid);
     	Map<String, Object> param = new HashMap<String, Object>();
+    	String cid = requestParam.get("cid").toString();
     	Schoolchargemanagement sc = schoolchargemanagementService.selectSchoolchargemanagementById(Long.valueOf(cid));
     	param.put("cid", cid);
     	param.put("remark2", sc.getRemark2());
     	param.put("remark3", sc.getRemark3());
     	param.put("remark4", sc.getRemark4());
+    	param.put("name", requestParam.get("name").toString());
+    	param.put("number", requestParam.get("number").toString());
     	List<Map<String, Object>> list = schoolstudentdetailsService.selectSchoolstudentdetailsList(param);
     	return getDataTable(list);
 //    	schoolstudentdetails.setChargingDetailsId(id+"");

@@ -18,6 +18,7 @@ public class Schoolstudentslist extends BaseEntity
 
     /** 编号 */
     private Long id;
+    private Long repeatid;
 
     /** 学生id */
     //@Excel(name = "学生id")
@@ -236,7 +237,15 @@ public class Schoolstudentslist extends BaseEntity
     private String  weixin;
     private String bmnum;
     
-    public String getBmnum() {
+    
+    
+    public Long getRepeatid() {
+		return repeatid;
+	}
+	public void setRepeatid(Long repeatid) {
+		this.repeatid = repeatid;
+	}
+	public String getBmnum() {
 		return bmnum;
 	}
 	public void setBmnum(String bmnum) {

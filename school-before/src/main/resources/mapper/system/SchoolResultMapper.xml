@@ -51,6 +51,50 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>			
     </select>
     
+	<select id="stulist" resultType="hashmap" parameterType="hashmap">
+		select 
+			s.id,
+			s.students_id AS studentsId,
+			s.students_name AS studentsName,
+			s.academic_level AS academicLevel,
+			s.father_name,
+			s.father_phone,
+			s.mother_name,
+			s.mother_phone,
+			s.home_address,
+			s._remarks,
+			s.ages,
+			s.admission_time AS admissionTime,
+			s._state,
+			s.del_flag,
+			s.deptAlias,
+			s.userAlias,
+			ifnull( s.grade_id, "" ) AS gradeId,
+			ifnull( s.class_id, "" ) AS classId,
+			s.ssid,
+			s.sbid,
+			s.class_id,
+			(select nameclass from school_class where id = s.class_id) as 'nameclass',
+			(select school_name from school_belong where id = s.sbid) as 'sbname',
+			(select `name` from school_specialty where id = s.ssid) as 'ssname'
+		from 
+			schoolstudentslist s
+		where 
+			1=1
+		<if test="resultId != null and resultId != ''">
+			and id not in (select students_id from school_result_detail where result_id = #{resultId})
+		</if>
+		<if test="ssid != null and ssid != ''">
+			and s.ssid = #{ssid}
+		</if>
+		<if test="sbid != null and sbid != ''">
+			and s.sbid = #{sbid}
+		</if>
+		<if test="classId != null and classId != ''">
+			and s.class_id = #{classId}
+		</if>
+	</select>
+    
     <select id="selectSchoolResultById" parameterType="Long" resultMap="SchoolResultResult">
         <include refid="selectSchoolResultVo"/>
         where id = #{id}

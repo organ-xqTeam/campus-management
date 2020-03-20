@@ -15,8 +15,8 @@
                                 <input type="text" name="studentsName"/>
                             </li>
                             <li>
-                                <p>入学年份</p>
-                                <input type="text" name="admissionTime"/>
+                                <p>身份证号</p>
+                                <input type="text" name="idnum"/>
                             </li>
                             <!-- <li>
                                 <p>状态：</p>
@@ -35,9 +35,6 @@
             <div class="btn-group-sm" id="toolbar" role="group">
                 <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
                     <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
-                    <i class="fa fa-edit"></i> 修改
                 </a>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentslist:remove">
                     <i class="fa fa-remove"></i> 删除
@@ -60,7 +57,7 @@
         $(function() {
             var options = {
                 url: prefix + "/list",
-                createUrl: prefix + "/add",
+                createUrl: prefix + "/add?approvalstate=1&State=2",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",

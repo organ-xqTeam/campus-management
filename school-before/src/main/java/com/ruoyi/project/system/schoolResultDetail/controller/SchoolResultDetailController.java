@@ -1,10 +1,7 @@
 package com.ruoyi.project.system.schoolResultDetail.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +20,10 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.project.system.ClasscurriculumDetail.domain.ClasscurriculumDetail;
-import com.ruoyi.project.system.ClasscurriculumDetail.service.IClasscurriculumDetailService;
-import com.ruoyi.project.system.classcurriculum.domain.Classcurriculum;
-import com.ruoyi.project.system.classcurriculum.service.IClasscurriculumService;
-import com.ruoyi.project.system.classschedulingmanagement.domain.Classschedulingmanagement;
-import com.ruoyi.project.system.classschedulingmanagement.service.IClassschedulingmanagementService;
-import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
-import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
-import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
-import com.ruoyi.project.system.schoolResult.service.ISchoolResultService;
 import com.ruoyi.project.system.schoolResultDetail.domain.SchoolResultDetail;
 import com.ruoyi.project.system.schoolResultDetail.service.ISchoolResultDetailService;
-import com.ruoyi.project.system.schoolgradelist.domain.Schoolgradelist;
-import com.ruoyi.project.system.schoolgradelist.service.ISchoolgradelistService;
-import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
-import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 
 /**
  * 学校成绩详情表Controller
@@ -57,129 +40,26 @@ public class SchoolResultDetailController extends BaseController
     @Autowired
     private ISchoolResultDetailService schoolResultDetailService;
     @Autowired
-    private ISchoolResultService  schoolResultService; 
-    @Autowired
-    private ISchoolgradelistService  schoolgradelistService;
-    @Autowired
-    private ISchoolstudentslistService  schoolstudentslistService ;
-    @Autowired
-    private IClasscurriculumDetailService classcurriculumDetailService;
-    @Autowired
-    private IClasscurriculumService classcurriculumService;
-    @Autowired
     private ISchoolClassService schoolClassService;
-    @Autowired
-    private IClassschedulingmanagementService classschedulingmanagementService;
-    @Autowired
-    private ICoursemanagementService coursemanagementService;
     
     @RequiresPermissions("system:schoolResultDetail:view")
     @GetMapping()
     public String schoolResultDetail(String id,ModelMap mmap)
     {
-    	
-    	System.out.println(id);
-    	
     	mmap.put("resultId", id);
-    	
-    	//通过homeworkid 查找homework对象
-    	SchoolResult schoolResult=  schoolResultService.selectSchoolResultById(Long.valueOf(id));
-    	//获取课程id  coursemanagementId
-    	Long coursemanagementId= schoolResult.getCurriculumId();
-    	Coursemanagement course = new Coursemanagement();
-    	course = coursemanagementService.selectCoursemanagementById(coursemanagementId);
-    	mmap.put("course", course);
-    	//
-    	ClasscurriculumDetail classcurriculumDetail =new ClasscurriculumDetail();
-    	classcurriculumDetail.setCoursemanagementId(coursemanagementId);
-    	List<ClasscurriculumDetail> classcurriculumDetailList= classcurriculumDetailService.selectClasscurriculumDetailList(classcurriculumDetail);
-    	//所有的课表id
-    	List<Long> cuurriculumIdList= new ArrayList<>();
-    	for (ClasscurriculumDetail classcurriculumDetail2 : classcurriculumDetailList) {
-    		//获取所有的课表id
-    		if(classcurriculumDetail2.getCuurriculumId()!=null) {
-    			Long cuurriculumId= classcurriculumDetail2.getCuurriculumId();
-    			cuurriculumIdList.add(cuurriculumId);
-    		}
-		}
-    	
-    	//声明课表id集合
-    	List<Classcurriculum> ClasscurriculumList= new ArrayList<>();
-    	//通过所有的课表id获取所有的班级id
-    	for (Long cuurriculumId : cuurriculumIdList) {
-    		Classcurriculum classcurriculum= classcurriculumService.selectClasscurriculumById(cuurriculumId);
-    		ClasscurriculumList.add(classcurriculum);
-		}
-    	
-    	//声明排课管理集合
-    	//声明班级id的集合
-//    	List<String> schoolclassIdList= new ArrayList<>();
-    	//通过课表集合获得classschedulingmanagement_id 排课管理的id
-//    	for (Classcurriculum classcurriculum : ClasscurriculumList) {
-//			if(classcurriculum.getClassschedulingmanagementId()!=null) {
-//				Classschedulingmanagement classschedulingmanagement=classschedulingmanagementService.selectClassschedulingmanagementById( Long.valueOf(classcurriculum.getClassschedulingmanagementId()));
-//				if(classschedulingmanagement!=null&&classschedulingmanagement.getClassId()!=null) {
-//					schoolclassIdList.add(classschedulingmanagement.getClassId());
-//				}
-//			}
-//    	}
-    	
-    	//通过班级id获取所有学生
-//    	List<Schoolstudentslist> schoolstudentslistList =new ArrayList<>();
-    	
-//    	for (String schoolclassId : schoolclassIdList) {
-//    		Schoolstudentslist schoolstudentslist =new Schoolstudentslist();
-//    		schoolstudentslist.setClassId(Long.valueOf(schoolclassId));
-//    		schoolstudentslistList.addAll(schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist));
-//			
-//		}
-    	
-    	
-    	
-    	/*//查找所有学生
-    	Schoolstudentslist schoolstudentslist =new Schoolstudentslist();
-    	List<Schoolstudentslist> schoolstudentslistList= schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);*/
-    	//所有学生的id
-    	Set<Long> studentsIdList= new HashSet<>();
-//    	for (Schoolstudentslist schoolstudentslist2 : schoolstudentslistList) {
-//    		studentsIdList.add(schoolstudentslist2.getId());
-//		}
-    	//通过resultid 查找 SchoolResultDetail
-    	SchoolResultDetail schoolResultDetail =new SchoolResultDetail();
-    	schoolResultDetail.setResultId(Long.valueOf(id));
-    	
-    	List<SchoolResultDetail> schoolResultDetailList= schoolResultDetailService.selectSchoolResultDetailList(schoolResultDetail);
-    	for (SchoolResultDetail schoolResultDetail2 : schoolResultDetailList) {
-			  Long studentsIds=  schoolResultDetail2.getStudentsId();
-			  if(studentsIdList.contains(studentsIds)) {
-				  studentsIdList.remove(studentsIds);
-			  }
-		}
-    	//遍历所有学生的id新增
-    	for (Long studentsId : studentsIdList) {
-    		SchoolResultDetail schoolResultDetailss =new SchoolResultDetail();
-    		schoolResultDetailss.setStudentsId(studentsId);
-    		schoolResultDetailss.setResultId(Long.valueOf(id));
-    		schoolResultDetailService.insertSchoolResultDetail(schoolResultDetailss);
-		}
-    	
-    	//查询所有年级
-    	Schoolgradelist schoolgradelist = new Schoolgradelist();
-    	List<Schoolgradelist> schoolgradelistList= schoolgradelistService.selectSchoolgradelistList(schoolgradelist);
-    	mmap.put("schoolgradelistList", schoolgradelistList);
     	SchoolClass schoolClass =new SchoolClass();
     	List<SchoolClass> schoolClassList= schoolClassService.selectSchoolClassList(schoolClass);
     	mmap.put("schoolClassList", schoolClassList);
-    	//查询所有班级
         return prefix + "/schoolResultDetail";
     }
     
     @GetMapping("/luru")
-    public String luru(@RequestParam("id") String id, @RequestParam("sbid") String sbid, @RequestParam("ssid") String ssid, ModelMap mmap)
+    public String luru(@RequestParam("id") String id, ModelMap mmap)
     {
     	mmap.put("id", id);
-    	mmap.put("sbid", sbid);
-    	mmap.put("ssid", ssid);
+    	SchoolClass schoolClass =new SchoolClass();
+    	List<SchoolClass> schoolClassList= schoolClassService.selectSchoolClassList(schoolClass);
+    	mmap.put("schoolClassList", schoolClassList);
         return prefix + "/luru";
     }
     

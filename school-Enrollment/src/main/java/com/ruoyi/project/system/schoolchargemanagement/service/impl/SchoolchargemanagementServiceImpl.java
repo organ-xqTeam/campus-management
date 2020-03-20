@@ -10,6 +10,7 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.project.system.schoolchargemanagement.domain.Schoolchargemanagement;
 import com.ruoyi.project.system.schoolchargemanagement.mapper.SchoolchargemanagementMapper;
 import com.ruoyi.project.system.schoolchargemanagement.service.ISchoolchargemanagementService;
+import com.ruoyi.project.system.schoolstudentdetails.mapper.SchoolstudentdetailsMapper;
 
 /**
  * 收费管理Service业务层处理
@@ -21,8 +22,10 @@ import com.ruoyi.project.system.schoolchargemanagement.service.ISchoolchargemana
 public class SchoolchargemanagementServiceImpl implements ISchoolchargemanagementService 
 {
     @Autowired
+    private SchoolstudentdetailsMapper schoolstudentdetailsMapper;
+    
+    @Autowired
     private SchoolchargemanagementMapper schoolchargemanagementMapper;
-
     /**
      * 查询收费管理
      * 
@@ -83,6 +86,7 @@ public class SchoolchargemanagementServiceImpl implements ISchoolchargemanagemen
     @Override
     public int deleteSchoolchargemanagementByIds(String ids)
     {
+    	schoolstudentdetailsMapper.deleteSchoolstudentdetailsByCids(Convert.toStrArray(ids));
         return schoolchargemanagementMapper.deleteSchoolchargemanagementByIds(Convert.toStrArray(ids));
     }
 
@@ -95,6 +99,7 @@ public class SchoolchargemanagementServiceImpl implements ISchoolchargemanagemen
     @Override
     public int deleteSchoolchargemanagementById(Long id)
     {
+    	schoolstudentdetailsMapper.deleteSchoolstudentdetailsByCid(id);
         return schoolchargemanagementMapper.deleteSchoolchargemanagementById(id);
     }
 

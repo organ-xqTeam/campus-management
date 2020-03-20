@@ -15,8 +15,8 @@
                                 <input type="text" name="projectId"/>
                             </li> -->
                             <li>
-                                <p>收费明细：</p>
-                                <input type="text" name="detailsOfCharges"/>
+                                <p>收费项目：</p>
+                                <input type="text" name="payService"/>
                             </li>
                             <li class="select-time">
                                 <p>时间：</p>
@@ -48,9 +48,6 @@
             <div class="btn-group-sm" id="toolbar" role="group">
                 <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolchargemanagement:add">
                     <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolchargemanagement:edit">
-                    <i class="fa fa-edit"></i> 修改
                 </a>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolchargemanagement:remove">
                     <i class="fa fa-remove"></i> 删除

@@ -128,10 +128,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSchoolstudentslistVo"/>
         <where>  
             <if test="id != null  and id != ''"> and id = #{id}</if>
+            <if test="repeatid != null  and repeatid != ''"> and id &lt;&gt; #{repeatid}</if>
             <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
             <if test="birth != null  and studentsId != ''"> and birth = #{birth}</if>
             <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
-            <if test="idnum != null  and idnum != ''"> and idnum = #{idnum}</if>
+            <if test="idnum != null  and idnum != ''"> and idnum like concat('%', #{idnum}, '%')</if>
             <if test="isrefuse != null  and isrefuse != ''"> and isrefuse = #{isrefuse}</if>
             <if test="approvalstate != null  and approvalstate != ''"> and approvalstate = #{approvalstate}</if>
             <if test="studentsId != null  and studentsId != ''"> and students_id = #{studentsId}</if>
@@ -144,8 +145,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="homeAddress != null  and homeAddress != ''"> and home_address = #{homeAddress}</if>
             <if test="Remarks != null  and Remarks != ''"> and _remarks = #{Remarks}</if>
             <if test="ages != null  and ages != ''"> and ages = #{ages}</if>
-            <if test="admissionTime != null "> and admission_time like concat('%', #{admissionTime}, '%')</if>
-            <if test="State != null  and State != ''"> and _state = #{State}</if>
+            <if test="admissionTime != null and admissionTime != ''"> and admission_time like concat('%', #{admissionTime}, '%')</if>
+            <if test="State != null  and State != '' and State != '0'.toString()"> and _state = #{State}</if>
+            <if test="State == '0'.toString()"> and _state in (0,2)</if>
             <if test="remark1 != null  and remark1 != ''"> and remark1 = #{remark1}</if>
             <if test="remark2 != null  and remark2 != ''"> and remark2 = #{remark2}</if>
             <if test="remark3 != null  and remark3 != ''"> and remark3 = #{remark3}</if>

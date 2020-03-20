@@ -47,9 +47,20 @@ public class SchoolResultServiceImpl implements ISchoolResultService
         return schoolResultMapper.selectSchoolResultList(schoolResult);
     }
 
+    /**
+     * 学生自己考试的成绩页面列表
+     * */
     @Override
     public List<Map<String, Object>> selectSchoolResultList2(SchoolResult schoolResult) {
     	return schoolResultMapper.selectSchoolResultList2(schoolResult);
+    }
+
+    /**
+     * 成绩管理新增学生页列表
+     * */
+    @Override
+    public List<Map<String, Object>> stulist(Map<String, Object> params) {
+    	return schoolResultMapper.stulist(params);
     }
 
     /**

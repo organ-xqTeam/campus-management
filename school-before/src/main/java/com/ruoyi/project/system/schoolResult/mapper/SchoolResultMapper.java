@@ -28,8 +28,14 @@ public interface SchoolResultMapper
      * @return 学校成绩集合
      */
     public List<SchoolResult> selectSchoolResultList(SchoolResult schoolResult);
+    
+    /**
+     * 学生自己考试的成绩页面列表
+     * */
     public List<Map<String, Object>> selectSchoolResultList2(SchoolResult schoolResult);
 
+    public List<Map<String, Object>> stulist(Map<String, Object> params);
+    
     /**
      * 新增学校成绩
      * 

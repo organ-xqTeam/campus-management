@@ -10,33 +10,18 @@
                 <form id="formId">
                     <div class="select-list">
                     	<input type="hidden" id="resultId" name="resultId" th:value="${resultId}"/>
-                    	<input type="hidden" id="sbid" name="sbid" th:value="${course?.sbid}"/>
-                    	<input type="hidden" id="ssid" name="ssid" th:value="${course?.ssid}"/>
                         <ul>
                             <li>
                                 <p>学生名称:</p>
                                 <input type="text" name="studentsName"/>
                             </li>
-                             <li>
-                                <p>年级：</p>                                
-                                <select  class="form-control" name="gradeId">
-                                <option value="">----</option>
-							    <option  th:each="schoolgradelist:${schoolgradelistList}" th:value="${schoolgradelist.id}" th:text="${schoolgradelist.grade}" ></option>
-							    </select>
-                            </li>
-                             <li>
+                            <li>
                                 <p>班级：</p>
                                 <select  class="form-control" name="classId">
                                 <option value="">----</option>
 							    <option  th:each="schoolClass:${schoolClassList}" th:value="${schoolClass.id}" th:text="${schoolClass.nameclass}" ></option>
 							    </select>
                             </li>
-                            
-                            <!-- <li>
-                                <p>状态：</p>
-                                <input type="text" name="State"/>
-                            </li> -->
-                           
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -45,7 +30,6 @@
                     </div>
                 </form>
             </div>
-
             <div class="btn-group-sm" id="toolbar" role="group">
                 <a class="btn btn-success" onclick="luru()">补考清考成绩录入</a>
             </div>
@@ -70,7 +54,7 @@
 			console.log(resultId)
 			var sbid = $('#sbid').val();
 			var ssid = $('#ssid').val();
-        	var url = prefix + "/luru?id="+resultId+"&ssid="+ssid+"&sbid="+sbid;
+        	var url = prefix + "/luru?id="+resultId;
 			$.modal.openTab("补考清单", url);
 		}
         $(function() {

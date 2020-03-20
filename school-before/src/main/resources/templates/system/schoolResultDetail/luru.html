@@ -8,34 +8,16 @@
         <div class="row">
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
+                    <input type="hidden" name="id" th:value="${id}"/>
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>课程名称：</p>
-                                <input type="text" name="curriculumName"/>
-                    			<input type="hidden" name="id" th:value="${id}"/>
-                    			<input type="hidden" name="sbid" th:value="${sbid}"/>
-                    			<input type="hidden" name="ssid" th:value="${ssid}"/>
+                                <p>班级：</p>
+                                <select  class="form-control" name="classId">
+	                                <option value="">---请选择班级---</option>
+								    <option  th:each="schoolClass:${schoolClassList}" th:value="${schoolClass.id}" th:text="${schoolClass.nameclass}" ></option>
+							    </select>
                             </li>
-                            
-                            <li>
-                                <p>考试名称：</p>
-                                <input type="text" name="examName"/>
-                            </li>
-                            
-                            <li class="select-time">
-                                <p>考试时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginExamDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endExamDate]"/>
-                            </li>
-                            <li class="select-time">
-                                <p>创建时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateDate]"/>
-                            </li>
-                           
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -105,7 +87,10 @@
                 },
                 {
                     field : 'grade', 
-                    title : '年级'
+                    title : '年级',
+                    formatter: function(value, row, index) {
+                        return parseInt(value + 1) + '年级';
+                    }
                 },
                 {
                     field : 'class', 

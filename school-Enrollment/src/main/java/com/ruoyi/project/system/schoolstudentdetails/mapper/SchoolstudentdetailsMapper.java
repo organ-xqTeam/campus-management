@@ -61,4 +61,10 @@ public interface SchoolstudentdetailsMapper
      * @return 结果
      */
     public int deleteSchoolstudentdetailsByIds(String[] ids);
+    
+    /**
+     * 批量删除收费项目关联的学生
+     * */
+    public int deleteSchoolstudentdetailsByCid(Long cid);
+    public int deleteSchoolstudentdetailsByCids(String[] ids);
 }

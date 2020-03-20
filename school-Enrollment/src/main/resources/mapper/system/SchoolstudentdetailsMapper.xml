@@ -73,6 +73,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="remark2 != null and remark2 != ''"> and s.admission_time like concat('%', #{remark2} ,'%')</if>
 		<if test="remark3 != null and remark3 != ''"> and s.sbid = #{remark3}</if>
 		<if test="remark4 != null and remark4 != ''"> and s.ssid = #{remark4}</if>	
+		<if test="name != null and name != ''"> and s.students_name like concat('%', #{name}, '%')</if>	
+		<if test="number != null and number != ''"> and s.students_id like concat('%', #{number}, '%')</if>	
     </select>
      
     
@@ -171,6 +173,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="deleteSchoolstudentdetailsByIds" parameterType="String">
         delete from schoolstudentdetails where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteSchoolstudentdetailsByCid" parameterType="Long">
+        delete from schoolstudentdetails where remark1 = #{cid}
+    </delete>
+    
+    <delete id="deleteSchoolstudentdetailsByCids" parameterType="String">
+        delete from schoolstudentdetails where remark1 in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

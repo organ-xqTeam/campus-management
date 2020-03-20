@@ -352,6 +352,7 @@ public class AppHomeWorkController extends BaseController {
 //		String studentsId=UUID.randomUUID().toString().replace("-", "").substring(0,6);
 		String studentsId="S"+dateFormat.format(da)+randomNum.substring(randomNum.length()-4, randomNum.length());
     	schoolstudentslist.setStudentsId(studentsId);
+    	schoolstudentslist.setAdmissionTime(DateUtils.getYear() + "-09-01");
     	schoolstudentslist.setApprovalstate("1");
     	schoolstudentslist.setState("2");
     	schoolstudentslist.setRemark23(DateUtils.getDate());

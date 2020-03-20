@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ruoyi.common.annotation.Log;
@@ -20,10 +21,16 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
+import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
+import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
+import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
 import com.ruoyi.project.system.schoolResult.service.ISchoolResultService;
+import com.ruoyi.project.system.schoolResultDetail.domain.SchoolResultDetail;
+import com.ruoyi.project.system.schoolResultDetail.service.ISchoolResultDetailService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.SysUser;
@@ -41,11 +48,17 @@ public class SchoolResultController extends BaseController
     private String prefix = "system/schoolResult";
 
     @Autowired
+    private ISchoolClassService schoolClassService;
+    @Autowired
     private ISchoolResultService schoolResultService;
+    @Autowired
+    private ISchoolBelongService schoolBelongService;
     @Autowired
     private ICoursemanagementService  coursemanagementService ;
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
+    @Autowired
+    private ISchoolResultDetailService schoolResultDetailService;
 
     @RequiresPermissions("system:schoolResult:view")
     @GetMapping()
@@ -54,6 +67,50 @@ public class SchoolResultController extends BaseController
         return prefix + "/schoolResult";
     }
     
+    /**
+     * 新增学生页
+     * */
+    @RequiresPermissions("system:schoolResult:stuview")
+    @GetMapping("/stuview")
+    public String stuview(@RequestParam("rid") String rid, ModelMap mmap)
+    {
+    	mmap.put("rid", rid);
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
+    	SchoolClass sc = new SchoolClass();
+    	List<SchoolClass> sclist = schoolClassService.selectSchoolClassList(sc);
+    	mmap.put("schoolClassList", sclist);
+        return prefix + "/stuview";
+    }
+
+    /**
+     * 新增学生页列表
+     * */
+    @RequiresPermissions("system:schoolResult:stulist")
+    @PostMapping("/stulist")
+    @ResponseBody
+    public TableDataInfo stulist(@RequestParam Map<String, Object> params)
+    {
+        startPage();
+        List<Map<String, Object>> list = schoolResultService.stulist(params);
+        return getDataTable(list);
+    }
+    
+    /**
+     * 导入学生
+     * */
+    @RequiresPermissions("system:schoolResult:stuimport")
+    @PostMapping("/stuimport")
+    @ResponseBody
+    public AjaxResult stuimport(SchoolResultDetail detail)
+    {
+    	return toAjax(schoolResultDetailService.insertSchoolResultDetail(detail));
+    }
+    
+    /**
+     * 学生自己考试的成绩页面
+     * */
     @RequiresPermissions("system:schoolResult:studentresult")
     @GetMapping("/studentresult")
     public String studentResultView()
@@ -74,6 +131,9 @@ public class SchoolResultController extends BaseController
         return getDataTable(list);
     }
     
+    /**
+     * 学生自己考试的成绩页面列表
+     * */
     @RequiresPermissions("system:schoolResult:studentresultlist")
     @PostMapping("/studentresultlist")
     @ResponseBody

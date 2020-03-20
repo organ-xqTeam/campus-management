@@ -5,10 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,15 +22,18 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.CodeMsg;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.Result;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
+import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
+import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
-import com.ruoyi.project.system.schoolClass.service.impl.SchoolClassServiceImpl;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.SysUser;
@@ -57,6 +58,8 @@ public class SchoolstudentslistController extends BaseController
     private ISchoolClassService schoolClassService;
     @Autowired
     private ISchoolBelongService schoolBelongService;
+	@Autowired
+	private ISchoolSpecialtyService schoolSpecialtyService;
     @Autowired
     private ISchoolstudentslistService schoolstudentslistService;
 	
@@ -109,6 +112,7 @@ public class SchoolstudentslistController extends BaseController
     {
         startPage();
 //        schoolstudentslist.setApprovalstate("2");
+        schoolstudentslist.setAdmissionTime(DateUtils.getYear());
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         return getDataTable(list);
     }
@@ -132,6 +136,9 @@ public class SchoolstudentslistController extends BaseController
     @GetMapping("/add")
     public String add(Schoolstudentslist student, ModelMap map) 
     {
+		SchoolSpecialty ss = new SchoolSpecialty();
+    	List<SchoolSpecialty> sslist = schoolSpecialtyService.selectSchoolSpecialtyList(ss);   
+    	map.put("sslist", sslist);
     	map.put("student", student);
         return prefix + "/add";
     }
@@ -188,24 +195,47 @@ public class SchoolstudentslistController extends BaseController
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		String randomNum = System.currentTimeMillis()+"";  
     	String studentsId="S"+dateFormat.format(da)+randomNum.substring(randomNum.length()-4, randomNum.length());
-    	schoolstudentslist.setStudentsId(studentsId);;
-    	SysUser user= new SysUser();
-    	user.setDeptId((long) 103);
-		user.setRoleId((long) 5);
-    	//岗位 教师
-    	Long roleIds[] = {(long)5};
-    	user.setRoleIds(roleIds);
-    	user.setLoginName(studentsId);
-    	user.setUserName(schoolstudentslist.getStudentsName());
+    	schoolstudentslist.setStudentsId(studentsId);
     	
-    	user.setPassword("123456");
-    	user.setCreateBy("admin");
-    	userService.insertUser(user);
-    	user=  userService.selectUserList(user).get(0);
-    	schoolstudentslist.setUserId(user.getUserId());
-    	schoolstudentslist.setApprovalstate("1");
-    	schoolstudentslist.setState("2");
+//    	SysUser user= new SysUser();
+//    	user.setDeptId((long) 103);
+//		user.setRoleId((long) 5);
+//    	//岗位 教师
+//    	Long roleIds[] = {(long)5};
+//    	user.setRoleIds(roleIds);
+//    	user.setLoginName(studentsId);
+//    	user.setUserName(schoolstudentslist.getStudentsName());
+//    	
+//    	user.setPassword("123456");
+//    	user.setCreateBy("admin");
+//    	userService.insertUser(user);
+//    	user=  userService.selectUserList(user).get(0);
+//    	schoolstudentslist.setUserId(user.getUserId());
+    	
+    	
+//    	schoolstudentslist.setApprovalstate("1");
+//    	schoolstudentslist.setState("2");
+    	
     	schoolstudentslist.setClassId(0L);
+    	
+    	//身份证与手机的校验
+    	Schoolstudentslist stuCheckRepeat = new Schoolstudentslist();
+    	stuCheckRepeat.setIdnum(schoolstudentslist.getIdnum());
+    	List<Schoolstudentslist> stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);    	
+		if (stuCheckRepeatList.size() != 0) {
+//    		return Result.error(CodeMsg.REPEAT_IDNUMBER);
+			return AjaxResult.error(CodeMsg.REPEAT_IDNUMBER.getMsg());
+		}
+    	stuCheckRepeat = new Schoolstudentslist();
+    	stuCheckRepeat.setRemark44(schoolstudentslist.getRemark44());
+    	stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);
+    	if (stuCheckRepeatList.size() != 0) {
+//    		return Result.error(CodeMsg.REPEAT_PHONE);
+//			return toAjax(false);
+			return AjaxResult.error(CodeMsg.REPEAT_PHONE.getMsg());
+		}
+    	
+    	
         return toAjax(schoolstudentslistService.insertSchoolstudentslist(schoolstudentslist));
     }
     
@@ -285,6 +315,9 @@ public class SchoolstudentslistController extends BaseController
     {
         Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
         mmap.put("schoolstudentslist", schoolstudentslist);
+		SchoolSpecialty ss = new SchoolSpecialty();
+    	List<SchoolSpecialty> sslist = schoolSpecialtyService.selectSchoolSpecialtyList(ss);   
+    	mmap.put("sslist", sslist);
         return prefix + "/edit";
     }
     @GetMapping("/usersee/{id}")
@@ -309,6 +342,24 @@ public class SchoolstudentslistController extends BaseController
     			schoolstudentslist.setRemark24(DateUtils.getDate());
     		}
     	}
+    	
+
+    	//身份证与手机的校验
+    	Schoolstudentslist stuCheckRepeat = new Schoolstudentslist();
+    	stuCheckRepeat.setIdnum(schoolstudentslist.getIdnum());
+    	stuCheckRepeat.setRepeatid(schoolstudentslist.getId());
+    	List<Schoolstudentslist> stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);    	
+		if (stuCheckRepeatList.size() != 0) {
+			return AjaxResult.error(CodeMsg.REPEAT_IDNUMBER.getMsg());
+		}
+    	stuCheckRepeat = new Schoolstudentslist();
+    	stuCheckRepeat.setRepeatid(schoolstudentslist.getId());
+    	stuCheckRepeat.setRemark44(schoolstudentslist.getRemark44());
+    	stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);
+    	if (stuCheckRepeatList.size() != 0) {
+			return AjaxResult.error(CodeMsg.REPEAT_PHONE.getMsg());
+		}
+    	
         return toAjax(schoolstudentslistService.updateSchoolstudentslist(schoolstudentslist));
     }
     

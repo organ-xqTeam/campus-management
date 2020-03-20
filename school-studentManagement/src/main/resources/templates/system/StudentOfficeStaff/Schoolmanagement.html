@@ -32,15 +32,15 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-             <!--    <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:schoolstudentslist:add">
                     <i class="fa fa-plus"></i> 添加
                 </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
+                <!-- <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:schoolstudentslist:edit">
                     <i class="fa fa-edit"></i> 修改
-                </a>
+                </a>-->
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:schoolstudentslist:remove">
                     <i class="fa fa-remove"></i> 删除
-                </a> -->
+                </a> 
                  <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:schoolstudentslist:export">
                     <i class="fa fa-download"></i> 导出
                  </a>
@@ -59,9 +59,9 @@
         $(function() {
             var options = {
                 url: prefix + "/listSchoolmanagement",
-               // createUrl: prefix + "/add",
+                createUrl: prefix2 + "/add?approvalstate=2&State=0",
                 updateUrl: ctx + "system/schoolstudentslist/edit/{id}",
-              //  removeUrl: prefix + "/remove",
+                removeUrl: prefix2 + "/remove",
                 exportUrl: prefix + "/exportstudentlist",
                 sortName:"createDate",
                 sortOrder:"desc",
