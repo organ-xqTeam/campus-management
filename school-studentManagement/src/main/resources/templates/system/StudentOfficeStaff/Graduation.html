@@ -430,19 +430,32 @@
         function DownloadCertificate(obj){
         	
         	console.log("下载证书！！")
+        	$.ajax({
+				type: "get",
+				url: ctx + "system/StudentOfficeStaff/removesnu?id="+obj,
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function (data) {
+// 					$.modal.reload();
+				console.log(data.msg);
+	        	window.location.href = ctx + "common/download/resource?resource=" + data.msg;
+				},
+				async: false
+			});
         	
-        	var isd = "-1";
-        	for (i = 0; i < certificateManagement.length; i++) { 
-        		if(certificateManagement[i].studentsId == obj  ){
-        			isd = certificateManagement[i].certificatenum
-        		}
-			}
-        	if(isd == -1){
-        		$.modal.msgError("证书不存在！！");
-        		return
-        	}
         	
-        	window.location.href =ctx  + "common/download/resource/?resource="+isd;
+//         	var isd = "-1";
+//         	for (i = 0; i < certificateManagement.length; i++) { 
+//         		if(certificateManagement[i].studentsId == obj  ){
+//         			isd = certificateManagement[i].certificatenum
+//         		}
+// 			}
+//         	if(isd == -1){
+//         		$.modal.msgError("证书不存在！！");
+//         		return
+//         	}
+        	
+//         	window.location.href =ctx  + "common/download/resource/?resource="+isd;
         	//window.location.href = prefix + "/listGraduation/download/" + obj;
         }
         function uploadCertificate(obj){

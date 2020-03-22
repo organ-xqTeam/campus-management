@@ -2,9 +2,12 @@ package com.ruoyi.project.system.StudentOfficeStaff.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -14,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ClassUtils;
@@ -28,15 +31,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.itextpdf.text.DocumentException;
+import com.ruoyi.common.config.Global;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FontText;
+import com.ruoyi.common.utils.TestPDFDemo1;
 import com.ruoyi.common.utils.drawImg;
+import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.project.system.FileInfo.domain.FileInfo;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
@@ -45,7 +54,6 @@ import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolgradelist.domain.Schoolgradelist;
 import com.ruoyi.project.system.schoolgradelist.service.ISchoolgradelistService;
-import com.ruoyi.project.system.schoolstudentslist.domain.LeavingSchoolList;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.CertificateManagement;
@@ -65,7 +73,9 @@ import com.ruoyi.system.service.ISysUserService;
 @RequestMapping("/system/StudentOfficeStaff")
 public class StudentOfficeStaffController extends BaseController
 {
-	
+
+	@Value("${ftp.flag}")
+	private static  boolean flag;
     private String prefix = "system/StudentOfficeStaff";
     
     @Autowired
@@ -468,6 +478,79 @@ public class StudentOfficeStaffController extends BaseController
     	
     	return prefix + "/Graduation";
     }
+    
+    /**
+     * 下载证书
+     * @throws DocumentException 
+     * @throws FileNotFoundException 
+     * */
+    @RequestMapping("/removesnu")
+    @ResponseBody
+    public AjaxResult zhengshu(@RequestParam("id") Long id) throws FileNotFoundException, DocumentException
+    {
+        Map<String,Object> o = new HashMap();
+        Schoolstudentslist student = new Schoolstudentslist();
+        student.setId(id);
+        List<Schoolstudentslist> slist = schoolstudentslistService.selectSchoolstudentslistList(student);
+        Schoolstudentslist stu = slist.get(0);
+    	Map<String,String> map = new HashMap();
+        map.put("tag1","HT苏打粉188888888888");//Text1 是PDF表单名称，有多少就添加多少
+        o.put("riqi",DateUtils.getTime());
+        o.put("xuenian",stu.getNianji());
+        if (stu.getGender() != null) {
+        	if (stu.getGender().equals("1")) {
+                o.put("xingbie", "男");
+        	}
+        	else if (stu.getGender().equals("0")) {
+                o.put("xingbie", "女");
+        	}
+        	else {
+                o.put("xingbie", "不详");
+        	}
+        }
+        else {
+            o.put("xingbie", "不详");
+        }
+        o.put("ruxue",stu.getAdmissionTime());
+        o.put("name",stu.getStudentsName());
+        o.put("xuehao",stu.getIdnum());
+        o.put("chusheng",stu.getBirth());
+        Map<String,Object> mm = new HashMap();
+        mm.put("datemap",o);
+        //调用方法
+        String path = Global.getProfile();
+    	
+
+
+		TestPDFDemo1.fillTemplate(mm, path);
+        
+        
+//        FileInfo fileInfo = new FileInfo();
+//        JSONObject result = new JSONObject();
+//		 上传文件路径
+//		String filePath_ = RuoYiConfig.getUploadPath();
+//		 上传并返回新文件名称
+//		System.out.println(filePath_);
+//		String filePath = "";
+//		try {
+//			filePath = FileUploadUtils.upload(filePath_, file);
+//			fileInfo.setFilePath(filePath);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		result.put("file", fileInfo);
+		
+		
+    	
+//    	HtmlUtil.gethtml();/profile/upload/2020/03/17/c4ba1c23f49d13ef1cbf326817596ea3.jpg
+//    	HtmlToPdfUtils.htmltopdf();
+        return AjaxResult.success("/profile/upload/2020/03/22/aa.pdf");
+    }
+    
+    /**
+     * 学生查看结业证书页
+     * */
     @RequiresPermissions("system:studentofficestaffGraduation:view")
     @GetMapping("/Graduation2")
     public String Graduation2(ModelMap mmap)
@@ -506,6 +589,9 @@ public class StudentOfficeStaffController extends BaseController
     	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);
     }
+    /**
+     * 学生查询结业证书列表
+     */
     @RequiresPermissions("system:studentofficestaffGraduation:list")
     @PostMapping("/listGraduation2")
     @ResponseBody
