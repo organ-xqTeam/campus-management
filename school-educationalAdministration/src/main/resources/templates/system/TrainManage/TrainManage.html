@@ -15,32 +15,8 @@
                                 <input type="text" name="specialtyName"/>
                             </li>
                             <li>
-                                <p>任务名称：</p>
+                                <p>方案名称：</p>
                                 <input type="text" name="name"/>
-                            </li>
-                            <li class="select-time">
-                                <p>开始时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginStartDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endStartDate]"/>
-                            </li>
-                            <li class="select-time">
-                                <p>结束时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginEndDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endEndDate]"/>
-                            </li>
-                            <li class="select-time">
-                                <p>创建时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginCreateDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endCreateDate]"/>
-                            </li>
-                            <li class="select-time">
-                                <p>更新时间：</p>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginUpdateDate]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endUpdateDate]"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -54,9 +30,6 @@
             <div class="btn-group-sm" id="toolbar" role="group">
                 <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:TrainManage:add">
                     <i class="fa fa-plus"></i> 添加
-                </a>
-                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:TrainManage:edit">
-                    <i class="fa fa-edit"></i> 修改
                 </a>
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:TrainManage:remove">
                     <i class="fa fa-remove"></i> 删除

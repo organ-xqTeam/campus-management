@@ -11,24 +11,22 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>编号：</p>
-                                <input type="text" name="rowId"/>
-                            </li>
-                            <!-- <li>
-                                <p>科目管理id：</p>
-                                <input type="text" name="subjectmanagementId"/>
-                            </li> -->
-                            <li>
-                                <p>分类：</p>
-                                <input type="text" name="academicLevel"/>
+                                <p>所属专业：</p>
+                                <select name="ssid">
+                               		<option value="">----请选择专业----</option>
+							    	<option th:each="ss:${sslist}" th:value="${ss.id}" th:text="${ss.name}"></option>
+							    </select>
                             </li>
                             <li>
                                 <p>课程体系：</p>
-                                <input type="text" name="curriculuSystem"/>
+                                <select name="curriculuSystem">
+                               		<option value="">----课程体系----</option>
+							    	<option th:each="cs:${cslist}" th:value="${cs.id}" th:text="${cs.name}"></option>
+							    </select>
                             </li>
                             <li>
-                                <p>累计课时：</p>
-                                <input type="text" name="accumulatedClassHour"/>
+                                <p>年级：</p>
+                                <input type="text" name="grade"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -105,10 +103,6 @@
                 {
                     field : 'accumulatedClassHour', 
                     title : '累计课时'
-                },
-                {
-                    field : 'sbid', 
-                    title : '所属学院'
                 },
                 {
                     field : 'ssid', 

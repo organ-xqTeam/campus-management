@@ -101,7 +101,6 @@ public class StudentOfficeStaffController extends BaseController
      	* 迎新管理
      * @return
      */
-    
     @RequiresPermissions("system:studentofficestaff:view")
     @GetMapping("/welcome")
     public String welcome()

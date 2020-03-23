@@ -190,6 +190,18 @@
                     }
                 },
                 {
+                    field : 'state', 
+                    title : '状态',
+                    formatter: function(value, row, index) {
+                    	if (value == '0') {
+                        	return '已办理入学';
+                    	}
+                    	else {
+                    		return '未办理入学';
+                    	}
+                    }
+                },
+                {
                     title: '操作',
                     align: 'center',
                     formatter: function(value, row, index) {

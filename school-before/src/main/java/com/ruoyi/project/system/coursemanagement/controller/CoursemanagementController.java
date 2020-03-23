@@ -23,6 +23,8 @@ import com.ruoyi.project.system.CourseSystem.domain.CourseSystem;
 import com.ruoyi.project.system.CourseSystem.service.ICourseSystemService;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
+import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
+import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
 import com.ruoyi.project.system.TeachingInfo.service.ITeachingInfoService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
@@ -48,6 +50,8 @@ public class CoursemanagementController extends BaseController
     @Autowired
     private ISchoolBelongService schoolBelongService;
     @Autowired
+    private ISchoolSpecialtyService schoolSpecialtyService; 
+    @Autowired
     private ICourseSystemService courseSystemService;
     @Autowired
     private ICoursemanagementService coursemanagementService;    
@@ -60,8 +64,16 @@ public class CoursemanagementController extends BaseController
     private ITeachingInfoService teachingInfoService;
     @RequiresPermissions("system:coursemanagement:view")
     @GetMapping()
-    public String coursemanagement()
+    public String coursemanagement(ModelMap map)
     {
+    	SchoolSpecialty s = new SchoolSpecialty();
+    	List<SchoolSpecialty> sslist = schoolSpecialtyService.selectSchoolSpecialtyList(s);
+    	map.put("sslist", sslist);
+    	
+    	CourseSystem cs = new CourseSystem();
+    	List<CourseSystem> cslist = courseSystemService.selectCourseSystemList(cs);
+    	map.put("cslist", cslist);
+    	
         return prefix + "/coursemanagement";
     }
     /**
