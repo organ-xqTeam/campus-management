@@ -345,20 +345,20 @@ public class SchoolstudentslistController extends BaseController
     	
 
     	//身份证与手机的校验
-    	Schoolstudentslist stuCheckRepeat = new Schoolstudentslist();
-    	stuCheckRepeat.setIdnum(schoolstudentslist.getIdnum());
-    	stuCheckRepeat.setRepeatid(schoolstudentslist.getId());
-    	List<Schoolstudentslist> stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);    	
-		if (stuCheckRepeatList.size() != 0) {
-			return AjaxResult.error(CodeMsg.REPEAT_IDNUMBER.getMsg());
-		}
-    	stuCheckRepeat = new Schoolstudentslist();
-    	stuCheckRepeat.setRepeatid(schoolstudentslist.getId());
-    	stuCheckRepeat.setRemark44(schoolstudentslist.getRemark44());
-    	stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);
-    	if (stuCheckRepeatList.size() != 0) {
-			return AjaxResult.error(CodeMsg.REPEAT_PHONE.getMsg());
-		}
+//    	Schoolstudentslist stuCheckRepeat = new Schoolstudentslist();
+//    	stuCheckRepeat.setIdnum(schoolstudentslist.getIdnum());
+//    	stuCheckRepeat.setRepeatid(schoolstudentslist.getId());
+//    	List<Schoolstudentslist> stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);    	
+//		if (stuCheckRepeatList.size() != 0) {
+//			return AjaxResult.error(CodeMsg.REPEAT_IDNUMBER.getMsg());
+//		}
+//    	stuCheckRepeat = new Schoolstudentslist();
+//    	stuCheckRepeat.setRepeatid(schoolstudentslist.getId());
+//    	stuCheckRepeat.setRemark44(schoolstudentslist.getRemark44());
+//    	stuCheckRepeatList = schoolstudentslistService.selectSchoolstudentslistList(stuCheckRepeat);
+//    	if (stuCheckRepeatList.size() != 0) {
+//			return AjaxResult.error(CodeMsg.REPEAT_PHONE.getMsg());
+//		}
     	
         return toAjax(schoolstudentslistService.updateSchoolstudentslist(schoolstudentslist));
     }

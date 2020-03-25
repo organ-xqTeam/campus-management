@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -48,11 +49,15 @@ public class TestPDFDemo1 {
 	}
 
 	// 利用模板生成pdf
-	public static MultipartFile fillTemplate(Map<String, Object> o, String path) {
+	public static String fillTemplate(Map<String, Object> o, String path, String [] realArr, String moban) {
 		// 模板路径
-		String templatePath = path+"/qqq1.pdf";// 原PDF模板
+		String templatePath = path+"/"+moban;// 原PDF模板
 		// 生成的新文件路径
-		String newPDFPath = path + "/upload/2020/03/22/aa.pdf";
+		String s = UUID.randomUUID().toString();
+		String newPdfName = s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24);
+		String newPDFPath = path + "/upload/"+realArr[0]+"/"+realArr[1]+"/"+realArr[2]+"/"+newPdfName+".pdf";
+		String realPath = path + "/upload/"+realArr[0]+"/"+realArr[1]+"/"+realArr[2];
+		String uploadPath = "/profile/upload/"+realArr[0]+"/"+realArr[1]+"/"+realArr[2]+"/"+newPdfName+".pdf";
 		PdfReader reader;
 		FileOutputStream out;
 		ByteArrayOutputStream bos;
@@ -61,15 +66,12 @@ public class TestPDFDemo1 {
 			BaseFont bf = BaseFont.createFont(path + "/simsun.ttc,1", BaseFont.IDENTITY_H,
 					BaseFont.EMBEDDED);// 用的是系统字体，此路径是系统路径，可网上自行下载字体类型
 			Font FontChinese = new Font(bf, 12f, Font.BOLD);
-			String strPath = newPDFPath;
-			
-			File file = new File(path + "/upload/2020/03/22");
+			String strPath = newPDFPath;			
+			File file = new File(realPath);
 			if(!file.exists()){
 				file.mkdirs();
-			}
-			
-			out = new FileOutputStream(newPDFPath);// 输出流
-			
+			}			
+			out = new FileOutputStream(newPDFPath);// 输出流			
 			reader = new PdfReader(templatePath);// 读取pdf模板
 			bos = new ByteArrayOutputStream();
 			stamper = new PdfStamper(reader, bos);
@@ -95,22 +97,16 @@ public class TestPDFDemo1 {
 			}
 			doc.close();
 			System.err.println("生成pdf文件完成！");
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			System.out.println(e);
-		} catch (DocumentException e) {
+		} 
+		catch (DocumentException e) {
 			System.out.println(e);
-		} finally {
-			 return null;
 		}
-	}
-
-	public static void main(String[] args) {
-		Map<String, String> map = new HashMap();
-		map.put("tag1", "HT188888苏打粉888888");// Text1 是PDF表单名称，有多少就添加多少
-
-		Map<String, Object> o = new HashMap();
-		o.put("datemap", map);
-		// 调用方法
+		finally {
+			return uploadPath;
+		}
 	}
 
 }

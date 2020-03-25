@@ -105,6 +105,7 @@ public class SchoolstudentslistServiceImpl implements ISchoolstudentslistService
     public int insertSchoolstudentslist(Schoolstudentslist schoolstudentslist)
     {
     	schoolstudentslist.setCreateDate(DateUtils.getTime());
+    	schoolstudentslist.setClassId(0L);
         return schoolstudentslistMapper.insertSchoolstudentslist(schoolstudentslist);
     }
 

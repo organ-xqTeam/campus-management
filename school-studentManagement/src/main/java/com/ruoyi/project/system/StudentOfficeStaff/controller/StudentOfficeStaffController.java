@@ -3,11 +3,11 @@ package com.ruoyi.project.system.StudentOfficeStaff.controller;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -38,20 +38,21 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.FontText;
+import com.ruoyi.common.utils.HtmlToPdfUtils;
+import com.ruoyi.common.utils.HtmlUtil;
 import com.ruoyi.common.utils.TestPDFDemo1;
 import com.ruoyi.common.utils.drawImg;
-import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.framework.config.RuoYiConfig;
 import com.ruoyi.framework.shiro.service.SysPasswordService;
 import com.ruoyi.framework.util.ShiroUtils;
-import com.ruoyi.project.system.FileInfo.domain.FileInfo;
 import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.SchoolSpecialty.domain.SchoolSpecialty;
 import com.ruoyi.project.system.SchoolSpecialty.service.ISchoolSpecialtyService;
 import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
 import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
+import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
+import com.ruoyi.project.system.schoolResult.service.ISchoolResultService;
 import com.ruoyi.project.system.schoolgradelist.domain.Schoolgradelist;
 import com.ruoyi.project.system.schoolgradelist.service.ISchoolgradelistService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
@@ -97,6 +98,8 @@ public class StudentOfficeStaffController extends BaseController
     private ISysUserService userservice;
     @Autowired
     private SysPasswordService passwordService;
+    @Autowired
+    private ISchoolResultService schoolResultService;
     /**
      	* 迎新管理
      * @return
@@ -483,16 +486,16 @@ public class StudentOfficeStaffController extends BaseController
      * @throws DocumentException 
      * @throws FileNotFoundException 
      * */
-    @RequestMapping("/removesnu")
+    @RequestMapping("/zhengshu")
     @ResponseBody
     public AjaxResult zhengshu(@RequestParam("id") Long id) throws FileNotFoundException, DocumentException
     {
-        Map<String,Object> o = new HashMap();
+        Map<String,Object> o = new HashMap<String,Object>();
+    	Map<String,String> map = new HashMap<String,String>();
         Schoolstudentslist student = new Schoolstudentslist();
         student.setId(id);
         List<Schoolstudentslist> slist = schoolstudentslistService.selectSchoolstudentslistList(student);
         Schoolstudentslist stu = slist.get(0);
-    	Map<String,String> map = new HashMap();
         map.put("tag1","HT苏打粉188888888888");//Text1 是PDF表单名称，有多少就添加多少
         o.put("riqi",DateUtils.getTime());
         o.put("xuenian",stu.getNianji());
@@ -514,37 +517,105 @@ public class StudentOfficeStaffController extends BaseController
         o.put("name",stu.getStudentsName());
         o.put("xuehao",stu.getIdnum());
         o.put("chusheng",stu.getBirth());
-        Map<String,Object> mm = new HashMap();
+        Map<String,Object> mm = new HashMap<String,Object>();
         mm.put("datemap",o);
         //调用方法
         String path = Global.getProfile();
     	
 
-
-		TestPDFDemo1.fillTemplate(mm, path);
+        String date = DateUtils.getDate();
+		String [] dates = date.split("-");
+		String uploadPath = TestPDFDemo1.fillTemplate(mm, path, dates, "zaixiao.pdf");
         
-        
-//        FileInfo fileInfo = new FileInfo();
-//        JSONObject result = new JSONObject();
-//		 上传文件路径
-//		String filePath_ = RuoYiConfig.getUploadPath();
-//		 上传并返回新文件名称
-//		System.out.println(filePath_);
-//		String filePath = "";
-//		try {
-//			filePath = FileUploadUtils.upload(filePath_, file);
-//			fileInfo.setFilePath(filePath);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		result.put("file", fileInfo);
-		
-		
     	
-//    	HtmlUtil.gethtml();/profile/upload/2020/03/17/c4ba1c23f49d13ef1cbf326817596ea3.jpg
-//    	HtmlToPdfUtils.htmltopdf();
-        return AjaxResult.success("/profile/upload/2020/03/22/aa.pdf");
+        return AjaxResult.success(uploadPath);
+    }
+    
+    /**
+     * 下载证书
+     * @throws DocumentException 
+     * @throws FileNotFoundException 
+     * */
+    @RequestMapping("/chengji")
+    @ResponseBody
+    public AjaxResult chengji(@RequestParam("id") Long id) throws FileNotFoundException, DocumentException
+    {
+        Map<String, Object> stuMap = new HashMap<String, Object>();
+    	SchoolResult schoolResult = new SchoolResult();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setId(id);
+        List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (stulist.size() == 1) {
+        	schoolResult.setStudentid(stulist.get(0).getId()+"");
+        	stu = stulist.get(0);
+        }
+        startPage();
+        List<Map<String, Object>> list = schoolResultService.selectSchoolResultList2(schoolResult);
+        int total = 0;
+        for(int i=0; i<list.size(); i++) {
+        	stuMap.put("xh"+i, i+1+"");
+        	stuMap.put("kc"+i, list.get(i).get("curriculum_name")+"");
+        	stuMap.put("cj"+i, list.get(i).get("result")+"");
+        	total += Integer.valueOf(list.get(i).get("result")+"");
+        }
+        stuMap.put("total",total+"");
+        String date = DateUtils.getDate();
+		String [] dates = date.split("-");
+        stuMap.put("riqi",dates[0] + "年" + dates[1] + "月" + dates[2] + "日");
+        stuMap.put("xuehao",stu.getCardnum()+"");
+        stuMap.put("xingming",stu.getStudentsName()+"");
+        if (stu.getGender() != null) {
+        	if (stu.getGender().equals("1")) {
+        		stuMap.put("xingbie", "男");
+        	}
+        	else if (stu.getGender().equals("0")) {
+        		stuMap.put("xingbie", "女");
+        	}
+        	else {
+        		stuMap.put("xingbie", "不详");
+        	}
+        }
+        else {
+        	stuMap.put("xingbie", "不详");
+        }
+        stuMap.put("sb", stu.getSbid_());
+        stuMap.put("ss", stu.getSsid_());
+
+
+        SchoolClass sclass = schoolClassService.selectSchoolClassById(stu.getClassId());
+        String nameclass = "";
+        if (sclass != null) {
+        	nameclass = sclass.getNameclass();
+        }
+        stuMap.put("class", nameclass);
+        
+
+        Map<String,Object> mm = new HashMap<String,Object>();
+        mm.put("datemap",stuMap);
+        //调用方法
+        String path = Global.getProfile();
+    	
+
+		String uploadPath = TestPDFDemo1.fillTemplate(mm, path, dates, "chengji.pdf");
+        return AjaxResult.success(uploadPath);
+        
+//        String path = Global.getProfile();
+//        String s = UUID.randomUUID().toString();
+//		String newPdfName = s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24);
+//        String htmlPath = path + "/upload/"+dates[0]+"/"+dates[1]+"/"+dates[2]+"/"+newPdfName+".html";
+//        String pdfPath = path + "/upload/"+dates[0]+"/"+dates[1]+"/"+dates[2]+"/"+newPdfName+"_.pdf";
+//    	String uploadpath = "/profile/upload/"+dates[0]+"/"+dates[1]+"/"+dates[2]+"/"+newPdfName+"_.pdf";
+//        
+//    	HtmlUtil.gethtml(list, stuMap, htmlPath);
+//    	String [] ziti = new String [] {
+//    				path + "/arialuni.ttf",
+//    				path + "/msyhbd.ttc",
+//    				path + "/simkai.ttf",
+//    				path + "/simsun.ttc",
+//    			};
+//    	HtmlToPdfUtils.htmltopdf(htmlPath, pdfPath, ziti);
+//    	
+//    	return AjaxResult.success(uploadpath);
     }
     
     /**

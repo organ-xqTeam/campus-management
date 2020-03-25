@@ -160,13 +160,9 @@
                     field : 'yasiname', 
                     title : '成绩单',
                     formatter: function(value, row, index) {
-                        var actions = [];
-                        if (row.yasi) {
-    	                    return "<a onclick='ondownload()' data-value="+row.yasi+" >"+value+"</a>";
-                        }
-                        else {
-                            return "";
-                        }
+                    	var actions = [];
+ 	                    actions.push('<a class="" href="javascript:void(0)" onclick="DownloadChengjidan(\''+row.id+'\')">下载</a> ');
+ 	                    return actions.join('');
                     }
                 },
 //                 {
@@ -217,15 +213,28 @@
                     title: '操作',
                     align: 'center',
                     formatter: function(value, row, index) {
-                        var actions = [];                       
-                        actions.push('<a class="" href="javascript:void(0)" onclick="DownloadCertificate(\''+row.id+'\')">下载证书</a> ');
-                        return actions.join('');
+                        var actions = [];
+	                    actions.push('<a class="" href="javascript:void(0)" onclick="DownloadCertificate(\''+row.id+'\')">下载证书</a> ');
+	                    return actions.join('');
                     }
                 }]
             };
             $.table.init(options);
         });
         
+        function DownloadChengjidan(id) {
+        	$.ajax({
+				type: "get",
+				url: ctx + "system/StudentOfficeStaff/chengji?id="+id,
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function (data) {
+					console.log(data.msg);
+		        	window.location.href = ctx + "common/download/resource?resource=" + data.msg;
+				},
+				async: false
+			});
+ 		}
 
         function jwxxview(id) {
         	var url = ctx + "system/schoolstudentslist/showview/" + id + "/2";
@@ -424,20 +433,32 @@
         
         function DownloadCertificate(obj){
         	
-        	console.log("下载证书！！")
+        	$.ajax({
+				type: "get",
+				url: ctx + "system/StudentOfficeStaff/zhengshu?id="+obj,
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function (data) {
+					console.log(data.msg);
+		        	window.location.href = ctx + "common/download/resource?resource=" + data.msg;
+				},
+				async: false
+			});
         	
-        	var isd = "-1";
-        	for (i = 0; i < certificateManagement.length; i++) { 
-        		if(certificateManagement[i].studentsId == obj  ){
-        			isd = certificateManagement[i].certificatenum
-        		}
-			}
-        	if(isd == -1){
-        		$.modal.msgError("证书不存在！！");
-        		return
-        	}
+//         	console.log("下载证书！！")
         	
-        	window.location.href =ctx  + "common/download/resource/?resource="+isd;
+//         	var isd = "-1";
+//         	for (i = 0; i < certificateManagement.length; i++) { 
+//         		if(certificateManagement[i].studentsId == obj  ){
+//         			isd = certificateManagement[i].certificatenum
+//         		}
+// 			}
+//         	if(isd == -1){
+//         		$.modal.msgError("证书不存在！！");
+//         		return
+//         	}
+        	
+//         	window.location.href =ctx  + "common/download/resource/?resource="+isd;
         	//window.location.href = prefix + "/listGraduation/download/" + obj;
         }
         function uploadCertificate(obj){

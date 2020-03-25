@@ -3,10 +3,8 @@ package com.ruoyi.common.utils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
 import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-
 import com.itextpdf.text.pdf.BaseFont;
 
 public class HtmlToPdfUtils {
@@ -18,7 +16,7 @@ public class HtmlToPdfUtils {
 	    * @param pdfPath  pdf路径
 	    * @throws Exception 异常
 	    */
-	   public static void htmlToPdf(File htmlFile, String pdfPath) throws Exception {
+	   public static void htmlToPdf(File htmlFile, String pdfPath, String [] ttcpath) throws Exception {
 
 	       OutputStream os = new FileOutputStream(pdfPath);
 	       ITextRenderer iTextRenderer = new ITextRenderer();
@@ -26,12 +24,9 @@ public class HtmlToPdfUtils {
 
 	       //解决中文编码
 	       ITextFontResolver fontResolver = iTextRenderer.getFontResolver();
-	       if ("linux".equals(getCurrentOperationSystem())) {
-	           fontResolver.addFont("/usr/share/fonts/chiness/simsun.ttc", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-	       } else {
-	           fontResolver.addFont("C:/Users/lihc/Desktop/simsun.ttc", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+	       for (String path : ttcpath) {
+		       fontResolver.addFont(path, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 	       }
-
 	       iTextRenderer.layout();
 	       iTextRenderer.createPDF(os);
 	       os.flush();
@@ -43,24 +38,13 @@ public class HtmlToPdfUtils {
 	       return os;
 	   }
 
-	   public static void main(String[] args){
-	       File file = new File("C:/Users/lihc/Desktop/test.html");
-	       String pdfPath = "C:/Users/lihc/Desktop/testPdf.pdf";
+	   public static void htmltopdf(String html, String pdf, String [] ttcpath) {
+		   File file = new File(html);
 	       try{
-	           htmlToPdf(file, pdfPath);
+	           htmlToPdf(file, pdf, ttcpath);
 	       }catch (Exception e){
 	           e.printStackTrace();
 	       }
 	   }
 	   
-	   public static void htmltopdf() {
-		   File file = new File("C:/Users/lihc/Desktop/test.html");
-		   
-	       String pdfPath = "C:/Users/lihc/Desktop/testPdf.pdf";
-	       try{
-	           htmlToPdf(file, pdfPath);
-	       }catch (Exception e){
-	           e.printStackTrace();
-	       }
-	   }
 }
