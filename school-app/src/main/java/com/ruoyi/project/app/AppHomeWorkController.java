@@ -42,7 +42,9 @@ import com.ruoyi.project.system.schoolHomeworkDetail.domain.SchoolHomeworkDetail
 import com.ruoyi.project.system.schoolHomeworkDetail.service.ISchoolHomeworkDetailService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.system.domain.SysDictData;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysUserService;
 
 
@@ -65,6 +67,8 @@ public class AppHomeWorkController extends BaseController {
 	private IClasscurriculumDetailService classcurriculumDetailService;
 	@Autowired
 	private ISchoolSpecialtyService schoolSpecialtyService;
+	@Autowired
+	private ISysDictDataService sysDictDataService; 
 	
 	//学生作业打卡接口
 	@ResponseBody
@@ -449,6 +453,16 @@ public class AppHomeWorkController extends BaseController {
     	PageHelper.startPage(pageNum, pageSize, null);		
     	List<SchoolSpecialty> sslist = schoolSpecialtyService.selectSchoolSpecialtyList(ss);    	
     	return getDataTable(sslist);		
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "/envir")
+	public TableDataInfo envir(@RequestBody JSONObject param) {		
+    	int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
+    	PageHelper.startPage(pageNum, pageSize, null);		
+    	List<SysDictData> diclist = sysDictDataService.selectDictDataByType("sys_business_variable");    	
+    	return getDataTable(diclist);		
 	}
 
 }
