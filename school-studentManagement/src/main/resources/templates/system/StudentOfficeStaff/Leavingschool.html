@@ -52,7 +52,8 @@
         var removeFlag = [[${@permission.hasPermi('system:schoolstudentslist:remove')}]];
         var prefix = ctx + "system/StudentOfficeStaff";
         var prefix2 = ctx + "system/schoolstudentslist";
-
+        var cols = [[${@dict.getType('school_lixian')}]]
+        console.log(cols)
         $(function() {
             var options = {
                 url: prefix + "/listLeavingschool",
@@ -80,7 +81,7 @@
                     title : '学生名称'
                 },
                 {
-                    field : 'idnum,', 
+                    field : 'idnum', 
                     title : '身份证号'
                 },
 //                 {
@@ -93,7 +94,7 @@
 //                 },
                 {
                     field : 'lixian1', 
-                    title : '图书馆办理信息',
+                    title : cols[0].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -105,7 +106,7 @@
                 },
                 {
                     field : 'lixian2', 
-                    title : '财务处办理信息',
+                    title : cols[1].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -117,7 +118,7 @@
                 },
                 {
                     field : 'lixian3', 
-                    title : '一卡通办理信息',
+                    title : cols[2].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -129,7 +130,7 @@
                 },
                 {
                     field : 'lixian4', 
-                    title : '一卡通办理信息',
+                    title : cols[3].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -141,7 +142,7 @@
                 },
                 {
                     field : 'lixian5', 
-                    title : '组织关系转出信息',
+                    title : cols[4].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -153,7 +154,7 @@
                 },
                 {
                     field : 'lixian6', 
-                    title : '户口转出信息',
+                    title : cols[5].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -165,7 +166,7 @@
                 },
                 {
                     field : 'lixian7', 
-                    title : '毕业证发放信息',
+                    title : cols[6].dictValue,
                     formatter: function(value, row, index) {
                     	if (value == '2') {
                     		return '已办理';
@@ -303,7 +304,7 @@
         function lixian(id){
         	var url = prefix + "/lixianbanli/" + id;
     		var options = {
-   				title: '离线办理',
+   				title: '离校管理',
    				width: "380",
    				url: url,
    				callBack: doSubmit2

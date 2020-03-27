@@ -59,9 +59,11 @@ import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
 import com.ruoyi.system.domain.CertificateManagement;
 import com.ruoyi.system.domain.Studentstatuslist;
+import com.ruoyi.system.domain.SysDictData;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ICertificateManagementService;
 import com.ruoyi.system.service.IStudentstatuslistService;
+import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysUserService;
 
 /**
@@ -100,6 +102,8 @@ public class StudentOfficeStaffController extends BaseController
     private SysPasswordService passwordService;
     @Autowired
     private ISchoolResultService schoolResultService;
+    @Autowired
+    private ISysDictDataService sysDictDataService;
     /**
      	* 迎新管理
      * @return
@@ -402,6 +406,11 @@ public class StudentOfficeStaffController extends BaseController
     {
     	Schoolstudentslist schoolstudentslist = schoolstudentslistService.selectSchoolstudentslistById(id);
     	mmap.put("schoolstudentslist", schoolstudentslist);
+    	List<SysDictData> diclist = sysDictDataService.selectDictDataByType("school_lixian");
+    	for(int i=0; i<diclist.size(); i++) {
+    		int num = i+1;
+    		mmap.put("col"+num, diclist.get(i).getDictValue());
+    	}
         return prefix + "/lixianbanli_";
     }
     /**
@@ -757,6 +766,11 @@ public class StudentOfficeStaffController extends BaseController
     	SchoolBelong sb = new SchoolBelong();
     	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
     	mmap.put("sblist", sblist);
+    	List<SysDictData> diclist = sysDictDataService.selectDictDataByType("school_ruxue");
+    	for(int i=0; i<diclist.size(); i++) {
+    		int num = i+1;
+    		mmap.put("col"+num, diclist.get(i).getDictValue());
+    	}
     	return prefix + "/ruxue";
     }
     

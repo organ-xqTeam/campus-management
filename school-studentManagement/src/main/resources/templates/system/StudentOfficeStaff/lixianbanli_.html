@@ -9,7 +9,7 @@
 		<input id="id" name="id" th:field="${schoolstudentslist.id}"
 					class="form-control" type="hidden" >
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">图书馆办理信息：</label>
+        	<label class="col-sm-3 control-label" id="col1">图书馆办理信息：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian1" id="lixian1">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian1}==1">未办理</option>
@@ -18,7 +18,7 @@
         	</div>
         </div>
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">财务处办理信息：</label>
+        	<label class="col-sm-3 control-label" id="col2">财务处办理信息：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian2" id="lixian2">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian2}==1">未办理</option>
@@ -27,7 +27,7 @@
         	</div>
         </div>
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">一卡通办理信息：</label>
+        	<label class="col-sm-3 control-label" id="col3">一卡通办理信息：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian3" id="lixian3">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian3}==1">未办理</option>
@@ -36,7 +36,7 @@
         	</div>
         </div>
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">退宿办理信息信息：</label>
+        	<label class="col-sm-3 control-label" id="col4">退宿办理信息信息：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian4" id="lixian4">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian4}==1">未办理</option>
@@ -45,7 +45,7 @@
         	</div>
         </div>
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">组织关系转出信息：</label>
+        	<label class="col-sm-3 control-label" id="col5">组织关系转出信息：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian5" id="lixian5">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian5}==1">未办理</option>
@@ -54,7 +54,7 @@
         	</div>
         </div>
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">户口转出信息：</label>
+        	<label class="col-sm-3 control-label" id="col6">户口转出信息2：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian6" id="lixian6">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian6}==1">未办理</option>
@@ -63,7 +63,7 @@
         	</div>
         </div>
        	<div class="form-group">    
-        	<label class="col-sm-3 control-label">毕业证发放信息：</label>
+        	<label class="col-sm-3 control-label" id="col7">毕业证发放信息2：</label>
         	<div class="col-sm-8">
           		<select class="form-control" name="lixian7" id="lixian7">
 	            	<option value="1" th:selected="${schoolstudentslist.lixian7}==1">未办理</option>
@@ -71,11 +71,24 @@
 				</select>
         	</div>
         </div>
+        <input type="hidden" id="col1_" th:value="${col1}">
+        <input type="hidden" id="col2_" th:value="${col2}">
+        <input type="hidden" id="col3_" th:value="${col3}">
+        <input type="hidden" id="col4_" th:value="${col4}">
+        <input type="hidden" id="col5_" th:value="${col5}">
+        <input type="hidden" id="col6_" th:value="${col6}">
+        <input type="hidden" id="col7_" th:value="${col7}">
 	</div>
 	<th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
-	   
+    	$('#col1').text($('#col1_').val())
+    	$('#col2').text($('#col2_').val())
+    	$('#col3').text($('#col3_').val())
+    	$('#col4').text($('#col4_').val())
+    	$('#col5').text($('#col5_').val())
+    	$('#col6').text($('#col6_').val())
+    	$('#col7').text($('#col7_').val())
     </script>
 </body>
 </html>
