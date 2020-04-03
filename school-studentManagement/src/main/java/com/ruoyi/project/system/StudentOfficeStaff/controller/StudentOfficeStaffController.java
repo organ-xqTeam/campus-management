@@ -676,6 +676,8 @@ public class StudentOfficeStaffController extends BaseController
     @ResponseBody
     public TableDataInfo Graduation2(Schoolstudentslist schoolstudentslist)
     {
+    	schoolstudentslist.setApprovalstate("2");
+    	schoolstudentslist.setState("5");
     	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	Schoolstudentslist stu = new Schoolstudentslist();
     	stu.setUserId(me.getUserId());

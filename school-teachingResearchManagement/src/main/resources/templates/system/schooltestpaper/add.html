@@ -55,6 +55,16 @@
 					</select>
 				</div>
 			</div>
+			<div class="form-group">    
+                <label class="col-sm-3 control-label">考试类型：</label>
+                <div class="col-sm-8">
+                    <select name="type" class="form-control m-b" th:with="type=${@dict.getType('exam_paper_type')}">
+                        <option value="">所有</option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            
 			<!-- <div class="form-group">	
 				<label class="col-sm-3 control-label">图像img：</label>
 				<div class="col-sm-8">

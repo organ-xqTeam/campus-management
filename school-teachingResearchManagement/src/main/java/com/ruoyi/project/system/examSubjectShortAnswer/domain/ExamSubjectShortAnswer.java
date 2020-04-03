@@ -57,7 +57,34 @@ public class ExamSubjectShortAnswer extends BaseEntity
 	private String courseid;
 	private String coursename;
 	private String issave;
+	private String type;
+	private String studentid;
+	private String wrongnum;
 	
+	public String getWrongnum() {
+		return wrongnum;
+	}
+
+	public void setWrongnum(String wrongnum) {
+		this.wrongnum = wrongnum;
+	}
+
+	public String getStudentid() {
+		return studentid;
+	}
+
+	public void setStudentid(String studentid) {
+		this.studentid = studentid;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getIssave() {
 		return issave;
 	}

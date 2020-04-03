@@ -35,7 +35,6 @@
 	        	<label class="col-sm-3 control-label">所属学院：</label>
 	        	<div class="col-sm-8">
 					<select class="form-control" name="sbid" id="sbid">
-						<option value="">---请选择学院---</option>
 						<option th:each="sb:${sblist}" 
 								th:value="${sb.id}" 
 								th:text="${sb.schoolName}" 
@@ -102,23 +101,23 @@
 			},
 			async: false
 		});
-		$('select[id="sbid"]').change(function(){
-	    	var sbid = $('select[id="sbid"]').val();
-	    	$.ajax({
-	    		type: "get",
-	    		url: ctx + "system/StudentOfficeStaff/zhuanye/"+sbid,
-	    		dataType: "json",
-	    		success: function (data) {
-	    			var append = '';
-	    			for(var i=0; i<data.length; i++) {
-	    				var ss = data[i];
-	    				append += '<option value="'+ss.id+'">'+ss.name+'</option>';
-	    			}
-	    			$('#ssid').html(append);
-	    		},
-	    		async: false
-	    	});
-	    });
+// 		$('select[id="sbid"]').change(function(){
+// 	    	var sbid = $('select[id="sbid"]').val();
+// 	    	$.ajax({
+// 	    		type: "get",
+// 	    		url: ctx + "system/StudentOfficeStaff/zhuanye/"+sbid,
+// 	    		dataType: "json",
+// 	    		success: function (data) {
+// 	    			var append = '';
+// 	    			for(var i=0; i<data.length; i++) {
+// 	    				var ss = data[i];
+// 	    				append += '<option value="'+ss.id+'">'+ss.name+'</option>';
+// 	    			}
+// 	    			$('#ssid').html(append);
+// 	    		},
+// 	    		async: false
+// 	    	});
+// 	    });
     </script>
 </body>
 </html>

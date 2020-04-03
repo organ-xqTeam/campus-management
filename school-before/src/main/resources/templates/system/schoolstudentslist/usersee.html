@@ -27,6 +27,13 @@
 			                    <input readonly="readonly" name="studentsName" class="form-control" th:field="*{studentsName}">
 			                </div>
 			            </div>
+	               		<div class="form-group">    
+			                <label class="col-sm-3 control-label">个人照片：</label>
+			                <div class="col-sm-8">
+			               		<a onclick='ondownload("icon")'>[[(*{iconname} != null) ? *{iconname} : '请先上传']]</a>
+			                	<input id="icon" name="icon" th:value="*{icon}" class="form-control" type="text" style="display: none">
+			                </div>
+			            </div>
 			            <div class="form-group">
 							<label class="col-sm-3 control-label">邮编：</label>
 							<div class="col-sm-8">
@@ -198,6 +205,13 @@
 									class="form-control" type="text" >
 							</div>
 						</div>
+			            <div class="form-group">    
+			                <label class="col-sm-3 control-label">雅思/托福成绩单：</label>
+			                <div class="col-sm-8">
+			               		<a onclick='ondownload("yasi")'>[[(*{yasiname} != null) ? *{yasiname} : '请先上传']]</a>
+			                	<input id="yasi" name="yasi" th:value="*{yasi}" class="form-control" type="text" style="display: none">
+			                </div>
+			            </div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">父亲名称：</label>
 							<div class="col-sm-8">
@@ -353,7 +367,10 @@
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
+    	
+		var filefix = ctx + "system/fileinfo";
         var prefix = ctx + "system/schoolstudentslist";
+        
         $("#form-schoolstudentslist-edit").validate({
             focusCleanup: true
         });
@@ -369,6 +386,17 @@
             minView: "month",
             autoclose: true
         });
+
+        function ondownload(param){
+	    	var objtp=$('#'+param).val();
+	    	if (objtp != null && objtp != '' && objtp != 'undefined') {
+		    	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+	    	}
+	    	else {
+	    		$.modal.alert('未上传图片');
+	    	}
+	    }
+        
     </script>
 </body>
 </html>

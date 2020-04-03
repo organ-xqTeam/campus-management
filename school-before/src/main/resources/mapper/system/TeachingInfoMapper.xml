@@ -72,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectTeachingInfoList" parameterType="TeachingInfo" resultMap="TeachingInfoResult">
         <include refid="selectTeachingInfoVo"/>
         <where>  
+            <if test="id != null  and id != ''"> and id = #{id}</if>
             <if test="teacherId != null  and teacherId != ''"> and teacher_id = #{teacherId}</if>
             <if test="gendername != null  and gendername != ''"> and gendername like concat('%', #{gendername}, '%')</if>
             <if test="birthday != null  and birthday != ''"> and birthday = #{birthday}</if>
@@ -126,6 +127,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptalias != null  and deptalias != ''"> and deptAlias = #{deptalias}</if>
             <if test="useralias != null  and useralias != ''"> and userAlias = #{useralias}</if>
             <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="collectionstu != null  and collectionstu != ''">
+            	and id in (select collectionid from user_collection where userid=#{collectionstu} and collectiontype=1)
+            </if>            
         </where>
     </select>
     

@@ -91,9 +91,21 @@
                     title : '缴费状态',
                     align: 'center',
 		        	formatter: function (value, row, index) {
-		        		return statusTools(row);
+// 		        		return statusTools(row);
+		        		if (row.state == 1) {
+		         			return '已缴费';
+		         		} else {
+		         			return '未缴费';
+		         		}
 		        	}
                    
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                    	return statusTools(row);
+                    }
                 }]
             };
             $.table.init(options);
@@ -113,9 +125,9 @@
  		/* 项目状态显示 */
 		function statusTools(row) {
 		    if (row.state == 1) {
-    			return '<a class=\"btn btn-primary \">已缴费</a> ';
+    			return '<a class=\"btn btn-primary \">在线缴费</a> ';
     		} else {
-    			return '<a class=\"btn btn-warning  \" onclick="charge(\'' + row.id + '\')">未缴费</a> ';
+    			return '<a class=\"btn btn-warning  \" onclick="charge(\'' + row.id + '\')">在线缴费</a> ';
     		}
 		}
 		

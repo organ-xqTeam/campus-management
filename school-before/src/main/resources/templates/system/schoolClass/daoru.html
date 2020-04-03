@@ -27,7 +27,6 @@
                             <li>
                                 <p>学院</p>
                                 <select name="sbid" id="sbid">
-									<option value="">---请选择学院---</option>
 									<option th:each="sb:${sblist}" 
 											th:value="${sb.id}" 
 											th:text="${sb.schoolName}">
@@ -68,7 +67,7 @@
         
         var prefix = ctx + "system/schoolstudentslist";
         
-        $('select[name="sbid"]').change(function(){
+//         $('select[name="sbid"]').change(function(){
 	    	var sbid = $('select[name="sbid"]').val();
 	    	$.ajax({
 	    		type: "get",
@@ -84,7 +83,7 @@
 	    		},
 	    		async: false
 	    	});
-	    });
+// 	    });
         
         function daoru() {
 			var row=$("#bootstrap-table").bootstrapTable('getSelections');

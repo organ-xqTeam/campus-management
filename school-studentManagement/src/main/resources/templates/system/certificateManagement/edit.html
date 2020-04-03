@@ -42,8 +42,15 @@
 		      fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();//获取文件后缀名
 		      //检查后缀名
 		      if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
-		            showError('文件格式必须为：png/jpg/jpeg');//showError是另外写的一个显示错误信息的function
+
+		        	$.modal.alert("文件格式必须为：png/jpg/jpeg")
+// 		        	showError('文件格式必须为：png/jpg/jpeg');//showError是另外写的一个显示错误信息的function
 		            return;  
+		      }
+
+		      if ($('#imageBase')[0].files[0].size > (1024*2)) {
+		        	$.modal.alert("文件不能大于2M")
+		      		return;  
 		      }
 		      //获取并记录图片的base64编码
 		      var reader = new FileReader();

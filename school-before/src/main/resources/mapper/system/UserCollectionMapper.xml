@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.usercollection.mapper.UsercollectionMapper">
+    
+    <insert id="insertUsercollection" parameterType="Usercollection" useGeneratedKeys="true" keyProperty="id">
+        insert into user_collection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null  and userid != ''">userid,</if>
+            <if test="collectionid != null  and collectionid != ''">collectionid,</if>
+            <if test="collectiontype != null  and collectiontype != ''">collectiontype,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null  and userid != ''">#{userid},</if>
+            <if test="collectionid != null  and collectionid != ''">#{collectionid},</if>
+            <if test="collectiontype != null  and collectiontype != ''">#{collectiontype},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUsercollection" parameterType="Usercollection">
+        delete from user_collection
+        <where>  
+            <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
+            <if test="collectionid != null  and collectionid != ''"> and collectionid = #{collectionid}</if>
+            <if test="collectiontype != null  and collectiontype != ''"> and collectiontype = #{collectiontype}</if>
+        </where>
+    </update>
+
+</mapper>

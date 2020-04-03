@@ -238,8 +238,29 @@ public class TeachingInfo extends BaseEntity
 
     private String createDate;
     
+    //收藏教师的学生id
+    private String collectionstu;
     
-    public String getCreateDate() {
+    //用于判断该教师是否被该学生收藏
+    private String iscollection;
+    
+    public String getIscollection() {
+		return iscollection;
+	}
+
+	public void setIscollection(String iscollection) {
+		this.iscollection = iscollection;
+	}
+
+	public String getCollectionstu() {
+		return collectionstu;
+	}
+
+	public void setCollectionstu(String collectionstu) {
+		this.collectionstu = collectionstu;
+	}
+
+	public String getCreateDate() {
 		return createDate;
 	}
 

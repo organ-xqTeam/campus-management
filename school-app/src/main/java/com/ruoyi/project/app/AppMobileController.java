@@ -8,7 +8,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
@@ -45,8 +48,13 @@ import com.ruoyi.project.system.examStudentList.domain.ExamStudentList;
 import com.ruoyi.project.system.examStudentList.service.IExamStudentListService;
 import com.ruoyi.project.system.examStudentListDetail.domain.ExamStudentListDetail;
 import com.ruoyi.project.system.examStudentListDetail.service.IExamStudentListDetailService;
+import com.ruoyi.project.system.examStudentListDetail.service.impl.ExamStudentListDetailServiceImpl;
 import com.ruoyi.project.system.examSubjectJudgement.domain.ExamSubjectJudgement;
 import com.ruoyi.project.system.examSubjectJudgement.service.IExamSubjectJudgementService;
+import com.ruoyi.project.system.examSubjectOption.domain.ExamSubjectOption;
+import com.ruoyi.project.system.examSubjectOption.service.IExamSubjectOptionService;
+import com.ruoyi.project.system.examSubjectOptionOption.domain.ExamSubjectOptionOption;
+import com.ruoyi.project.system.examSubjectOptionOption.service.IExamSubjectOptionOptionService;
 import com.ruoyi.project.system.examSubjectShortAnswer.domain.ExamSubjectShortAnswer;
 import com.ruoyi.project.system.examSubjectShortAnswer.service.IExamSubjectShortAnswerService;
 import com.ruoyi.project.system.schoolHomework.domain.SchoolHomework;
@@ -57,6 +65,9 @@ import com.ruoyi.project.system.schoolcoursewareinfo.domain.Schoolcoursewareinfo
 import com.ruoyi.project.system.schoolcoursewareinfo.service.ISchoolcoursewareinfoService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
 import com.ruoyi.project.system.schoolstudentslist.service.ISchoolstudentslistService;
+import com.ruoyi.project.system.usercollection.domain.Usercollection;
+import com.ruoyi.project.system.usercollection.service.impl.UsercollectionSerciceImpl;
+import com.ruoyi.system.domain.SysRole;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
@@ -97,7 +108,14 @@ public class AppMobileController extends BaseController {
 	private IExamSubjectShortAnswerService examSubjectShortAnswerService;
 	@Autowired
 	private IExamExaminationSubjectService examExaminationSubjectService;
-	
+	@Autowired
+	private IExamSubjectOptionService examSubjectOptionService;
+	@Autowired
+	private IExamSubjectOptionOptionService examSubjectOptionOptionService;
+	@Autowired
+	private ExamStudentListDetailServiceImpl examStudentListDetailservice;
+	@Autowired
+	private UsercollectionSerciceImpl usercollectionSercice; 
 	/**
 	 * 选课-主页-名师专栏
 	 * */
@@ -109,6 +127,20 @@ public class AppMobileController extends BaseController {
     	TeachingInfo teacher = new TeachingInfo();
     	PageHelper.startPage(pageNum, pageSize, null);
     	List<TeachingInfo> teacherlist = teachingInfoService.selectTeachingInfoList(teacher);
+    	if (param.get("iscollection") != null) {
+    		for (int i=0; i<teacherlist.size(); i++) {
+    			TeachingInfo teacheri = new TeachingInfo();
+    			teacheri.setId(teacherlist.get(i).getId());
+    			teacheri.setCollectionstu(param.get("iscollection").toString());
+    			List<TeachingInfo> iscollection = teachingInfoService.selectTeachingInfoList(teacheri);
+    			if (iscollection.size() > 0) {
+    				teacherlist.get(i).setIscollection("yes");
+    			}
+    			else {
+    				teacherlist.get(i).setIscollection("no");
+    			}
+    		}
+    	}
     	return getDataTable(teacherlist);
 	}
 	
@@ -118,6 +150,7 @@ public class AppMobileController extends BaseController {
 	 * 
 	 * 选课-专题课-课程体系
 	 * 
+	 * 考试-年级下的课程
 	 * */
 	@ResponseBody
     @RequestMapping(value="/course/list")
@@ -130,6 +163,9 @@ public class AppMobileController extends BaseController {
     	}
     	if (param.get("teacherid") != null) {
     		course.setTeacherId(Long.valueOf(param.get("teacherid").toString()));
+    	}
+    	if (param.get("grade") != null) {
+    		course.setGrade(param.get("grade").toString());
     	}
     	PageHelper.startPage(pageNum, pageSize, null);
     	List<Coursemanagement> courselist = coursemanagementService.selectCoursemanagementList(course);
@@ -155,8 +191,8 @@ public class AppMobileController extends BaseController {
 	 * */
 	@ResponseBody
     @RequestMapping(value="/course/teacher")
-    public TeachingInfo courseteacher(@RequestParam("id") Long id) {
-    	return teachingInfoService.selectTeachingInfoById(id);
+    public AjaxResult courseteacher(@RequestParam("id") Long id) {
+    	return AjaxResult.success(teachingInfoService.selectTeachingInfoById(id));
 	}
 	
 	/**
@@ -177,7 +213,11 @@ public class AppMobileController extends BaseController {
 	}
 	
 	/**
+	 * 
 	 * 考试-试卷列表
+	 * 
+	 * 错题试卷列表
+	 * 
 	 * */
 	@ResponseBody
     @RequestMapping(value="/paper/list")
@@ -185,6 +225,16 @@ public class AppMobileController extends BaseController {
 		int pageNum = Integer.valueOf(param.get("pageNum").toString());
     	int pageSize = Integer.valueOf(param.get("pageSize").toString());
 		ExamSubjectShortAnswer examSubjectShortAnswer = new ExamSubjectShortAnswer();
+		if (param.get("type") != null) {
+			examSubjectShortAnswer.setType(param.get("type").toString());
+		}
+		if (param.get("courseid") != null) {
+			examSubjectShortAnswer.setCourseid(param.get("courseid").toString());
+		}
+		if (param.get("studentid") != null) {
+			examSubjectShortAnswer.setStudentid(param.get("studentid").toString());
+		}
+		examSubjectShortAnswer.setIssave("1");
 		examSubjectShortAnswer.setCategoryId("-1");
 		PageHelper.startPage(pageNum, pageSize, null);
         List<ExamSubjectShortAnswer> list = examSubjectShortAnswerService.selectExamSubjectShortAnswerList(examSubjectShortAnswer);
@@ -196,17 +246,37 @@ public class AppMobileController extends BaseController {
 	 * */
 	@ResponseBody
     @RequestMapping(value="/question/list")
-    public JSONArray questionlist(@RequestParam("id") String id) {
+    public TableDataInfo questionlist(@RequestParam("id") String id) {
 		ExamExaminationSubject examExaminationSubject = new ExamExaminationSubject();
 		examExaminationSubject.setExaminationId(id);
 		List<ExamExaminationSubject> la1 = examExaminationSubjectService.selectExamExaminationSubjectList(examExaminationSubject);
 		JSONArray array = new JSONArray();
 		for(int i=0; i<la1.size(); i++) {
 			ExamExaminationSubject e = la1.get(i);
-			ExamSubjectJudgement ex = examSubjectJudgementService.selectExamSubjectJudgementById(e.getSubjectId());
+			ExamSubjectJudgement ex = examSubjectJudgementService.selectExamSubjectJudgementById(e.getSubjectId());			
+			ExamSubjectOption oprion = new ExamSubjectOption();
+			oprion.setSubjectChoicesId(ex.getId());
+			List<ExamSubjectOption> list =  examSubjectOptionService.selectExamSubjectOptionList(oprion);
+			JSONArray esolist = new JSONArray();
+			for (ExamSubjectOption examSubjectOption : list) {
+				JSONObject object = new JSONObject();
+				object.put("name", examSubjectOption.getOptionName());
+				object.put("content", examSubjectOption.getOptionContent());
+				object.put("creator", examSubjectOption.getCreator());
+				ExamSubjectOptionOption optiono = new ExamSubjectOptionOption();
+				optiono.setSubjectChoicesId(examSubjectOption.getId());
+				List<ExamSubjectOptionOption> optionOptions =  examSubjectOptionOptionService.selectExamSubjectOptionOptionList(optiono);
+				JSONArray jsonArray = new JSONArray();
+				for (int j = 0; j < optionOptions.size(); j++) {
+					jsonArray.add(optionOptions.get(j));
+				}
+				object.put("next", jsonArray);
+				esolist.add(object);
+			}
+			ex.setEsolist(esolist);			
 			array.add(ex);
 		}		
-		return array;
+		return getDataTable(array);
 	}
 	
 	/**
@@ -231,10 +301,171 @@ public class AppMobileController extends BaseController {
 			esld.setDetailid(esl.getId()+"");
 			esld.setQuestionid(question.get("questionid").toString());
 			esld.setChoose(question.get("choose").toString());
+			esld.setIswrong(question.get("iswrong").toString());
 			examStudentListDetailService.insertExamStudentListDetail(esld);
 		}
 		return toAjax(true);
 	}
+
+	/**
+	 * 考试-错题试卷列表
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/wrongpaper/list")
+    public TableDataInfo wrongpaperlist(@RequestBody JSONObject param) {
+		int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
+		ExamSubjectShortAnswer examSubjectShortAnswer = new ExamSubjectShortAnswer();
+		if (param.get("studentid") != null) {
+			examSubjectShortAnswer.setStudentid(param.get("studentid").toString());
+		}
+		examSubjectShortAnswer.setIssave("1");
+		examSubjectShortAnswer.setCategoryId("-1");
+		PageHelper.startPage(pageNum, pageSize, null);
+        List<ExamSubjectShortAnswer> list = examSubjectShortAnswerService.selectExamSubjectShortAnswerList(examSubjectShortAnswer);
+		for (int i=0; i<list.size(); i++) {
+			ExamStudentListDetail esld = new ExamStudentListDetail();
+			esld.setPaperid(list.get(i).getId());
+			if (param.get("studentid") != null) {
+				esld.setStudentid(param.get("studentid").toString());
+			}
+			esld.setIswrong("1");
+			List<ExamStudentListDetail> esldlist = examStudentListDetailservice.selectExamStudentListDetailList(esld);
+			if (esldlist.size() == 0) {
+				list.remove(i);
+			}
+			else {
+				list.get(i).setWrongnum(esldlist.size()+"");
+			}
+		}
+        return getDataTable(list);
+	}
+	
+	/**
+	 * 考试-错题列表
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/wrongquestion/list")
+    public TableDataInfo wrongquestionlist(@RequestBody JSONObject param) {
+		ExamStudentListDetail esld = new ExamStudentListDetail();
+		if (param.get("paperid") != null) {
+			esld.setPaperid((param.get("paperid").toString()));
+		}
+		if (param.get("studentid") != null) {
+			esld.setStudentid(param.get("studentid").toString());
+		}
+		esld.setIswrong("1");
+		List<ExamStudentListDetail> esldlist = examStudentListDetailservice.selectExamStudentListDetailList(esld);
+		for(ExamStudentListDetail esld_ : esldlist) {
+			ExamSubjectJudgement ex = examSubjectJudgementService.selectExamSubjectJudgementById(esld_.getQuestionid());			
+			ExamSubjectOption oprion = new ExamSubjectOption();
+			oprion.setSubjectChoicesId(ex.getId());
+			List<ExamSubjectOption> list =  examSubjectOptionService.selectExamSubjectOptionList(oprion);
+			JSONArray esolist = new JSONArray();
+			for (ExamSubjectOption examSubjectOption : list) {
+				JSONObject object = new JSONObject();
+				object.put("name", examSubjectOption.getOptionName());
+				object.put("content", examSubjectOption.getOptionContent());
+				object.put("creator", examSubjectOption.getCreator());
+				ExamSubjectOptionOption optiono = new ExamSubjectOptionOption();
+				optiono.setSubjectChoicesId(examSubjectOption.getId());
+				List<ExamSubjectOptionOption> optionOptions =  examSubjectOptionOptionService.selectExamSubjectOptionOptionList(optiono);
+				JSONArray jsonArray = new JSONArray();
+				for (int j = 0; j < optionOptions.size(); j++) {
+					jsonArray.add(optionOptions.get(j));
+				}
+				object.put("next", jsonArray);
+				esolist.add(object);
+			}
+			ex.setEsolist(esolist);	
+			esld_.setEsj(ex);
+		}
+		return getDataTable(esldlist);
+	}
+	
+	/**
+	 * 个人中心-我收藏的教师
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/myteacher/list")
+    public TableDataInfo myteacherlist(@RequestBody JSONObject param) {
+        int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
+		TeachingInfo teachingInfo = new TeachingInfo();
+		if (param.get("collectionstu") != null) {
+			teachingInfo.setCollectionstu(param.get("collectionstu").toString());
+		}
+    	PageHelper.startPage(pageNum, pageSize, null);
+        List<TeachingInfo> list = teachingInfoService.selectTeachingInfoList(teachingInfo);
+        return getDataTable(list);
+	}
+	
+	/**
+	 * 收藏
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/collection/save")
+    public AjaxResult collectionsave(@RequestBody JSONObject param) {
+		Usercollection collection = new Usercollection();
+		if (param.get("userid") != null) {
+			collection.setUserid(param.get("userid").toString());
+		}
+		if (param.get("collectionid") != null) {
+			collection.setCollectionid(param.get("collectionid").toString());
+		}
+		if (param.get("collectiontype") != null) {
+			collection.setCollectiontype(param.get("collectiontype").toString());
+		}
+		usercollectionSercice.insertUsercollection(collection);
+		return AjaxResult.success(true);
+	}
+	
+	/**
+	 * 取消收藏
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/collection/cancel")
+    public AjaxResult collectioncancel(@RequestBody JSONObject param) {
+		Usercollection collection = new Usercollection();
+		if (param.get("userid") != null) {
+			collection.setUserid(param.get("userid").toString());
+		}
+		if (param.get("collectionid") != null) {
+			collection.setCollectionid(param.get("collectionid").toString());
+		}
+		if (param.get("collectiontype") != null) {
+			collection.setCollectiontype(param.get("collectiontype").toString());
+		}
+		usercollectionSercice.updateUsercollection(collection);
+		return AjaxResult.success(true);
+	}
+	
+	/**
+	 * 我的课程
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/mycourse/list")
+    public TableDataInfo mycourse(@RequestBody JSONObject param) {
+		int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
+		Schoolstudentslist student = new Schoolstudentslist();
+		if (param.get("id") != null) {
+			student.setId(Long.valueOf(param.get("id").toString()));
+		}
+		List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(student);
+		Schoolstudentslist stu = new Schoolstudentslist();
+		if (stulist.size() == 1) {
+			stu = stulist.get(0);
+		}
+    	PageHelper.startPage(pageNum, pageSize, null);
+		Coursemanagement course = new Coursemanagement();
+		course.setSbid(stu.getSbid());
+		course.setSsid(stu.getSsid());
+		course.setGrade(stu.getNianji());
+		List<Coursemanagement> courselist = coursemanagementService.selectCoursemanagementList(course);
+		return getDataTable(courselist);
+	}
+	
 	
 	@PostMapping("/schoolController/applogin")
 	@ResponseBody
@@ -259,8 +490,9 @@ public class AppMobileController extends BaseController {
 //			Md5Hash md5s = new Md5Hash(username + password + sessionid);
 //			String onlyid = md5s.toHex();
 			users.setPassword(null);
-			if(users.getRoleId()!=null) {
-				Long roleId=  users.getRoleId();
+			List<SysRole> roles = users.getRoles();
+			if(roles.size() == 1) {
+				Long roleId=  roles.get(0).getRoleId();
 				if(roleId==4) {
 					//教师
 					TeachingInfo teachingInfo =new TeachingInfo();

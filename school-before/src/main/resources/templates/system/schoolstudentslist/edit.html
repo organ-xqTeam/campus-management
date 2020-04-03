@@ -27,6 +27,15 @@
 			                    <input required="required" name="studentsName" class="form-control" th:field="*{studentsName}">
 			                </div>
 			            </div>
+	               		<div class="form-group">    
+			                <label class="col-sm-3 control-label">个人照片：</label>
+			                <div class="col-sm-8">
+			               		<a onclick='ondownload("icon")'>[[(*{iconname} != null) ? *{iconname} : '请先上传']]</a>
+			                	<input id="icon" name="icon" th:value="*{icon}" class="form-control" type="text" style="display: none">
+			                	<input id="iconname" name="iconname" th:value="*{iconname}" class="form-control" type="text" style="display: none">
+			                    <input id="iconfile" class="form-control" type="file">
+			                </div>
+			            </div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label is-required">身份证号：</label>
 							<div class="col-sm-8">
@@ -261,6 +270,15 @@
 									class="form-control" type="text" >
 							</div>
 						</div>
+			            <div class="form-group">    
+			                <label class="col-sm-3 control-label">雅思/托福成绩单：</label>
+			                <div class="col-sm-8">
+			               		<a onclick='ondownload("yasi")'>[[(*{yasiname} != null) ? *{yasiname} : '请先上传']]</a>
+			                	<input id="yasi" name="yasi" th:value="*{yasi}" class="form-control" type="text" style="display: none">
+			                	<input id="yasiname" name="yasiname" th:value="*{yasiname}" class="form-control" type="text" style="display: none">
+			                    <input id="yasifile" class="form-control" type="file">
+			                </div>
+			            </div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label">父亲名称：</label>
 							<div class="col-sm-8">
@@ -436,6 +454,8 @@
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
     <script type="text/javascript">
+    
+		var filefix = ctx + "system/fileinfo";
         var prefix = ctx + "system/schoolstudentslist";
         
         $("#form-schoolstudentslist-edit").validate({
@@ -456,9 +476,59 @@
 
         function submitHandler() {
             if ($.validate.form()) {
+            	uploadFile('icon',function(file){
+            		if (file) {
+                		$('#icon').val(file.filePath);
+                		$('#iconname').val(file.fileName);
+                	}
+            	});
+            	uploadFile('yasi',function(file){
+            		if (file) {
+                		$('#yasi').val(file.filePath);
+                		$('#yasiname').val(file.fileName);
+                	}
+            	});
                 $.operate.save(prefix + "/edit", $('#form-schoolstudentslist-edit').serialize());
             }
         }
+        
+
+        function uploadFile(path, callback) {
+        	var file;
+        	var formData = new FormData();
+        	var path = $('#'+path+'file');
+        	if (path[0].files[0] == null) {
+        		return null;
+        	}
+        	formData.append('file', path[0].files[0]);        	
+        	$.ajax({
+        		url: filefix + "/add",
+        		type: 'post',
+        		cache: false,
+        		data: formData,
+        		processData: false,
+        		contentType: false,
+        		dataType: "json",
+        		async: false,
+        		success: function(result) {
+        			file = result.file;
+        			if(callback){
+                    	callback(file);
+                    }
+        		}
+        	});
+        	return file;
+        }
+        
+        function ondownload(param){
+	    	var objtp=$('#'+param).val();
+	    	if (objtp != null && objtp != '' && objtp != 'undefined') {
+		    	window.location.href = ctx + "common/download/resource?resource=" + objtp;
+	    	}
+	    	else {
+	    		$.modal.alert('未上传图片');
+	    	}
+	    }
 
         $("input[name='admissionTime']").datetimepicker({
             format: "yyyy-mm-dd",

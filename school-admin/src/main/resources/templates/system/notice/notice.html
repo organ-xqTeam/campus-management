@@ -56,7 +56,7 @@
         var types = [[${@dict.getType('sys_notice_type')}]];
         var datas = [[${@dict.getType('sys_notice_status')}]];
         var prefix = ctx + "system/notice";
-
+		
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -75,7 +75,14 @@
 				},
 				{
 					field : 'noticeTitle', 
-					title : '公告标题' 
+					title : '公告标题',
+					formatter: function(value, row, index) {
+						var actions = [];
+						var title = row.noticeTitle.substring(0, 20) + '...'
+		            	actions.push('<a class="" href="javascript:void(0)" onclick="tishi(\'' + row.noticeTitle + '\')">'+title+'</a> ');
+		            	return actions.join('');
+// 						return $.table.tooltip(value);
+					}
 				},
 				{
 		            field: 'noticeType',
@@ -116,6 +123,11 @@
             };
             $.table.init(options);
         });
+        
+        function tishi(title) {
+//         	alert()
+			$.modal.msg(title)
+		}
         
         function fabu(id) {
         	var url = ctx + "system/notice/noticeview?noticeId="+id;

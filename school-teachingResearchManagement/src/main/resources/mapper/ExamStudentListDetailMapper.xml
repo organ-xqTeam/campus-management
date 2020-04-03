@@ -9,10 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="detailid"    column="detailid"    />
         <result property="questionid"    column="questionid"    />
         <result property="choose"    column="choose"    />
+        <result property="iswrong"    column="iswrong"    />
     </resultMap>
 
     <sql id="selectExamStudentListDetailVo">
-        select id, detailid, questionid, choose from exam_student_list_detail
+        select id, detailid, questionid, choose, iswrong from exam_student_list_detail
     </sql>
 
     <select id="selectExamStudentListDetailList" parameterType="ExamStudentListDetail" resultMap="ExamStudentListDetailResult">
@@ -21,6 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="detailid != null  and detailid != ''"> and detailid = #{detailid}</if>
             <if test="questionid != null  and questionid != ''"> and questionid = #{questionid}</if>
             <if test="choose != null  and choose != ''"> and choose = #{choose}</if>
+            <if test="iswrong != null  and iswrong != ''"> and iswrong = #{iswrong}</if>
+            <if test="studentid != null  and studentid != '' and paperid != null  and paperid != ''"> 
+            	and detailid in (select id from exam_student_list where studentid=#{studentid} and paperid=#{paperid})
+            </if>
         </where>
     </select>
     
@@ -51,12 +56,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="detailid != null  and detailid != ''">detailid,</if>
             <if test="questionid != null  and questionid != ''">questionid,</if>
             <if test="choose != null  and choose != ''">choose,</if>
+            <if test="iswrong != null  and iswrong != ''">iswrong,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null ">#{id},</if>
             <if test="detailid != null  and detailid != ''">#{detailid},</if>
             <if test="questionid != null  and questionid != ''">#{questionid},</if>
             <if test="choose != null  and choose != ''">#{choose},</if>
+            <if test="iswrong != null  and iswrong != ''">#{iswrong},</if>
          </trim>
     </insert>
 

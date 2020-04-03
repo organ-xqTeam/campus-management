@@ -1,10 +1,9 @@
 package com.ruoyi.project.system.examSubjectJudgement.domain;
 
 import java.util.Date;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
+import com.alibaba.fastjson.JSONArray;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
@@ -53,7 +52,19 @@ public class ExamSubjectJudgement extends BaseEntity
 	private String courseid;
 	/** 课程名称*/
 	private String coursename;
+	/** 选项list*/
+	private JSONArray esolist;
 	
+	
+	
+	public JSONArray getEsolist() {
+		return esolist;
+	}
+
+	public void setEsolist(JSONArray esolist) {
+		this.esolist = esolist;
+	}
+
 	public String getCourseid() {
 		return courseid;
 	}
