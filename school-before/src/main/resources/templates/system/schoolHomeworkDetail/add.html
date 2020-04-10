@@ -7,16 +7,15 @@
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-schoolstudentslist-add">
-        	<input name="id" id="detailId" th:value="${detailId}" type="hidden"/>
-        	<input name="homeworkId" id="homeworkId" th:value="${homeworkId}" type="hidden"/>
-        	<input name="studentsId" id="studentsId" th:value="${studentsId}" type="hidden"/>
+        	<input name="detailid" th:value="${detailid}" type="hidden"/>
+        	<input name="studentid" th:value="${studentid}" type="hidden"/>
             
             <div class="form-group">
-                <label class="col-sm-3 control-label">是否提交：</label>
+                <label class="col-sm-3 control-label">是否合格：</label>
                 <div class="col-sm-8">
-                    <select  class="form-control" name="submitFlag">
-                         <option th:selected="${schoolResultDetail?.submitFlag}==0" value="0">未提交</option>
-                         <option th:selected="${schoolResultDetail?.submitFlag}==1" value="1">已提交</option>
+                    <select  class="form-control" name="ontest">
+                    	<option th:selected="${ontest}==1" value="1">合格</option>
+                    	<option th:selected="${ontest}==0" value="0">不合格</option>
 				    </select>
                 </div>
             </div>

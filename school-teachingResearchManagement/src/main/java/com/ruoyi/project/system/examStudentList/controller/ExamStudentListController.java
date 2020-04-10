@@ -57,6 +57,7 @@ public class ExamStudentListController extends BaseController
         	if (course != null) {
         		map.put("sbid", course.getSbid());
         		map.put("ssid", course.getSsid());
+        		map.put("nianji", course.getGrade());
         	}
     	}
         return prefix + "/examstudentlist";

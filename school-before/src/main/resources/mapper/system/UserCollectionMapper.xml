@@ -18,13 +18,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateUsercollection" parameterType="Usercollection">
+    <delete id="updateUsercollection" parameterType="Usercollection">
         delete from user_collection
         <where>  
             <if test="userid != null  and userid != ''"> and userid = #{userid}</if>
             <if test="collectionid != null  and collectionid != ''"> and collectionid = #{collectionid}</if>
             <if test="collectiontype != null  and collectiontype != ''"> and collectiontype = #{collectiontype}</if>
         </where>
-    </update>
+    </delete>
 
 </mapper>

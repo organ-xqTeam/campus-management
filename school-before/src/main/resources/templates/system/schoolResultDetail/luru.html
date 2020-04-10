@@ -12,11 +12,8 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <p>班级：</p>
-                                <select  class="form-control" name="classId">
-	                                <option value="">---请选择班级---</option>
-								    <option  th:each="schoolClass:${schoolClassList}" th:value="${schoolClass.id}" th:text="${schoolClass.nameclass}" ></option>
-							    </select>
+                                <p>姓名：</p>
+                                <input type="text" name="name"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>

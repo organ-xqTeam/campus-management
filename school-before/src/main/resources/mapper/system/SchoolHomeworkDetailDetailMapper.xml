@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.schoolHomeworkDetailDetail.mapper.SchoolHomeworkDetailDetailMapper">
+
+    <update id="updateHomework" parameterType="SchoolHomeworkDetailDetail">
+        update school_homework_detail_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ontest != null ">ontest = #{ontest},</if>
+        </trim>
+        <where>  
+	        <if test="id != null and id != '' ">
+	        	and id = #{id}
+	        </if>
+		</where>
+    </update>
+    
+    <insert id="insertSchoolHomeworkDetail" parameterType="SchoolHomeworkDetailDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into school_homework_detail_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailid != null and detailid != ''">detailid,</if>
+            <if test="studentid != null and studentid != ''">studentid,</if>
+            <if test="submittime != null and submittime != ''">submittime,</if>
+            <if test="ontest != null and ontest != ''">ontest,</if>
+            <if test="file != null and file != ''">file,</if>
+            <if test="filename != null and filename != ''">filename,</if>
+		</trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailid != null and detailid != ''">#{detailid},</if>
+            <if test="studentid != null and studentid != ''">#{studentid},</if>
+            <if test="submittime != null and submittime != ''">#{submittime},</if>
+            <if test="ontest != null and ontest != ''">#{ontest},</if>
+            <if test="file != null and file != ''">#{file},</if>
+            <if test="filename != null and filename != ''">#{filename},</if>
+		</trim>
+    </insert>
+    
+</mapper>

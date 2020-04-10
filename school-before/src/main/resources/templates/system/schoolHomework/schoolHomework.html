@@ -48,9 +48,15 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:schoolHomework:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:schoolHomework:remove')}]];
+        var detailFlag = [[${@permission.hasPermi('system:schoolHomeworkDetail:view')}]];
+        var stuFlag = [[${@permission.hasPermi('system:schoolHomeworkDetail:stuview')}]];
+        
         var prefix = ctx + "system/schoolHomework";
 		function intoxuesheng(id){
 			$.modal.openTab("学生作业列表",ctx+"system/schoolHomeworkDetail?id="+id);
+		}
+		function addxuesheng(id) {
+			$.modal.openTab("添加学生",prefix + "/stuview?hid="+id);
 		}
         $(function() {
             var options = {
@@ -86,16 +92,23 @@
                 },
                
                 {
-                    field : 'submitDate', 
-                    title : '提交时间'
+                    field : 'type', 
+                    title : '任务类型',
+                    formatter: function(value, row, index) {
+                    	if (value == '1') {
+                        	return '每日任务';
+                    	}
+                    	else if (value == '2') {
+                    		return '高级设置';
+                    	}
+                    	else {
+                    		return '-';
+                    	}
+                    }
                 },
                 {
                     field : 'createDate', 
                     title : '创建时间'
-                },
-                {
-                    field : 'updateDate', 
-                    title : '更新时间'
                 },
                 {
                     title: '操作',
@@ -104,7 +117,8 @@
                         var actions = [];
                         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a> ');
-                        actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="intoxuesheng(\'' + row.id + '\')"><i class="fa fa-info"></i>学生列表</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + detailFlag + '" href="javascript:void(0)" onclick="intoxuesheng(\'' + row.id + '\')"><i class="fa fa-info"></i>学生列表</a> ');
+                        actions.push('<a class="btn btn-success btn-xs ' + stuFlag + '" href="javascript:void(0)" onclick="addxuesheng(\'' + row.id + '\')"><i class="fa fa-plus"></i>添加学生</a>');
                         return actions.join('');
                     }
                 }]

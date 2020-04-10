@@ -39,7 +39,167 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectSchoolHomeworkDetailVo"/>
         where id = #{id}
     </select>
-        
+    
+    <select id="selectStudentHomework" parameterType="hashmap" resultType="hashmap">
+        select 
+			sc.nameclass as 'class',
+			c.students_name as 'course',
+			sh.homework_name as 'homework',
+			sh.id as 'homeworkid',
+			(select count(*) from schoolstudentslist where class_id = s.class_id) as 'studentnum',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 0,1) as 'stu1',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 1,1) as 'stu2',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 2,1) as 'stu3',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 3,1) as 'stu4',
+			DATE_FORMAT(sh.create_date,'%Y-%m-%d') as 'time',
+			shd.id as 'detailid'
+		from
+			school_homework_detail shd
+		left join
+			school_homework sh on sh.id = shd.homework_id
+		left join 
+			coursemanagement c on c.id = sh.curriculum_id
+		left join 
+			schoolstudentslist s on s.id = shd.students_id
+		left join 
+			school_class sc on sc.id = s.class_id
+		where
+			1=1
+		and ((sh.type=1) or (sh.type=2 and sh.starttime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d') and sh.endtime &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')))
+		<if test="studentid != null  and studentid != ''"> and shd.students_id = #{studentid}</if>		
+    </select>
+    
+    <select id="selectStudentHomeworkToday" parameterType="hashmap" resultType="hashmap">
+        select 
+			shdd.submittime as 'submittime',
+			shdd.ontest as 'ontest',
+			shdd.file as 'file'
+		from 
+			school_homework_detail_detail shdd
+		where 
+			1=1
+		and 
+			shdd.submittime like concat ('%',DATE_FORMAT(NOW(), '%Y-%m-%d') , '%')
+		<if test="detailid != null  and detailid != ''"> and shdd.detailid=#{detailid}</if>
+		<if test="studentid != null  and studentid != ''"> and shdd.studentid=#{studentid}</if>
+    </select>
+    
+    <select id="selectStudentHomeworkHistory" parameterType="hashmap" resultType="hashmap">
+        select 
+			shdd.submittime as 'submittime',
+			shdd.ontest as 'ontest',
+			shdd.id as 'praiseid',
+			(select count(*) from user_praise where type=1 and praiseid=shdd.id) as 'praisenum',
+			(select count(*) from user_praise where type=1 and usertype=1 and praiseid=shdd.id and userid=#{studentid}) as 'ispraise'
+		from 
+			school_homework_detail_detail shdd
+		where 
+			1=1
+		and 
+			shdd.submittime &lt; DATE_FORMAT(NOW(), '%Y-%m-%d')
+		and shdd.detailid=#{detailid}
+		and shdd.studentid=#{studentid}
+    </select>
+    
+    <select id="selectClassStudentHomework" parameterType="hashmap" resultType="hashmap">
+        SELECT
+			s.id AS 'id',
+			s.students_name AS 'name',
+			s.icon AS 'icon',
+			shdd.file AS 'file',
+			shdd.ontest as 'ontest',
+			shdd.id as 'praiseid',
+			(select count(*) from user_praise where type=1 and praiseid=shdd.id) as 'praisenum',
+			(select count(*) from user_praise where type=1 and usertype=1 and praiseid=shdd.id and userid=#{studentid}) as 'ispraise'
+		FROM
+			schoolstudentslist s 
+		left join 
+			(	
+				SELECT
+					shdd.*
+				FROM
+					school_homework_detail_detail shdd
+					LEFT JOIN school_homework_detail shd ON shd.id = shdd.detailid 
+				WHERE
+					1=1
+					AND shdd.submittime LIKE concat ( '%', #{submittime}, '%' ) 
+					AND shd.homework_id = #{homeworkid}
+			) shdd on shdd.studentid = s.id
+		WHERE
+			1=1
+			and s.class_id = #{classid}
+			and s.id &lt;&gt; #{studentid}
+    </select>
+    
+    <select id="selectTeacherHomework" parameterType="hashmap" resultType="hashmap">
+        select 	
+			sc.nameclass as 'classname',
+			c.students_name as 'coursename',
+			(select count(*) from schoolstudentslist where class_id = s.class_id) as 'stunum',
+			sh.homework_name as 'homeworkname',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 0,1) as 'stu1',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 1,1) as 'stu2',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 2,1) as 'stu3',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 3,1) as 'stu4',
+			sh.create_date as 'createdate',
+			s.class_id as 'classid',
+			shd.homework_id as 'homeworkid'
+		from 
+			school_homework_detail shd
+		left join 
+			schoolstudentslist s on s.id = shd.students_id
+		left join 
+			school_class sc on sc.id = s.class_id
+		left join
+			school_homework sh on sh.id = shd.homework_id
+		left join 
+			coursemanagement c on c.id = sh.curriculum_id
+		where 
+			shd.homework_id in (
+				select
+					sh.id
+				from 
+					coursemanagement c
+				left join
+					school_homework sh on c.id = sh.curriculum_id
+				where 
+					c.teacher_id = #{teacherid}
+				and 
+					sh.curriculum_id in (select id from coursemanagement where teacher_id = #{teacherid})
+			)
+			and ((sh.type=1) or (sh.type=2 and sh.starttime &lt; DATE_FORMAT(NOW(),'%Y-%m-%d') and sh.endtime &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')))
+		group by shd.homework_id,s.class_id
+    </select>
+    
+    <select id="selectTeacherClassHomework" parameterType="hashmap" resultType="hashmap">
+    	SELECT
+			s.id AS 'studentid',
+			s.students_name AS 'name',
+			s.icon AS 'icon',
+			shdd.file AS 'file',
+			shdd.ontest AS 'ontest',
+			shdd.id as 'detailid',
+			shdd.id as 'praiseid',
+			(select count(*) from user_praise where type=1 and praiseid=shdd.id) as 'praisenum',
+			(select count(*) from user_praise where type=1 and usertype=2 and praiseid=shdd.id and userid=#{teacherid}) as 'ispraise'
+		FROM
+			schoolstudentslist s
+		left join 
+			(
+				SELECT
+					shdd.* 
+				FROM
+					school_homework_detail_detail shdd
+					LEFT JOIN school_homework_detail shd ON shd.id = shdd.detailid 
+				WHERE
+					shdd.submittime LIKE concat ( '%', DATE_FORMAT(NOW(),'%Y-%m-%d'), '%' ) 
+					AND shd.homework_id = #{homeworkid}
+			) shdd on shdd.studentid = s.id
+		WHERE
+			1=1
+			and s.class_id = #{classid}
+    </select>
+    
     <insert id="insertSchoolHomeworkDetail" parameterType="SchoolHomeworkDetail" useGeneratedKeys="true" keyProperty="id">
         insert into school_homework_detail
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -102,13 +262,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectSchoolHomeworkDetailStudentsListByHomeworkId" resultType="hashmap" parameterType="hashmap">
       select 
       ss.id, ss.students_id as studentsId, ss.students_name as studentsName, ss.academic_level as academicLevel, ss.father_name, ss.father_phone, ss.mother_name, ss.mother_phone, ss.home_address, ss._remarks, ss.ages, ss.admission_time as admissionTime, ss._state, ss.del_flag, ss.deptAlias, ss.userAlias ,
+      ss.birth,
+	  (select school_name from school_belong where id = ss.sbid) as 'sbname',
+	  (select `name` from school_specialty where id = ss.ssid) as 'ssname',
       ifnull(sc.nameclass,"") as nameclass ,
       ifnull(ss.grade_id,"") as gradeId ,
       ifnull(ss.class_id,"") as classId ,
       shd.submit_flag,
       shd.file_id,
       shd.file_name,
-      shd.id as did
+      shd.id as did,
+	  (select file from school_homework_detail_detail where detailid=shd.id and studentid = ss.id and submittime like concat ('%',DATE_FORMAT(NOW(),'%Y-%m-%d') , '%')) as file,
+	  (select ontest from school_homework_detail_detail where detailid=shd.id and studentid = ss.id and submittime like concat ('%',DATE_FORMAT(NOW(),'%Y-%m-%d') , '%')) as ontest
       from schoolstudentslist ss
       left join school_class sc on sc.id=ss.class_id
       left join school_homework_detail shd on shd.students_id=  ss.id

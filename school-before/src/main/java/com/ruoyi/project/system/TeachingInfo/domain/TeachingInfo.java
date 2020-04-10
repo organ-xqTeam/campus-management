@@ -244,7 +244,17 @@ public class TeachingInfo extends BaseEntity
     //用于判断该教师是否被该学生收藏
     private String iscollection;
     
-    public String getIscollection() {
+    private String collectionnum;
+    
+    public String getCollectionnum() {
+		return collectionnum;
+	}
+
+	public void setCollectionnum(String collectionnum) {
+		this.collectionnum = collectionnum;
+	}
+
+	public String getIscollection() {
 		return iscollection;
 	}
 

@@ -331,6 +331,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="yasiname != null   and yasiname != ''"> and yasiname = #{yasiname}</if>            
             <if test="qq != null   and qq != ''"> and qq = #{qq}</if>            
             <if test="weixin != null   and weixin != ''"> and weixin = #{weixin}</if>    
+            <if test="weixin != null   and weixin != ''"> and weixin = #{weixin}</if>    
         </where>
     </select>
     <select id="selectSchoolstudentslistListUnMove" parameterType="Schoolstudentslist" resultMap="SchoolstudentslistResult">

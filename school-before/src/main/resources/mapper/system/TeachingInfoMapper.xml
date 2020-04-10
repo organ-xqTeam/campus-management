@@ -63,10 +63,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="useralias"    column="userAlias"    />
         <result property="userId"    column="user_id"    />
         <result property="createDate"    column="create_date"    />
+        <result property="collectionnum"    column="collectionnum"    />
+        
     </resultMap>
 
     <sql id="selectTeachingInfoVo">
-        select id, teacher_id, gendername, birthday, entry_date, teach_years, certificate_id, class_scope, classification_teachers, authentication_information, authentication_date, certification_grade, certification_image, remarks_Teachers, professional_direction, scientific_research_, thematic_information, teaching_situation, teaching_feedback, feedback_opinion, certificate_name, certification_name, certification_state, createtime1, remarks, isdelete, analysis_report, teach_place, teaching_name, subject_name, isheadteacher, cumulative_class_hours, job_title, file_location, teaching_record, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias, userAlias,user_id from teaching_info
+        select 
+        	id, teacher_id, gendername, birthday, entry_date, teach_years, certificate_id, class_scope, classification_teachers, authentication_information, authentication_date, certification_grade, certification_image, remarks_Teachers, professional_direction, scientific_research_, thematic_information, teaching_situation, teaching_feedback, feedback_opinion, certificate_name, certification_name, certification_state, createtime1, remarks, isdelete, analysis_report, teach_place, teaching_name, subject_name, isheadteacher, cumulative_class_hours, job_title, file_location, teaching_record, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, remark8, remark9, remark10, remark11, remark12, remark13, remark14, remark15, remark16, remark17, del_flag, deptAlias,
+        	(select count(*) from user_collection where collectiontype=1 and collectionid=t.id) as 'collectionnum',
+        	userAlias,
+        	user_id 
+        from teaching_info t
     </sql>
 
     <select id="selectTeachingInfoList" parameterType="TeachingInfo" resultMap="TeachingInfoResult">

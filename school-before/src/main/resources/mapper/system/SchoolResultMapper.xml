@@ -64,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			s.home_address,
 			s._remarks,
 			s.ages,
+			s.birth,
 			s.admission_time AS admissionTime,
 			s._state,
 			s.del_flag,

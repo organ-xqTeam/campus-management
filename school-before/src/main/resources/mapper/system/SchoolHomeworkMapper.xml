@@ -16,10 +16,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="delFlag"    column="del_flag"    />
         <result property="content"    column="content"    />
         <result property="picIds"    column="pic_ids"    />
+        <result property="type"    column="type"    />
+        <result property="starttime"    column="starttime"    />
+        <result property="endtime"    column="endtime"    />
+        <result property="frequency"    column="frequency"    />
     </resultMap>
 
    	<sql id="selectSchoolHomeworkVo">
-        select id, curriculum_name, curriculum_id, homework_name, homework_id, submit_date, create_date, update_date, del_flag,content,pic_ids from school_homework
+        select id, curriculum_name, curriculum_id, homework_name, homework_id, submit_date, create_date, update_date, del_flag,content,pic_ids,type,starttime,endtime,frequency from school_homework
     </sql>
 
     <select id="selectSchoolHomeworkList" parameterType="SchoolHomework" resultMap="SchoolHomeworkResult">
@@ -51,6 +55,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         group by d.homework_id
     </select>
     
+    <select id="stulist" resultType="hashmap" parameterType="hashmap">
+		select 
+			s.id,
+			s.students_id AS studentsId,
+			s.students_name AS studentsName,
+			s.academic_level AS academicLevel,
+			s.father_name,
+			s.father_phone,
+			s.mother_name,
+			s.mother_phone,
+			s.home_address,
+			s._remarks,
+			s.ages,
+			s.birth,
+			s.admission_time AS admissionTime,
+			s._state,
+			s.del_flag,
+			s.deptAlias,
+			s.userAlias,
+			ifnull( s.grade_id, "" ) AS gradeId,
+			ifnull( s.class_id, "" ) AS classId,
+			s.ssid,
+			s.sbid,
+			s.class_id,
+			(select nameclass from school_class where id = s.class_id) as 'nameclass',
+			(select school_name from school_belong where id = s.sbid) as 'sbname',
+			(select `name` from school_specialty where id = s.ssid) as 'ssname'
+		from 
+			schoolstudentslist s
+		where 
+			1=1
+		<if test="homeworkId != null and homeworkId != ''">
+			and id not in (select students_id from school_homework_detail where homework_id = #{homeworkId})
+		</if>
+		<if test="ssid != null and ssid != ''">
+			and s.ssid = #{ssid}
+		</if>
+		<if test="sbid != null and sbid != ''">
+			and s.sbid = #{sbid}
+		</if>
+		<if test="classId != null and classId != ''">
+			and s.class_id = #{classId}
+		</if>
+	</select>
+    
     <select id="selectSchoolHomeworkById" parameterType="Long" resultMap="SchoolHomeworkResult">
         <include refid="selectSchoolHomeworkVo"/>
         where id = #{id}
@@ -69,6 +118,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null  and delFlag != ''">del_flag,</if>
             <if test="content != null  and content != ''">content,</if>
             <if test="picIds != null  and picIds != ''">pic_ids,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="starttime != null  and starttime != ''">starttime,</if>
+            <if test="endtime != null  and endtime != ''">endtime,</if>
+            <if test="frequency != null  and frequency != ''">frequency,</if>
             <!--content pic_ids  -->
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -82,6 +135,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
             <if test="content != null  and content != ''">#{content},</if>
             <if test="picIds != null  and picIds != ''">#{picIds},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="starttime != null  and starttime != ''">#{starttime},</if>
+            <if test="endtime != null  and endtime != ''">#{endtime},</if>
+            <if test="frequency != null  and frequency != ''">#{frequency},</if>
          </trim>
     </insert>
 
@@ -98,6 +155,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
             <if test="content != null  and content != ''">content=#{content},</if>
             <if test="picIds != null  and picIds != ''">pic_ids= #{picIds},</if>
+            <if test="type != null  and type != ''">type= #{type},</if>
+            <if test="starttime != null  and starttime != ''">starttime= #{starttime},</if>
+            <if test="endtime != null  and endtime != ''">endtime= #{endtime},</if>
+            <if test="frequency != null  and frequency != ''">frequency= #{frequency},</if>
         </trim>
         where id = #{id}
     </update>

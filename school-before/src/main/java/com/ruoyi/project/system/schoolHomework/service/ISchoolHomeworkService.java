@@ -2,6 +2,7 @@ package com.ruoyi.project.system.schoolHomework.service;
 
 import com.ruoyi.project.system.schoolHomework.domain.SchoolHomework;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 学生作业表Service接口
@@ -26,7 +27,10 @@ public interface ISchoolHomeworkService
      * @return 学生作业表集合
      */
     public List<SchoolHomework> selectSchoolHomeworkList(SchoolHomework schoolHomework);
-
+    /**
+     * 作业管理新增学生页列表
+     * */
+    public List<Map<String, Object>> stulist(Map<String, Object> params);
     /**
      * 新增学生作业表
      * 

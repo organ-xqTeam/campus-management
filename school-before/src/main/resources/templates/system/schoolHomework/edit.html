@@ -18,7 +18,6 @@
 				   </select>
                 </div>
             </div>
-            
             <div class="form-group">    
                 <label class="col-sm-3 control-label">作业名称：</label>
                 <div class="col-sm-8">
@@ -31,17 +30,41 @@
                     <input name="content" th:field="*{content}" class="form-control" type="text">
                 </div>
             </div>
-            
             <div class="form-group">    
-                <label class="col-sm-3 control-label">提交时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="submitDate" th:value="${#dates.format(schoolHomework.submitDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
-            
+	        	<label class="col-sm-3 control-label">任务类型：</label>
+	        	<div class="col-sm-8">
+	          		<select class="form-control" name="type" id="type">
+		            	<option value="1" th:selected="*{type}==1">每日任务</option>
+		            	<option value="2" th:selected="*{type}==2">高级设置</option>
+					</select>
+	        	</div>
+	        </div>
+       		<div class="hid-tag" style="display: block">
+		        <div class="form-group">    
+	                <label class="col-sm-3 control-label">开始日期：</label>
+	                <div class="col-sm-8">
+	                    <div class="input-group date">
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input name="starttime" th:field="*{starttime}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+	                    </div>
+	                </div>
+	            </div>
+		        <div class="form-group">    
+	                <label class="col-sm-3 control-label">结束日期：</label>
+	                <div class="col-sm-8">
+	                    <div class="input-group date">
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input name="endtime" th:field="*{endtime}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+	                    </div>
+	                </div>
+	           </div>
+	           <div class="form-group">    
+	               <label class="col-sm-3 control-label">任务频次：</label>
+	               <div class="col-sm-8">
+	                   <input name="frequency" th:field="*{frequency}" class="form-control" type="text">
+	               </div>
+	           </div>
+			</div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">宣传图片：</label>
                 <div class="col-sm-8">
@@ -114,6 +137,19 @@
                 $.operate.save(prefix + "/edit", $('#form-schoolHomework-edit').serialize());
             }
         }
+        
+        if ($('select[name="type"]').val() == '1') {
+			$('.hid-tag').attr("style", "display: none")
+	    }
+        
+        $('select[name="type"]').change(function(){
+	    	if ($('select[name="type"]').val() == '1') {
+	    		$('.hid-tag').attr("style", "display: none")
+	    	}
+	    	if ($('select[name="type"]').val() == '2') {
+	    		$('.hid-tag').attr("style", "display: block")
+	    	}	
+	    });
 
         $("input[name='submitDate']").datetimepicker({
             format: "yyyy-mm-dd",
@@ -132,6 +168,19 @@
             minView: "month",
             autoclose: true
         });
+        
+        $("input[name='starttime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        
+        $("input[name='endtime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        
         function uploadFile() {
         	var fileIds="";
         	if ($('#filePath')[0].files[0] == null) {

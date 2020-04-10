@@ -30,16 +30,41 @@
                     <input name="content" class="form-control" type="text">
                 </div>
             </div>
-            
             <div class="form-group">    
-                <label class="col-sm-3 control-label">提交时间：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input name="submitDate" class="form-control" placeholder="yyyy-MM-dd" type="text">
-                    </div>
-                </div>
-            </div>
+	        	<label class="col-sm-3 control-label">任务类型：</label>
+	        	<div class="col-sm-8">
+	          		<select class="form-control" name="type" id="type">
+		            	<option value="1">每日任务</option>
+		            	<option value="2">高级设置</option>
+					</select>
+	        	</div>
+	        </div>
+       		<div class="hid-tag" style="display: none">
+		        <div class="form-group">    
+	                <label class="col-sm-3 control-label">开始日期：</label>
+	                <div class="col-sm-8">
+	                    <div class="input-group date">
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input name="starttime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+	                    </div>
+	                </div>
+	            </div>
+		        <div class="form-group">    
+	                <label class="col-sm-3 control-label">结束日期：</label>
+	                <div class="col-sm-8">
+	                    <div class="input-group date">
+	                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+	                        <input name="endtime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+	                    </div>
+	                </div>
+	           </div>
+	           <div class="form-group">    
+	               <label class="col-sm-3 control-label">任务频次：</label>
+	               <div class="col-sm-8">
+	                   <input name="frequency" class="form-control" type="text">
+	               </div>
+	           </div>
+			</div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">宣传图片：</label>
                 <div class="col-sm-8">
@@ -47,8 +72,6 @@
                     <input id="filePath" name="filePath"  class="form-control" multiple="multiple"  accept="image/gif, image/jpeg, image/png, image/jpg" type="file">
                 </div>
             </div>
-            
-           
         </form>
     </div>
     <th:block th:include="include :: footer" />
@@ -66,6 +89,15 @@
                 $.operate.save(prefix + "/add", $('#form-schoolHomework-add').serialize());
             }
         }
+        
+        $('select[name="type"]').change(function(){
+	    	if ($('select[name="type"]').val() == '1') {
+	    		$('.hid-tag').attr("style", "display: none")
+	    	}
+	    	if ($('select[name="type"]').val() == '2') {
+	    		$('.hid-tag').attr("style", "display: block")
+	    	}	
+	    });
 
         $("input[name='submitDate']").datetimepicker({
             format: "yyyy-mm-dd",
@@ -80,6 +112,18 @@
         });
 
         $("input[name='updateDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        
+        $("input[name='starttime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        
+        $("input[name='endtime']").datetimepicker({
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true

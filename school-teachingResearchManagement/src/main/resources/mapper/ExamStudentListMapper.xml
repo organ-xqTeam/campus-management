@@ -42,8 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="sbid != null  and sbid != ''"> and s.sbid=#{sbid}</if>
 		<if test="ssid != null  and ssid != ''"> and s.ssid=#{ssid}</if>
 		<if test="name != null  and name != ''"> and s.students_name like concat ('%', #{name}, '%')</if>
-		<if test="nianji != null  and nianji != ''"> and s.admission_time like concat ('%', #{nianji}, '%')</if>
 		<if test="nameclass != null  and nameclass != ''"> and c.nameclass like concat ('%', #{nameclass}, '%')</if>
+        <if test="nianji != null   and nianji != ''"> and YEAR(NOW())-YEAR(s.admission_time)+1 = #{nianji}</if>
     </select>
     
     <select id="selectExamStudentListById" parameterType="Long" resultMap="ExamStudentListResult">

@@ -1,16 +1,9 @@
 package com.ruoyi.project.app;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -23,19 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.utils.CodeMsg;
-import com.ruoyi.common.utils.MapObjectUtil;
-import com.ruoyi.common.utils.Result;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.project.system.ClasscurriculumDetail.domain.ClasscurriculumDetail;
-import com.ruoyi.project.system.ClasscurriculumDetail.service.IClasscurriculumDetailService;
 import com.ruoyi.project.system.CourseSystem.domain.CourseSystem;
 import com.ruoyi.project.system.CourseSystem.service.ICourseSystemService;
 import com.ruoyi.project.system.TeachingInfo.domain.TeachingInfo;
@@ -57,10 +44,6 @@ import com.ruoyi.project.system.examSubjectOptionOption.domain.ExamSubjectOption
 import com.ruoyi.project.system.examSubjectOptionOption.service.IExamSubjectOptionOptionService;
 import com.ruoyi.project.system.examSubjectShortAnswer.domain.ExamSubjectShortAnswer;
 import com.ruoyi.project.system.examSubjectShortAnswer.service.IExamSubjectShortAnswerService;
-import com.ruoyi.project.system.schoolHomework.domain.SchoolHomework;
-import com.ruoyi.project.system.schoolHomework.service.ISchoolHomeworkService;
-import com.ruoyi.project.system.schoolHomeworkDetail.domain.SchoolHomeworkDetail;
-import com.ruoyi.project.system.schoolHomeworkDetail.service.ISchoolHomeworkDetailService;
 import com.ruoyi.project.system.schoolcoursewareinfo.domain.Schoolcoursewareinfo;
 import com.ruoyi.project.system.schoolcoursewareinfo.service.ISchoolcoursewareinfoService;
 import com.ruoyi.project.system.schoolstudentslist.domain.Schoolstudentslist;
@@ -81,8 +64,6 @@ public class AppMobileController extends BaseController {
 	@Autowired
 	private ISysUserService userService;
 	@Autowired
-	private ISchoolHomeworkService homeworkService;
-	@Autowired
 	private ISysUserOnlineService userOnlineService;
 	@Autowired
     private ICourseSystemService courseSystemService;
@@ -93,15 +74,11 @@ public class AppMobileController extends BaseController {
 	@Autowired
 	private ICoursemanagementService coursemanagementService;
 	@Autowired
-	private ISchoolHomeworkDetailService homeworkDetailService;
-	@Autowired
 	private ISchoolstudentslistService schoolstudentslistService; 
 	@Autowired
     private ISchoolcoursewareinfoService schoolcoursewareinfoService;
 	@Autowired
 	private IExamSubjectJudgementService examSubjectJudgementService;
-	@Autowired
-	private IClasscurriculumDetailService classcurriculumDetailService;
 	@Autowired
 	private IExamStudentListDetailService examStudentListDetailService;
 	@Autowired
@@ -125,6 +102,9 @@ public class AppMobileController extends BaseController {
 		int pageNum = Integer.valueOf(param.get("pageNum").toString());
     	int pageSize = Integer.valueOf(param.get("pageSize").toString());
     	TeachingInfo teacher = new TeachingInfo();
+    	if (param.get("name") != null) {
+    		teacher.setTeachingName(param.get("name").toString());
+    	}
     	PageHelper.startPage(pageNum, pageSize, null);
     	List<TeachingInfo> teacherlist = teachingInfoService.selectTeachingInfoList(teacher);
     	if (param.get("iscollection") != null) {
@@ -145,10 +125,24 @@ public class AppMobileController extends BaseController {
 	}
 	
 	/**
+	 * 选课-专题课-课程体系
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/courseSystem/list")
+    public TableDataInfo courseSystemlist(@RequestBody JSONObject param) {
+		int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
+    	CourseSystem courseSystem = new CourseSystem();
+    	PageHelper.startPage(pageNum, pageSize, null);
+    	List<CourseSystem> courseSystemlist = courseSystemService.selectCourseSystemList(courseSystem);
+    	return getDataTable(courseSystemlist);
+	}
+	
+	/**
 	 * 
 	 * 选课-主页-专题课
 	 * 
-	 * 选课-专题课-课程体系
+	 * 选课-专题课
 	 * 
 	 * 考试-年级下的课程
 	 * */
@@ -167,49 +161,46 @@ public class AppMobileController extends BaseController {
     	if (param.get("grade") != null) {
     		course.setGrade(param.get("grade").toString());
     	}
+    	if (param.get("name") != null) {
+    		course.setStudentsName(param.get("name").toString());
+    	}
     	PageHelper.startPage(pageNum, pageSize, null);
     	List<Coursemanagement> courselist = coursemanagementService.selectCoursemanagementList(course);
     	return getDataTable(courselist);
 	}
 
 	/**
-	 * 选课-专题课-课程体系
+	 * 选课-专题课-详情页
 	 * */
 	@ResponseBody
-    @RequestMapping(value="/courseSystem/list")
-    public TableDataInfo courseSystemlist(@RequestBody JSONObject param) {
-		int pageNum = Integer.valueOf(param.get("pageNum").toString());
-    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
-    	CourseSystem courseSystem = new CourseSystem();
-    	PageHelper.startPage(pageNum, pageSize, null);
-    	List<CourseSystem> courseSystemlist = courseSystemService.selectCourseSystemList(courseSystem);
-    	return getDataTable(courseSystemlist);
-	}
-	
-	/**
-	 * 选课-专题课-课程体系-授课教师
-	 * */
-	@ResponseBody
-    @RequestMapping(value="/course/teacher")
-    public AjaxResult courseteacher(@RequestParam("id") Long id) {
-    	return AjaxResult.success(teachingInfoService.selectTeachingInfoById(id));
-	}
-	
-	/**
-	 * 选课-专题课-课程体系-课件
-	 * */
-	@ResponseBody
-    @RequestMapping(value="/courseware/list")
-    public TableDataInfo coursewarelist(@RequestBody JSONObject param) {
-		int pageNum = Integer.valueOf(param.get("pageNum").toString());
-    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
-		Schoolcoursewareinfo courseware = new Schoolcoursewareinfo();
-		if (param.get("courseid") != null) {
-			courseware.setCourseid(param.get("courseid").toString());
+    @RequestMapping(value="/course/info")
+    public AjaxResult courseinfo(@RequestParam("id") Long id) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		//课程详情
+		Coursemanagement course = coursemanagementService.selectCoursemanagementById(id);
+		//多少人看过
+		String seeNum = course.getRemark2();
+		if (seeNum == null || seeNum.equals("")) {
+			int num = 1;
+			course.setRemark2(num+"");
 		}
-		PageHelper.startPage(pageNum, pageSize, null);
+		else {
+			int num = Integer.valueOf(course.getRemark2());
+			num ++;
+			course.setRemark2(num+"");
+		}
+		coursemanagementService.updateCoursemanagement(course);
+		result.put("course", course);
+		//授课教师
+		if (course.getTeacherId() != null) {
+			result.put("teacher", teachingInfoService.selectTeachingInfoById(course.getTeacherId()));
+		}
+		//课件
+		Schoolcoursewareinfo courseware = new Schoolcoursewareinfo();
+		courseware.setCourseid(id+"");
 		List<Schoolcoursewareinfo> coursewarelist = schoolcoursewareinfoService.selectSchoolcoursewareinfoList(courseware);
-    	return getDataTable(coursewarelist);
+		result.put("coursewarelist", coursewarelist);
+    	return AjaxResult.success(result);
 	}
 	
 	/**
@@ -347,15 +338,29 @@ public class AppMobileController extends BaseController {
 	@ResponseBody
     @RequestMapping(value="/wrongquestion/list")
     public TableDataInfo wrongquestionlist(@RequestBody JSONObject param) {
+		//该学生答的该试卷的答题情况
 		ExamStudentListDetail esld = new ExamStudentListDetail();
+		
+		//该学生答的该试卷
+		ExamStudentList esl = new ExamStudentList();
 		if (param.get("paperid") != null) {
-			esld.setPaperid((param.get("paperid").toString()));
+			esl.setPaperid(param.get("paperid").toString());
+			esld.setPaperid(param.get("paperid").toString());
 		}
 		if (param.get("studentid") != null) {
+			esl.setStudentid(param.get("studentid").toString());
 			esld.setStudentid(param.get("studentid").toString());
 		}
+		//查到的该试卷
+		List<ExamStudentList> esllist = examStudentListService.selectExamStudentListList(esl);
+		if (esllist.size() == 1) {
+			esl = esllist.get(0);
+		}
+		//查找错题条件
 		esld.setIswrong("1");
+		//查到的该试卷的错题
 		List<ExamStudentListDetail> esldlist = examStudentListDetailservice.selectExamStudentListDetailList(esld);
+		//给每道错题详情追加四个选项
 		for(ExamStudentListDetail esld_ : esldlist) {
 			ExamSubjectJudgement ex = examSubjectJudgementService.selectExamSubjectJudgementById(esld_.getQuestionid());			
 			ExamSubjectOption oprion = new ExamSubjectOption();
@@ -379,8 +384,35 @@ public class AppMobileController extends BaseController {
 			}
 			ex.setEsolist(esolist);	
 			esld_.setEsj(ex);
+			esld_.setTotal(esl.getTotal());
 		}
 		return getDataTable(esldlist);
+	}
+	
+	/**
+	 * 个人中心-我的课程
+	 * */
+	@ResponseBody
+    @RequestMapping(value="/mycourse/list")
+    public TableDataInfo mycourse(@RequestBody JSONObject param) {
+		int pageNum = Integer.valueOf(param.get("pageNum").toString());
+    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
+		Schoolstudentslist student = new Schoolstudentslist();
+		if (param.get("id") != null) {
+			student.setId(Long.valueOf(param.get("id").toString()));
+		}
+		List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(student);
+		Schoolstudentslist stu = new Schoolstudentslist();
+		if (stulist.size() == 1) {
+			stu = stulist.get(0);
+		}
+    	PageHelper.startPage(pageNum, pageSize, null);
+		Coursemanagement course = new Coursemanagement();
+		course.setSbid(stu.getSbid());
+		course.setSsid(stu.getSsid());
+		course.setGrade(stu.getNianji());
+		List<Coursemanagement> courselist = coursemanagementService.selectCoursemanagementList(course);
+		return getDataTable(courselist);
 	}
 	
 	/**
@@ -396,8 +428,8 @@ public class AppMobileController extends BaseController {
 			teachingInfo.setCollectionstu(param.get("collectionstu").toString());
 		}
     	PageHelper.startPage(pageNum, pageSize, null);
-        List<TeachingInfo> list = teachingInfoService.selectTeachingInfoList(teachingInfo);
-        return getDataTable(list);
+        List<TeachingInfo> teacherlist = teachingInfoService.selectTeachingInfoList(teachingInfo);
+        return getDataTable(teacherlist);
 	}
 	
 	/**
@@ -439,33 +471,6 @@ public class AppMobileController extends BaseController {
 		usercollectionSercice.updateUsercollection(collection);
 		return AjaxResult.success(true);
 	}
-	
-	/**
-	 * 我的课程
-	 * */
-	@ResponseBody
-    @RequestMapping(value="/mycourse/list")
-    public TableDataInfo mycourse(@RequestBody JSONObject param) {
-		int pageNum = Integer.valueOf(param.get("pageNum").toString());
-    	int pageSize = Integer.valueOf(param.get("pageSize").toString());
-		Schoolstudentslist student = new Schoolstudentslist();
-		if (param.get("id") != null) {
-			student.setId(Long.valueOf(param.get("id").toString()));
-		}
-		List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(student);
-		Schoolstudentslist stu = new Schoolstudentslist();
-		if (stulist.size() == 1) {
-			stu = stulist.get(0);
-		}
-    	PageHelper.startPage(pageNum, pageSize, null);
-		Coursemanagement course = new Coursemanagement();
-		course.setSbid(stu.getSbid());
-		course.setSsid(stu.getSsid());
-		course.setGrade(stu.getNianji());
-		List<Coursemanagement> courselist = coursemanagementService.selectCoursemanagementList(course);
-		return getDataTable(courselist);
-	}
-	
 	
 	@PostMapping("/schoolController/applogin")
 	@ResponseBody
@@ -549,249 +554,6 @@ public class AppMobileController extends BaseController {
 	public AjaxResult ajaxlogout(String token) {
 		userOnlineService.deleteOnlineById(token);
 		return AjaxResult.success();
-	}
-	
-	//学生作业打卡接口
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/daka")
-	public Object  daka( @RequestBody Map<String, Object> requestParams) {
-		try {
-			String token =requestParams.get("token").toString();
-			//学生的id
-			String userid =requestParams.get("userid").toString();
-			//作业详情的id
-			String detailId =requestParams.get("detailId").toString();
-			//文件的路径或者id
-			String fileid =requestParams.get("fileid").toString();
-			//文件名称
-			String filename =requestParams.get("filename").toString();			
-			SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-			schoolHomeworkDetail.setId(Long.valueOf(detailId));
-			schoolHomeworkDetail.setStudentsId(Long.valueOf(userid));
-			schoolHomeworkDetail.setFileId(fileid);
-			schoolHomeworkDetail.setFileName(filename);
-			schoolHomeworkDetail.setDelFlag("0");
-			 homeworkDetailService.updateSchoolHomeworkDetail(schoolHomeworkDetail);
-			 return Result.success(CodeMsg.SUCCESS);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			 return Result.success(CodeMsg.PARAMETER_ISNULL);
-		}
-	}
-	
-	//获取此作业下没完成学生作业打卡的接口
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/unDakaStudentOnlyHomeWork")
-	public Object unDakaStudentOnlyHomeWork(@RequestBody Map<String, Object> requestParams) throws IllegalAccessException {
-		String token =requestParams.get("token").toString();
-		//老师的id
-		String userid =requestParams.get("userid").toString();
-		//作业id
-		String homeworkId =requestParams.get("homeworkId").toString();
-		Map<String, Object> returnMap = new HashMap<String,Object>();
-		SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-		schoolHomeworkDetail.setHomeworkId(Long.valueOf(homeworkId));
-		schoolHomeworkDetail.setSubmitFlag("0");
-		schoolHomeworkDetail.setDelFlag("0");
-		List<Map<String, Object>> unStudentInfoList= new ArrayList<>();
-		List<SchoolHomeworkDetail> schoolHomeworkDetailList= homeworkDetailService.selectSchoolHomeworkDetailList(schoolHomeworkDetail);
-		for (SchoolHomeworkDetail schoolHomeworkDetail2 : schoolHomeworkDetailList) {
-			Long studentsId= schoolHomeworkDetail2.getStudentsId();
-			Schoolstudentslist schoolstudentslist= schoolstudentslistService.selectSchoolstudentslistById(studentsId);
-			Map<String, Object> unStudentInfo= MapObjectUtil.objToMap(schoolstudentslist);
-			unStudentInfo.put("studentsId", studentsId);
-			unStudentInfo.put("submitFlag", schoolHomeworkDetail2.getSubmitFlag());
-			unStudentInfoList.add(unStudentInfo);
-		}
-		returnMap.put("unStudentInfoList", unStudentInfoList);
-		return unStudentInfoList;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/updateSchoolHomeworkDetail")
-	public Object updateSchoolHomeworkDetail(@RequestBody Map<String, Object> requestParams) {
-		try {
-			Map<String, Object> returnMap = new HashMap<String,Object>();
-			String token =requestParams.get("token").toString();
-			//作业详情的id
-			String detailId =requestParams.get("detailId").toString();
-			//是否通过
-			String passFlag= requestParams.get("passFlag").toString();			
-			SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-			schoolHomeworkDetail.setPassFlag(passFlag);
-			schoolHomeworkDetail.setId(Long.valueOf(detailId));
-			homeworkDetailService.updateSchoolHomeworkDetail(schoolHomeworkDetail);
-			return Result.success(CodeMsg.SUCCESS);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Result.error(CodeMsg.PARAMETER_ISNULL);
-		}
-	}
-	
-	//通过id查看作业详情和学生的完成情况
-	//通过作业id获得此作业的信息
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/getHomeWorkInfoStuByid")
-	public Object getHomeWorkInfoStuByid(HttpServletRequest request, @RequestBody Map<String, Object> requestParams) throws IllegalAccessException, InvocationTargetException {
-		try {
-			String token =requestParams.get("token").toString();
-			String id =requestParams.get("id").toString();
-			Map<String, Object> returnMap = new HashMap<String,Object>();
-			Map<String, Object> homeWorkInfoonly =new HashMap<String, Object>();
-			Map<String, Object> homeWorkInfo =new HashMap<String, Object>();
-			SchoolHomework schoolHomework=  homeworkService.selectSchoolHomeworkById(Long.valueOf(id));
-			homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomework);
-			homeWorkInfo.putAll(homeWorkInfoonly);
-			SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-			schoolHomeworkDetail.setHomeworkId(Long.valueOf(id));
-			List<SchoolHomeworkDetail> schoolHomeworkDetailList= homeworkDetailService.selectSchoolHomeworkDetailList(schoolHomeworkDetail);
-			//Set<Schoolstudentslist> SchoolstudentslistSet =new HashSet<>();
-			List<Map<String, Object>>  schoolHomeworkDetailInfoList= new ArrayList<>();
-			for (SchoolHomeworkDetail schoolHomeworkDetail2 : schoolHomeworkDetailList) {
-				homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomeworkDetail2);
-				Long studentsId= schoolHomeworkDetail2.getStudentsId();
-				Schoolstudentslist schoolstudentslist= schoolstudentslistService.selectSchoolstudentslistById(studentsId);
-				//SchoolstudentslistSet.add(schoolstudentslist);
-				//homeWorkInfo.putAll(homeWorkInfoonly);
-				homeWorkInfoonly.put("schoolstudentslist", schoolstudentslist);
-				schoolHomeworkDetailInfoList.add(homeWorkInfoonly);
-			}			
-			returnMap.put("homeWorkInfo", homeWorkInfo);
-			returnMap.put("schoolHomeworkDetailInfoList", schoolHomeworkDetailInfoList);			
-			return Result.success(returnMap);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Result.error(CodeMsg.PARAMETER_ISNULL);
-		}
-	}
-	
-	//通过教师id得到教师管理下的作业信息
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/getAllHomeWorkInfoByTeacherUser")
-	public Object getAllHomeWorkInfoByTeacherUser(HttpServletRequest request, @RequestBody Map<String, Object> requestParams) throws IllegalAccessException, InvocationTargetException {
-		try {
-			String token =requestParams.get("token").toString();
-			String userid =requestParams.get("userid").toString();
-			Map<String, Object> returnMap = new HashMap<String,Object>();
-			List<Map<String, Object>> homeWorkInfoAllList= new ArrayList<>();
-			Map<String, Object> homeWorkInfoonly= new HashMap<String,Object>();			
-			//通过老师的id得到所有排课的详情
-			ClasscurriculumDetail classcurriculumDetail =new ClasscurriculumDetail();
-			classcurriculumDetail.setTeacherId(Long.valueOf(userid));
-			List<ClasscurriculumDetail> classcurriculumDetailList= classcurriculumDetailService.selectClasscurriculumDetailList(classcurriculumDetail);
-			//得到科目id的set集合
-			Set<Long> coursemanagementIdList =new HashSet<>();
-			for (ClasscurriculumDetail classcurriculumDetail2 : classcurriculumDetailList) {
-				if(classcurriculumDetail2.getCoursemanagementId()!=null) {
-					coursemanagementIdList.add(classcurriculumDetail2.getCoursemanagementId());
-				}
-			}
-			List<SchoolHomework> schoolHomeworkList=new ArrayList<>();
-			for (Long coursemanagementId : coursemanagementIdList) {
-				SchoolHomework schoolHomework =new SchoolHomework();
-				//coursemanagementId
-				schoolHomework.setCurriculumId(coursemanagementId);
-				schoolHomeworkList.addAll(homeworkService.selectSchoolHomeworkList(schoolHomework));
-			}
-			//遍历作业表
-			for (SchoolHomework schoolHomework : schoolHomeworkList) {				
-				Set<Schoolstudentslist> schoolstudentslistSet= new HashSet<>();
-				SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-				schoolHomeworkDetail.setHomeworkId(schoolHomework.getId());
-				//通过作业表的id 遍历 作业表详情
-				List<SchoolHomeworkDetail> SchoolHomeworkDetailList= homeworkDetailService.selectSchoolHomeworkDetailList(schoolHomeworkDetail);
-				//作业详情表下的学生信息
-				for (SchoolHomeworkDetail schoolHomeworkDetail2 : SchoolHomeworkDetailList) {
-					if(schoolHomeworkDetail2.getStudentsId()!=null) {
-						Schoolstudentslist schoolstudentslist= schoolstudentslistService.selectSchoolstudentslistById(schoolHomeworkDetail2.getStudentsId());
-						schoolstudentslistSet.add(schoolstudentslist);
-					}
-				}
-				homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomework);
-				homeWorkInfoonly.put("schoolstudentslistcount", schoolstudentslistSet.size());
-				homeWorkInfoAllList.add(homeWorkInfoonly);
-			}
-			returnMap.put("homeWorkInfoAllList", homeWorkInfoAllList);			
-			return Result.success(returnMap);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Result.error(CodeMsg.PARAMETER_ISNULL);
-		}		
-	}
-		
-	//得到此学生用户下所有作业信息
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/getAllHomeWorkInfoByUser")
-	public Object getAllHomeWorkInfoByUser(HttpServletRequest request, @RequestBody Map<String, Object> requestParams) throws IllegalAccessException, InvocationTargetException {
-		try {
-			String token =requestParams.get("token").toString();
-			String userid =requestParams.get("userid").toString();
-			Map<String, Object> returnMap = new HashMap<String,Object>();
-			List<Map<String, Object>> homeWorkInfoAllList= new ArrayList<>();
-			//通过userid得到所有的作业详情
-			SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-			schoolHomeworkDetail.setStudentsId(Long.valueOf(userid));
-			List<SchoolHomeworkDetail> schoolHomeworkDetailList= homeworkDetailService.selectSchoolHomeworkDetailList(schoolHomeworkDetail);
-			for (SchoolHomeworkDetail schoolHomeworkDetail2 : schoolHomeworkDetailList) {
-				Map<String, Object> homeWorkInfoAll =new HashMap<String, Object>();
-				Map<String, Object> homeWorkInfoonly =new HashMap<String, Object>();				
-				Long homeWorkId=schoolHomeworkDetail2.getHomeworkId();
-				SchoolHomework schoolHomework=  homeworkService.selectSchoolHomeworkById(homeWorkId);
-				//课程id
-				Long coursemanagementId= schoolHomework.getCurriculumId();
-				Coursemanagement coursemanagement=
-				coursemanagementService.selectCoursemanagementById(coursemanagementId);
-				//课程便map
-				homeWorkInfoonly=MapObjectUtil.objToMap(coursemanagement);
-				homeWorkInfoAll.putAll(homeWorkInfoonly);
-				//作业详情bianmap
-				homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomeworkDetail2);
-				homeWorkInfoAll.putAll(homeWorkInfoonly);
-				homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomework);
-				//作业变map
-				homeWorkInfoAll.putAll(homeWorkInfoonly);
-				homeWorkInfoAllList.add(homeWorkInfoAll);				
-			}
-			returnMap.put("homeWorkInfoAllList", homeWorkInfoAllList);			
-			return Result.success(returnMap);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Result.error(CodeMsg.PARAMETER_ISNULL);
-		}
-	}
-		
-	//通过作业id获得此作业的信息
-	@ResponseBody
-	@RequestMapping(value = "/appHomeWork/getHomeWorkInfoByid")
-	public Object getHomeWorkInfoByid(HttpServletRequest request, @RequestBody Map<String, Object> requestParams) throws IllegalAccessException, InvocationTargetException {
-		try {
-			String token =requestParams.get("token").toString();
-			String id =requestParams.get("id").toString();
-			Map<String, Object> returnMap = new HashMap<String,Object>();
-			Map<String, Object> homeWorkInfoonly =new HashMap<String, Object>();
-			Map<String, Object> homeWorkInfo =new HashMap<String, Object>();
-			SchoolHomework schoolHomework=  homeworkService.selectSchoolHomeworkById(Long.valueOf(id));
-			homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomework);
-			homeWorkInfo.putAll(homeWorkInfoonly);
-			SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
-			schoolHomeworkDetail.setHomeworkId(Long.valueOf(id));
-			List<SchoolHomeworkDetail> schoolHomeworkDetailList= homeworkDetailService.selectSchoolHomeworkDetailList(schoolHomeworkDetail);
-			if(schoolHomeworkDetailList.size()>0) {
-				homeWorkInfoonly=MapObjectUtil.objToMap(schoolHomeworkDetailList.get(0));
-				homeWorkInfo.putAll(homeWorkInfoonly);
-			}
-			returnMap.put("homeWorkInfo", homeWorkInfo);
-			return Result.success(returnMap);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return Result.error(CodeMsg.PARAMETER_ISNULL);
-		}
 	}
 	
 }

@@ -41,7 +41,17 @@ public class ExamStudentListDetail extends BaseEntity
     
     private ExamSubjectJudgement esj;
     
-    public ExamSubjectJudgement getEsj() {
+    private String total;
+    
+    public String getTotal() {
+		return total;
+	}
+
+	public void setTotal(String total) {
+		this.total = total;
+	}
+
+	public ExamSubjectJudgement getEsj() {
 		return esj;
 	}
 

@@ -9,7 +9,7 @@
             <div class="col-sm-12 search-collapse">
                 <form id="formId">
                     <div class="select-list">
-                    	<input type="hidden" id="resultId" name="resultId" th:value="${rid}"/>
+                    	<input type="hidden" id="homeworkId" name="homeworkId" th:value="${hid}"/>
                         <ul>
                             <li>
                                 <p>学生名称:</p>
@@ -59,12 +59,12 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var prefix = ctx + "system/schoolResult";
+        var prefix = ctx + "system/schoolHomework";
         function daoru() {
         	var row=$("#bootstrap-table").bootstrapTable('getSelections');
 			for(var i=0; i<row.length; i++) {
-				var str = "studentsId="+row[i].id+"&resultId="+$('#resultId').val();	
-  				$.operate.save(ctx + "system/schoolResult/stuimport", str);
+				var str = "studentsId="+row[i].id+"&homeworkId="+$('#homeworkId').val();	
+  				$.operate.save(ctx + "system/schoolHomework/stuimport", str);
      	   	}
         }
         $(function() {
@@ -93,8 +93,9 @@
                 },
                 {
                     field : 'admissionTime', 
-                    title : '入学时间'
-                },{
+                    title : '入学年月'
+                },
+                {
                     field : 'nameclass', 
                     title : '班级'
                 },{

@@ -144,6 +144,8 @@ public class Coursemanagement extends BaseEntity
     
     //教师名称
     private String teachingName;
+    //教师照片
+    private String teachingIcon;
     
     private String createDate;
     
@@ -154,10 +156,15 @@ public class Coursemanagement extends BaseEntity
     private String file;
     private String filename;
     
-    
-    
-    
-    public String getFile() {
+    public String getTeachingIcon() {
+		return teachingIcon;
+	}
+
+	public void setTeachingIcon(String teachingIcon) {
+		this.teachingIcon = teachingIcon;
+	}
+
+	public String getFile() {
 		return file;
 	}
 

@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.schoolHomeworkDetail.service;
 
 import com.ruoyi.project.system.schoolHomeworkDetail.domain.SchoolHomeworkDetail;
+import com.ruoyi.project.system.schoolHomeworkDetailDetail.domain.SchoolHomeworkDetailDetail;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,34 @@ public interface ISchoolHomeworkDetailService
      * @return 学校作业表集合
      */
     public List<SchoolHomeworkDetail> selectSchoolHomeworkDetailList(SchoolHomeworkDetail schoolHomeworkDetail);
-
+    /**
+     * app端 - 学生端 - 作业列表
+     * */
+    public List<Map<String, Object>> selectStudentHomework(Map<String, Object> params);
+    /**
+     * app端 - 学生端 - 我参与的小组详情 - 打卡记录
+     * */
+    public List<Map<String, Object>> selectStudentHomeworkHistory(Map<String, Object> params);
+    /**
+     * app端 - 学生端 - 我参与的小组详情 - 当日打卡情况
+     * */
+    public List<Map<String, Object>> selectStudentHomeworkToday(Map<String, Object> params);
+    /**
+     * app端 - 学生端 - 我参与的小组详情 - 打卡
+     * */
+    public int studentHomeworkSubmit(SchoolHomeworkDetailDetail detail);
+    /**
+     * app端 - 学生端 - 同学打卡列表
+     * */
+    public List<Map<String, Object>> selectClassStudentHomework(Map<String, Object> params);
+    /**
+     * app端 - 老师端 - 作业列表
+     * */
+    public List<Map<String, Object>> selectTeacherHomework(Map<String, Object> params);
+    /**
+     * app端 - 老师端 - 同学打卡列表
+     * */
+    public List<Map<String, Object>> selectTeacherClassHomework(Map<String, Object> params);
     /**
      * 新增学校作业表
      * 
@@ -42,7 +70,7 @@ public interface ISchoolHomeworkDetailService
      * @param schoolHomeworkDetail 学校作业表
      * @return 结果
      */
-    public int updateSchoolHomeworkDetail(SchoolHomeworkDetail schoolHomeworkDetail);
+    public int updateSchoolHomeworkDetail(SchoolHomeworkDetailDetail detail);
 
     /**
      * 批量删除学校作业表

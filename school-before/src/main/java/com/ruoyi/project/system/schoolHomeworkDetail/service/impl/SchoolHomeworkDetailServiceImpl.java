@@ -10,6 +10,8 @@ import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.project.system.schoolHomeworkDetail.domain.SchoolHomeworkDetail;
 import com.ruoyi.project.system.schoolHomeworkDetail.mapper.SchoolHomeworkDetailMapper;
 import com.ruoyi.project.system.schoolHomeworkDetail.service.ISchoolHomeworkDetailService;
+import com.ruoyi.project.system.schoolHomeworkDetailDetail.domain.SchoolHomeworkDetailDetail;
+import com.ruoyi.project.system.schoolHomeworkDetailDetail.mapper.SchoolHomeworkDetailDetailMapper;
 
 /**
  * 学校作业表Service业务层处理
@@ -22,6 +24,8 @@ public class SchoolHomeworkDetailServiceImpl implements ISchoolHomeworkDetailSer
 {
     @Autowired
     private SchoolHomeworkDetailMapper schoolHomeworkDetailMapper;
+    @Autowired
+    private SchoolHomeworkDetailDetailMapper schoolHomeworkDetailDetailMapper;
 
     /**
      * 查询学校作业表
@@ -46,7 +50,53 @@ public class SchoolHomeworkDetailServiceImpl implements ISchoolHomeworkDetailSer
     {
         return schoolHomeworkDetailMapper.selectSchoolHomeworkDetailList(schoolHomeworkDetail);
     }
-
+    /**
+     * app端 - 学生端 - 作业列表
+     * */
+    @Override
+    public List<Map<String, Object>> selectStudentHomework(Map<String, Object> params) {
+    	return schoolHomeworkDetailMapper.selectStudentHomework(params);
+    }
+    /**
+     * app端 - 学生端 - 我参与的小组详情 - 打卡记录
+     * */
+    @Override
+    public List<Map<String, Object>> selectStudentHomeworkHistory(Map<String, Object> params) {
+    	return schoolHomeworkDetailMapper.selectStudentHomeworkHistory(params);
+    }
+    /**
+     * app端 - 学生端 - 我参与的小组详情 - 当日打卡情况
+     * */
+    @Override
+    public List<Map<String, Object>> selectStudentHomeworkToday(Map<String, Object> params) {
+    	return schoolHomeworkDetailMapper.selectStudentHomeworkToday(params);
+    }
+    /**
+     * app端 - 学生端 - 我参与的小组详情 - 打卡
+     * */
+    @Override
+    public int studentHomeworkSubmit(SchoolHomeworkDetailDetail detail) {
+    	return schoolHomeworkDetailDetailMapper.insertSchoolHomeworkDetail(detail);
+    }
+    /**
+     * app端 - 学生端 - 同学打卡列表
+     * */
+    @Override
+    public List<Map<String, Object>> selectClassStudentHomework(Map<String, Object> params) {
+    	return schoolHomeworkDetailMapper.selectClassStudentHomework(params);
+    }
+    /**
+     * app端 - 老师端 - 作业列表
+     * */
+    public List<Map<String, Object>> selectTeacherHomework(Map<String, Object> params) {
+    	return schoolHomeworkDetailMapper.selectTeacherHomework(params);
+    }
+    /**
+     * app端 - 老师端 - 同学打卡列表
+     * */
+    public List<Map<String, Object>> selectTeacherClassHomework(Map<String, Object> params) {
+    	return schoolHomeworkDetailMapper.selectTeacherClassHomework(params);
+    }
     /**
      * 新增学校作业表
      * 
@@ -66,9 +116,10 @@ public class SchoolHomeworkDetailServiceImpl implements ISchoolHomeworkDetailSer
      * @return 结果
      */
     @Override
-    public int updateSchoolHomeworkDetail(SchoolHomeworkDetail schoolHomeworkDetail)
+    public int updateSchoolHomeworkDetail(SchoolHomeworkDetailDetail detail)
     {
-        return schoolHomeworkDetailMapper.updateSchoolHomeworkDetail(schoolHomeworkDetail);
+//        return schoolHomeworkDetailMapper.updateSchoolHomeworkDetail(schoolHomeworkDetail);
+        return schoolHomeworkDetailDetailMapper.updateHomework(detail);
     }
 
     /**

@@ -83,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			co.teacher_id,
 			sj.students_name AS subjectmanagementName,
 			ti.teaching_name AS teachingName,
+			ti.certification_image as teachingIcon,
 			co.create_date,
 			( SELECT NAME FROM course_system WHERE id = co.curriculu_system ) AS 'curriculu_system_name',
 			( SELECT school_name FROM school_belong WHERE id = co.sbid ) AS 'sbid',
@@ -99,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="rowId != null  and rowId != ''"> and row_id = #{rowId}</if>
             <if test="subjectmanagementId != null  and subjectmanagementId != ''"> and subjectmanagement_id = #{subjectmanagementId}</if>
-            <if test="studentsName != null  and studentsName != ''"> and students_name like concat('%', #{studentsName}, '%')</if>
+            <if test="studentsName != null  and studentsName != ''"> and co.students_name like concat('%', #{studentsName}, '%')</if>
             <if test="academicLevel != null  and academicLevel != ''"> and academic_level = #{academicLevel}</if>
             <if test="curriculuSystem != null  and curriculuSystem != ''"> and co.curriculu_system = #{curriculuSystem}</if>
             <if test="accumulatedClassHour != null  and accumulatedClassHour != ''"> and accumulated_class_hour = #{accumulatedClassHour}</if>
@@ -127,7 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="studentid != null  and studentid != ''"> and co.id in (select courseid from coursemanagementfile where studentid = #{studentid})</if> 
             <if test="sbid != null  and sbid != ''"> and sbid = #{sbid}</if>
             <if test="ssid != null  and ssid != ''"> and ssid = #{ssid}</if>
-            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="grade != null  and grade != ''"> and co.grade = #{grade}</if>
         </where>
     </select>
     

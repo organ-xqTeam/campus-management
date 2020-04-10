@@ -78,7 +78,12 @@
                     field : 'grade', 
                     title : '入学年月',
                     formatter: function(value, row, index) {
-                        return value + '级';
+                    	if (value != null) {
+                            return value + '级';
+                    	}
+                    	else {
+                    		return '-';
+                    	}
                     }
                 },
                 {

@@ -1,6 +1,7 @@
 package com.ruoyi.project.system.schoolHomework.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,14 @@ public class SchoolHomeworkServiceImpl implements ISchoolHomeworkService
     public SchoolHomework selectSchoolHomeworkById(Long id)
     {
         return schoolHomeworkMapper.selectSchoolHomeworkById(id);
+    }
+    
+    /**
+     * 作业管理新增学生页列表
+     * */
+    @Override
+    public List<Map<String, Object>> stulist(Map<String, Object> params) {
+    	return schoolHomeworkMapper.stulist(params);
     }
 
     /**

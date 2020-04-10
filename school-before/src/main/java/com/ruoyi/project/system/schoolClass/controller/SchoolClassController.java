@@ -123,11 +123,11 @@ public class SchoolClassController extends BaseController
     }
     
     /**
-     * 调班过程筛选班级
+     * 筛选班级
      * */
     @GetMapping("/selectclass")
     @ResponseBody
-    public List<SchoolClass> zhuanye(SchoolClass sc)
+    public List<SchoolClass> selectclass(SchoolClass sc)
     {
     	List<SchoolClass> sclist = schoolClassService.selectSchoolClassList(sc);
         return sclist;

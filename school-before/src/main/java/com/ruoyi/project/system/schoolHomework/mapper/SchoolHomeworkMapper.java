@@ -2,6 +2,7 @@ package com.ruoyi.project.system.schoolHomework.mapper;
 
 import com.ruoyi.project.system.schoolHomework.domain.SchoolHomework;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 学生作业表Mapper接口
@@ -18,6 +19,10 @@ public interface SchoolHomeworkMapper
      * @return 学生作业表
      */
     public SchoolHomework selectSchoolHomeworkById(Long id);
+    /**
+     * 作业管理新增学生页列表
+     * */
+    public List<Map<String, Object>> stulist(Map<String, Object> params);
 
     /**
      * 查询学生作业表列表

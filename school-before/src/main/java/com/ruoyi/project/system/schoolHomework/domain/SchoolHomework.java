@@ -58,7 +58,44 @@ public class SchoolHomework extends BaseEntity
     
     private String did;
     
-    //作业内容
+    private String type;
+    private String starttime;
+    private String endtime;
+    private String frequency;
+    
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getStarttime() {
+		return starttime;
+	}
+
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
+	}
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+
+	public String getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(String frequency) {
+		this.frequency = frequency;
+	}
+
+	//作业内容
     private String content;
     //上传图片的id或者路径使用逗号,分隔
     private String picIds;

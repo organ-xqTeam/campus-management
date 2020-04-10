@@ -25,9 +25,9 @@
 				</select>
         	</div>
         </div>
-       	<div class="hid-tag" style="display: block" id="col3">
+       	<div class="hid-tag" style="display: block">
        		<div class="form-group">    
-                <label class="col-sm-3 control-label">未报到原因：</label>
+                <label class="col-sm-3 control-label" id="col3">未报到原因：</label>
                 <div class="col-sm-8">
             	  	<select name="notreportresult" id="notreportresult" class="form-control" th:with="type=${@dict.getType('student_result')}">
 	                  	<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:selected="*{schoolstudentslist.notreportresult}==${dict.dictValue}"></option>

@@ -91,7 +91,7 @@ public class AppHomeWorkController extends BaseController {
 			schoolHomeworkDetail.setFileId(fileid);
 			schoolHomeworkDetail.setFileName(filename);
 			schoolHomeworkDetail.setDelFlag("0");
-			 homeworkDetailService.updateSchoolHomeworkDetail(schoolHomeworkDetail);
+//			 homeworkDetailService.updateSchoolHomeworkDetail(schoolHomeworkDetail);
 			 return Result.success(CodeMsg.SUCCESS);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -140,7 +140,7 @@ public class AppHomeWorkController extends BaseController {
 			SchoolHomeworkDetail schoolHomeworkDetail =new SchoolHomeworkDetail();
 			schoolHomeworkDetail.setPassFlag(passFlag);
 			schoolHomeworkDetail.setId(Long.valueOf(detailId));
-			homeworkDetailService.updateSchoolHomeworkDetail(schoolHomeworkDetail);
+//			homeworkDetailService.updateSchoolHomeworkDetail(schoolHomeworkDetail);
 			return Result.success(CodeMsg.SUCCESS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -2,7 +2,6 @@ package com.ruoyi.project.system.schoolResult.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -25,8 +23,6 @@ import com.ruoyi.project.system.SchoolBelong.domain.SchoolBelong;
 import com.ruoyi.project.system.SchoolBelong.service.ISchoolBelongService;
 import com.ruoyi.project.system.coursemanagement.domain.Coursemanagement;
 import com.ruoyi.project.system.coursemanagement.service.ICoursemanagementService;
-import com.ruoyi.project.system.schoolClass.domain.SchoolClass;
-import com.ruoyi.project.system.schoolClass.service.ISchoolClassService;
 import com.ruoyi.project.system.schoolResult.domain.SchoolResult;
 import com.ruoyi.project.system.schoolResult.service.ISchoolResultService;
 import com.ruoyi.project.system.schoolResultDetail.domain.SchoolResultDetail;
@@ -47,8 +43,6 @@ public class SchoolResultController extends BaseController
 {
     private String prefix = "system/schoolResult";
 
-    @Autowired
-    private ISchoolClassService schoolClassService;
     @Autowired
     private ISchoolResultService schoolResultService;
     @Autowired
@@ -78,9 +72,6 @@ public class SchoolResultController extends BaseController
     	SchoolBelong sb = new SchoolBelong();
     	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
     	mmap.put("sblist", sblist);
-    	SchoolClass sc = new SchoolClass();
-    	List<SchoolClass> sclist = schoolClassService.selectSchoolClassList(sc);
-    	mmap.put("schoolClassList", sclist);
         return prefix + "/stuview";
     }
 
@@ -236,4 +227,5 @@ public class SchoolResultController extends BaseController
     {
         return toAjax(schoolResultService.deleteSchoolResultByIds(ids));
     }
+    
 }
