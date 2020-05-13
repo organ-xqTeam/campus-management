@@ -126,10 +126,7 @@
                 responseType: "json",
                 success: function(result) {
         			var file = result.file;
-        			var path = file.filePath;
-					path = path.replace('/profile', '');
-					var realpath = "http://49.233.174.102:8080/school-fast/ajax/app/mobilearticle/getIcon?icon="+path;
-                    $(val).summernote('editor.insertImage', realpath);
+                    $(val).summernote('editor.insertImage', file.filePath);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest.status);

@@ -73,9 +73,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select 
 			shdd.submittime as 'submittime',
 			shdd.ontest as 'ontest',
-			shdd.file as 'file'
+			shdd.file as 'file',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 0,1) as 'stu1',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 1,1) as 'stu2',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 2,1) as 'stu3',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 3,1) as 'stu4'
 		from 
 			school_homework_detail_detail shdd
+		left join 
+			schoolstudentslist s on s.id = shdd.studentid
 		where 
 			1=1
 		and 
@@ -90,9 +96,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			shdd.ontest as 'ontest',
 			shdd.id as 'praiseid',
 			(select count(*) from user_praise where type=1 and praiseid=shdd.id) as 'praisenum',
-			(select count(*) from user_praise where type=1 and usertype=1 and praiseid=shdd.id and userid=#{studentid}) as 'ispraise'
+			(select count(*) from user_praise where type=1 and usertype=1 and praiseid=shdd.id and userid=#{studentid}) as 'ispraise',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 0,1) as 'stu1',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 1,1) as 'stu2',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 2,1) as 'stu3',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 3,1) as 'stu4'
 		from 
 			school_homework_detail_detail shdd
+		left join
+			schoolstudentslist s on s.id = shdd.studentid
 		where 
 			1=1
 		and 
@@ -110,7 +122,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			shdd.ontest as 'ontest',
 			shdd.id as 'praiseid',
 			(select count(*) from user_praise where type=1 and praiseid=shdd.id) as 'praisenum',
-			(select count(*) from user_praise where type=1 and usertype=1 and praiseid=shdd.id and userid=#{studentid}) as 'ispraise'
+			(select count(*) from user_praise where type=1 and usertype=1 and praiseid=shdd.id and userid=#{studentid}) as 'ispraise',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 0,1) as 'stu1',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 1,1) as 'stu2',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 2,1) as 'stu3',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 3,1) as 'stu4'
 		FROM
 			schoolstudentslist s 
 		left join 
@@ -181,7 +197,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			shdd.id as 'detailid',
 			shdd.id as 'praiseid',
 			(select count(*) from user_praise where type=1 and praiseid=shdd.id) as 'praisenum',
-			(select count(*) from user_praise where type=1 and usertype=2 and praiseid=shdd.id and userid=#{teacherid}) as 'ispraise'
+			(select count(*) from user_praise where type=1 and usertype=2 and praiseid=shdd.id and userid=#{teacherid}) as 'ispraise',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 0,1) as 'stu1',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 1,1) as 'stu2',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 2,1) as 'stu3',
+			(select icon from schoolstudentslist where class_id = s.class_id limit 3,1) as 'stu4'
 		FROM
 			schoolstudentslist s
 		left join 
