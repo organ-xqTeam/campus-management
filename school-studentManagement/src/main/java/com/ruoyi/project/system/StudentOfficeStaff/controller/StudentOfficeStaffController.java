@@ -563,16 +563,20 @@ public class StudentOfficeStaffController extends BaseController
         int total = 0;
         for(int i=0; i<list.size(); i++) {
         	stuMap.put("xh"+i, i+1+"");
-        	stuMap.put("kc"+i, list.get(i).get("curriculum_name")+"");
-        	stuMap.put("cj"+i, list.get(i).get("result")+"");
-        	total += Integer.valueOf(list.get(i).get("result")+"");
+        	if (list.get(i).get("curriculum_name") != null) {
+            	stuMap.put("kc"+i, list.get(i).get("curriculum_name")+"");
+        	}
+        	if (list.get(i).get("result") != null) {
+            	stuMap.put("cj"+i, list.get(i).get("result")+"");
+            	total += Integer.valueOf(list.get(i).get("result")+"");
+        	}
         }
         stuMap.put("total",total+"");
         String date = DateUtils.getDate();
 		String [] dates = date.split("-");
         stuMap.put("riqi",dates[0] + "年" + dates[1] + "月" + dates[2] + "日");
-        stuMap.put("xuehao",stu.getCardnum()+"");
-        stuMap.put("xingming",stu.getStudentsName()+"");
+        stuMap.put("xuehao",stu.getCardnum());
+        stuMap.put("xingming",stu.getStudentsName());
         if (stu.getGender() != null) {
         	if (stu.getGender().equals("1")) {
         		stuMap.put("xingbie", "男");
