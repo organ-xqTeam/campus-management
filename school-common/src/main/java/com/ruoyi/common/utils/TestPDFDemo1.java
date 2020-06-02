@@ -65,7 +65,7 @@ public class TestPDFDemo1 {
 		try { // ↓↓↓↓↓这个是字体文件
 			BaseFont bf = BaseFont.createFont(path + "/simsun.ttc,1", BaseFont.IDENTITY_H,
 					BaseFont.EMBEDDED);// 用的是系统字体，此路径是系统路径，可网上自行下载字体类型
-			Font FontChinese = new Font(bf, 12f, Font.BOLD);
+			Font FontChinese = new Font(bf, 12f, Font.NORMAL);
 			String strPath = newPDFPath;			
 			File file = new File(realPath);
 			if(!file.exists()){

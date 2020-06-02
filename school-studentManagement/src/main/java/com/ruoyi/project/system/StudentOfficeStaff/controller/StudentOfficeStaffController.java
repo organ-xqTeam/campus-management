@@ -249,7 +249,8 @@ public class StudentOfficeStaffController extends BaseController
     	Schoolstudentslist schoolstudentslist = new Schoolstudentslist();
     	schoolstudentslist.setApprovalstate("2");
     	schoolstudentslist.setState("2");
-    	schoolstudentslist.setAdmissionTime("2019-" + "10");
+    	
+    	schoolstudentslist.setAdmissionTime(DateUtils.getYear() + "-" + "10");
         List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	
         List<SysUser> sulist = new ArrayList<SysUser>();
@@ -268,9 +269,11 @@ public class StudentOfficeStaffController extends BaseController
         	sulist.add(su);
         	
     	}
+    	int result = 0;
+    	if (sulist.size() > 0) {
+    		result = userservice.insertUserList(sulist);
+    	}
     	
-
-    	int result = userservice.insertUserList(sulist);
         return toAjax(true);
     }
     
@@ -506,7 +509,7 @@ public class StudentOfficeStaffController extends BaseController
         List<Schoolstudentslist> slist = schoolstudentslistService.selectSchoolstudentslistList(student);
         Schoolstudentslist stu = slist.get(0);
         map.put("tag1","HT苏打粉188888888888");//Text1 是PDF表单名称，有多少就添加多少
-        o.put("riqi",DateUtils.getTime());
+        o.put("riqi",DateUtils.dealDateToDay(DateUtils.getTime()));
         o.put("xuenian",stu.getNianji());
         if (stu.getGender() != null) {
         	if (stu.getGender().equals("1")) {
@@ -522,7 +525,7 @@ public class StudentOfficeStaffController extends BaseController
         else {
             o.put("xingbie", "不详");
         }
-        o.put("ruxue",stu.getAdmissionTime());
+        o.put("ruxue",DateUtils.dealDateToMonth(stu.getAdmissionTime()));
         o.put("name",stu.getStudentsName());
         o.put("xuehao",stu.getIdnum());
         o.put("chusheng",stu.getBirth());
@@ -593,7 +596,8 @@ public class StudentOfficeStaffController extends BaseController
         }
         stuMap.put("sb", stu.getSbid_());
         stuMap.put("ss", stu.getSsid_());
-
+        stuMap.put("enterdate", DateUtils.dealDateToMonth(stu.getAdmissionTime()));
+        stuMap.put("now", DateUtils.dealDateToMonth(DateUtils.getDate()));
 
         SchoolClass sclass = schoolClassService.selectSchoolClassById(stu.getClassId());
         String nameclass = "";

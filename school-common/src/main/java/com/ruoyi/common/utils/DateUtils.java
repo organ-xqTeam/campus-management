@@ -48,6 +48,32 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
     {
         return dateTimeNow(YYYY_MM_DD);
     }
+    
+    public static String dealDateToDay(String dateStr) {
+    	Date date;
+    	String szDate = "";
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+	    	szDate = String.format("%tY年%tm月%td日", date,date,date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	return szDate;
+    }
+    
+    public static String dealDateToMonth(String dateStr) {
+    	Date date;
+    	String szDate = "";
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+	    	szDate = String.format("%tY年%tm月", date,date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	return szDate;
+    }
 
     public static final String getTime()
     {
