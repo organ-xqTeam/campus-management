@@ -168,6 +168,20 @@ public class SchoolchargemanagementController extends BaseController
         mmap.put("schoolchargemanagement", schoolchargemanagement);
         return prefix + "/edit";
     }
+    
+    /**
+     * 修改收费管理
+     */
+    @GetMapping("/see/{id}")
+    public String see(@PathVariable("id") Long id, ModelMap mmap)
+    {
+    	SchoolBelong sb = new SchoolBelong();
+    	List<SchoolBelong> sblist = schoolBelongService.selectSchoolBelongList(sb);
+    	mmap.put("sblist", sblist);
+        Schoolchargemanagement schoolchargemanagement = schoolchargemanagementService.selectSchoolchargemanagementById(id);
+        mmap.put("schoolchargemanagement", schoolchargemanagement);
+        return prefix + "/see";
+    }
 
     /**
      * 修改保存收费管理

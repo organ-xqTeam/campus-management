@@ -136,9 +136,15 @@
 			$.modal.openTab("学生明细", url);
         }
         
- 		function usersee (){
- 			$.modal.alert("暂无此功能！！！")
-        	console.log("usersee!!!")
+ 		function usersee(id) {
+//  			alert(id)
+ 			var url = prefix + "/see/" + id;
+    		var options = {
+   				title: '查看',
+   				width: "380",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
         }
  		/* 项目状态显示 */
 		function statusTools(row) {

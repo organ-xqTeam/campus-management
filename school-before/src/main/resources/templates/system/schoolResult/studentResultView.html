@@ -43,7 +43,9 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-               
+               <a class="btn btn-warning" onclick="exportChengji()">
+               		<i class="fa fa-download"></i> 下载成绩单
+               </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -93,6 +95,26 @@
             };
             $.table.init(options);
         });
+        
+        function exportChengji() {
+        	var id = [[${id}]];
+        	if (id != null) {
+            	$.ajax({
+    				type: "get",
+    				url: ctx + "system/StudentOfficeStaff/chengji?id="+id,
+    				contentType: "application/json;charset=utf-8",
+    				dataType: "json",
+    				success: function (data) {
+    					console.log(data.msg);
+    		        	window.location.href = ctx + "common/download/resource?resource=" + data.msg;
+    				},
+    				async: false
+    			});
+        	}
+        	else {
+       			$.modal.alertWarning("未查到学生成绩相关信息");
+        	}
+        }
     </script>
 </body>
 </html>

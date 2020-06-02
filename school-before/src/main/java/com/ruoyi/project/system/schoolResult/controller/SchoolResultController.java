@@ -104,8 +104,15 @@ public class SchoolResultController extends BaseController
      * */
     @RequiresPermissions("system:schoolResult:studentresult")
     @GetMapping("/studentresult")
-    public String studentResultView()
+    public String studentResultView(ModelMap map)
     {
+    	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
+    	Schoolstudentslist stu = new Schoolstudentslist();
+    	stu.setUserId(me.getUserId());
+    	List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        if (stulist.size() == 1) {
+        	map.put("id", stulist.get(0).getId());
+        }
         return prefix + "/studentResultView";
     }
 
