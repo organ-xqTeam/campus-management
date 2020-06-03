@@ -224,7 +224,7 @@ public class SysUserServiceImpl implements ISysUserService
                     user.setCreateBy(me.getUserName());
                     user.setCreateTime(new Date());
                     userMapper.insertUser(user);
-                    userRoleMapper.insertUserRole(user.getUserId()+"", "5");
+                    userRoleMapper.insertUserRole(user.getUserId()+"", "14");
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、账号 " + user.getLoginName() + " 导入成功");
                 }

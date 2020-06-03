@@ -270,11 +270,13 @@ public class StudentOfficeStaffController extends BaseController
         	
     	}
     	int result = 0;
+    	
     	if (sulist.size() > 0) {
     		result = userservice.insertUserList(sulist);
+
     	}
     	
-        return toAjax(true);
+        return AjaxResult.success("恭喜您，数据已全部导入成功！共 " + result + " 条，数据如下：");
     }
     
 
@@ -510,7 +512,23 @@ public class StudentOfficeStaffController extends BaseController
         Schoolstudentslist stu = slist.get(0);
         map.put("tag1","HT苏打粉188888888888");//Text1 是PDF表单名称，有多少就添加多少
         o.put("riqi",DateUtils.dealDateToDay(DateUtils.getTime()));
-        o.put("xuenian",stu.getNianji());
+
+        if (stu.getNianji().equals("1")) {
+            o.put("xuenian","一");
+        }
+        else if (stu.getNianji().equals("2")) {
+            o.put("xuenian","二");
+        }
+        else if (stu.getNianji().equals("3")) {
+            o.put("xuenian","三");
+        }
+        else if (stu.getNianji().equals("4")) {
+            o.put("xuenian","四");
+        }
+        else {
+        	 o.put("xuenian", stu.getNianji());
+        }
+        
         if (stu.getGender() != null) {
         	if (stu.getGender().equals("1")) {
                 o.put("xingbie", "男");
