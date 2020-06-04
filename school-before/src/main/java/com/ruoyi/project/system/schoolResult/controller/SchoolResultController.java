@@ -1,5 +1,6 @@
 package com.ruoyi.project.system.schoolResult.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.shiro.SecurityUtils;
@@ -141,11 +142,12 @@ public class SchoolResultController extends BaseController
     	Schoolstudentslist stu = new Schoolstudentslist();
     	stu.setUserId(me.getUserId());
         List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+        startPage();
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
         if (stulist.size() == 1) {
         	schoolResult.setStudentid(stulist.get(0).getId()+"");
+            list = schoolResultService.selectSchoolResultList2(schoolResult);
         }
-        startPage();
-        List<Map<String, Object>> list = schoolResultService.selectSchoolResultList2(schoolResult);
         return getDataTable(list);
     }
 

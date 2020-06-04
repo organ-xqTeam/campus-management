@@ -133,9 +133,17 @@
 		
 		/* 项目管理-未完成 */
 		function charge(userId) {
-			$.modal.alert("【交费方式】 学员交费可分两种方式： 1、现场交费(现金、刷卡) 2、汇款交费。汇款信息如下： 户名： 开户行： 账号： 说明：汇款后在汇款单附言上注明：“***课程班+学员姓名”培训费，将汇款凭证传真至***，便于查询。");
+// 			$.modal.alert("【交费方式】 学员交费可分两种方式：\n 1、现场交费(现金、刷卡) 2、汇款交费。汇款信息如下： 户名： 开户行： 账号： 说明：汇款后在汇款单附言上注明：“***课程班+学员姓名”培训费，将汇款凭证传真至***，便于查询。");
 // 			var url = ctx + "system/schoolchargemanagement/charge";
 // 			$.modal.openTab("缴费", url);
+			var url = ctx + "system/schoolchargemanagement/charge";
+    		var options = {
+   				title: '在线缴费',
+   				width: "380",
+   				height:"260",
+   				url: url
+   			};
+   			$.modal.openOptions(options);
 		}
     </script>
 </body>

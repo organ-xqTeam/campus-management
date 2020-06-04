@@ -707,11 +707,12 @@ public class StudentOfficeStaffController extends BaseController
     	Schoolstudentslist stu = new Schoolstudentslist();
     	stu.setUserId(me.getUserId());
         List<Schoolstudentslist> stulist = schoolstudentslistService.selectSchoolstudentslistList(stu);
+    	startPage();
+    	List<Schoolstudentslist> list = new ArrayList<Schoolstudentslist>();
         if (stulist.size() == 1) {
         	schoolstudentslist.setId(stulist.get(0).getId());
+        	list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
         }
-    	startPage();
-    	List<Schoolstudentslist> list = schoolstudentslistService.selectSchoolstudentslistList(schoolstudentslist);
     	return getDataTable(list);
     }
     @RequiresPermissions("system:uploadCer:view")
