@@ -428,7 +428,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">信息来源：</label>
 							<div class="col-sm-8">
-								<select required="required" name="remark43" class="form-control" th:with="type=${@dict.getType('school_student_info_from')}">
+								<select required="required" name="remark43" class="form-control" th:with="type=${@dict.getType('Source-of-information')}">
 			                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 			                    </select> 
 							</div>

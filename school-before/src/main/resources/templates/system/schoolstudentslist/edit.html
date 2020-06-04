@@ -30,7 +30,7 @@
 	               		<div class="form-group">    
 			                <label class="col-sm-3 control-label">个人照片：</label>
 			                <div class="col-sm-8">
-			               		<a onclick='ondownload("icon")'>[[(*{iconname} != null) ? *{iconname} : '请先上传']]</a>
+			               		<a onclick='ondownload("icon")'>[[(*{icon} != null) ? *{icon} : '请先上传']]</a>
 			                	<input id="icon" name="icon" th:value="*{icon}" class="form-control" type="text" style="display: none">
 			                	<input id="iconname" name="iconname" th:value="*{iconname}" class="form-control" type="text" style="display: none">
 			                    <input id="iconfile" class="form-control" type="file">
@@ -279,7 +279,7 @@
 			            <div class="form-group">    
 			                <label class="col-sm-3 control-label">雅思/托福成绩单：</label>
 			                <div class="col-sm-8">
-			               		<a onclick='ondownload("yasi")'>[[(*{yasiname} != null) ? *{yasiname} : '请先上传']]</a>
+			               		<a onclick='ondownload("yasi")'>[[(*{yasi} != null) ? *{yasi} : '请先上传']]</a>
 			                	<input id="yasi" name="yasi" th:value="*{yasi}" class="form-control" type="text" style="display: none">
 			                	<input id="yasiname" name="yasiname" th:value="*{yasiname}" class="form-control" type="text" style="display: none">
 			                    <input id="yasifile" class="form-control" type="file">
@@ -448,7 +448,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">信息来源：</label>
 							<div class="col-sm-8">
-								<select required="required" name="remark43" class="form-control" th:with="type=${@dict.getType('school_student_info_from')}">
+								<select required="required" name="remark43" class="form-control" th:with="type=${@dict.getType('Source-of-information')}">
 			                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:selected="*{remark43}==${dict.dictValue}"></option>
 			                    </select> 
 							</div>

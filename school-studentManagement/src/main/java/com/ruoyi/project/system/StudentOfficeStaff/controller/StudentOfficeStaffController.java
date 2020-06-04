@@ -546,7 +546,7 @@ public class StudentOfficeStaffController extends BaseController
         o.put("ruxue",DateUtils.dealDateToMonth(stu.getAdmissionTime()));
         o.put("name",stu.getStudentsName());
         o.put("xuehao",stu.getIdnum());
-        o.put("chusheng",stu.getBirth());
+        o.put("chusheng",DateUtils.dealDateToDay(stu.getBirth()));
         Map<String,Object> mm = new HashMap<String,Object>();
         mm.put("datemap",o);
         //调用方法
@@ -703,7 +703,6 @@ public class StudentOfficeStaffController extends BaseController
     public TableDataInfo Graduation2(Schoolstudentslist schoolstudentslist)
     {
     	schoolstudentslist.setApprovalstate("2");
-    	schoolstudentslist.setState("5");
     	SysUser me = (SysUser) SecurityUtils.getSubject().getPrincipal();
     	Schoolstudentslist stu = new Schoolstudentslist();
     	stu.setUserId(me.getUserId());

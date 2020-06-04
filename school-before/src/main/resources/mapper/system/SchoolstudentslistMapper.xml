@@ -753,7 +753,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="useralias != null  and useralias != ''">userAlias = #{useralias},</if>
             <if test="gradeId != null  and gradeId != ''">grade_id = #{gradeId},</if>
             <if test="classId != null">class_id = #{classId},</if>
-            <if test="userId != null   and userId != ''">user_id= #{userId},</if>
+            <if test="userId != ''">user_id= #{userId},</if>
             <if test="sbid != null   and sbid != ''">sbid= #{sbid},</if>
             <if test="ssid != null   and ssid != ''">ssid= #{ssid},</if>
             <if test="ydtime != null   and ydtime != ''">ydtime= #{ydtime},</if>
